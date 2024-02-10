@@ -3,26 +3,28 @@ import NoteModel from 'src/backend/schemas/note.schema'
 import { guardWrapper } from 'src/backend/auth.guard'
 
 const handler = async (req, res) => {
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
     try {
-      const { description } = req.body
-      const newNote = new NoteModel({
-        description,
-        user_id: req.user._id
-      })
-      const savedNote = await newNote.save()
-      if (!savedNote) return res.status(500).send('Not able to save note')
+      const { note_id } = req.body
+      const note = await NoteModel.findById(note_id)
+
+      if (!note) {
+        return res.status(404).send({
+          message: 'Note not found',
+          payload: {}
+        })
+      }
 
       return res.send({
-        message: 'Note Saved',
-        payload: {}
+        message: 'note fetched successfully',
+        payload: { note }
       })
     } catch (error) {
       // console.log(error)
       res.status(500).send('something went wrong')
     }
   } else {
-    res.status(500).send('this is a post request')
+    res.status(500).send('this is a get request')
   }
 }
 

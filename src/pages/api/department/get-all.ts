@@ -1,28 +1,22 @@
 import connectDb from 'src/backend/DatabaseConnection'
-import NoteModel from 'src/backend/schemas/note.schema'
 import { guardWrapper } from 'src/backend/auth.guard'
+import DepartmentModel from 'src/backend/schemas/department.schema'
 
 const handler = async (req, res) => {
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
     try {
-      const { description } = req.body
-      const newNote = new NoteModel({
-        description,
-        user_id: req.user._id
-      })
-      const savedNote = await newNote.save()
-      if (!savedNote) return res.status(500).send('Not able to save note')
+      const departments = await DepartmentModel.find({})
 
       return res.send({
-        message: 'Note Saved',
-        payload: {}
+        message: 'departments fetched successfully',
+        payload: { departments }
       })
     } catch (error) {
       // console.log(error)
       res.status(500).send('something went wrong')
     }
   } else {
-    res.status(500).send('this is a post request')
+    res.status(500).send('this is a get request')
   }
 }
 

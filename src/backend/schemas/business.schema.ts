@@ -3,7 +3,7 @@ import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const businessSchema = new mongoose.Schema(
   {
-    business_name: { type: String, required: true },
+    business_name: { type: String, required: true, unique: true },
     business_number: { type: String, required: false },
     business_hours: { type: String, required: false },
     business_email: { type: String, required: true },

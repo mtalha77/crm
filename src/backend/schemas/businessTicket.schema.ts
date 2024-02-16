@@ -55,4 +55,5 @@ const businessTicketSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-export const BusinessTicketModel = mongoose.models.User || mongoose.model('BusinessTicket', businessTicketSchema)
+export const BusinessTicketModel =
+  mongoose.models.BusinessTicket || mongoose.model('BusinessTicket', businessTicketSchema)

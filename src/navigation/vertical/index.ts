@@ -31,6 +31,13 @@ const navigation = (): VerticalNavItemsType => {
         { title: 'Paid Marketing', path: '/ticket/pm' },
         { title: 'Social Media / Customer Reviews Management', path: '/ticket/smr' }
       ]
+    },
+    {
+      path: '/create-user',
+      action: 'read',
+      subject: 'acl-page',
+      title: 'Create New User',
+      icon: 'mdi:shield-outline'
     }
   ]
 }

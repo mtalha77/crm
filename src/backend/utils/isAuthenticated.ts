@@ -2,7 +2,7 @@ import jwt, { Secret } from 'jsonwebtoken'
 
 const tokenSecret = process.env.JWT_SECRET as Secret
 
-export const isAuthenticated = async req => {
+export const isAuthenticated = req => {
   try {
     const token = req.headers.authorization
 
@@ -11,6 +11,7 @@ export const isAuthenticated = async req => {
 
     return true
   } catch (error) {
+    // console.log(error)
     return false
   }
 }

@@ -24,6 +24,6 @@ const businessSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const BusinessModel = mongoose.models.User || mongoose.model('Business', businessSchema)
+const BusinessModel = mongoose.models.Business || mongoose.model('Business', businessSchema)
 
 export default BusinessModel

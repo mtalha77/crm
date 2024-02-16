@@ -21,6 +21,6 @@ const departTicketSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const DepartTicketModel = mongoose.models.User || mongoose.model('DepartTicket', departTicketSchema)
+const DepartTicketModel = mongoose.models.DepartTicket || mongoose.model('DepartTicket', departTicketSchema)
 
 export default DepartTicketModel

@@ -5,9 +5,21 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { useAuth } from 'src/hooks/useAuth'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const Home = () => {
   const { user } = useAuth()
+  useEffect(() => {
+    const temp = async () => {
+      await axios.get('/api/department/get-all', {
+        headers: {
+          authorization: localStorage.getItem('token')
+        }
+      })
+    }
+    temp()
+  })
 
   return (
     <Grid container spacing={6}>

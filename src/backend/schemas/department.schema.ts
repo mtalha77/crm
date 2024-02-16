@@ -7,6 +7,6 @@ const departmentSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const DepartmentModel = mongoose.models.User || mongoose.model('Department', departmentSchema)
+const DepartmentModel = mongoose.models.Department || mongoose.model('Department', departmentSchema)
 
 export default DepartmentModel

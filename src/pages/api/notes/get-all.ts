@@ -3,7 +3,7 @@ import NoteModel from 'src/backend/schemas/note.schema'
 import mongoose from 'mongoose'
 import { guardWrapper } from 'src/backend/auth.guard'
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
       const { user_id } = req.body

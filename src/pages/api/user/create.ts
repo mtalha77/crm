@@ -2,16 +2,17 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import UserModel from 'src/backend/schemas/user.schema'
-import mongoose from 'mongoose'
 import DepartmentModel from 'src/backend/schemas/department.schema'
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
-      const { user_name, password, role, department_id, department_name } = req.body
+      const { user_name, password, role, department_name, sub_role } = req.body
 
       if (!(req.user.role === UserRole.ADMIN))
         return res.status(500).send('You are not authorized to perform this action')
+
+      // if (role === Department.Sales) if (!sub_role) return res.status(500).send('sub role is required')
 
       const userExists = await UserModel.findOne({ user_name })
 
@@ -21,14 +22,17 @@ const handler = async (req, res) => {
 
       if (!department) return res.status(500).send('Error Occured')
 
-      const newUser = new UserModel({
+      const temp: any = {
         user_name,
         password,
         role,
         department_id: department._id,
         department_name
-      })
+      }
+      if (sub_role) temp.sub_role = sub_role
+      const newUser = new UserModel(temp)
       const savedUser = await newUser.save()
+
       if (!savedUser) return res.status(500).send('Not able to create new user. Please try again')
 
       return res.send({

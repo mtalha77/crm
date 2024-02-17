@@ -9,11 +9,14 @@ export const userColumns: any = () => [
   },
   {
     header: 'Department',
-    accessorKey: 'department'
+    accessorKey: 'department_name'
   },
   {
     header: 'Role',
-    accessorKey: 'role'
+    accessorKey: 'role',
+    Cell: ({ cell, row }: any) => {
+      return row.original?.sub_role ? cell.getValue() + ` (${row.original?.sub_role})` : cell.getValue()
+    }
   },
   {
     header: 'Action'

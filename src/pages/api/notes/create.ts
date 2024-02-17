@@ -2,7 +2,7 @@ import connectDb from 'src/backend/DatabaseConnection'
 import NoteModel from 'src/backend/schemas/note.schema'
 import { guardWrapper } from 'src/backend/auth.guard'
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       const { description } = req.body

@@ -6,3 +6,10 @@ export enum UserRole {
 }
 
 export const UserRoleValues: UserRole[] = Object.values(UserRole)
+
+export enum SaleEmployeeRole {
+  FRONTER = 'Fronter',
+  CLOSER = 'Closer'
+}
+
+export const SaleEmployeeRoleValues: SaleEmployeeRole[] = Object.values(SaleEmployeeRole)

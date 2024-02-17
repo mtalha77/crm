@@ -1,4 +1,5 @@
 export enum Department {
+  Admin = 'Admin',
   LocalSeo = 'Local Seo',
   PaidMarketing = 'Paid Marketing',
   SocialMedia = 'Social Media',

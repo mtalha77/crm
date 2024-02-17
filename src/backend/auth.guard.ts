@@ -1,6 +1,6 @@
 import { isAuthenticated } from './utils/isAuthenticated'
 
-export const guardWrapper = handler => async (req, res) => {
+export const guardWrapper = (handler: any) => async (req: any, res: any) => {
   try {
     // Check if the request is authenticated or has the necessary permissions
     if (isAuthenticated(req) === false) {

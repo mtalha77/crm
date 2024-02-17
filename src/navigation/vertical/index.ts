@@ -33,11 +33,12 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
-      path: '/create-user',
-      action: 'read',
-      subject: 'acl-page',
-      title: 'Create New User',
-      icon: 'mdi:shield-outline'
+      title: 'Users',
+      icon: 'mdi:shield-outline',
+      children: [
+        { title: 'Create New User', path: '/users/create-user' },
+        { title: 'View Users', path: '/users/view-users' }
+      ]
     }
   ]
 }

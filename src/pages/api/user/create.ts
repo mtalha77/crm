@@ -3,6 +3,7 @@ import { guardWrapper } from 'src/backend/auth.guard'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import UserModel from 'src/backend/schemas/user.schema'
 import mongoose from 'mongoose'
+import DepartmentModel from 'src/backend/schemas/department.schema'
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
@@ -16,11 +17,15 @@ const handler = async (req, res) => {
 
       if (userExists) return res.status(500).send('User with that username already exists')
 
+      const department = await DepartmentModel.findOne({ name: department_name })
+
+      if (!department) return res.status(500).send('Error Occured')
+
       const newUser = new UserModel({
         user_name,
         password,
         role,
-        department_id: new mongoose.Types.ObjectId(department_id),
+        department_id: department._id,
         department_name
       })
       const savedUser = await newUser.save()
@@ -31,7 +36,7 @@ const handler = async (req, res) => {
         payload: { user: savedUser }
       })
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       res.status(500).send('something went wrong')
     }
   } else {

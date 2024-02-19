@@ -3,3 +3,4 @@ export enum PriorityType {
   MEDIUM = 'MEDIUM',
   HIGH = 'HIGH'
 }
+export const PriorityTypeValues: PriorityType[] = Object.values(PriorityType)

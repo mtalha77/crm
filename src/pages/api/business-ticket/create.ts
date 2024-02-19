@@ -10,6 +10,14 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
+    const { role } = req.user
+
+    if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE))
+      return res.status(403).send({ message: 'Permission denied.Only Admin and Sales can create ticket', payload: {} })
+
+    const session = await mongoose.startSession()
+    session.startTransaction()
+
     try {
       const {
         priority,
@@ -18,7 +26,9 @@ const handler = async (req: any, res: any) => {
         client_reporting_date,
         due_date,
         fronter,
+        fronter_id,
         closer,
+        closer_id,
         sales_type,
         notes,
         payment_history,
@@ -29,49 +39,57 @@ const handler = async (req: any, res: any) => {
         state,
         country,
         street,
-        zipcode,
+        zip_code,
         social_profile,
         website_url,
-        work_status
+        work_status,
+        gmb_url
       } = req.body
+      if (
+        !assignee_depart_id ||
+        !assignee_depart_name ||
+        !due_date ||
+        !closer ||
+        !sales_type ||
+        !payment_history ||
+        !business_name ||
+        !business_email ||
+        !closer_id
+      )
+        return res.status(400).send('Network Error')
 
-      const { role } = req.user
-
-      if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE))
-        return res
-          .status(403)
-          .send({ message: 'Permission denied.Only Admin and Sales can create ticket', payload: {} })
+      if (sales_type === SaleType.NEW_SALE) if (!fronter || !fronter_id) return res.status(400).send('Network Error')
 
       const business = await getBusinessWithName(business_name)
       let busines_id = business?._id
       if (business?.work_status.includes(work_status)) {
-        return res.status(400).send({
-          message: 'Business already exists with this work status.',
-          payload: {}
-        })
+        return res.status(400).send('Business already exists with this work status.')
       }
       let newBusiness
       if (!business) {
         //create new business
-        newBusiness = await createNewBusiness({
-          business_name,
-          business_number,
-          business_hours,
-          business_email,
-          state,
-          country,
-          street,
-          zipcode,
-          social_profile,
-          website_url,
-          work_status: [work_status]
-        })
+        newBusiness = await createNewBusiness(
+          {
+            business_name,
+            business_number,
+            business_hours,
+            business_email,
+            state,
+            country,
+            street,
+            zip_code,
+            social_profile,
+            website_url,
+            work_status: [work_status]
+          },
+          session
+        )
         busines_id = newBusiness?._id
       } else {
-        await BusinessModel.findByIdAndUpdate(business._id, { $push: { work_status: work_status } })
+        await BusinessModel.findByIdAndUpdate(business._id, { $push: { work_status: work_status } }, { session })
       }
 
-      const payload = {
+      const payload: any = {
         priority,
         created_by: req.user._id,
         assignee_depart_id: new mongoose.Types.ObjectId(assignee_depart_id),
@@ -84,23 +102,32 @@ const handler = async (req: any, res: any) => {
         business_id: busines_id,
         sales_type,
         notes,
-        payment_history
+        payment_history,
+        work_status,
+        closer_id,
+        gmb_url
       }
-      if (sales_type === SaleType.NEW_SALE) payload.fronter = fronter
-
+      if (sales_type === SaleType.NEW_SALE) {
+        payload.fronter = fronter
+        payload.fronter_id = fronter_id
+      }
       const newTicket = new BusinessTicketModel(payload)
 
-      const result = await newTicket.save()
+      const result = await newTicket.save({ session })
 
       if (!result) return res.status(500).send('Not able to create ticket.Please try again')
 
+      await session.commitTransaction()
       return res.send({
         message: 'Ticket Created',
         payload: { _id: result._id }
       })
     } catch (error) {
-      // console.log(error)
-      res.status(500).send('something went wrong')
+      console.log(error)
+      await session.abortTransaction()
+      return res.status(500).send('something went wrong')
+    } finally {
+      if (session) session.endSession()
     }
   } else {
     res.status(500).send('this is a post request')

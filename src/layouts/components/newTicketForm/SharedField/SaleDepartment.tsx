@@ -1,147 +1,171 @@
-import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import React from 'react'
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select } from '@mui/material'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { CommonFormType } from 'src/interfaces/forms.interface'
+import { SaleType, SaleTypeValues } from 'src/shared/enums/SaleType.enum'
+import { SaleEmployeeRole } from 'src/shared/enums/UserRole.enum'
 
 const SaleDepartment = () => {
   const {
     formState: { errors },
-    control
-  } = useFormContext()
+    control,
+    watch,
+    setValue
+  } = useFormContext<CommonFormType>()
+
+  const [saleUsers, setsaleUsers] = useState<[]>([])
+  const saleType = watch('saleDepart.sale_type')
+
+  useEffect(() => {
+    const getBusiness = async () => {
+      try {
+        const res = await axios.get('/api/user/get-sales-user', {
+          headers: { authorization: localStorage.getItem('token') }
+        })
+        setsaleUsers(res.data.payload.salesUsers)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getBusiness()
+  }, [])
 
   return (
     <>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <Controller
-              name='saleDepart.assignor'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Assignor'
-                  onChange={onChange}
-                  error={Boolean(errors?.saleDepart?.assignor)}
-                  aria-describedby='validation-basic-assignor'
-                />
-              )}
-            />
-            {errors?.saleDepart?.assignor && (
-              <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-business-name'>
-                Assignor is required
-              </FormHelperText>
-            )}
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
             <InputLabel
-              id='validation-supportPerson-select'
-              error={Boolean(errors?.saleDepart?.supportPerson)}
-              htmlFor='validation-supportPerson-select'
+              id='validation-supportPerson'
+              error={Boolean(errors?.saleDepart?.sale_type)}
+              htmlFor='validation-supportPerson'
             >
-              Support Person
+              Sale Type
             </InputLabel>
             <Controller
-              name='saleDepart.supportPerson'
+              name='saleDepart.sale_type'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <Select
                   value={value}
-                  label='Support Person'
+                  label='Sale Type'
                   onChange={onChange}
-                  error={Boolean(errors?.saleDepart?.supportPerson)}
-                  labelId='validation-supportPerson-select'
-                  aria-describedby='validation-supportPerson-select'
+                  error={Boolean(errors?.saleDepart?.sale_type)}
+                  labelId='validation-sale_type'
+                  aria-describedby='validation-sale_type'
                 >
-                  <MenuItem value='UK'>UK</MenuItem>
-                  <MenuItem value='USA'>USA</MenuItem>
-                  <MenuItem value='Australia'>Australia</MenuItem>
-                  <MenuItem value='Germany'>Germany</MenuItem>
+                  {SaleTypeValues.map(v => {
+                    return (
+                      <MenuItem key={v} value={v}>
+                        {v}
+                      </MenuItem>
+                    )
+                  })}
                 </Select>
               )}
             />
-            {errors?.saleDepart?.supportPerson && (
-              <FormHelperText sx={{ color: 'error.main' }} id='validation-supportPerson-select'>
-                Support person is required
+            {errors?.saleDepart?.sale_type && (
+              <FormHelperText sx={{ color: 'error.main' }} id='validation-closerPerson-select'>
+                {errors.saleDepart.sale_type.message}
               </FormHelperText>
             )}
           </FormControl>
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <InputLabel
               id='validation-supportPerson-select'
-              error={Boolean(errors?.saleDepart?.closerPerson)}
+              error={Boolean(errors?.saleDepart?.closer)}
               htmlFor='validation-supportPerson-select'
             >
               Closer Person
             </InputLabel>
             <Controller
-              name='saleDepart.closerPerson'
+              name='saleDepart.closer'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <Select
                   value={value}
                   label='Closer Person'
-                  onChange={onChange}
-                  error={Boolean(errors?.saleDepart?.closerPerson)}
+                  onChange={e => {
+                    const closer: any = saleUsers.find((user: any) => user.user_name === e.target.value)
+                    setValue('saleDepart.closer_id', closer._id)
+                    onChange(e)
+                  }}
+                  error={Boolean(errors?.saleDepart?.closer)}
                   labelId='validation-closerPerson-select'
                   aria-describedby='validation-closerPerson-select'
                 >
-                  <MenuItem value='UK'>UK</MenuItem>
-                  <MenuItem value='USA'>USA</MenuItem>
-                  <MenuItem value='Australia'>Australia</MenuItem>
-                  <MenuItem value='Germany'>Germany</MenuItem>
+                  {saleUsers.length > 0 &&
+                    saleUsers.map((u: any) => {
+                      if (u.sub_role === SaleEmployeeRole.FRONTER) return
+                      return (
+                        <MenuItem key={u._id} value={u.user_name}>
+                          {u.user_name}
+                        </MenuItem>
+                      )
+                    })}
                 </Select>
               )}
             />
-            {errors?.saleDepart?.closerPerson && (
+            {errors?.saleDepart?.closer && (
               <FormHelperText sx={{ color: 'error.main' }} id='validation-closerPerson-select'>
                 Closer person is required
               </FormHelperText>
             )}
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel
-              id='validation-fronter-select'
-              error={Boolean(errors?.saleDepart?.fronter)}
-              htmlFor='validation-fronter-select'
-            >
-              Fronter Person
-            </InputLabel>
-            <Controller
-              name='saleDepart.fronter'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <Select
-                  value={value}
-                  label='Fronter Person'
-                  onChange={onChange}
-                  error={Boolean(errors?.saleDepart?.fronter)}
-                  labelId='validation-fronter-select'
-                  aria-describedby='validation-fronter-select'
-                >
-                  <MenuItem value='UK'>UK</MenuItem>
-                  <MenuItem value='USA'>USA</MenuItem>
-                  <MenuItem value='Australia'>Australia</MenuItem>
-                  <MenuItem value='Germany'>Germany</MenuItem>
-                </Select>
+        {saleType === SaleType.NEW_SALE && (
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel
+                id='validation-fronter-select'
+                error={Boolean(errors?.saleDepart?.fronter)}
+                htmlFor='validation-fronter-select'
+              >
+                Fronter Person
+              </InputLabel>
+              <Controller
+                name='saleDepart.fronter'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange } }) => (
+                  <Select
+                    value={value}
+                    label='Fronter Person'
+                    onChange={e => {
+                      const fronter: any = saleUsers.find((user: any) => user.user_name === e.target.value)
+                      setValue('saleDepart.fronter_id', fronter._id)
+                      onChange(e)
+                    }}
+                    error={Boolean(errors?.saleDepart?.fronter)}
+                    labelId='validation-fronter-select'
+                    aria-describedby='validation-fronter-select'
+                  >
+                    {saleUsers.length > 0 &&
+                      saleUsers.map((u: any) => {
+                        if (u.sub_role === SaleEmployeeRole.CLOSER) return
+                        return (
+                          <MenuItem key={u._id} value={u.user_name}>
+                            {u.user_name}
+                          </MenuItem>
+                        )
+                      })}
+                  </Select>
+                )}
+              />
+              {errors?.saleDepart?.fronter && (
+                <FormHelperText sx={{ color: 'error.main' }} id='validation-fronter-select'>
+                  Fronter Person is required
+                </FormHelperText>
               )}
-            />
-            {errors?.saleDepart?.fronter && (
-              <FormHelperText sx={{ color: 'error.main' }} id='validation-fronter-select'>
-                Fronter Person is required
-              </FormHelperText>
-            )}
-          </FormControl>
-        </Grid>
+            </FormControl>
+          </Grid>
+        )}
       </Grid>
     </>
   )

@@ -1,14 +1,15 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 
 interface CustomInputProps {
-  value: DateType
+  value: any
   label: string
   error: boolean
-  onChange: (event: ChangeEvent) => void
+  onChange: (event: any) => void
 }
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
   return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
@@ -17,8 +18,19 @@ const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
 const Review = () => {
   const {
     formState: { errors },
-    control
-  } = useFormContext()
+    control,
+    watch,
+    setValue
+  }: any = useFormContext()
+  const totalPrice = watch('ssmReview.price')
+  const advancePrice = watch('ssmReview.advance')
+
+  useEffect(() => {
+    setValue('ssmReview.remaining', totalPrice - advancePrice, {
+      shouldValidate: true,
+      shouldDirty: true
+    })
+  }, [totalPrice, advancePrice])
 
   return (
     <>
@@ -33,10 +45,13 @@ const Review = () => {
               render={({ field }) => (
                 <>
                   <Select {...field} label='Priority Level' error={Boolean(errors?.ssmReview?.priorityLevel)} fullWidth>
-                    <MenuItem value=''>Select Priority Level</MenuItem>
-                    <MenuItem value='High'>High</MenuItem>
-                    <MenuItem value='Medium'>Medium</MenuItem>
-                    <MenuItem value='Low'>Low</MenuItem>
+                    {PriorityTypeValues.map((v: any) => {
+                      return (
+                        <MenuItem key={v} value={v}>
+                          {v}
+                        </MenuItem>
+                      )
+                    })}
                   </Select>
                   {errors.ssmReview?.priorityLevel && (
                     <FormHelperText>{errors.ssmReview.priorityLevel.message}</FormHelperText>
@@ -47,7 +62,7 @@ const Review = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.ssmReview?.department}>
             <Controller
               name='ssmReview.department'
@@ -63,7 +78,7 @@ const Review = () => {
               )}
             />
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6}>
           <Controller
@@ -82,7 +97,7 @@ const Review = () => {
                     <CustomInput
                       value={value}
                       onChange={onChange}
-                      label='Date of Birth'
+                      label='Due Date'
                       error={Boolean(errors.ssmReview?.deadline)}
                       aria-describedby='validation-basic-dob'
                     />
@@ -152,6 +167,7 @@ const Review = () => {
                 <>
                   <TextField
                     type='number'
+                    disabled
                     {...field}
                     label='Remaining'
                     error={Boolean(errors?.ssmReview?.remaining)}

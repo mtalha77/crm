@@ -38,19 +38,29 @@ const businessTicketSchema = new mongoose.Schema(
     client_reporting_date: { type: Date, required: false },
     due_date: { type: Date, required: true },
     fronter: {
+      type: String,
+      trim: true,
+      required: function () {
+        return this.sales_type === SaleType.NEW_SALE
+      }
+    },
+    fronter_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: function () {
         return this.sales_type === SaleType.NEW_SALE
       }
     },
-    closer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    closer: { type: String, required: true, trim: true },
+    closer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     business_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Business' },
-    business_name: { type: String, required: true },
     sales_type: { type: String, enum: SaleType, required: true },
     work_status: { type: String, required: true, enum: WorkStatusValues },
-    notes: { type: String, required: false, default: '' },
-    payment_history: { type: [paymentHistorySchema], required: true, ref: 'PaymentHistory' }
+    notes: { type: String, required: false, default: '', trim: true },
+    payment_history: { type: [paymentHistorySchema], required: true, ref: 'PaymentHistory' },
+    gmb_url: { type: String, required: false, trim: true },
+    social_profile: { type: String, required: false, trim: true },
+    website_url: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

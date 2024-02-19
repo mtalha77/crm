@@ -16,6 +16,7 @@ import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './ty
 // ** Defaults
 const defaultProvider: AuthValuesType = {
   user: null,
+  departments: [],
   loading: true,
   setUser: () => null,
   setLoading: () => Boolean,
@@ -33,6 +34,7 @@ const AuthProvider = ({ children }: Props) => {
   // ** States
   const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
+  const [departments, setDepartments] = useState<[]>(defaultProvider.departments)
 
   // ** Hooks
   const router = useRouter()
@@ -49,6 +51,7 @@ const AuthProvider = ({ children }: Props) => {
           .then(async response => {
             setLoading(false)
             setUser({ ...response.data.payload.user })
+            setDepartments(response.data.payload.departments)
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -79,6 +82,7 @@ const AuthProvider = ({ children }: Props) => {
         const returnUrl = router.query.returnUrl
 
         setUser({ ...response.data.payload.user })
+        setDepartments(response.data.payload.departments)
         params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.payload.user)) : null
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
@@ -93,6 +97,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const handleLogout = () => {
     setUser(null)
+    setDepartments([])
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
     router.push('/login')
@@ -100,6 +105,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const values = {
     user,
+    departments,
     loading,
     setUser,
     setLoading,

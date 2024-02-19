@@ -1,10 +1,11 @@
 import connectDb from 'src/backend/DatabaseConnection'
 import UserModel from '../../../backend/schemas/user.schema'
 import jwt, { Secret } from 'jsonwebtoken'
+import DepartmentModel from 'src/backend/schemas/department.schema'
 
 const tokenSecret = process.env.JWT_SECRET as Secret
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       const { user_name, password } = req.body
@@ -14,9 +15,13 @@ const handler = async (req, res) => {
 
       const token = jwt.sign({ user }, tokenSecret)
 
+      const departments = await DepartmentModel.find({})
+
+      if (!departments) throw new Error('no departments')
+
       return res.send({
         message: 'login successful',
-        payload: { user, token }
+        payload: { user, token, departments }
       })
     } catch (error) {
       // console.log(error)

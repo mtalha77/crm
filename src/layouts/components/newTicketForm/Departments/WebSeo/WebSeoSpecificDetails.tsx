@@ -14,6 +14,32 @@ const WebSeoSpecificDetails = () => {
     <>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.webSeoDetails?.work_status}>
+            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
+            <Controller
+              name='webSeoDetails.work_status'
+              control={control}
+              defaultValue=''
+              render={({ field }) => (
+                <>
+                  <Select label='Work Status' {...field} fullWidth>
+                    {WebSeoWorkStatusValues.map(v => {
+                      return (
+                        <MenuItem key={v} value={v}>
+                          {v}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                  {errors.webSeoDetails?.work_status && (
+                    <FormHelperText>{errors.webSeoDetails.work_status.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.webSeoDetails?.service_name}>
             <Controller
               name='webSeoDetails.service_name'
@@ -27,21 +53,6 @@ const WebSeoSpecificDetails = () => {
                     error={Boolean(errors.webSeoDetails?.service_name)}
                   />
                   <FormHelperText>{errors.webSeoDetails?.service_name?.message || ''}</FormHelperText>
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.webSeoDetails?.service_area}>
-            <Controller
-              name='webSeoDetails.service_area'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField label='Service Area' {...field} fullWidth error={!!errors.webSeoDetails?.service_area} />
-                  <FormHelperText>{errors.webSeoDetails?.service_area?.message || ''}</FormHelperText>
                 </>
               )}
             />
@@ -153,33 +164,6 @@ const WebSeoSpecificDetails = () => {
                   <TextField label='GMB URL' {...field} error={Boolean(errors?.webSeoDetails?.gmb_url)} fullWidth />
                   {errors.webSeoDetails?.gmb_url && (
                     <FormHelperText>{errors.webSeoDetails.gmb_url.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.webSeoDetails?.work_status}>
-            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
-            <Controller
-              name='webSeoDetails.work_status'
-              control={control}
-              defaultValue=''
-              render={({ field }) => (
-                <>
-                  <Select label='Work Status' {...field} fullWidth>
-                    {WebSeoWorkStatusValues.map(v => {
-                      return (
-                        <MenuItem key={v} value={v}>
-                          {v}
-                        </MenuItem>
-                      )
-                    })}
-                  </Select>
-                  {errors.webSeoDetails?.work_status && (
-                    <FormHelperText>{errors.webSeoDetails.work_status.message}</FormHelperText>
                   )}
                 </>
               )}

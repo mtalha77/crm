@@ -73,7 +73,8 @@ const businessTicketSchema = new mongoose.Schema(
     ad_account_access: { type: String, required: false, trim: true },
     budget: { type: String, required: false, trim: true },
     budget_price: { type: Number, required: false },
-    clients_objectives: { type: String, required: false, trim: true }
+    clients_objectives: { type: String, required: false, trim: true },
+    facebook_url: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

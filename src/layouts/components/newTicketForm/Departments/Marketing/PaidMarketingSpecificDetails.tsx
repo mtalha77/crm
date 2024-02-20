@@ -14,6 +14,32 @@ const PaidMarketingSpecificDetails = () => {
     <>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.paidMarketingDetails?.work_status}>
+            <InputLabel htmlFor='work_status'>Work Status</InputLabel>
+            <Controller
+              name='paidMarketingDetails.work_status'
+              control={control}
+              defaultValue=''
+              render={({ field }) => (
+                <>
+                  <Select label='Work Status' {...field} fullWidth>
+                    {PaidMarketingWorkStatusValues.map(v => {
+                      return (
+                        <MenuItem key={v} value={v}>
+                          {v}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                  {errors.paidMarketingDetails?.work_status && (
+                    <FormHelperText>{errors.paidMarketingDetails.work_status.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.service_name}>
             <Controller
               name='paidMarketingDetails.service_name'
@@ -122,33 +148,6 @@ const PaidMarketingSpecificDetails = () => {
                   />
                   {errors.paidMarketingDetails?.budget_price && (
                     <FormHelperText>{errors?.paidMarketingDetails?.budget_price?.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.paidMarketingDetails?.work_status}>
-            <InputLabel htmlFor='work_status'>Work Status</InputLabel>
-            <Controller
-              name='paidMarketingDetails.work_status'
-              control={control}
-              defaultValue=''
-              render={({ field }) => (
-                <>
-                  <Select label='Work Status' {...field} fullWidth>
-                    {PaidMarketingWorkStatusValues.map(v => {
-                      return (
-                        <MenuItem key={v} value={v}>
-                          {v}
-                        </MenuItem>
-                      )
-                    })}
-                  </Select>
-                  {errors.paidMarketingDetails?.work_status && (
-                    <FormHelperText>{errors.paidMarketingDetails.work_status.message}</FormHelperText>
                   )}
                 </>
               )}

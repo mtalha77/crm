@@ -65,6 +65,15 @@ export interface PaidMarketingDetails {
   notes?: string
   work_status: string
 }
+
+export interface SocialMediaDetails {
+  service_name?: string
+  facebook_url?: string
+  gmb_url?: string
+  login_credentials?: string
+  notes?: string
+  work_status: string
+}
 export interface CommonFormType {
   business: BusinessDetails
   saleDepart: SaleDepartDetails
@@ -84,6 +93,10 @@ export interface WebSeoFormType extends CommonFormType {
 
 export interface PaidMarketingFormType extends CommonFormType {
   paidMarketingDetails: PaidMarketingDetails
+}
+
+export interface SocialMediaFormType extends CommonFormType {
+  socialMediaFormTypeDetails: SocialMediaDetails
 }
 
 export const localSeoDefaultValues: LocalSeoFormType = {
@@ -235,6 +248,44 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     budget: '',
     budget_price: 0,
     clients_objectives: '',
+    notes: '',
+    work_status: ''
+  }
+}
+
+export const socialMediaDefaultValues: SocialMediaFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    due_date: new Date(),
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: null
+  },
+  socialMediaFormTypeDetails: {
+    service_name: '',
+    facebook_url: '',
+    gmb_url: '',
+    login_credentials: '',
     notes: '',
     work_status: ''
   }

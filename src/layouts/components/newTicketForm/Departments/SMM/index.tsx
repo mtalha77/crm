@@ -5,7 +5,7 @@ import SaleDepartment from '../../SharedField/SaleDepartment'
 import Review from '../../SharedField/Review'
 import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
 import SubmitButton from '../../SharedField/FormButton'
-import BusinessDetail from '../LocalSeo/BusinessDetail'
+import BusinessDetail from '../LocalSeo/LocalSeoSpecificDetails'
 
 const SmmForm = () => {
   return (

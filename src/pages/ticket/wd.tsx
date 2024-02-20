@@ -4,110 +4,74 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import Wordpress from 'src/layouts/components/newTicketForm/Departments/Wordpress'
+import { WordPressFormType, wordPressDefaultValues } from 'src/interfaces/forms.interface'
+import { wordPressYupSchema } from 'src/yupSchemas/wordpressYupSchema'
+import { useAuth } from 'src/hooks/useAuth'
+import { Department } from 'src/shared/enums/Department.enum'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
-const defaultValues = {
-  business: {
-    name: '',
-    email: ''
-  },
-  saleDepart: {
-    assignor: '',
-    supportPerson: '',
-    fronter: '',
-    closerPerson: ''
-  },
-  ssmReview: {
-    priorityLevel: '',
-    department: '',
-    deadline: new Date(),
-    price: 0,
-    advance: 0,
-    remaining: 0
-  },
-  businessDetail: {
-    serviceName: '',
-    serviceArea: '',
-    facebookUrl: '',
-    number: '',
-    clientName: '',
-    country: '',
-    state: '',
-    zipCode: '',
-    street: '',
-    referralWebsite: '',
-    gmbUrl: '',
-    socialProfile: '',
-    notes: '',
-    websiteType: ''
-  }
-}
+const defaultValues = wordPressDefaultValues
 
-interface FormData {
-  business: {
-    name: string
-    email: string
-  }
-}
-
-const schema = Yup.object().shape({
-  business: Yup.object().shape({
-    name: Yup.string().max(255, 'Business name must not exceed 255 characters').required('Business name is required'),
-    email: Yup.string().email('Invalid email address').required('Business email is required')
-  }),
-  saleDepart: Yup.object().shape({
-    assignor: Yup.string().max(233, 'Assignor must not exceed 255 characters').required('Assignor is required'),
-    supportPerson: Yup.string()
-      .max(255, 'Support person must not exceed 255 characters')
-      .required('Support person is required'),
-    fronter: Yup.string().max(255, 'Fronter must not exceed 255 characters').required('Fronter is required'),
-    closerPerson: Yup.string()
-      .max(255, 'Closer person must not exceed 255 characters')
-      .required('Closer person is required')
-  }),
-  ssmReview: Yup.object().shape({
-    priorityLevel: Yup.string()
-      .max(255, 'Priority level must not exceed 255 characters')
-      .required('Priority level is required'),
-    department: Yup.string().max(255, 'Department must not exceed 255 characters').required('Department is required'),
-    deadline: Yup.date().required('Deadline is required'),
-    price: Yup.number()
-      .required('Price is required')
-      .min(1, 'Price must be at least 1')
-      .max(1000000000, 'Price must not exceed 10 crore'),
-    advance: Yup.number()
-      .required('Advance is required')
-      .min(1, 'Advance must be at least 1')
-      .max(1000000000, 'Advance must not exceed 10 crore'),
-    remaining: Yup.number()
-      .required('Remaining is required')
-      .min(1, 'Remaining must be at least 1')
-      .max(1000000000, 'Remaining must not exceed 10 crore')
-  }),
-  businessDetail: Yup.object().shape({
-    serviceName: Yup.string().required('Service Name is required'),
-    serviceArea: Yup.string().required('Service Area is required'),
-    facebookUrl: Yup.string().url('Please enter a valid URL'),
-    number: Yup.string().required('Number is required').matches(/^\d+$/, 'Please enter a valid number'),
-    clientName: Yup.string().required('Client Name is required'),
-    country: Yup.string().required('Country is required'),
-    state: Yup.string().required('State is required'),
-    zipCode: Yup.string().required('Zip Code is required'),
-    street: Yup.string().required('Street is required'),
-    referralWebsite: Yup.string().url('Please enter a valid URL'),
-    gmbUrl: Yup.string().url('Please enter a valid URL'),
-    socialProfile: Yup.string().url('Please enter a valid URL'),
-    notes: Yup.string(),
-    websiteType: Yup.string().required('Website Type is required')
-  })
-})
+const schema = wordPressYupSchema
 
 const Ticket = () => {
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+  const { departments } = useAuth()
+  const onSubmit = async (data: WordPressFormType) => {
+    const { business, saleDepart, ticketDetails, wordPressDetails } = data
 
-  const onSubmit = (data: FormData) => {
-    do {
-      console.log('data', data)
-    } while (false)
+    // Create a new object with the destructured properties
+    const depart: any = departments.find((d: any) => d.name === Department.WordPress)
+
+    const requestData = {
+      priority: ticketDetails.priority,
+      assignee_depart_id: depart._id,
+      assignee_depart_name: depart.name,
+      client_reporting_date: ticketDetails.client_reporting_date,
+      due_date: ticketDetails.due_date,
+      fronter: saleDepart.fronter,
+      closer: saleDepart.closer,
+      closer_id: saleDepart.closer_id,
+      fronter_id: saleDepart.fronter_id,
+      sales_type: saleDepart.sale_type,
+      payment_history: [
+        {
+          total_payment: ticketDetails.total_payment,
+          advance_payment: ticketDetails.advance_payment,
+          remaining_payment: ticketDetails.remaining_payment
+        }
+      ],
+      business_name: business.business_name,
+      business_number: business.business_number,
+      business_hours: business.business_hours,
+      business_email: business.business_email,
+      state: business.state,
+      country: business.country,
+      street: business.street,
+      zip_code: business.zip_code,
+      social_profile: business.social_profile,
+      website_url: business.website_url,
+      work_status: wordPressDetails.work_status,
+      gmb_url: wordPressDetails.gmb_url,
+      notes: wordPressDetails.notes,
+      service_name: wordPressDetails.service_name,
+      service_area: wordPressDetails.service_area,
+      referral_website: wordPressDetails.referral_website
+    }
+
+    const apiUrl = '/api/business-ticket/create'
+
+    await axios
+      .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+      .then(() => {
+        toast.success('Ticket created successfully')
+        methods.reset(defaultValues)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+        toast.error(error?.response?.data || 'Something went wrong')
+      })
   }
 
   return (

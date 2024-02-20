@@ -1,11 +1,11 @@
 import React from 'react'
 import FormsHeader from '../../Header'
 import SaleDepartment from '../../SharedField/SaleDepartment'
-import BusinessDetail from './BusinessDetail'
 import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
 import SubmitButton from '../../SharedField/FormButton'
 import BusinessDetails from '../../SharedField/BusinessDetails'
 import TicketDetails from '../../SharedField/TicketDetails'
+import LocalSeoSpecificDetails from './LocalSeoSpecificDetails'
 
 const LocalSeoForm = () => {
   return (
@@ -34,7 +34,7 @@ const LocalSeoForm = () => {
             </FormsHeader>
 
             <FormsHeader title='Department Specific Details'>
-              <BusinessDetail />
+              <LocalSeoSpecificDetails />
             </FormsHeader>
           </Stack>
 

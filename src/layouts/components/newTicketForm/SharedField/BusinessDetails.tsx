@@ -45,6 +45,8 @@ const BusinessDetails = () => {
     setValue('business.state', business.state)
     setValue('business.street', business.street)
     setValue('business.zip_code', business.zip_code)
+    setValue('business.website_url', business.website_url)
+    setValue('business.social_profile', business.social_profile)
   }
 
   return (
@@ -55,10 +57,9 @@ const BusinessDetails = () => {
             <Controller
               control={control}
               name='business.business_name'
-              defaultValue=''
-              rules={{ required: true }}
               render={({ field }) => (
                 <Autocomplete
+                  {...field}
                   value={data.find((x: any) => x.business_name === field.value) || null}
                   onChange={(e: any, newValue) => {
                     setBusinessValues(newValue)
@@ -257,34 +258,6 @@ const BusinessDetails = () => {
                   />
                   {errors.business?.social_profile && (
                     <FormHelperText>{errors.business.social_profile.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.business?.work_status}>
-            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
-            <Controller
-              name='business.work_status'
-              control={control}
-              defaultValue=''
-              rules={{ required: 'Work Status is required' }}
-              render={({ field }) => (
-                <>
-                  <Select label='Work Status' {...field} fullWidth>
-                    {LocalSeoWorkStatusValues.map(v => {
-                      return (
-                        <MenuItem key={v} value={v}>
-                          {v}
-                        </MenuItem>
-                      )
-                    })}
-                  </Select>
-                  {errors.business?.work_status && (
-                    <FormHelperText>{errors.business.work_status.message}</FormHelperText>
                   )}
                 </>
               )}

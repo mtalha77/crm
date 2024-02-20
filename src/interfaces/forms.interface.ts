@@ -9,7 +9,6 @@ export interface BusinessDetails {
   street?: string
   website_url?: string
   social_profile?: string
-  work_status: string
 }
 
 export interface SaleDepartDetails {
@@ -26,12 +25,45 @@ export interface TicketDetails {
   total_payment: number
   advance_payment: number
   remaining_payment: number
-  client_reporting_date?: Date
+  client_reporting_date?: Date | null
 }
 
 export interface LocalSeoDetails {
-  gmbUrl?: string
+  gmb_url?: string
   notes?: string
+  work_status: string
+}
+
+export interface WordPressDetails {
+  service_name?: string
+  service_area?: string
+  referral_website?: string
+  gmb_url?: string
+  notes?: string
+  work_status: string
+}
+
+export interface WebSeoDetails {
+  gmb_url?: string
+  notes?: string
+  work_status: string
+  service_name?: string
+  service_location?: string
+  key_words?: string
+  login_credentials?: string
+  console_access?: string
+  analytics_access?: string
+}
+
+export interface PaidMarketingDetails {
+  service_name?: string
+  location?: string
+  ad_account_access?: string
+  budget?: string
+  budget_price?: number
+  clients_objectives?: string
+  notes?: string
+  work_status: string
 }
 export interface CommonFormType {
   business: BusinessDetails
@@ -40,6 +72,18 @@ export interface CommonFormType {
 }
 export interface LocalSeoFormType extends CommonFormType {
   localSeoDetails: LocalSeoDetails
+}
+
+export interface WordPressFormType extends CommonFormType {
+  wordPressDetails: WordPressDetails
+}
+
+export interface WebSeoFormType extends CommonFormType {
+  webSeoDetails: WebSeoDetails
+}
+
+export interface PaidMarketingFormType extends CommonFormType {
+  paidMarketingDetails: PaidMarketingDetails
 }
 
 export const localSeoDefaultValues: LocalSeoFormType = {
@@ -53,8 +97,7 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     zip_code: '',
     street: '',
     website_url: '',
-    social_profile: '',
-    work_status: ''
+    social_profile: ''
   },
   saleDepart: {
     fronter: '',
@@ -69,10 +112,130 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
-    client_reporting_date: new Date()
+    client_reporting_date: null
   },
   localSeoDetails: {
-    gmbUrl: '',
-    notes: ''
+    gmb_url: '',
+    notes: '',
+    work_status: ''
+  }
+}
+
+export const wordPressDefaultValues: WordPressFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    due_date: new Date(),
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: null
+  },
+  wordPressDetails: {
+    service_name: '',
+    service_area: '',
+    referral_website: '',
+    gmb_url: '',
+    notes: '',
+    work_status: ''
+  }
+}
+
+export const webSeoDefaultValues: WebSeoFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    due_date: new Date(),
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: null
+  },
+  webSeoDetails: {
+    service_name: '',
+    gmb_url: '',
+    notes: '',
+    work_status: '',
+    service_location: '',
+    key_words: '',
+    login_credentials: '',
+    console_access: '',
+    analytics_access: ''
+  }
+}
+
+export const paidMarketingDefaultValues: PaidMarketingFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    due_date: new Date(),
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: null
+  },
+  paidMarketingDetails: {
+    service_name: '',
+    location: '',
+    ad_account_access: '',
+    budget: '',
+    budget_price: 0,
+    clients_objectives: '',
+    notes: '',
+    work_status: ''
   }
 }

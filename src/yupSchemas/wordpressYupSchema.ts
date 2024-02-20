@@ -1,8 +1,8 @@
-import { LocalSeoFormType } from 'src/interfaces/forms.interface'
+import { WordPressFormType } from 'src/interfaces/forms.interface'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import * as yup from 'yup'
 
-export const localSeoYupSchema: yup.ObjectSchema<LocalSeoFormType> = yup.object().shape({
+export const wordPressYupSchema: yup.ObjectSchema<WordPressFormType> = yup.object().shape({
   business: yup.object().shape({
     business_name: yup
       .string()
@@ -73,9 +73,12 @@ export const localSeoYupSchema: yup.ObjectSchema<LocalSeoFormType> = yup.object(
       .required('Remaining is required'),
     client_reporting_date: yup.date().nullable()
   }),
-  localSeoDetails: yup.object().shape({
+  wordPressDetails: yup.object().shape({
     gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters'),
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
+    service_name: yup.string().max(200, 'service name cannot exceed 200 characters'),
+    service_area: yup.string().max(200, 'service area cannot exceed 200 characters'),
+    referral_website: yup.string().max(200, 'referral website cannot exceed 200 characters'),
     work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required')
   })
 })

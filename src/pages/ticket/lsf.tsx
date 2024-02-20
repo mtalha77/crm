@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import LocalSeoForm from 'src/layouts/components/newTicketForm/Departments/LocalSeo'
 
 import { useForm, FormProvider } from 'react-hook-form'
@@ -9,16 +9,32 @@ import { Department } from 'src/shared/enums/Department.enum'
 import toast from 'react-hot-toast'
 import { LocalSeoFormType, localSeoDefaultValues } from 'src/interfaces/forms.interface'
 import { localSeoYupSchema } from 'src/yupSchemas/localSeoYupSchema'
-
-const defaultValues = localSeoDefaultValues
+import { useRouter } from 'next/router'
+import { mapResponseForLocalSeo } from 'src/utils/mapResponseForLocalSeo'
 
 const schema = localSeoYupSchema
 
 const Ticket = () => {
+  const router = useRouter()
+  const { ticketId } = router.query
+  const [apiLoading, setApiLoading] = useState(true)
+  const defaultValues = async () => {
+    if (!ticketId) return localSeoDefaultValues
+    try {
+      setApiLoading(true)
+      const res = await axios.get(`/api/business-ticket/${ticketId}`, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      return mapResponseForLocalSeo(res.data.payload.ticket)
+    } catch (error) {
+      toast.error('Network error. Please refresh the page')
+    } finally {
+      setApiLoading(false)
+    }
+  }
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
 
-  console.log(methods.watch())
   const onSubmit = async (data: LocalSeoFormType) => {
     const { business, saleDepart, ticketDetails, localSeoDetails } = data
 
@@ -76,7 +92,7 @@ const Ticket = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          <LocalSeoForm />
+          {!apiLoading && <LocalSeoForm />}
         </form>
       </FormProvider>
     </>

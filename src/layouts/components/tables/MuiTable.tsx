@@ -11,5 +11,8 @@ function MuiTable(props: any) {
   })
   return <MaterialReactTable table={table} />
 }
+MuiTable.defaultProps = {
+  options: {}
+}
 
 export default MuiTable

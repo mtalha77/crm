@@ -39,6 +39,11 @@ const navigation = (): VerticalNavItemsType => {
         { title: 'Create New User', path: '/users/create-user' },
         { title: 'View Users', path: '/users/view-users' }
       ]
+    },
+    {
+      path: '/view-tickets',
+      title: 'View Tickets',
+      icon: 'mdi:shield-outline'
     }
   ]
 }

@@ -20,7 +20,6 @@ const LocalSeoSpecificDetails = () => {
               name='localSeoDetails.work_status'
               control={control}
               defaultValue=''
-              rules={{ required: 'Work Status is required' }}
               render={({ field }) => (
                 <>
                   <Select label='Work Status' {...field} fullWidth>

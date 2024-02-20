@@ -24,6 +24,8 @@ const defineRulesFor = (role: string, subject: string) => {
     can('manage', 'all')
   } else if (role === UserRole.EMPLOYEE) {
     can('manage', 'all')
+  } else if (role === UserRole.TEAM_LEAD) {
+    can('manage', 'all')
   } else {
     can(['read', 'create', 'update', 'delete'], subject)
   }

@@ -14,6 +14,33 @@ const WordPressSpecificDetails = () => {
     <>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.wordPressDetails?.work_status}>
+            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
+            <Controller
+              name='wordPressDetails.work_status'
+              control={control}
+              defaultValue=''
+              rules={{ required: 'Work Status is required' }}
+              render={({ field }) => (
+                <>
+                  <Select label='Work Status' {...field} fullWidth>
+                    {WordPressWorkStatusValues.map(v => {
+                      return (
+                        <MenuItem key={v} value={v}>
+                          {v}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                  {errors.wordPressDetails?.work_status && (
+                    <FormHelperText>{errors.wordPressDetails.work_status.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.wordPressDetails?.service_name}>
             <Controller
               name='wordPressDetails.service_name'
@@ -86,34 +113,6 @@ const WordPressSpecificDetails = () => {
                   <TextField label='GMB URL' {...field} error={Boolean(errors?.wordPressDetails?.gmb_url)} fullWidth />
                   {errors.wordPressDetails?.gmb_url && (
                     <FormHelperText>{errors.wordPressDetails.gmb_url.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.wordPressDetails?.work_status}>
-            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
-            <Controller
-              name='wordPressDetails.work_status'
-              control={control}
-              defaultValue=''
-              rules={{ required: 'Work Status is required' }}
-              render={({ field }) => (
-                <>
-                  <Select label='Work Status' {...field} fullWidth>
-                    {WordPressWorkStatusValues.map(v => {
-                      return (
-                        <MenuItem key={v} value={v}>
-                          {v}
-                        </MenuItem>
-                      )
-                    })}
-                  </Select>
-                  {errors.wordPressDetails?.work_status && (
-                    <FormHelperText>{errors.wordPressDetails.work_status.message}</FormHelperText>
                   )}
                 </>
               )}

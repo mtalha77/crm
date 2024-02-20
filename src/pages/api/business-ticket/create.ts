@@ -56,7 +56,8 @@ const handler = async (req: any, res: any) => {
         ad_account_access,
         budget,
         budget_price,
-        clients_objectives
+        clients_objectives,
+        facebook_url
       } = req.body
       if (
         !assignee_depart_id ||
@@ -132,7 +133,8 @@ const handler = async (req: any, res: any) => {
         ad_account_access,
         budget,
         budget_price,
-        clients_objectives
+        clients_objectives,
+        facebook_url
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

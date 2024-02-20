@@ -6,6 +6,9 @@ import Review from '../../SharedField/Review'
 import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
 import SubmitButton from '../../SharedField/FormButton'
 import BusinessDetail from '../LocalSeo/LocalSeoSpecificDetails'
+import BusinessDetails from '../../SharedField/BusinessDetails'
+import TicketDetails from '../../SharedField/TicketDetails'
+import SocialMediaSpecificDetails from './SocialMediaSpecificDetails'
 
 const SmmForm = () => {
   return (
@@ -14,27 +17,27 @@ const SmmForm = () => {
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
-              Generate New Ticket
+              Generate New Ticket For Social Media / Customer Reviews Management
             </Typography>
           }
         />
         <Divider sx={{ m: '0 !important' }} />
         <CardContent>
           <Stack spacing={6}>
-            <FormsHeader title='Customer'>
-              <Customer />
+            <FormsHeader title='Business Details'>
+              <BusinessDetails />
             </FormsHeader>
 
             <FormsHeader title='Sale Department'>
               <SaleDepartment />
             </FormsHeader>
 
-            <FormsHeader title='Social Media / Customer Review'>
-              <Review />
+            <FormsHeader title='Ticket Details'>
+              <TicketDetails />
             </FormsHeader>
 
-            <FormsHeader title='Business Detail'>
-              <BusinessDetail />
+            <FormsHeader title='Department Specific Details'>
+              <SocialMediaSpecificDetails />
             </FormsHeader>
           </Stack>
 

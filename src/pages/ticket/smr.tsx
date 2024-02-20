@@ -2,116 +2,76 @@ import React from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
 import SmmForm from 'src/layouts/components/newTicketForm/Departments/SMM'
+import { SocialMediaFormType, socialMediaDefaultValues } from 'src/interfaces/forms.interface'
+import { socialMediaYupSchema } from 'src/yupSchemas/socialMediaYupSchema'
+import { useAuth } from 'src/hooks/useAuth'
+import { Department } from 'src/shared/enums/Department.enum'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
-const defaultValues = {
-  business: {
-    name: '',
-    email: ''
-  },
-  saleDepart: {
-    assignor: '',
-    supportPerson: '',
-    fronter: '',
-    closerPerson: ''
-  },
-  ssmReview: {
-    priorityLevel: '',
-    department: '',
-    deadline: new Date(),
-    price: 0,
-    advance: 0,
-    remaining: 0
-  },
-  businessDetail: {
-    serviceName: '',
-    facebookUrl: '',
-    workStatus: '',
-    gmbUrl: '',
-    websiteUrl: '',
-    socialProfile: '',
-    loginCred: '',
-    notes: ''
-  }
-}
+const defaultValues = socialMediaDefaultValues
 
-interface FormData {
-  business: {
-    name: string
-    email: string
-  }
-}
-
-const schema = Yup.object().shape({
-  business: Yup.object().shape({
-    name: Yup.string().max(255, 'Business name must not exceed 255 characters').required('Business name is required'),
-    email: Yup.string().email('Invalid email address').required('Business email is required')
-  }),
-  saleDepart: Yup.object().shape({
-    assignor: Yup.string().max(233, 'Assignor must not exceed 255 characters').required('Assignor is required'),
-    supportPerson: Yup.string()
-      .max(255, 'Support person must not exceed 255 characters')
-      .required('Support person is required'),
-    fronter: Yup.string().max(255, 'Fronter must not exceed 255 characters').required('Fronter is required'),
-    closerPerson: Yup.string()
-      .max(255, 'Closer person must not exceed 255 characters')
-      .required('Closer person is required')
-  }),
-  ssmReview: Yup.object().shape({
-    priorityLevel: Yup.string()
-      .max(255, 'Priority level must not exceed 255 characters')
-      .required('Priority level is required'),
-    department: Yup.string().max(255, 'Department must not exceed 255 characters').required('Department is required'),
-    deadline: Yup.date().required('Deadline is required'),
-    price: Yup.number()
-      .required('Price is required')
-      .min(1, 'Price must be at least 1')
-      .max(1000000000, 'Price must not exceed 10 crore'),
-    advance: Yup.number()
-      .required('Advance is required')
-      .min(1, 'Advance must be at least 1')
-      .max(1000000000, 'Advance must not exceed 10 crore'),
-    remaining: Yup.number()
-      .required('Remaining is required')
-      .min(1, 'Remaining must be at least 1')
-      .max(1000000000, 'Remaining must not exceed 10 crore')
-  }),
-  businessDetail: Yup.object().shape({
-    serviceName: Yup.string()
-      .max(255, 'Service name must not exceed 255 characters')
-      .required('Service name is required'),
-    facebookUrl: Yup.string()
-      .url('Invalid Facebook URL')
-      .max(255, 'Facebook URL must not exceed 255 characters')
-      .required('Facebook URL is required'),
-    workStatus: Yup.string().max(255, 'Work status must not exceed 255 characters').required('Work status is required'),
-    gmbUrl: Yup.string()
-      .url('Invalid GMB URL')
-      .max(255, 'GMB URL must not exceed 255 characters')
-      .required('GMB URL is required'),
-    websiteUrl: Yup.string()
-      .url('Invalid website URL')
-      .max(255, 'Website URL must not exceed 255 characters')
-      .required('Website URL is required'),
-    socialProfile: Yup.string()
-      .url('Invalid social profile URL')
-      .max(255, 'Social profile URL must not exceed 255 characters')
-      .required('Social profile URL is required'),
-    loginCred: Yup.string()
-      .max(255, 'Login credentials must not exceed 255 characters')
-      .required('Login credentials are required'),
-    notes: Yup.string().max(255, 'Notes must not exceed 255 characters').required('Notes are required')
-  })
-})
+const schema = socialMediaYupSchema
 
 const Ticket = () => {
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
 
-  const onSubmit = (data: FormData) => {
-    do {
-      console.log('data', data)
-    } while (false)
+  const { departments } = useAuth()
+  const onSubmit = async (data: SocialMediaFormType) => {
+    const { business, saleDepart, ticketDetails, socialMediaFormTypeDetails } = data
+
+    // Create a new object with the destructured properties
+    const depart: any = departments.find((d: any) => d.name === Department.SocialMedia)
+
+    const requestData = {
+      priority: ticketDetails.priority,
+      assignee_depart_id: depart._id,
+      assignee_depart_name: depart.name,
+      client_reporting_date: ticketDetails.client_reporting_date,
+      due_date: ticketDetails.due_date,
+      fronter: saleDepart.fronter,
+      closer: saleDepart.closer,
+      closer_id: saleDepart.closer_id,
+      fronter_id: saleDepart.fronter_id,
+      sales_type: saleDepart.sale_type,
+      payment_history: [
+        {
+          total_payment: ticketDetails.total_payment,
+          advance_payment: ticketDetails.advance_payment,
+          remaining_payment: ticketDetails.remaining_payment
+        }
+      ],
+      business_name: business.business_name,
+      business_number: business.business_number,
+      business_hours: business.business_hours,
+      business_email: business.business_email,
+      state: business.state,
+      country: business.country,
+      street: business.street,
+      zip_code: business.zip_code,
+      social_profile: business.social_profile,
+      website_url: business.website_url,
+      work_status: socialMediaFormTypeDetails.work_status,
+      gmb_url: socialMediaFormTypeDetails.gmb_url,
+      notes: socialMediaFormTypeDetails.notes,
+      service_name: socialMediaFormTypeDetails.service_name,
+      login_credentials: socialMediaFormTypeDetails.login_credentials,
+      facebook_url: socialMediaFormTypeDetails.facebook_url
+    }
+
+    const apiUrl = '/api/business-ticket/create'
+
+    await axios
+      .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+      .then(() => {
+        toast.success('Ticket created successfully')
+        methods.reset(defaultValues)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+        toast.error(error?.response?.data || 'Something went wrong')
+      })
   }
 
   return (

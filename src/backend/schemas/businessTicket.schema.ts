@@ -56,11 +56,24 @@ const businessTicketSchema = new mongoose.Schema(
     business_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Business' },
     sales_type: { type: String, enum: SaleType, required: true },
     work_status: { type: String, required: true, enum: WorkStatusValues },
-    notes: { type: String, required: false, default: '', trim: true },
     payment_history: { type: [paymentHistorySchema], required: true, ref: 'PaymentHistory' },
+    notes: { type: String, required: false, default: '', trim: true },
     gmb_url: { type: String, required: false, trim: true },
     social_profile: { type: String, required: false, trim: true },
-    website_url: { type: String, required: false, trim: true }
+    website_url: { type: String, required: false, trim: true },
+    service_name: { type: String, required: false, trim: true },
+    service_area: { type: String, required: false, trim: true },
+    referral_website: { type: String, required: false, trim: true },
+    service_location: { type: String, required: false, trim: true },
+    key_words: { type: String, required: false, trim: true },
+    login_credentials: { type: String, required: false, trim: true },
+    console_access: { type: String, required: false, trim: true },
+    analytics_access: { type: String, required: false, trim: true },
+    paid_marketing_location: { type: String, required: false, trim: true },
+    ad_account_access: { type: String, required: false, trim: true },
+    budget: { type: String, required: false, trim: true },
+    budget_price: { type: Number, required: false },
+    clients_objectives: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

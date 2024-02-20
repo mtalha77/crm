@@ -2,107 +2,77 @@ import React from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
 import PaidMarketingForm from 'src/layouts/components/newTicketForm/Departments/Marketing'
+import { PaidMarketingFormType, paidMarketingDefaultValues } from 'src/interfaces/forms.interface'
+import { paidMarketingYupSchema } from 'src/yupSchemas/paidMarketingYupSchema'
+import { useAuth } from 'src/hooks/useAuth'
+import { Department } from 'src/shared/enums/Department.enum'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
-const defaultValues = {
-  business: {
-    name: '',
-    email: ''
-  },
-  saleDepart: {
-    assignor: '',
-    supportPerson: '',
-    fronter: '',
-    closerPerson: ''
-  },
-  ssmReview: {
-    priorityLevel: '',
-    department: '',
-    deadline: new Date(),
-    price: 0,
-    advance: 0,
-    remaining: 0
-  },
-  businessDetail: {
-    serviceName: '',
-    location: '',
-    adAccount: '',
-    budget: '',
-    platform: '',
-    websiteUrl: '',
-    clientObj: ''
-  }
-}
+const defaultValues = paidMarketingDefaultValues
 
-interface FormData {
-  business: {
-    name: string
-    email: string
-  }
-}
-
-const schema = Yup.object().shape({
-  business: Yup.object().shape({
-    name: Yup.string().max(255, 'Business name must not exceed 255 characters').required('Business name is required'),
-    email: Yup.string().email('Invalid email address').required('Business email is required')
-  }),
-  saleDepart: Yup.object().shape({
-    assignor: Yup.string().max(233, 'Assignor must not exceed 255 characters').required('Assignor is required'),
-    supportPerson: Yup.string()
-      .max(255, 'Support person must not exceed 255 characters')
-      .required('Support person is required'),
-    fronter: Yup.string().max(255, 'Fronter must not exceed 255 characters').required('Fronter is required'),
-    closerPerson: Yup.string()
-      .max(255, 'Closer person must not exceed 255 characters')
-      .required('Closer person is required')
-  }),
-  ssmReview: Yup.object().shape({
-    priorityLevel: Yup.string()
-      .max(255, 'Priority level must not exceed 255 characters')
-      .required('Priority level is required'),
-    department: Yup.string().max(255, 'Department must not exceed 255 characters').required('Department is required'),
-    deadline: Yup.date().required('Deadline is required'),
-    price: Yup.number()
-      .required('Price is required')
-      .min(1, 'Price must be at least 1')
-      .max(1000000000, 'Price must not exceed 10 crore'),
-    advance: Yup.number()
-      .required('Advance is required')
-      .min(1, 'Advance must be at least 1')
-      .max(1000000000, 'Advance must not exceed 10 crore'),
-    remaining: Yup.number()
-      .required('Remaining is required')
-      .min(1, 'Remaining must be at least 1')
-      .max(1000000000, 'Remaining must not exceed 10 crore')
-  }),
-  businessDetail: Yup.object().shape({
-    serviceName: Yup.string()
-      .max(255, 'Service name must not exceed 255 characters')
-      .required('Service name is required'),
-    location: Yup.string().max(255, 'Location must not exceed 255 characters').required('Location is required'),
-    adAccount: Yup.string().max(255, 'Add Account must not exceed 255 characters').required('Add Account is required'),
-    platform: Yup.string().max(255, 'Platform must not exceed 255 characters').required('Platform is required'),
-    budget: Yup.string().max(255, 'Budget must not exceed 255 characters').required('Budget is required'),
-    websiteUrl: Yup.string()
-      .url('Invalid website URL')
-      .max(255, 'Website URL must not exceed 255 characters')
-      .required('Website URL is required'),
-    clientObj: Yup.string()
-      .max(255, 'Login credentials must not exceed 255 characters')
-      .required('Login credentials are required')
-  })
-})
-
+const schema = paidMarketingYupSchema
 const Ticket = () => {
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+  const { departments } = useAuth()
+  const onSubmit = async (data: PaidMarketingFormType) => {
+    const { business, saleDepart, ticketDetails, paidMarketingDetails } = data
 
-  const onSubmit = (data: FormData) => {
-    do {
-      console.log('data', data)
-    } while (false)
+    // Create a new object with the destructured properties
+    const depart: any = departments.find((d: any) => d.name === Department.PaidMarketing)
+
+    const requestData = {
+      priority: ticketDetails.priority,
+      assignee_depart_id: depart._id,
+      assignee_depart_name: depart.name,
+      client_reporting_date: ticketDetails.client_reporting_date,
+      due_date: ticketDetails.due_date,
+      fronter: saleDepart.fronter,
+      closer: saleDepart.closer,
+      closer_id: saleDepart.closer_id,
+      fronter_id: saleDepart.fronter_id,
+      sales_type: saleDepart.sale_type,
+      payment_history: [
+        {
+          total_payment: ticketDetails.total_payment,
+          advance_payment: ticketDetails.advance_payment,
+          remaining_payment: ticketDetails.remaining_payment
+        }
+      ],
+      business_name: business.business_name,
+      business_number: business.business_number,
+      business_hours: business.business_hours,
+      business_email: business.business_email,
+      state: business.state,
+      country: business.country,
+      street: business.street,
+      zip_code: business.zip_code,
+      social_profile: business.social_profile,
+      website_url: business.website_url,
+      work_status: paidMarketingDetails.work_status,
+      notes: paidMarketingDetails.notes,
+      service_name: paidMarketingDetails.service_name,
+      paid_marketing_location: paidMarketingDetails.location,
+      ad_account_access: paidMarketingDetails.ad_account_access,
+      budget: paidMarketingDetails.budget,
+      budget_price: paidMarketingDetails.budget_price,
+      clients_objectives: paidMarketingDetails.clients_objectives
+    }
+
+    const apiUrl = '/api/business-ticket/create'
+
+    await axios
+      .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+      .then(() => {
+        toast.success('Ticket created successfully')
+        methods.reset(defaultValues)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+        toast.error(error?.response?.data || 'Something went wrong')
+      })
   }
-
   return (
     <>
       <FormProvider {...methods}>

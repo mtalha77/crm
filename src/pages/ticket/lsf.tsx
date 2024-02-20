@@ -17,6 +17,8 @@ const schema = localSeoYupSchema
 const Ticket = () => {
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
+
+  console.log(methods.watch())
   const onSubmit = async (data: LocalSeoFormType) => {
     const { business, saleDepart, ticketDetails, localSeoDetails } = data
 
@@ -34,7 +36,6 @@ const Ticket = () => {
       closer_id: saleDepart.closer_id,
       fronter_id: saleDepart.fronter_id,
       sales_type: saleDepart.sale_type,
-      notes: localSeoDetails.notes,
       payment_history: [
         {
           total_payment: ticketDetails.total_payment,
@@ -52,8 +53,9 @@ const Ticket = () => {
       zip_code: business.zip_code,
       social_profile: business.social_profile,
       website_url: business.website_url,
-      work_status: business.work_status,
-      gmb_url: localSeoDetails.gmbUrl
+      work_status: localSeoDetails.work_status,
+      gmb_url: localSeoDetails.gmb_url,
+      notes: localSeoDetails.notes
     }
 
     const apiUrl = '/api/business-ticket/create'

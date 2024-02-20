@@ -5,16 +5,16 @@ import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '
 import SubmitButton from '../../SharedField/FormButton'
 import BusinessDetails from '../../SharedField/BusinessDetails'
 import TicketDetails from '../../SharedField/TicketDetails'
-import PaidMarketingSpecificDetails from './PaidMarketingSpecificDetails'
+import WebSeoSpecificDetails from './WebSeoSpecificDetails'
 
-const PaidMarketingForm = () => {
+const WebSeoForm = () => {
   return (
     <>
       <Card>
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
-              Generate New Ticket For Paid Marketing
+              Generate New Ticket For WebSeo
             </Typography>
           }
         />
@@ -34,7 +34,7 @@ const PaidMarketingForm = () => {
             </FormsHeader>
 
             <FormsHeader title='Department Specific Details'>
-              <PaidMarketingSpecificDetails />
+              <WebSeoSpecificDetails />
             </FormsHeader>
           </Stack>
 
@@ -47,4 +47,4 @@ const PaidMarketingForm = () => {
   )
 }
 
-export default PaidMarketingForm
+export default WebSeoForm

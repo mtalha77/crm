@@ -17,7 +17,7 @@ const handler = async (req: any, res: any) => {
 
     const session = await mongoose.startSession()
     session.startTransaction()
-
+    console.log(req.body)
     try {
       const {
         priority,
@@ -43,7 +43,20 @@ const handler = async (req: any, res: any) => {
         social_profile,
         website_url,
         work_status,
-        gmb_url
+        gmb_url,
+        service_name,
+        service_area,
+        referral_website,
+        service_location,
+        key_words,
+        login_credentials,
+        console_access,
+        analytics_access,
+        paid_marketing_location,
+        ad_account_access,
+        budget,
+        budget_price,
+        clients_objectives
       } = req.body
       if (
         !assignee_depart_id ||
@@ -54,7 +67,8 @@ const handler = async (req: any, res: any) => {
         !payment_history ||
         !business_name ||
         !business_email ||
-        !closer_id
+        !closer_id ||
+        !work_status
       )
         return res.status(400).send('Network Error')
 
@@ -105,7 +119,20 @@ const handler = async (req: any, res: any) => {
         payment_history,
         work_status,
         closer_id,
-        gmb_url
+        gmb_url,
+        service_name,
+        service_area,
+        referral_website,
+        service_location,
+        key_words,
+        login_credentials,
+        console_access,
+        analytics_access,
+        paid_marketing_location,
+        ad_account_access,
+        budget,
+        budget_price,
+        clients_objectives
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

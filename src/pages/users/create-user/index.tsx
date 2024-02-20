@@ -94,7 +94,6 @@ const FormValidationAsync = () => {
   }
 
   const onSubmit = async (data: FormInputs) => {
-    console.log(loading)
     if (loading) return
     try {
       setLoading(true)
@@ -123,7 +122,7 @@ const FormValidationAsync = () => {
     <Card>
       <CardHeader title='Create New User' />
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <FormControl fullWidth>

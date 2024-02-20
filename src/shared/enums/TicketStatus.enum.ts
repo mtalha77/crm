@@ -4,3 +4,5 @@ export enum TicketStatus {
   IN_PROGRESS = 'IN PROGRESS',
   COMPLETED = 'COMPLETED'
 }
+
+export const TicketStatusValues: TicketStatus[] = Object.values(TicketStatus)

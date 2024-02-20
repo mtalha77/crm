@@ -8,7 +8,7 @@ const departTicketSchema = new mongoose.Schema(
     status: { type: String, enum: TicketStatus, default: TicketStatus.NOT_STARTED_YET },
     priority: { type: String, enum: PriorityType, default: PriorityType.MEDIUM },
     created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    assignee_employee_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    assignee_employee_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: '' },
     assignee_depart_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true },
     assignee_depart_name: { type: String, required: true },
     assignor_depart_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true },

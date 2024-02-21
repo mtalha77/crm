@@ -75,84 +75,82 @@ const DepartmentTicketCards = () => {
 
   return (
     <>
-      <Card sx={{ mt: '20px', mb: '20px' }}>
-        <Typography
-          variant='h4'
-          sx={{
-            display: 'flex',
-            mb: 2.75,
-            mt: 2.75,
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: textColor,
-            '& svg': { mr: 2.5 }
-          }}
-        >
-          Departmental Tickets
-        </Typography>
-        <Grid container spacing={6} mb={'20px'}>
-          <Grid item xs={4}>
-            <Card sx={{ ml: '20px', mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Typography variant='h6' sx={{ mr: 1.75 }}>
-                    22k
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
-                    <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                      +15%
-                    </Typography>
-                    <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
-                  </Box>
-                </Box>
-                <Typography variant='body2' color={textColor}>
-                  Open Tickets
+      <Typography
+        variant='h4'
+        sx={{
+          display: 'flex',
+          mb: 2.75,
+          mt: 2.75,
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: textColor,
+          '& svg': { mr: 2.5 }
+        }}
+      >
+        Departmental Tickets
+      </Typography>
+      <Grid container spacing={6} mb={'20px'}>
+        <Grid item xs={4}>
+          <Card sx={{ ml: '20px', mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Typography variant='h6' sx={{ mr: 1.75 }}>
+                  22k
                 </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card sx={{ mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Typography variant='h6' sx={{ mr: 1.75 }}>
-                    22k
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
+                  <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
+                    +15%
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
-                    <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                      +15%
-                    </Typography>
-                    <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
-                  </Box>
+                  <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
                 </Box>
-                <Typography variant='body2' color={textColor}>
-                  Close Tickets
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>{' '}
-          <Grid item xs={4}>
-            <Card sx={{ mr: '20px', mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Typography variant='h6' sx={{ mr: 1.75 }}>
-                    22k
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
-                    <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                      +15%
-                    </Typography>
-                    <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
-                  </Box>
-                </Box>
-                <Typography variant='body2' color={textColor}>
-                  Created Tickets
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+              </Box>
+              <Typography variant='body2' color={textColor}>
+                Open Tickets
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
-      </Card>
+        <Grid item xs={4}>
+          <Card sx={{ mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Typography variant='h6' sx={{ mr: 1.75 }}>
+                  22k
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
+                  <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
+                    +15%
+                  </Typography>
+                  <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
+                </Box>
+              </Box>
+              <Typography variant='body2' color={textColor}>
+                Close Tickets
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>{' '}
+        <Grid item xs={4}>
+          <Card sx={{ mr: '20px', mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Typography variant='h6' sx={{ mr: 1.75 }}>
+                  22k
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
+                  <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
+                    +15%
+                  </Typography>
+                  <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
+                </Box>
+              </Box>
+              <Typography variant='body2' color={textColor}>
+                Created Tickets
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </>
   )
 }

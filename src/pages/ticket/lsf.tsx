@@ -80,7 +80,7 @@ const Ticket = () => {
       .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
       .then(() => {
         toast.success('Ticket created successfully')
-        methods.reset(defaultValues)
+        methods.reset(localSeoDefaultValues)
       })
       .catch(error => {
         console.error('Error:', error)

@@ -1,4 +1,4 @@
-import { FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
+import { Button, FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
@@ -6,6 +6,7 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 import EditIcon from '@mui/icons-material/Edit'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import Link from 'next/link'
+import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 
 const businessTicketsColumns: any = (
   user: UserDataType,
@@ -32,6 +33,7 @@ const businessTicketsColumns: any = (
                 <>
                   <FormControl>
                     <Select
+                      size='small'
                       onChange={e => {
                         assignedEmployeeToTicket(e.target.value, _id)
                         setValue(e.target.value)
@@ -76,6 +78,7 @@ const businessTicketsColumns: any = (
           <>
             <FormControl>
               <Select
+                size='small'
                 onChange={e => {
                   setValue(e.target.value)
                   updateTicketStatus(_id, e.target.value)
@@ -85,7 +88,6 @@ const businessTicketsColumns: any = (
                 displayEmpty
                 inputProps={{ 'aria-label': 'Without label' }}
               >
-                <MenuItem value=''>Not Assigned</MenuItem>
                 {TicketStatusValues.map((e: any) => {
                   return (
                     <MenuItem key={e} value={e}>
@@ -105,6 +107,18 @@ const businessTicketsColumns: any = (
   {
     header: 'Priority',
     accessorKey: 'priority'
+  },
+  {
+    header: 'Payment',
+    accessorKey: 'payment_history',
+    Cell: ({ cell }: any) => {
+      const value = cell.getValue()
+      return (
+        <>
+          <PaymentHistoryDialog payment_history={value} />
+        </>
+      )
+    }
   },
   {
     header: 'Action',

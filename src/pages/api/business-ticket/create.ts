@@ -17,7 +17,6 @@ const handler = async (req: any, res: any) => {
 
     const session = await mongoose.startSession()
     session.startTransaction()
-    console.log(req.body)
     try {
       const {
         priority,

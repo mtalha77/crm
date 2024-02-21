@@ -54,13 +54,15 @@ const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const LoginIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '48rem',
+  maxWidth: '30rem',
   [theme.breakpoints.down('xl')]: {
     maxWidth: '38rem'
   },
   [theme.breakpoints.down('lg')]: {
     maxWidth: '30rem'
-  }
+  },
+  width: '100%',
+  height: 'auto' // Ensure the image scales appropriately
 }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -144,17 +146,14 @@ const LoginPage = () => {
     })
   }
 
-  const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
-
+  // const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
+  const imageSource = 'Rank-BPO-PVT-LTD-LOGO.png'
   return (
     <Box className='content-right'>
       {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
           <LoginIllustrationWrapper>
-            <LoginIllustration
-              alt='login-illustration'
-              src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
-            />
+            <LoginIllustration alt='login-illustration' src={`/images/pages/${imageSource}`} />
           </LoginIllustrationWrapper>
           <FooterIllustrationsV2 />
         </Box>

@@ -17,7 +17,7 @@ const schema = localSeoYupSchema
 const Ticket = () => {
   const router = useRouter()
   const { ticketId } = router.query
-  const [apiLoading, setApiLoading] = useState(true)
+  const [apiLoading, setApiLoading] = useState(false)
   const defaultValues = async () => {
     if (!ticketId) return localSeoDefaultValues
     try {

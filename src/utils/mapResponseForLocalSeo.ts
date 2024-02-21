@@ -17,7 +17,7 @@ export const mapResponseForLocalSeo = (data: any) => {
       fronter_id: data.fronter_id,
       closer: data.closer,
       closer_id: data.closer_id,
-      sale_type: 'UP SALE'
+      sale_type: data.sales_type
     },
     ticketDetails: {
       priority: data.priority,

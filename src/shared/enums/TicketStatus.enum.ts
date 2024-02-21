@@ -1,8 +1,8 @@
 export enum TicketStatus {
-  NOT_STARTED_YET = 'NOT STARTED YET',
-  PENDING = 'PENDING',
-  IN_PROGRESS = 'IN PROGRESS',
-  COMPLETED = 'COMPLETED'
+  NOT_STARTED_YET = 'Not Started Yet',
+  PENDING = 'Pending',
+  IN_PROGRESS = 'In Progress',
+  COMPLETED = 'Completed'
 }
 
 export const TicketStatusValues: TicketStatus[] = Object.values(TicketStatus)

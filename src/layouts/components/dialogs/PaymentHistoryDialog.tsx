@@ -29,11 +29,9 @@ const PaymentHistoryDialog = (props: any) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
   const { payment_history } = props
-  const defaultValues = {
-
-  }
-  const schema =
-  const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+  const defaultValues = {}
+  // const schema =
+  // const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
 
   return (
     <>

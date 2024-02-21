@@ -10,6 +10,7 @@ import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
 import BusinessTicketCards from './BusinessTicketCards'
 import DepartmentTicketCards from './DepartmentTicketCards/DepartmentTicketCards'
+import ReportingDateNotification from './ReportingDateNotification'
 
 const Home = () => {
   const { user } = useAuth()
@@ -95,7 +96,7 @@ const Home = () => {
           </Card>
         </Grid>
       </Grid>
-
+      <ReportingDateNotification />
       <BusinessTicketCards />
       <DepartmentTicketCards />
     </>

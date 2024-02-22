@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
-import BusinessTicketCards from './BusinessTicketCards'
+import BusinessTicketCards from './BusinessTicketCards/BusinessTicketCards'
 import DepartmentTicketCards from './DepartmentTicketCards/DepartmentTicketCards'
 import ReportingDateNotification from './ReportingDateNotification'
 

@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { Grid, Icon } from '@mui/material'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -8,6 +8,8 @@ import { useTheme } from '@mui/material/styles'
 // Icon
 // ** Third Party Imports
 import { ApexOptions } from 'apexcharts'
+import Icon from 'src/@core/components/icon'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Custom Components Imports
 
@@ -93,15 +95,14 @@ const DepartmentTicketCards = () => {
         <Grid item xs={4}>
           <Card sx={{ ml: '20px', mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
             <CardContent>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }} mb='20px'>
                 <Typography variant='h6' sx={{ mr: 1.75 }}>
                   22k
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
-                  <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                    +15%
-                  </Typography>
-                  <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'primary' } }}>
+                  <CustomAvatar skin='light' variant='rounded' sx={{ mr: 4 }}>
+                    <Icon icon='streamline:tickets-solid' fontSize='30px' />
+                  </CustomAvatar>
                 </Box>
               </Box>
               <Typography variant='body2' color={textColor}>
@@ -113,15 +114,14 @@ const DepartmentTicketCards = () => {
         <Grid item xs={4}>
           <Card sx={{ mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
             <CardContent>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }} mb='20px'>
                 <Typography variant='h6' sx={{ mr: 1.75 }}>
                   22k
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
-                  <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                    +15%
-                  </Typography>
-                  <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'warning' } }}>
+                  <CustomAvatar skin='light' variant='rounded' sx={{ mr: 4 }} color='success'>
+                    <Icon icon='codicon:vm-active' fontSize='30px' />
+                  </CustomAvatar>
                 </Box>
               </Box>
               <Typography variant='body2' color={textColor}>
@@ -129,19 +129,18 @@ const DepartmentTicketCards = () => {
               </Typography>
             </CardContent>
           </Card>
-        </Grid>{' '}
+        </Grid>
         <Grid item xs={4}>
           <Card sx={{ mr: '20px', mt: '20px', pt: '20px', pb: '20px', border: 0, color: 'common.white' }}>
             <CardContent>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }} mb='20px'>
                 <Typography variant='h6' sx={{ mr: 1.75 }}>
                   22k
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
-                  <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-                    +15%
-                  </Typography>
-                  <Icon icon='mdi:chevron-up' fontSize='1.25rem' />
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'warning' } }}>
+                  <CustomAvatar skin='light' variant='rounded' sx={{ mr: 4 }} color='info'>
+                    <Icon icon='material-symbols-light:create-new-folder-outline-sharp' fontSize='30px' />
+                  </CustomAvatar>
                 </Box>
               </Box>
               <Typography variant='body2' color={textColor}>

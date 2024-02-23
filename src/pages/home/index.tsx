@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
+import AnalyticsOverview from './AnaylsisCards/AnaylsisCards'
 import BusinessTicketCards from './BusinessTicketCards/BusinessTicketCards'
 import DepartmentTicketCards from './DepartmentTicketCards/DepartmentTicketCards'
 import ReportingDateNotification from './ReportingDateNotification'
@@ -94,6 +95,9 @@ const Home = () => {
               </Box>
             </CardContent>
           </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <AnalyticsOverview />
         </Grid>
       </Grid>
       <ReportingDateNotification />

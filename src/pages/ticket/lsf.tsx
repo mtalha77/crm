@@ -18,16 +18,23 @@ const Ticket = () => {
   const router = useRouter()
   const { ticketId } = router.query
   const [apiLoading, setApiLoading] = useState(false)
+  const [update, setUpdate] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
   const defaultValues = async () => {
-    if (!ticketId) return localSeoDefaultValues
+    if (!ticketId) {
+      setUpdate(false)
+      return localSeoDefaultValues
+    }
     try {
       setApiLoading(true)
       const res = await axios.get(`/api/business-ticket/${ticketId}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
+      setUpdate(true)
+      setBusiness_id(res.data.payload.ticket.business_id)
       return mapResponseForLocalSeo(res.data.payload.ticket)
-    } catch (error) {
-      toast.error('Network error. Please refresh the page')
+    } catch (error: any) {
+      toast.error(error?.response?.data)
     } finally {
       setApiLoading(false)
     }
@@ -37,6 +44,7 @@ const Ticket = () => {
 
   const onSubmit = async (data: LocalSeoFormType) => {
     const { business, saleDepart, ticketDetails, localSeoDetails } = data
+    console.log('render')
 
     // Create a new object with the destructured properties
     const depart: any = departments.find((d: any) => d.name === Department.LocalSeo)
@@ -71,28 +79,44 @@ const Ticket = () => {
       website_url: business.website_url,
       work_status: localSeoDetails.work_status,
       gmb_url: localSeoDetails.gmb_url,
-      notes: localSeoDetails.notes
+      notes: localSeoDetails.notes,
+      business_id: business_id,
+      ticketId: ticketId
     }
+    if (update) {
+      const apiUrl = '/api/business-ticket/update'
 
-    const apiUrl = '/api/business-ticket/create'
+      await axios
+        .put(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          toast.success('Ticket updated successfully')
+          // methods.reset(localSeoDefaultValues)
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          toast.error(error?.response?.data || 'Something went wrong')
+        })
+    } else {
+      const apiUrl = '/api/business-ticket/create'
 
-    await axios
-      .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
-      .then(() => {
-        toast.success('Ticket created successfully')
-        methods.reset(localSeoDefaultValues)
-      })
-      .catch(error => {
-        console.error('Error:', error)
-        toast.error(error?.response?.data || 'Something went wrong')
-      })
+      await axios
+        .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          toast.success('Ticket created successfully')
+          methods.reset(localSeoDefaultValues)
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          toast.error(error?.response?.data || 'Something went wrong')
+        })
+    }
   }
 
   return (
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {!apiLoading && <LocalSeoForm />}
+          {!apiLoading && <LocalSeoForm update={update} />}
         </form>
       </FormProvider>
     </>

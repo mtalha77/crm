@@ -13,7 +13,7 @@ const handler = async (req: any, res: any) => {
     const { role } = req.user
 
     if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE))
-      return res.status(403).send({ message: 'Permission denied.Only Admin and Sales can create ticket', payload: {} })
+      return res.status(403).send('Permission denied.Only Admin and Sales can create ticket')
 
     const session = await mongoose.startSession()
     session.startTransaction()

@@ -16,22 +16,20 @@ import DialogActions from '@mui/material/DialogActions'
 
 import Icon from 'src/@core/components/icon'
 import SinglePaymentHistory from '../singlePaymentHistory'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
+import AddNewPayment from '../AddNewPayment'
+import { Slide } from '@mui/material'
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
 ) {
-  return <Fade ref={ref} {...props} />
+  return <Slide direction='up' ref={ref} {...props} />
 })
 
 const PaymentHistoryDialog = (props: any) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  const { payment_history } = props
-  const defaultValues = {}
-  // const schema =
-  // const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+  const { payment_history, ticketId, fetchAgain } = props
 
   return (
     <>
@@ -39,10 +37,11 @@ const PaymentHistoryDialog = (props: any) => {
         Payment history
       </Button>
       <Dialog
-        fullWidth
+        // fullWidth
+        fullScreen
         open={show}
-        maxWidth='md'
-        scroll='body'
+        // maxWidth='md'
+        // scroll='body'
         onClose={() => setShow(false)}
         TransitionComponent={Transition}
         onBackdropClick={() => setShow(false)}
@@ -67,19 +66,16 @@ const PaymentHistoryDialog = (props: any) => {
               Make New Payment
             </Typography>
           </Box>
-          <Grid container spacing={6}>
-            <TextField></TextField>
-          </Grid>
-          <Box sx={{ mb: 8, textAlign: 'center' }}>
+          <AddNewPayment ticketId={ticketId} fetchAgain={fetchAgain} setShow={setShow} />
+          <Box sx={{ textAlign: 'center', mt: '50px' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
               Payment History
             </Typography>
           </Box>
-          <Grid container spacing={6}>
-            {payment_history.map((p: any) => {
-              return <SinglePaymentHistory payment={p} />
-            })}
-          </Grid>
+
+          {payment_history.map((p: any) => {
+            return <SinglePaymentHistory payment={p} ticketId={ticketId} />
+          })}
         </DialogContent>
         <DialogActions
           sx={{
@@ -87,11 +83,7 @@ const PaymentHistoryDialog = (props: any) => {
             px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
-        >
-          <Button variant='contained' sx={{ mr: 2 }} onClick={() => setShow(false)}>
-            Submit
-          </Button>
-        </DialogActions>
+        ></DialogActions>
       </Dialog>
     </>
   )

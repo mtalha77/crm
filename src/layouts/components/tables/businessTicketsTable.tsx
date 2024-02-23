@@ -15,40 +15,44 @@ function BusinessTicketsTable() {
   const { user } = useAuth()
   const router = useRouter()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
+  const fetchData = async () => {
+    try {
+      setIsLoading(true)
 
-        // Make both API requests concurrently
-        const [usersResponse, dataResponse] = await Promise.all([
-          axios.get('/api/user/get-employees-department-wise', {
-            headers: { authorization: localStorage.getItem('token') }
-          }),
-          axios.get('/api/business-ticket/get-all', {
-            headers: { authorization: localStorage.getItem('token') }
-          })
-        ])
+      // Make both API requests concurrently
+      const [usersResponse, dataResponse] = await Promise.all([
+        axios.get('/api/user/get-employees-department-wise', {
+          headers: { authorization: localStorage.getItem('token') }
+        }),
+        axios.get('/api/business-ticket/get-all', {
+          headers: { authorization: localStorage.getItem('token') }
+        })
+      ])
 
-        // Destructure the responses
-        const { data: usersData } = usersResponse
-        const { data: ticketsData } = dataResponse
+      // Destructure the responses
+      const { data: usersData } = usersResponse
+      const { data: ticketsData } = dataResponse
 
-        // Set the state for users and data
-        setEmployees(usersData.payload.users)
-        setData(ticketsData.payload.tickets)
-      } catch (error) {
-        console.error(error)
-        toast.error('Network error. Please refresh the page.')
-      } finally {
-        setIsLoading(false)
-      }
+      // Set the state for users and data
+      setEmployees(usersData.payload.users)
+      setData(ticketsData.payload.tickets)
+    } catch (error) {
+      console.error(error)
+      toast.error('Network error. Please refresh the page.')
+    } finally {
+      setIsLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchData()
   }, [])
 
-  const assignedEmployeeToTicket = async (user_name: string, ticketId: string) => {
+  const fetchAgain = () => {
+    fetchData()
+  }
+
+  const assignedEmployeeToTicket = async (user_name: string | 'Not Assigned', ticketId: string) => {
     const userFound: any = employees.find((e: any) => e.user_name === user_name)
 
     try {
@@ -57,14 +61,14 @@ function BusinessTicketsTable() {
         {
           ticketId,
           user_name,
-          employee_id: userFound._id
+          employee_id: userFound?._id
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
-      toast.success(res.data.message)
+      toast.success(res.data?.message)
     } catch (error: any) {
       console.log(error)
-      toast.error(error.response.data)
+      toast.error(error.response?.data)
     }
   }
 
@@ -95,7 +99,15 @@ function BusinessTicketsTable() {
   }
 
   const columns: any = useMemo(
-    () => businessTicketsColumns(user, employees, assignedEmployeeToTicket, updateTicketStatus, handleTicketEdit),
+    () =>
+      businessTicketsColumns(
+        user,
+        employees,
+        assignedEmployeeToTicket,
+        updateTicketStatus,
+        handleTicketEdit,
+        fetchAgain
+      ),
     [employees]
   )
 

@@ -14,7 +14,7 @@ export const paymentHistorySchema = new mongoose.Schema(
       type: [
         {
           refund_amount: { type: Number, required: true },
-          refund_date: { type: Date, required: true },
+          refund_date: { type: Date, default: Date.now() },
           reason: { type: String, required: false }
         }
       ],

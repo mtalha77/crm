@@ -1,11 +1,11 @@
-import { Autocomplete, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Autocomplete, FormControl, FormHelperText, Grid, TextField } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { LocalSeoFormType } from 'src/interfaces/forms.interface'
-import { LocalSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
-const BusinessDetails = () => {
+const BusinessDetails = (props: any) => {
+  const { update } = props
   const {
     formState: { errors },
     control,
@@ -60,6 +60,7 @@ const BusinessDetails = () => {
               render={({ field }) => (
                 <Autocomplete
                   {...field}
+                  disabled={update}
                   value={data.find((x: any) => x.business_name === field.value) || null}
                   onChange={(e: any, newValue) => {
                     setBusinessValues(newValue)
@@ -75,6 +76,7 @@ const BusinessDetails = () => {
                   renderInput={params => (
                     <TextField
                       {...params}
+                      disabled={update}
                       onChange={e => {
                         field.onChange(e.target.value ? e.target.value : '')
                       }}
@@ -102,6 +104,7 @@ const BusinessDetails = () => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
+                  disabled={update}
                   value={value}
                   label='Business Email'
                   onChange={onChange}
@@ -126,6 +129,7 @@ const BusinessDetails = () => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
+                  disabled={update}
                   value={value}
                   label='Business Number'
                   onChange={onChange}
@@ -150,6 +154,7 @@ const BusinessDetails = () => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
+                  disabled={update}
                   value={value}
                   label='Business Hours'
                   onChange={onChange}
@@ -173,7 +178,13 @@ const BusinessDetails = () => {
               control={control}
               render={({ field }) => (
                 <>
-                  <TextField label='Country' {...field} fullWidth error={Boolean(errors?.business?.country)} />
+                  <TextField
+                    disabled={update}
+                    label='Country'
+                    {...field}
+                    fullWidth
+                    error={Boolean(errors?.business?.country)}
+                  />
                   {errors.business?.country && <FormHelperText>{errors.business.country.message}</FormHelperText>}
                 </>
               )}
@@ -188,7 +199,13 @@ const BusinessDetails = () => {
               control={control}
               render={({ field }) => (
                 <>
-                  <TextField label='State' {...field} error={Boolean(errors?.business?.state)} fullWidth />
+                  <TextField
+                    disabled={update}
+                    label='State'
+                    {...field}
+                    error={Boolean(errors?.business?.state)}
+                    fullWidth
+                  />
                   {errors.business?.state && <FormHelperText>{errors.business.state.message}</FormHelperText>}
                 </>
               )}
@@ -203,7 +220,13 @@ const BusinessDetails = () => {
               control={control}
               render={({ field }) => (
                 <>
-                  <TextField label='Street' {...field} error={Boolean(errors?.business?.street)} fullWidth />
+                  <TextField
+                    disabled={update}
+                    label='Street'
+                    {...field}
+                    error={Boolean(errors?.business?.street)}
+                    fullWidth
+                  />
                   {errors.business?.street && <FormHelperText>{errors.business.street.message}</FormHelperText>}
                 </>
               )}
@@ -218,7 +241,13 @@ const BusinessDetails = () => {
               control={control}
               render={({ field }) => (
                 <>
-                  <TextField label='ZipCode' {...field} error={Boolean(errors?.business?.zip_code)} fullWidth />
+                  <TextField
+                    disabled={update}
+                    label='ZipCode'
+                    {...field}
+                    error={Boolean(errors?.business?.zip_code)}
+                    fullWidth
+                  />
                   {errors.business?.zip_code && <FormHelperText>{errors.business.zip_code.message}</FormHelperText>}
                 </>
               )}
@@ -233,7 +262,13 @@ const BusinessDetails = () => {
               control={control}
               render={({ field }) => (
                 <>
-                  <TextField label='Website URL' {...field} error={Boolean(errors?.business?.website_url)} fullWidth />
+                  <TextField
+                    disabled={update}
+                    label='Website URL'
+                    {...field}
+                    error={Boolean(errors?.business?.website_url)}
+                    fullWidth
+                  />
                   {errors.business?.website_url && (
                     <FormHelperText>{errors.business.website_url.message}</FormHelperText>
                   )}
@@ -251,6 +286,7 @@ const BusinessDetails = () => {
               render={({ field }) => (
                 <>
                   <TextField
+                    disabled={update}
                     label='Social Profile'
                     {...field}
                     error={Boolean(errors?.business?.social_profile)}

@@ -16,13 +16,15 @@ const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
   return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
 })
 
-const TicketDetails = () => {
+const TicketDetails = (props: any) => {
   const {
     formState: { errors },
     control,
     watch,
     setValue
   } = useFormContext<CommonFormType>()
+
+  const { update } = props
 
   const totalPrice = watch('ticketDetails.total_payment')
   const advancePrice = watch('ticketDetails.advance_payment')
@@ -37,75 +39,79 @@ const TicketDetails = () => {
   return (
     <>
       <Grid container spacing={5}>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.ticketDetails?.total_payment}>
-            <Controller
-              name='ticketDetails.total_payment'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField
-                    type='number'
-                    {...field}
-                    label='Price'
-                    error={Boolean(errors?.ticketDetails?.total_payment)}
-                    fullWidth
-                  />
-                  {errors.ticketDetails?.total_payment && (
-                    <FormHelperText>{errors?.ticketDetails?.total_payment?.message}</FormHelperText>
+        {!update && (
+          <>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth error={!!errors.ticketDetails?.total_payment}>
+                <Controller
+                  name='ticketDetails.total_payment'
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <TextField
+                        type='number'
+                        {...field}
+                        label='Price'
+                        error={Boolean(errors?.ticketDetails?.total_payment)}
+                        fullWidth
+                      />
+                      {errors.ticketDetails?.total_payment && (
+                        <FormHelperText>{errors?.ticketDetails?.total_payment?.message}</FormHelperText>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
+                />
+              </FormControl>
+            </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.ticketDetails?.advance_payment}>
-            <Controller
-              name='ticketDetails.advance_payment'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField
-                    type='number'
-                    {...field}
-                    label='Advance'
-                    error={Boolean(errors?.ticketDetails?.advance_payment)}
-                    fullWidth
-                  />
-                  {errors.ticketDetails?.advance_payment && (
-                    <FormHelperText>{errors.ticketDetails.advance_payment.message}</FormHelperText>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth error={!!errors.ticketDetails?.advance_payment}>
+                <Controller
+                  name='ticketDetails.advance_payment'
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <TextField
+                        type='number'
+                        {...field}
+                        label='Advance'
+                        error={Boolean(errors?.ticketDetails?.advance_payment)}
+                        fullWidth
+                      />
+                      {errors.ticketDetails?.advance_payment && (
+                        <FormHelperText>{errors.ticketDetails.advance_payment.message}</FormHelperText>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
+                />
+              </FormControl>
+            </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.ticketDetails?.remaining_payment}>
-            <Controller
-              name='ticketDetails.remaining_payment'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField
-                    type='number'
-                    disabled
-                    {...field}
-                    label='Remaining'
-                    error={Boolean(errors?.ticketDetails?.remaining_payment)}
-                    fullWidth
-                  />
-                  {errors.ticketDetails?.remaining_payment && (
-                    <FormHelperText>{errors.ticketDetails.remaining_payment.message}</FormHelperText>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth error={!!errors.ticketDetails?.remaining_payment}>
+                <Controller
+                  name='ticketDetails.remaining_payment'
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <TextField
+                        type='number'
+                        disabled
+                        {...field}
+                        label='Remaining'
+                        error={Boolean(errors?.ticketDetails?.remaining_payment)}
+                        fullWidth
+                      />
+                      {errors.ticketDetails?.remaining_payment && (
+                        <FormHelperText>{errors.ticketDetails.remaining_payment.message}</FormHelperText>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
+                />
+              </FormControl>
+            </Grid>
+          </>
+        )}
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.ticketDetails?.priority}>

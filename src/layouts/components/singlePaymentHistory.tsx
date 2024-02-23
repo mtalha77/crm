@@ -8,32 +8,24 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import SubmitButton from './newTicketForm/SharedField/FormButton'
 
-interface Refund {
-  refund_amount: number
-  reason?: string
+interface Payment {
   total_payment: number
   advance_payment: number
   remaining_payment: number
+  refund_amount?: number | null
+  reason?: string
 }
 function SinglePaymentHistory(props: any) {
-  const { payment, ticketId } = props
+  const { payment, ticketId, fetchAgain } = props
 
-  const defaultValues: Refund = {
-    refund_amount: 0,
-    reason: '',
+  const defaultValues: Payment = {
     total_payment: payment.total_payment,
     advance_payment: payment.advance_payment,
-    remaining_payment: payment.remaining_payment
+    remaining_payment: payment.remaining_payment,
+    refund_amount: null,
+    reason: ''
   }
-  const schema: yup.ObjectSchema<Refund> = yup.object().shape({
-    refund_amount: yup
-      .number()
-      .transform(value => (Number.isNaN(value) ? null : value))
-      .nullable()
-      .max(1000000000, 'Remaining cannot exceed 1000000000 characters')
-      .min(0, 'Cannot be less than 0')
-      .required('Field is required'),
-    reason: yup.string().max(200, 'reason cannot exceed 200 characters'),
+  const schema: yup.ObjectSchema<Payment> = yup.object().shape({
     total_payment: yup
       .number()
       .transform(value => (Number.isNaN(value) ? null : value))
@@ -52,7 +44,14 @@ function SinglePaymentHistory(props: any) {
       .transform(value => (Number.isNaN(value) ? null : value))
       .nullable()
       .max(1000000000, 'Remaining cannot exceed 1000000000 characters')
-      .required('Remaining is required')
+      .required('Remaining is required'),
+    refund_amount: yup
+      .number()
+      .transform(value => (Number.isNaN(value) ? null : value))
+      .nullable()
+      .max(1000000000, 'Remaining cannot exceed 1000000000 characters')
+      .min(1, 'Cannot be less than 1'),
+    reason: yup.string().max(200, 'reason cannot exceed 200 characters')
   })
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const {
@@ -65,6 +64,7 @@ function SinglePaymentHistory(props: any) {
 
   const totalPrice = watch('total_payment')
   const advancePrice = watch('advance_payment')
+  const refund_amount = watch('refund_amount')
 
   useEffect(() => {
     setValue('remaining_payment', totalPrice - advancePrice, {
@@ -73,8 +73,17 @@ function SinglePaymentHistory(props: any) {
     })
   }, [totalPrice, advancePrice])
 
-  const onSubmit = async (data: Refund) => {
-    const { total_payment, advance_payment, remaining_payment } = data
+  // useEffect(() => {
+  //   if (refund_amount) {
+  //     setValue('advance_payment', advancePrice - refund_amount, {
+  //       shouldValidate: true,
+  //       shouldDirty: true
+  //     })
+  //   }
+  // }, [refund_amount])
+
+  const onSubmit = async (data: Payment) => {
+    const { total_payment, advance_payment, remaining_payment, refund_amount } = data
     const reqData = {
       total_payment,
       advance_payment,
@@ -83,12 +92,12 @@ function SinglePaymentHistory(props: any) {
     try {
       await axios.patch(
         '/api/business-ticket/update-payment',
-        { ticketId, payment: reqData, payemt_id: payment._id },
+        { ticketId, payment: reqData, payment_id: payment._id, refund_amount: refund_amount },
         { headers: { Authorization: localStorage.getItem('token') } }
       )
-      toast.success('Payment added successfully')
+      toast.success('Payment updated successfully')
       // setShow(false)
-      // fetchAgain()
+      fetchAgain()
     } catch (error: any) {
       console.log(error)
       toast.error(error.response?.data)
@@ -170,9 +179,28 @@ function SinglePaymentHistory(props: any) {
             </Grid>
 
             <Grid item sm={3} xs={12}>
-              {/* <Button variant='contained' disabled>
-                Update
-              </Button> */}
+              <FormControl error={!!errors.refund_amount}>
+                <Controller
+                  name='refund_amount'
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <TextField
+                        size='small'
+                        type='number'
+                        {...field}
+                        label='Refund'
+                        error={Boolean(errors?.refund_amount)}
+                        fullWidth
+                      />
+                      {errors.refund_amount && <FormHelperText>{errors.refund_amount.message}</FormHelperText>}
+                    </>
+                  )}
+                />
+              </FormControl>{' '}
+            </Grid>
+
+            <Grid item xs={12}>
               <SubmitButton
                 sx={{ width: '120px' }}
                 beforeText={'update'}
@@ -180,13 +208,6 @@ function SinglePaymentHistory(props: any) {
                 fullWidth
                 variant='contained'
               />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Box sx={{ maxWidth: '320px', display: 'flex', justifyContent: 'space-between' }}>
-                <TextField sx={{ width: '200px' }} type='number' label='Refund Amount' size='small' />
-                <Button variant='contained'>Refund</Button>
-              </Box>
             </Grid>
           </Grid>
         </form>

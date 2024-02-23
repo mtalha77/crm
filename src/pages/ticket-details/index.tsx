@@ -164,11 +164,8 @@ import Fade, { FadeProps } from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
-import { Theme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { MouseEvent, ReactElement, Ref, forwardRef, useState } from 'react'
+import { ReactElement, Ref, forwardRef, useState } from 'react'
 import Icon from 'src/@core/components/icon'
-import { useSettings } from 'src/@core/hooks/useSettings'
 import themeConfig from 'src/configs/themeConfig'
 
 interface DataType {
@@ -193,8 +190,6 @@ const Transition = forwardRef(function Transition(
 const TicketDetailsDialogBox = () => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [sectionToShow, setSectionToShow] = useState<string | null>(null)
   const ticketData = {
     SalesDepart: {
       closer: 'closer name'
@@ -219,29 +214,6 @@ const TicketDetailsDialogBox = () => {
       notes: 'Value 12'
     }
   }
-  // const handleClickOpen = () => {
-  //   setOpen(true)
-  // }
-
-  // const handleClose = () => {
-  //   setOpen(false)
-  // }
-
-  const handleToggleSection = (section: string) => {
-    setSectionToShow(prev => (prev === section ? null : section))
-  }
-
-  // ** Hooks
-  const { settings } = useSettings()
-  const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-
-  // ** Var
-  const { direction } = settings
-
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
   return (
     <Card>
       <CardContent sx={{ textAlign: 'center', '& svg': { mb: 2 } }}>
@@ -285,60 +257,45 @@ const TicketDetailsDialogBox = () => {
           <Box sx={{ maxHeight: 600, overflowY: 'auto' }}>
             <List dense sx={{ py: 4 }}>
               {/* Sales Department */}
-              <Typography
-                variant='h6'
-                sx={{ mb: 2, textAlign: 'center' }}
-                onClick={() => handleToggleSection('SalesDepart')}
-              >
+              <Typography variant='h6' sx={{ mb: 2, textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Icon icon='foundation:burst-sale' style={{ marginRight: '3px', fontSize: '30px' }} /> Sales
                   Department
                 </div>
               </Typography>
               <Divider />
-              {sectionToShow === 'SalesDepart' &&
-                Object.entries(ticketData.SalesDepart).map(([key, value]) => (
-                  <ListItem key={key} style={{ textAlign: 'center' }}>
-                    <ListItemText primary={`${key}: ${value}`} />
-                  </ListItem>
-                ))}
+              {Object.entries(ticketData.SalesDepart).map(([key, value]) => (
+                <ListItem key={key} style={{ textAlign: 'center' }}>
+                  <ListItemText primary={`${key}: ${value}`} />
+                </ListItem>
+              ))}
 
               {/* Ticket Details */}
-              <Typography
-                variant='h6'
-                sx={{ mb: 2, textAlign: 'center' }}
-                onClick={() => handleToggleSection('ticketDetails')}
-              >
+              <Typography variant='h6' sx={{ mb: 2, textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Icon icon='bxs:message-rounded-detail' style={{ marginRight: '3px', fontSize: '25px' }} />
                   Ticket Details
                 </div>
               </Typography>
               <Divider />
-              {sectionToShow === 'ticketDetails' &&
-                Object.entries(ticketData.ticketDetails).map(([key, value]) => (
-                  <ListItem key={key} style={{ textAlign: 'center' }}>
-                    <ListItemText primary={`${key}: ${value}`} />
-                  </ListItem>
-                ))}
+              {Object.entries(ticketData.ticketDetails).map(([key, value]) => (
+                <ListItem key={key} style={{ textAlign: 'center' }}>
+                  <ListItemText primary={`${key}: ${value}`} />
+                </ListItem>
+              ))}
               {/* Business Details */}
-              <Typography
-                variant='h6'
-                sx={{ mb: 2, textAlign: 'center' }}
-                onClick={() => handleToggleSection('business')}
-              >
+              <Typography variant='h6' sx={{ mb: 2, textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Icon icon='mdi:business-card' style={{ marginRight: '3px', fontSize: '25px' }} />
                   Business Details
                 </div>
               </Typography>
               <Divider />
-              {sectionToShow === 'business' &&
-                Object.entries(ticketData.business).map(([key, value]) => (
-                  <ListItem key={key} style={{ textAlign: 'center' }}>
-                    <ListItemText primary={`${key}: ${value}`} />
-                  </ListItem>
-                ))}
+              {Object.entries(ticketData.business).map(([key, value]) => (
+                <ListItem key={key} style={{ textAlign: 'center' }}>
+                  <ListItemText primary={`${key}: ${value}`} />
+                </ListItem>
+              ))}
             </List>
           </Box>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>

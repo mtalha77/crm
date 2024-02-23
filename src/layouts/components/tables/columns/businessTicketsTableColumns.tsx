@@ -13,7 +13,8 @@ const businessTicketsColumns: any = (
   employees: any,
   assignedEmployeeToTicket: any,
   updateTicketStatus: any,
-  handleTicketEdit: any
+  handleTicketEdit: any,
+  fetchAgain: any
 ) => [
   {
     header: 'Business Name',
@@ -113,9 +114,10 @@ const businessTicketsColumns: any = (
     accessorKey: 'payment_history',
     Cell: ({ cell }: any) => {
       const value = cell.getValue()
+      const { _id } = cell.row.original
       return (
         <>
-          <PaymentHistoryDialog payment_history={value} />
+          <PaymentHistoryDialog payment_history={value} ticketId={_id} fetchAgain={fetchAgain} />
         </>
       )
     }

@@ -9,40 +9,15 @@ import MuiTable from './MuiTable'
 import businessTicketsColumns from './columns/businessTicketsTableColumns'
 import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
 import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
-
+let filteredData: any = []
 function BusinessTicketsTable() {
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
-  const [selectedDepartment, setSelectedDepartment] = useState('')
   const [businessList, setBusinessList] = useState([])
-  const [selectedBusiness, setSelectedBusiness] = useState('')
-  const [selectedStatus, setSelectedStatus] = useState('')
-  const [filteredData, setFilteredData] = useState([])
 
-  useEffect(() => {
-    setFilteredData(data)
-  }, [data])
-
-  if (selectedDepartment && selectedDepartment !== 'All') {
-    filteredData = filteredData.filter((d: any) => {
-      return d?.assignee_depart_name === selectedDepartment
-    })
-  }
-
-  if (selectedBusiness && selectedBusiness !== 'All') {
-    filteredData = filteredData.filter((d: any) => {
-      return d?.business_id?.business_name === selectedBusiness
-    })
-  }
-
-  if (selectedStatus && selectedStatus !== 'All') {
-    filteredData = filteredData.filter((d: any) => {
-      return d?.status === selectedStatus
-    })
-  }
   const fetchData = async () => {
     try {
       setIsLoading(true)
@@ -74,10 +49,12 @@ function BusinessTicketsTable() {
 
   const fetchBusinesses = async () => {
     try {
-      const res = await axios.get('/api/business/get-all', {
+      const res = await axios.get('/api/business/get-all-names', {
         headers: { authorization: localStorage.getItem('token') }
       })
-      setBusinessList(res.data?.payload?.businesses)
+      setBusinessList(() => {
+        return res.data?.payload?.businesses.map((b: any) => b.business_name)
+      })
     } catch (error) {
       console.error(error)
     }
@@ -138,12 +115,6 @@ function BusinessTicketsTable() {
     })
   }
 
-  const handleClear = () => {
-    setSelectedBusiness('')
-    setSelectedDepartment('')
-    setSelectedStatus('')
-  }
-
   const columns: any = useMemo(
     () =>
       businessTicketsColumns(
@@ -152,14 +123,15 @@ function BusinessTicketsTable() {
         assignedEmployeeToTicket,
         updateTicketStatus,
         handleTicketEdit,
-        fetchAgain
+        fetchAgain,
+        businessList
       ),
-    [employees]
+    [employees, businessList]
   )
 
   return (
     <>
-      <Card sx={{ mb: 8 }}>
+      {/* <Card sx={{ mb: 8 }}>
         <CardHeader title='Filters' />
         <CardContent>
           <Grid container spacing={0}>
@@ -251,9 +223,9 @@ function BusinessTicketsTable() {
             </Grid>
           </Grid>
         </CardContent>
-      </Card>
+      </Card> */}
       <MuiTable
-        data={filteredData}
+        data={data}
         columns={columns}
         options={{
           state: {

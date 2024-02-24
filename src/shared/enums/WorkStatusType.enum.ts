@@ -20,8 +20,8 @@ export enum SocialMediaWorkStatus {
 
 export enum WebSeoWorkStatus {
   ON_PAGE = 'On Page',
-  BACK_LINKS = 'Back Links',
-  EXTRA_LINKS = 'Extra Links',
+  BACK_LINKS = 'Backlinks',
+  EXTRA_LINKS = 'Extra Backlinks',
   PAID_GUEST_POSTING = 'Paid Guest Posting',
   MONTHLY_SEO = 'Monthly SEO'
 }

@@ -20,7 +20,8 @@ export const webSeoYupSchema: yup.ObjectSchema<WebSeoFormType> = yup.object().sh
     zip_code: yup.string().max(200, 'Zip Code cannot exceed 200 characters'),
     street: yup.string().max(200, 'Street cannot exceed 200 characters'),
     website_url: yup.string().max(200, 'Website URL cannot exceed 200 characters'),
-    social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters')
+    social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters'),
+    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters')
   }),
   saleDepart: yup.object().shape({
     fronter: yup
@@ -74,7 +75,6 @@ export const webSeoYupSchema: yup.ObjectSchema<WebSeoFormType> = yup.object().sh
     client_reporting_date: yup.date().nullable()
   }),
   webSeoDetails: yup.object().shape({
-    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters'),
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
     service_name: yup.string().max(200, 'Notes cannot exceed 200 characters'),
     service_area: yup.string().max(200, 'Notes cannot exceed 200 characters'),
@@ -84,6 +84,9 @@ export const webSeoYupSchema: yup.ObjectSchema<WebSeoFormType> = yup.object().sh
     key_words: yup.string().max(200, 'key words cannot exceed 200 characters'),
     login_credentials: yup.string().max(200, 'login credentials cannot exceed 200 characters'),
     console_access: yup.string().max(200, 'console access cannot exceed 200 characters'),
-    analytics_access: yup.string().max(200, 'analytics access cannot exceed 200 characters')
+    analytics_access: yup.string().max(200, 'analytics access cannot exceed 200 characters'),
+    no_of_backlinks: yup.string().max(200, 'no of backlinks access cannot exceed 200 characters'),
+    no_of_posts: yup.string().max(200, 'no of posts access cannot exceed 200 characters'),
+    no_of_blogs: yup.string().max(200, 'no of blogs access cannot exceed 200 characters')
   })
 })

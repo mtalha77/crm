@@ -104,23 +104,6 @@ const WordPressSpecificDetails = () => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.wordPressDetails?.gmb_url}>
-            <Controller
-              name='wordPressDetails.gmb_url'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField label='GMB URL' {...field} error={Boolean(errors?.wordPressDetails?.gmb_url)} fullWidth />
-                  {errors.wordPressDetails?.gmb_url && (
-                    <FormHelperText>{errors.wordPressDetails.gmb_url.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.wordPressDetails?.notes}>
             <Controller
               name='wordPressDetails.notes'

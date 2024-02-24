@@ -57,7 +57,8 @@ const Ticket = () => {
       ad_account_access: paidMarketingDetails.ad_account_access,
       budget: paidMarketingDetails.budget,
       budget_price: paidMarketingDetails.budget_price,
-      clients_objectives: paidMarketingDetails.clients_objectives
+      clients_objectives: paidMarketingDetails.clients_objectives,
+      platform_name: paidMarketingDetails.platform_name
     }
 
     const apiUrl = '/api/business-ticket/create'

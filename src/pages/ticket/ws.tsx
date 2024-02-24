@@ -52,14 +52,17 @@ const Ticket = () => {
       social_profile: business.social_profile,
       website_url: business.website_url,
       work_status: webSeoDetails.work_status,
-      gmb_url: webSeoDetails.gmb_url,
+      gmb_url: business.gmb_url,
       notes: webSeoDetails.notes,
       service_name: webSeoDetails.service_name,
       service_location: webSeoDetails.service_location,
       key_words: webSeoDetails.key_words,
       login_credentials: webSeoDetails.login_credentials,
       console_access: webSeoDetails.console_access,
-      analytics_access: webSeoDetails.analytics_access
+      analytics_access: webSeoDetails.analytics_access,
+      no_of_backlinks: webSeoDetails.no_of_backlinks,
+      no_of_posts: webSeoDetails.no_of_posts,
+      no_of_blogs: webSeoDetails.no_of_blogs
     }
 
     const apiUrl = '/api/business-ticket/create'

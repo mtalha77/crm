@@ -2,14 +2,16 @@ import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextFi
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { PaidMarketingFormType } from 'src/interfaces/forms.interface'
-import { PaidMarketingWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { PaidMarketingWorkStatus, PaidMarketingWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const PaidMarketingSpecificDetails = () => {
   const {
     formState: { errors },
-    control
+    control,
+    watch
   } = useFormContext<PaidMarketingFormType>()
 
+  const workStatus = watch('paidMarketingDetails.work_status')
   return (
     <>
       <Grid container spacing={5}>
@@ -195,6 +197,30 @@ const PaidMarketingSpecificDetails = () => {
             />
           </FormControl>
         </Grid>
+        {workStatus === PaidMarketingWorkStatus.OTHERS && (
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth error={!!errors.paidMarketingDetails?.platform_name}>
+              <Controller
+                name='paidMarketingDetails.platform_name'
+                control={control}
+                rules={{ required: 'Website URL is required' }}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      label='Platform Name'
+                      {...field}
+                      error={Boolean(errors?.paidMarketingDetails?.platform_name)}
+                      fullWidth
+                    />
+                    {errors.paidMarketingDetails?.platform_name && (
+                      <FormHelperText>{errors.paidMarketingDetails.platform_name.message}</FormHelperText>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+        )}
       </Grid>
     </>
   )

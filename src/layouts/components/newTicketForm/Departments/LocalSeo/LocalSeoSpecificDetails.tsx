@@ -39,22 +39,6 @@ const LocalSeoSpecificDetails = () => {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.localSeoDetails?.gmb_url}>
-            <Controller
-              name='localSeoDetails.gmb_url'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField label='GMB URL' {...field} error={Boolean(errors?.localSeoDetails?.gmb_url)} fullWidth />
-                  {errors.localSeoDetails?.gmb_url && (
-                    <FormHelperText>{errors.localSeoDetails.gmb_url.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.localSeoDetails?.notes}>

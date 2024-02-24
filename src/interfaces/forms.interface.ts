@@ -9,6 +9,7 @@ export interface BusinessDetails {
   street?: string
   website_url?: string
   social_profile?: string
+  gmb_url?: string
 }
 
 export interface SaleDepartDetails {
@@ -29,7 +30,6 @@ export interface TicketDetails {
 }
 
 export interface LocalSeoDetails {
-  gmb_url?: string
   notes?: string
   work_status: string
 }
@@ -38,13 +38,11 @@ export interface WordPressDetails {
   service_name?: string
   service_area?: string
   referral_website?: string
-  gmb_url?: string
   notes?: string
   work_status: string
 }
 
 export interface WebSeoDetails {
-  gmb_url?: string
   notes?: string
   work_status: string
   service_name?: string
@@ -53,6 +51,9 @@ export interface WebSeoDetails {
   login_credentials?: string
   console_access?: string
   analytics_access?: string
+  no_of_backlinks?: string
+  no_of_posts?: string
+  no_of_blogs?: string
 }
 
 export interface PaidMarketingDetails {
@@ -64,15 +65,19 @@ export interface PaidMarketingDetails {
   clients_objectives?: string
   notes?: string
   work_status: string
+  platform_name?: string
 }
 
 export interface SocialMediaDetails {
   service_name?: string
   facebook_url?: string
-  gmb_url?: string
   login_credentials?: string
   notes?: string
   work_status: string
+  platform_name?: string
+  no_of_likes?: string
+  no_of_gmb_reviews?: string
+  no_of_posts?: string
 }
 export interface CommonFormType {
   business: BusinessDetails
@@ -128,7 +133,6 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     client_reporting_date: null
   },
   localSeoDetails: {
-    gmb_url: '',
     notes: '',
     work_status: ''
   }
@@ -166,7 +170,6 @@ export const wordPressDefaultValues: WordPressFormType = {
     service_name: '',
     service_area: '',
     referral_website: '',
-    gmb_url: '',
     notes: '',
     work_status: ''
   }
@@ -202,14 +205,16 @@ export const webSeoDefaultValues: WebSeoFormType = {
   },
   webSeoDetails: {
     service_name: '',
-    gmb_url: '',
     notes: '',
     work_status: '',
     service_location: '',
     key_words: '',
     login_credentials: '',
     console_access: '',
-    analytics_access: ''
+    analytics_access: '',
+    no_of_backlinks: '',
+    no_of_posts: '',
+    no_of_blogs: ''
   }
 }
 
@@ -249,7 +254,8 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     budget_price: 0,
     clients_objectives: '',
     notes: '',
-    work_status: ''
+    work_status: '',
+    platform_name: ''
   }
 }
 
@@ -284,9 +290,12 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
   socialMediaFormTypeDetails: {
     service_name: '',
     facebook_url: '',
-    gmb_url: '',
     login_credentials: '',
     notes: '',
-    work_status: ''
+    work_status: '',
+    platform_name: '',
+    no_of_likes: '',
+    no_of_gmb_reviews: '',
+    no_of_posts: ''
   }
 }

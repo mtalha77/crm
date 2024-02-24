@@ -53,11 +53,15 @@ const Ticket = () => {
       social_profile: business.social_profile,
       website_url: business.website_url,
       work_status: socialMediaFormTypeDetails.work_status,
-      gmb_url: socialMediaFormTypeDetails.gmb_url,
+      gmb_url: business.gmb_url,
       notes: socialMediaFormTypeDetails.notes,
       service_name: socialMediaFormTypeDetails.service_name,
       login_credentials: socialMediaFormTypeDetails.login_credentials,
-      facebook_url: socialMediaFormTypeDetails.facebook_url
+      facebook_url: socialMediaFormTypeDetails.facebook_url,
+      platform_name: socialMediaFormTypeDetails.platform_name,
+      no_of_likes: socialMediaFormTypeDetails.no_of_likes,
+      no_of_gmb_reviews: socialMediaFormTypeDetails.no_of_gmb_reviews,
+      no_of_posts: socialMediaFormTypeDetails.no_of_posts
     }
 
     const apiUrl = '/api/business-ticket/create'

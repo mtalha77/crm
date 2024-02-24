@@ -13,6 +13,8 @@ const businessSchema = new mongoose.Schema(
     zip_code: { type: String, required: false },
     social_profile: { type: String, required: false },
     website_url: { type: String, required: false },
+    gmb_url: { type: String, required: false, trim: true },
+
     work_status: [
       {
         type: String,

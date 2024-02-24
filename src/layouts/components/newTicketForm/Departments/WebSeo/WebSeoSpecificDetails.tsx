@@ -2,13 +2,16 @@ import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextFi
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { WebSeoFormType } from 'src/interfaces/forms.interface'
-import { WebSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { WebSeoWorkStatus, WebSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const WebSeoSpecificDetails = () => {
   const {
     formState: { errors },
-    control
+    control,
+    watch
   } = useFormContext<WebSeoFormType>()
+
+  const workStatus = watch('webSeoDetails.work_status')
 
   return (
     <>
@@ -155,23 +158,6 @@ const WebSeoSpecificDetails = () => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.webSeoDetails?.gmb_url}>
-            <Controller
-              name='webSeoDetails.gmb_url'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField label='GMB URL' {...field} error={Boolean(errors?.webSeoDetails?.gmb_url)} fullWidth />
-                  {errors.webSeoDetails?.gmb_url && (
-                    <FormHelperText>{errors.webSeoDetails.gmb_url.message}</FormHelperText>
-                  )}
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.webSeoDetails?.notes}>
             <Controller
               name='webSeoDetails.notes'
@@ -185,6 +171,74 @@ const WebSeoSpecificDetails = () => {
             />
           </FormControl>
         </Grid>
+
+        {workStatus === WebSeoWorkStatus.BACK_LINKS || workStatus === WebSeoWorkStatus.EXTRA_LINKS ? (
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth error={!!errors.webSeoDetails?.no_of_backlinks}>
+              <Controller
+                name='webSeoDetails.no_of_backlinks'
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      label='No of backlinks'
+                      {...field}
+                      error={Boolean(errors?.webSeoDetails?.no_of_backlinks)}
+                      fullWidth
+                    />
+                    {errors.webSeoDetails?.no_of_backlinks && (
+                      <FormHelperText>{errors.webSeoDetails.no_of_backlinks.message}</FormHelperText>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+        ) : workStatus === WebSeoWorkStatus.PAID_GUEST_POSTING ? (
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth error={!!errors.webSeoDetails?.no_of_posts}>
+              <Controller
+                name='webSeoDetails.no_of_posts'
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      label='No of posts'
+                      {...field}
+                      error={Boolean(errors?.webSeoDetails?.no_of_posts)}
+                      fullWidth
+                    />
+                    {errors.webSeoDetails?.no_of_posts && (
+                      <FormHelperText>{errors.webSeoDetails.no_of_posts.message}</FormHelperText>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+        ) : workStatus === WebSeoWorkStatus.MONTHLY_SEO ? (
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth error={!!errors.webSeoDetails?.no_of_blogs}>
+              <Controller
+                name='webSeoDetails.no_of_blogs'
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      label='No of blogs'
+                      {...field}
+                      error={Boolean(errors?.webSeoDetails?.no_of_blogs)}
+                      fullWidth
+                    />
+                    {errors.webSeoDetails?.no_of_blogs && (
+                      <FormHelperText>{errors.webSeoDetails.no_of_blogs.message}</FormHelperText>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+        ) : null}
       </Grid>
     </>
   )

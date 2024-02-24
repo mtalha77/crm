@@ -20,7 +20,8 @@ export const socialMediaYupSchema: yup.ObjectSchema<SocialMediaFormType> = yup.o
     zip_code: yup.string().max(200, 'Zip Code cannot exceed 200 characters'),
     street: yup.string().max(200, 'Street cannot exceed 200 characters'),
     website_url: yup.string().max(200, 'Website URL cannot exceed 200 characters'),
-    social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters')
+    social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters'),
+    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters')
   }),
   saleDepart: yup.object().shape({
     fronter: yup
@@ -74,11 +75,14 @@ export const socialMediaYupSchema: yup.ObjectSchema<SocialMediaFormType> = yup.o
     client_reporting_date: yup.date().nullable()
   }),
   socialMediaFormTypeDetails: yup.object().shape({
-    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters'),
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
     work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required'),
     facebook_url: yup.string().max(200, 'facebook url cannot exceed 200 characters'),
     service_name: yup.string().max(200, 'service name cannot exceed 200 characters'),
-    login_credentials: yup.string().max(200, 'login credentials cannot exceed 200 characters')
+    login_credentials: yup.string().max(200, 'login credentials cannot exceed 200 characters'),
+    platform_name: yup.string().max(200, 'platform name cannot exceed 200 characters'),
+    no_of_likes: yup.string().max(200, 'no_of_likes cannot exceed 200 characters'),
+    no_of_gmb_reviews: yup.string().max(200, 'no_of_gmb_reviews cannot exceed 200 characters'),
+    no_of_posts: yup.string().max(200, 'no_of_posts cannot exceed 200 characters')
   })
 })

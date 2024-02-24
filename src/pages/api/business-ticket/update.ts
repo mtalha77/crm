@@ -28,19 +28,7 @@ const handler = async (req: any, res: any) => {
         closer_id,
         sales_type,
         notes,
-        payment_history,
-        business_name,
-        business_number,
-        business_hours,
-        business_email,
-        state,
-        country,
-        street,
-        zip_code,
-        social_profile,
-        website_url,
         work_status,
-        gmb_url,
         service_name,
         service_area,
         referral_website,
@@ -55,6 +43,12 @@ const handler = async (req: any, res: any) => {
         budget_price,
         clients_objectives,
         facebook_url,
+        no_of_backlinks,
+        no_of_posts,
+        no_of_blogs,
+        platform_name,
+        no_of_likes,
+        no_of_gmb_reviews,
         ticketId,
         business_id
       } = req.body
@@ -64,8 +58,6 @@ const handler = async (req: any, res: any) => {
         !due_date ||
         !closer ||
         !sales_type ||
-        !business_name ||
-        !business_email ||
         !closer_id ||
         !work_status ||
         !business_id ||
@@ -75,11 +67,6 @@ const handler = async (req: any, res: any) => {
 
       if (sales_type === SaleType.NEW_SALE) if (!fronter || !fronter_id) return res.status(400).send('Network Error')
 
-      // if (business_name) {
-      //   // check business name already exists
-      //   const business = await BusinessModel.exists({ business_name: business_name, _id: { $ne: business_id } })
-      //   if (business) return res.status(400).send('Business already exists with this business name.')
-      // }
       if (work_status) {
         const ticketExists = await BusinessTicketModel.exists({
           business_id: business_id,
@@ -89,7 +76,6 @@ const handler = async (req: any, res: any) => {
 
         if (ticketExists) return res.status(400).send('This Business already exists with this work status.')
       }
-      // await BusinessModel.updateOne({ _id: business_id }, { $addToSet: { work_status: work_status } }, { session })
 
       const deletedTicket = await BusinessTicketModel.findOneAndDelete({ _id: ticketId }, { session })
       if (!deletedTicket) throw new Error('Something went wrong')
@@ -113,7 +99,6 @@ const handler = async (req: any, res: any) => {
         notes: notes,
         work_status: work_status,
         closer_id: closer_id,
-        gmb_url: gmb_url,
         service_name: service_name,
         service_area: service_area,
         referral_website: referral_website,
@@ -127,7 +112,13 @@ const handler = async (req: any, res: any) => {
         budget: budget,
         budget_price: budget_price,
         clients_objectives: clients_objectives,
-        facebook_url: facebook_url
+        facebook_url: facebook_url,
+        no_of_backlinks,
+        no_of_posts,
+        no_of_blogs,
+        platform_name,
+        no_of_likes,
+        no_of_gmb_reviews
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

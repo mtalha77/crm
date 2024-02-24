@@ -20,7 +20,8 @@ export const localSeoYupSchema: yup.ObjectSchema<LocalSeoFormType> = yup.object(
     zip_code: yup.string().max(200, 'Zip Code cannot exceed 200 characters'),
     street: yup.string().max(200, 'Street cannot exceed 200 characters'),
     website_url: yup.string().max(200, 'Website URL cannot exceed 200 characters'),
-    social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters')
+    social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters'),
+    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters')
   }),
   saleDepart: yup.object().shape({
     fronter: yup
@@ -74,7 +75,6 @@ export const localSeoYupSchema: yup.ObjectSchema<LocalSeoFormType> = yup.object(
     client_reporting_date: yup.date().nullable()
   }),
   localSeoDetails: yup.object().shape({
-    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters'),
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
     work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required')
   })

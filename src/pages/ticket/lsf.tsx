@@ -44,7 +44,6 @@ const Ticket = () => {
 
   const onSubmit = async (data: LocalSeoFormType) => {
     const { business, saleDepart, ticketDetails, localSeoDetails } = data
-    console.log('render')
 
     // Create a new object with the destructured properties
     const depart: any = departments.find((d: any) => d.name === Department.LocalSeo)
@@ -77,8 +76,8 @@ const Ticket = () => {
       zip_code: business.zip_code,
       social_profile: business.social_profile,
       website_url: business.website_url,
+      gmb_url: business.gmb_url,
       work_status: localSeoDetails.work_status,
-      gmb_url: localSeoDetails.gmb_url,
       notes: localSeoDetails.notes,
       business_id: business_id,
       ticketId: ticketId
@@ -90,7 +89,6 @@ const Ticket = () => {
         .put(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
         .then(() => {
           toast.success('Ticket updated successfully')
-          // methods.reset(localSeoDefaultValues)
         })
         .catch(error => {
           console.error('Error:', error)

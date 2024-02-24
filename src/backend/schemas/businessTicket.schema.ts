@@ -58,9 +58,6 @@ const businessTicketSchema = new mongoose.Schema(
     work_status: { type: String, required: true, enum: WorkStatusValues },
     payment_history: { type: [paymentHistorySchema], required: true, ref: 'PaymentHistory' },
     notes: { type: String, required: false, default: '', trim: true },
-    gmb_url: { type: String, required: false, trim: true },
-    social_profile: { type: String, required: false, trim: true },
-    website_url: { type: String, required: false, trim: true },
     service_name: { type: String, required: false, trim: true },
     service_area: { type: String, required: false, trim: true },
     referral_website: { type: String, required: false, trim: true },
@@ -74,7 +71,13 @@ const businessTicketSchema = new mongoose.Schema(
     budget: { type: String, required: false, trim: true },
     budget_price: { type: Number, required: false },
     clients_objectives: { type: String, required: false, trim: true },
-    facebook_url: { type: String, required: false, trim: true }
+    facebook_url: { type: String, required: false, trim: true },
+    no_of_backlinks: { type: String, required: false, trim: true },
+    no_of_posts: { type: String, required: false, trim: true },
+    no_of_blogs: { type: String, required: false, trim: true },
+    platform_name: { type: String, required: false, trim: true },
+    no_of_likes: { type: String, required: false, trim: true },
+    no_of_gmb_reviews: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

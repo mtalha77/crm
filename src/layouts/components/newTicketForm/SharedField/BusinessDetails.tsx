@@ -300,6 +300,27 @@ const BusinessDetails = (props: any) => {
             />
           </FormControl>
         </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.business?.gmb_url}>
+            <Controller
+              name='business.gmb_url'
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    disabled={update}
+                    label='Gmb Url'
+                    {...field}
+                    error={Boolean(errors?.business?.gmb_url)}
+                    fullWidth
+                  />
+                  {errors.business?.gmb_url && <FormHelperText>{errors.business.gmb_url.message}</FormHelperText>}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
       </Grid>
     </div>
   )

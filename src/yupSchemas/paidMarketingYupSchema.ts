@@ -85,6 +85,7 @@ export const paidMarketingYupSchema: yup.ObjectSchema<PaidMarketingFormType> = y
       .transform(value => (Number.isNaN(value) ? null : value))
       .nullable()
       .max(1000000000, 'budget price cannot exceed 1000000000 characters'),
-    clients_objectives: yup.string().max(200, 'clients objectives cannot exceed 200 characters')
+    clients_objectives: yup.string().max(200, 'clients objectives cannot exceed 200 characters'),
+    platform_name: yup.string().max(200, 'platform name cannot exceed 200 characters')
   })
 })

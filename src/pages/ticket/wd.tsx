@@ -53,7 +53,7 @@ const Ticket = () => {
       social_profile: business.social_profile,
       website_url: business.website_url,
       work_status: wordPressDetails.work_status,
-      gmb_url: wordPressDetails.gmb_url,
+      gmb_url: business.gmb_url,
       notes: wordPressDetails.notes,
       service_name: wordPressDetails.service_name,
       service_area: wordPressDetails.service_area,

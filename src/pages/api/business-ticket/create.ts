@@ -56,7 +56,13 @@ const handler = async (req: any, res: any) => {
         budget,
         budget_price,
         clients_objectives,
-        facebook_url
+        facebook_url,
+        no_of_backlinks,
+        no_of_posts,
+        no_of_blogs,
+        platform_name,
+        no_of_likes,
+        no_of_gmb_reviews
       } = req.body
       if (
         !assignee_depart_id ||
@@ -94,7 +100,8 @@ const handler = async (req: any, res: any) => {
             zip_code,
             social_profile,
             website_url,
-            work_status: [work_status]
+            work_status: [work_status],
+            gmb_url
           },
           session
         )
@@ -119,7 +126,6 @@ const handler = async (req: any, res: any) => {
         payment_history,
         work_status,
         closer_id,
-        gmb_url,
         service_name,
         service_area,
         referral_website,
@@ -133,7 +139,13 @@ const handler = async (req: any, res: any) => {
         budget,
         budget_price,
         clients_objectives,
-        facebook_url
+        facebook_url,
+        no_of_backlinks,
+        no_of_posts,
+        no_of_blogs,
+        platform_name,
+        no_of_likes,
+        no_of_gmb_reviews
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

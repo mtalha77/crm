@@ -12,7 +12,7 @@ const handler = async (req: any, res: any) => {
       const { ticketId, employee_id, user_name } = req.body
       if (!ticketId) return res.status(400).send('Fields Missing')
       let msg = ''
-      if (user_name === 'Not Assigned') {
+      if (!user_name) {
         const result = await BusinessTicketModel.findByIdAndUpdate(ticketId, {
           $unset: {
             assignee_employee_id: 1

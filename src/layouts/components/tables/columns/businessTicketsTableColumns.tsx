@@ -16,7 +16,8 @@ const businessTicketsColumns: any = (
   updateTicketStatus: any,
   handleTicketEdit: any,
   fetchAgain: any,
-  businessList: any
+  businessList: any,
+  handleView: any
 ) => {
   return [
     {
@@ -138,7 +139,12 @@ const businessTicketsColumns: any = (
         return (
           <>
             <Tooltip title='View'>
-              <Icon style={{ cursor: 'pointer' }}>
+              <Icon
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  handleView(_id, assignee_depart_name)
+                }}
+              >
                 <VisibilityIcon />
               </Icon>
             </Tooltip>

@@ -71,7 +71,7 @@ const handler = async (req: any, res: any) => {
         const ticketExists = await BusinessTicketModel.exists({
           business_id: business_id,
           work_status: work_status,
-          _id: { $ne: ticketId }
+          _id: { $ne: new mongoose.Types.ObjectId(ticketId) }
         })
 
         if (ticketExists) return res.status(400).send('This Business already exists with this work status.')

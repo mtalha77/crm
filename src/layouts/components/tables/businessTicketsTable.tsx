@@ -115,6 +115,13 @@ function BusinessTicketsTable() {
     })
   }
 
+  const handleView = (ticketId: string, department: string) => {
+    router.push({
+      pathname: '/view-ticket',
+      query: { ticketId, depart: department }
+    })
+  }
+
   const columns: any = useMemo(
     () =>
       businessTicketsColumns(
@@ -124,7 +131,8 @@ function BusinessTicketsTable() {
         updateTicketStatus,
         handleTicketEdit,
         fetchAgain,
-        businessList
+        businessList,
+        handleView
       ),
     [employees, businessList]
   )

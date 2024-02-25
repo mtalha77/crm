@@ -85,6 +85,7 @@ const PaidMarketingFormComponent = () => {
       budget_price: paidMarketingDetails.budget_price,
       clients_objectives: paidMarketingDetails.clients_objectives,
       platform_name: paidMarketingDetails.platform_name,
+      service_location: paidMarketingDetails.location,
       business_id,
       ticketId
     }

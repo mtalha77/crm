@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import Link from 'next/link'
 import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
+import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 
 const businessTicketsColumns: any = (
   user: UserDataType,
@@ -138,16 +139,7 @@ const businessTicketsColumns: any = (
         const { assignee_depart_name, _id } = cell.row.original
         return (
           <>
-            <Tooltip title='View'>
-              <Icon
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  handleView(_id, assignee_depart_name)
-                }}
-              >
-                <VisibilityIcon />
-              </Icon>
-            </Tooltip>
+            <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} />
             <Tooltip title='Edit'>
               <Icon
                 style={{ marginLeft: 15, cursor: 'pointer' }}

@@ -22,7 +22,7 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
-      title: 'New Ticket',
+      title: 'Create Ticket',
       icon: 'mdi-ticket-confirmation-outline',
       children: [
         { title: 'Local SEO / GMB Optimization', path: '/ticket-create/localSeo' },
@@ -43,6 +43,11 @@ const navigation = (): VerticalNavItemsType => {
     {
       path: '/view-tickets',
       title: 'View Tickets',
+      icon: 'mdi:shield-outline'
+    },
+    {
+      path: '/view-businesses',
+      title: 'View Businesses',
       icon: 'mdi:shield-outline'
     }
   ]

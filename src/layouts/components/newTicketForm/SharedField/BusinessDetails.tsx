@@ -2,7 +2,7 @@ import { Autocomplete, FormControl, FormHelperText, Grid, TextField } from '@mui
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { LocalSeoFormType } from 'src/interfaces/forms.interface'
+import { CommonFormType } from 'src/interfaces/forms.interface'
 
 const BusinessDetails = (props: any) => {
   const { update } = props
@@ -10,7 +10,7 @@ const BusinessDetails = (props: any) => {
     formState: { errors },
     control,
     setValue
-  } = useFormContext<LocalSeoFormType>()
+  } = useFormContext<CommonFormType>()
 
   const [data, setData] = useState([])
 

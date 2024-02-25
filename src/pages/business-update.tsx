@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 import { mapResponseForBusiness } from 'src/utils/mapResponseForBusiness'
 import SubmitButton from 'src/layouts/components/newTicketForm/SharedField/FormButton'
 import { Card, CardContent, CardHeader, Typography } from '@mui/material'
+import BusinessDetailsUpdate from 'src/layouts/components/BusinessDetailsUpdate'
 
 function BusinessUpdate() {
   const router = useRouter()
@@ -30,14 +31,14 @@ function BusinessUpdate() {
   }
 
   const defaultValues = async () => {
-    if (!businessId) return defaultValuesI
     try {
       setApiLoading(true)
       const res = await axios.get(`/api/business/${businessId}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
-      return mapResponseForBusiness(res.data.payload.Business)
+      return mapResponseForBusiness(res.data.payload.business)
     } catch (error) {
+      console.log(error)
       toast.error('Network error. Please refresh the page')
     } finally {
       setApiLoading(false)
@@ -77,7 +78,8 @@ function BusinessUpdate() {
       street: data.street,
       website_url: data.website_url,
       social_profile: data.social_profile,
-      gmb_url: data.gmb_url
+      gmb_url: data.gmb_url,
+      businessId
     }
     await axios
       .put('/api/business/update', requestData, { headers: { authorization: localStorage.getItem('token') } })
@@ -106,7 +108,7 @@ function BusinessUpdate() {
                   }
                 />
                 <CardContent>
-                  <BusinessDetails />
+                  <BusinessDetailsUpdate />
 
                   <SubmitButton
                     sx={{ mt: 10 }}

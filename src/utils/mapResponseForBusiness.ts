@@ -1,4 +1,5 @@
 export const mapResponseForBusiness = (data: any) => {
+  console.log(data)
   return {
     business_name: data.business_name,
     business_email: data.business_email,

@@ -40,6 +40,7 @@ const businessTicketsColumns: any = (
                     <FormControl>
                       <Select
                         size='small'
+                        sx={{ fontSize: '14px' }}
                         onChange={e => {
                           assignedEmployeeToTicket(e.target.value, _id)
                           setValue(e.target.value)
@@ -87,6 +88,7 @@ const businessTicketsColumns: any = (
               <FormControl>
                 <Select
                   size='small'
+                  sx={{ fontSize: '14px' }}
                   onChange={e => {
                     setValue(e.target.value)
                     updateTicketStatus(_id, e.target.value)

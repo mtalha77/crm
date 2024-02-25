@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import LocalSeoForm from 'src/layouts/components/newTicketForm/Departments/LocalSeo'
+import React, { useState } from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
+import SmmForm from 'src/layouts/components/newTicketForm/Departments/SMM'
+import { SocialMediaFormType, socialMediaDefaultValues } from 'src/interfaces/forms.interface'
+import { socialMediaYupSchema } from 'src/yupSchemas/socialMediaYupSchema'
 import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
+import axios from 'axios'
 import toast from 'react-hot-toast'
-import { LocalSeoFormType, localSeoDefaultValues } from 'src/interfaces/forms.interface'
-import { localSeoYupSchema } from 'src/yupSchemas/localSeoYupSchema'
 import { useRouter } from 'next/router'
-import { mapResponseForLocalSeo } from 'src/utils/mapResponseForLocalSeo'
+import { mapResponseForSocialMedia } from 'src/utils/mapResponseForSocialMedia'
+import Spinner from 'src/@core/components/spinner'
 
-const schema = localSeoYupSchema
+const schema = socialMediaYupSchema
 
-const Ticket = () => {
+const SocialMediaFormComponent = () => {
   const router = useRouter()
   const { ticketId } = router.query
   const [apiLoading, setApiLoading] = useState(false)
@@ -23,7 +24,7 @@ const Ticket = () => {
   const defaultValues = async () => {
     if (!ticketId) {
       setUpdate(false)
-      return localSeoDefaultValues
+      return socialMediaDefaultValues
     }
     try {
       setApiLoading(true)
@@ -32,7 +33,7 @@ const Ticket = () => {
       })
       setUpdate(true)
       setBusiness_id(res.data.payload.ticket.business_id)
-      return mapResponseForLocalSeo(res.data.payload.ticket)
+      return mapResponseForSocialMedia(res.data.payload.ticket)
     } catch (error: any) {
       toast.error(error?.response?.data)
     } finally {
@@ -40,13 +41,13 @@ const Ticket = () => {
     }
   }
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
-  const { departments } = useAuth()
 
-  const onSubmit = async (data: LocalSeoFormType) => {
-    const { business, saleDepart, ticketDetails, localSeoDetails } = data
+  const { departments } = useAuth()
+  const onSubmit = async (data: SocialMediaFormType) => {
+    const { business, saleDepart, ticketDetails, socialMediaFormTypeDetails } = data
 
     // Create a new object with the destructured properties
-    const depart: any = departments.find((d: any) => d.name === Department.LocalSeo)
+    const depart: any = departments.find((d: any) => d.name === Department.SocialMedia)
 
     const requestData = {
       priority: ticketDetails.priority,
@@ -76,12 +77,20 @@ const Ticket = () => {
       zip_code: business.zip_code,
       social_profile: business.social_profile,
       website_url: business.website_url,
+      work_status: socialMediaFormTypeDetails.work_status,
       gmb_url: business.gmb_url,
-      work_status: localSeoDetails.work_status,
-      notes: localSeoDetails.notes,
+      notes: socialMediaFormTypeDetails.notes,
+      service_name: socialMediaFormTypeDetails.service_name,
+      login_credentials: socialMediaFormTypeDetails.login_credentials,
+      facebook_url: socialMediaFormTypeDetails.facebook_url,
+      platform_name: socialMediaFormTypeDetails.platform_name,
+      no_of_likes: socialMediaFormTypeDetails.no_of_likes,
+      no_of_gmb_reviews: socialMediaFormTypeDetails.no_of_gmb_reviews,
+      no_of_posts: socialMediaFormTypeDetails.no_of_posts,
       business_id: business_id,
       ticketId: ticketId
     }
+
     if (update) {
       const apiUrl = '/api/business-ticket/update'
 
@@ -101,7 +110,7 @@ const Ticket = () => {
         .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
         .then(() => {
           toast.success('Ticket created successfully')
-          methods.reset(localSeoDefaultValues)
+          methods.reset(socialMediaDefaultValues)
         })
         .catch(error => {
           console.error('Error:', error)
@@ -114,11 +123,11 @@ const Ticket = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {!apiLoading && <LocalSeoForm update={update} />}
+          {apiLoading ? <Spinner /> : <SmmForm update={update} />}
         </form>
       </FormProvider>
     </>
   )
 }
 
-export default Ticket
+export default SocialMediaFormComponent

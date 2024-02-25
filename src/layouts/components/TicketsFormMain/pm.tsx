@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -9,11 +9,37 @@ import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-
-const defaultValues = paidMarketingDefaultValues
+import { useRouter } from 'next/router'
+import { mapResponseForPaidMarketing } from 'src/utils/mapResponseForPaidMarketing'
+import Spinner from 'src/@core/components/spinner'
 
 const schema = paidMarketingYupSchema
-const Ticket = () => {
+const PaidMarketingFormComponent = () => {
+  const router = useRouter()
+  const { ticketId } = router.query
+  const [apiLoading, setApiLoading] = useState(false)
+  const [update, setUpdate] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
+
+  const defaultValues = async () => {
+    if (!ticketId) {
+      setUpdate(false)
+      return paidMarketingDefaultValues
+    }
+    try {
+      setApiLoading(true)
+      const res = await axios.get(`/api/business-ticket/${ticketId}`, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setUpdate(true)
+      setBusiness_id(res.data.payload.ticket.business_id)
+      return mapResponseForPaidMarketing(res.data.payload.ticket)
+    } catch (error: any) {
+      toast.error(error?.response?.data)
+    } finally {
+      setApiLoading(false)
+    }
+  }
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
   const onSubmit = async (data: PaidMarketingFormType) => {
@@ -58,31 +84,47 @@ const Ticket = () => {
       budget: paidMarketingDetails.budget,
       budget_price: paidMarketingDetails.budget_price,
       clients_objectives: paidMarketingDetails.clients_objectives,
-      platform_name: paidMarketingDetails.platform_name
+      platform_name: paidMarketingDetails.platform_name,
+      business_id,
+      ticketId
     }
 
-    const apiUrl = '/api/business-ticket/create'
+    if (update) {
+      const apiUrl = '/api/business-ticket/update'
 
-    await axios
-      .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
-      .then(() => {
-        toast.success('Ticket created successfully')
-        methods.reset(defaultValues)
-      })
-      .catch(error => {
-        console.error('Error:', error)
-        toast.error(error?.response?.data || 'Something went wrong')
-      })
+      await axios
+        .put(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          toast.success('Ticket updated successfully')
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          toast.error(error?.response?.data || 'Something went wrong')
+        })
+    } else {
+      const apiUrl = '/api/business-ticket/create'
+
+      await axios
+        .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          toast.success('Ticket created successfully')
+          methods.reset(localSeoDefaultValues)
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          toast.error(error?.response?.data || 'Something went wrong')
+        })
+    }
   }
   return (
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          <PaidMarketingForm />
+          {apiLoading ? <Spinner /> : <PaidMarketingForm update={update} />}
         </form>
       </FormProvider>
     </>
   )
 }
 
-export default Ticket
+export default PaidMarketingFormComponent

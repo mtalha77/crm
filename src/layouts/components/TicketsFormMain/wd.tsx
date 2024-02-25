@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
 import Wordpress from 'src/layouts/components/newTicketForm/Departments/Wordpress'
 import { WordPressFormType, wordPressDefaultValues } from 'src/interfaces/forms.interface'
 import { wordPressYupSchema } from 'src/yupSchemas/wordpressYupSchema'
@@ -10,12 +9,38 @@ import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-
-const defaultValues = wordPressDefaultValues
+import { useRouter } from 'next/router'
+import { mapResponseForWordPress } from 'src/utils/mapResponseForWordPress'
+import Spinner from 'src/@core/components/spinner'
 
 const schema = wordPressYupSchema
 
-const Ticket = () => {
+const WordPressFormComponent = () => {
+  const router = useRouter()
+  const { ticketId } = router.query
+  const [apiLoading, setApiLoading] = useState(false)
+  const [update, setUpdate] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
+
+  const defaultValues = async () => {
+    if (!ticketId) {
+      setUpdate(false)
+      return wordPressDefaultValues
+    }
+    try {
+      setApiLoading(true)
+      const res = await axios.get(`/api/business-ticket/${ticketId}`, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setUpdate(true)
+      setBusiness_id(res.data.payload.ticket.business_id)
+      return mapResponseForWordPress(res.data.payload.ticket)
+    } catch (error: any) {
+      toast.error(error?.response?.data)
+    } finally {
+      setApiLoading(false)
+    }
+  }
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
   const onSubmit = async (data: WordPressFormType) => {
@@ -57,32 +82,48 @@ const Ticket = () => {
       notes: wordPressDetails.notes,
       service_name: wordPressDetails.service_name,
       service_area: wordPressDetails.service_area,
-      referral_website: wordPressDetails.referral_website
+      referral_website: wordPressDetails.referral_website,
+      business_id,
+      ticketId
     }
 
-    const apiUrl = '/api/business-ticket/create'
+    if (update) {
+      const apiUrl = '/api/business-ticket/update'
 
-    await axios
-      .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
-      .then(() => {
-        toast.success('Ticket created successfully')
-        methods.reset(defaultValues)
-      })
-      .catch(error => {
-        console.error('Error:', error)
-        toast.error(error?.response?.data || 'Something went wrong')
-      })
+      await axios
+        .put(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          toast.success('Ticket updated successfully')
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          toast.error(error?.response?.data || 'Something went wrong')
+        })
+    } else {
+      const apiUrl = '/api/business-ticket/create'
+
+      await axios
+        .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          toast.success('Ticket created successfully')
+          methods.reset(wordPressDefaultValues)
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          toast.error(error?.response?.data || 'Something went wrong')
+        })
+    }
   }
 
   return (
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          <Wordpress />
+          {apiLoading ? <Spinner /> : <Wordpress update={update} />}
         </form>
       </FormProvider>
     </>
   )
 }
 
-export default Ticket
+export default WordPressFormComponent

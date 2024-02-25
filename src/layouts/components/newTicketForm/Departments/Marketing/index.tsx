@@ -7,7 +7,8 @@ import BusinessDetails from '../../SharedField/BusinessDetails'
 import TicketDetails from '../../SharedField/TicketDetails'
 import PaidMarketingSpecificDetails from './PaidMarketingSpecificDetails'
 
-const PaidMarketingForm = () => {
+const PaidMarketingForm = (props: any) => {
+  const { update } = props
   return (
     <>
       <Card>
@@ -22,7 +23,7 @@ const PaidMarketingForm = () => {
         <CardContent>
           <Stack spacing={6}>
             <FormsHeader title='Business Details'>
-              <BusinessDetails />
+              <BusinessDetails update={update} />
             </FormsHeader>
 
             <FormsHeader title='Sale Department'>
@@ -30,7 +31,7 @@ const PaidMarketingForm = () => {
             </FormsHeader>
 
             <FormsHeader title='Ticket Details'>
-              <TicketDetails />
+              <TicketDetails update={update} />
             </FormsHeader>
 
             <FormsHeader title='Department Specific Details'>
@@ -40,7 +41,12 @@ const PaidMarketingForm = () => {
 
           <Box sx={{ my: '2rem ' }} />
 
-          <SubmitButton beforeText='Submit' afterText='Submitting' fullWidth variant='contained' />
+          <SubmitButton
+            beforeText={update ? 'Update' : 'Submit'}
+            afterText={update ? 'Updating' : 'Submitting'}
+            fullWidth
+            variant='contained'
+          />
         </CardContent>
       </Card>
     </>

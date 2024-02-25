@@ -7,7 +7,7 @@ import BusinessDetails from '../../SharedField/BusinessDetails'
 import TicketDetails from '../../SharedField/TicketDetails'
 import WebSeoSpecificDetails from './WebSeoSpecificDetails'
 
-const WebSeoForm = () => {
+const WebSeoForm = ({ update }: any) => {
   return (
     <>
       <Card>
@@ -22,7 +22,7 @@ const WebSeoForm = () => {
         <CardContent>
           <Stack spacing={6}>
             <FormsHeader title='Business Details'>
-              <BusinessDetails />
+              <BusinessDetails update={update} />
             </FormsHeader>
 
             <FormsHeader title='Sale Department'>
@@ -30,17 +30,20 @@ const WebSeoForm = () => {
             </FormsHeader>
 
             <FormsHeader title='Ticket Details'>
-              <TicketDetails />
+              <TicketDetails update={update} />
             </FormsHeader>
 
             <FormsHeader title='Department Specific Details'>
               <WebSeoSpecificDetails />
             </FormsHeader>
           </Stack>
-
           <Box sx={{ my: '2rem ' }} />
-
-          <SubmitButton beforeText='Submit' afterText='Submitting' fullWidth variant='contained' />
+          <SubmitButton
+            beforeText={update ? 'Update' : 'Submit'}
+            afterText={update ? 'Updating' : 'Submitting'}
+            fullWidth
+            variant='contained'
+          />{' '}
         </CardContent>
       </Card>
     </>

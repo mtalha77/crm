@@ -25,11 +25,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'New Ticket',
       icon: 'mdi-ticket-confirmation-outline',
       children: [
-        { title: 'Local SEO / GMB Optimization', path: '/ticket/lsf' },
-        { title: 'Wordpress Development', path: '/ticket/wd' },
-        { title: 'Website SEO', path: '/ticket/ws' },
-        { title: 'Paid Marketing', path: '/ticket/pm' },
-        { title: 'Social Media / Customer Reviews Management', path: '/ticket/smr' }
+        { title: 'Local SEO / GMB Optimization', path: '/ticket-create/localSeo' },
+        { title: 'Wordpress Development', path: '/ticket-create/wordPress' },
+        { title: 'Website SEO', path: '/ticket-create/webSeo' },
+        { title: 'Paid Marketing', path: '/ticket-create/paidMarketing' },
+        { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' }
       ]
     },
     {

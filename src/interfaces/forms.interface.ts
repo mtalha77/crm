@@ -115,7 +115,8 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     zip_code: '',
     street: '',
     website_url: '',
-    social_profile: ''
+    social_profile: '',
+    gmb_url: ''
   },
   saleDepart: {
     fronter: '',
@@ -149,7 +150,8 @@ export const wordPressDefaultValues: WordPressFormType = {
     zip_code: '',
     street: '',
     website_url: '',
-    social_profile: ''
+    social_profile: '',
+    gmb_url: ''
   },
   saleDepart: {
     fronter: '',
@@ -186,7 +188,8 @@ export const webSeoDefaultValues: WebSeoFormType = {
     zip_code: '',
     street: '',
     website_url: '',
-    social_profile: ''
+    social_profile: '',
+    gmb_url: ''
   },
   saleDepart: {
     fronter: '',
@@ -229,7 +232,8 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     zip_code: '',
     street: '',
     website_url: '',
-    social_profile: ''
+    social_profile: '',
+    gmb_url: ''
   },
   saleDepart: {
     fronter: '',
@@ -270,7 +274,8 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
     zip_code: '',
     street: '',
     website_url: '',
-    social_profile: ''
+    social_profile: '',
+    gmb_url: ''
   },
   saleDepart: {
     fronter: '',

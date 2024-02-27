@@ -19,7 +19,7 @@ const handler = async (req: any, res: any) => {
       })
     } catch (error) {
       // console.log(error)
-      res.status(500).send('something went wrong')
+      res.status(500).send('Network error')
     }
   } else {
     res.status(500).send('this is a get request')

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { BusinessStatus } from 'src/shared/enums/BusinessStatus.enum'
 import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const businessSchema = new mongoose.Schema(
@@ -21,7 +22,8 @@ const businessSchema = new mongoose.Schema(
         enum: WorkStatusValues,
         required: true
       }
-    ]
+    ],
+    status: { type: String, enum: BusinessStatus, default: BusinessStatus.ACTIVE }
   },
   { timestamps: true }
 )

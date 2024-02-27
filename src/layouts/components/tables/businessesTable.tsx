@@ -4,6 +4,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import BusinessesColumns from './columns/BusinessesColumns'
+import toast from 'react-hot-toast'
 
 function BusinessesTable() {
   const [data, setData] = useState([])
@@ -27,7 +28,24 @@ function BusinessesTable() {
       query: { businessId }
     })
   }
-  const columns: any = useMemo(() => BusinessesColumns(handleEdit), [data])
+
+  const updateStatus = async (id: string, status: string) => {
+    try {
+      const res: any = await axios.post(
+        '/api/business/update-status',
+        {
+          id,
+          status
+        },
+        { headers: { authorization: localStorage.getItem('token') } }
+      )
+      toast.success(res.data.message)
+    } catch (error: any) {
+      console.log(error)
+      toast.error(error.response.data)
+    }
+  }
+  const columns: any = useMemo(() => BusinessesColumns(handleEdit, updateStatus), [data])
 
   useEffect(() => {
     fetchBusinesses()

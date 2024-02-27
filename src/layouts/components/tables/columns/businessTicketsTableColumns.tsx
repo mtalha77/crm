@@ -84,7 +84,7 @@ const businessTicketsColumns: any = (
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''
         const [value, setValue] = useState(defaultValue)
-        if (user.role === UserRole.TEAM_LEAD) {
+        if (user.role === UserRole.TEAM_LEAD || user.role === UserRole.ADMIN) {
           return (
             <>
               <FormControl>

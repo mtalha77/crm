@@ -8,28 +8,32 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
-import AnalyticsOverview from './AnalyticsOverview/AnalyticsOverview'
-import AnalyticsWeeklySales from './AnalyticsWeeklySales/AnalyticsWeeklySales'
-import BusinessTicketCards from './BusinessTicketCards/BusinessTicketCards'
-import CardAward from './CardAward/CardAward'
-import DepartmentTicketCards from './DepartmentTicketCards/DepartmentTicketCards'
-import ReportingDateNotification from './ReportingDateNotification'
-import SalesCardOverView from './SalesCardOverView/SalesCardOverView'
+
+import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
 
 const Home = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
+  const [statusCounts, setStatusCounts] = useState()
 
   useEffect(() => {
     const temp = async () => {
-      await axios.get('/api/department/get-all', {
-        headers: {
-          authorization: localStorage.getItem('token')
-        }
-      })
+      await axios
+        .post(
+          '/api/business-ticket/get-analytics',
+          {},
+          {
+            headers: {
+              authorization: localStorage.getItem('token')
+            }
+          }
+        )
+        .then(res => {
+          setStatusCounts(res.data.payload.analytics[0])
+        })
     }
     temp()
-  })
+  }, [])
   useEffect(() => {
     // Get current time
     const currentTime = new Date()
@@ -99,18 +103,8 @@ const Home = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={3}>
-          <AnalyticsOverview />
-        </Grid>
-        <Grid item xs={3}>
-          <SalesCardOverView />
-        </Grid>
       </Grid>
-      <CardAward />
-      <AnalyticsWeeklySales />
-      <ReportingDateNotification />
-      <BusinessTicketCards />
-      <DepartmentTicketCards />
+      <BusinessTicketCards statusCounts={statusCounts} />
     </>
   )
 }

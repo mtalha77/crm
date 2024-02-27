@@ -5,6 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import { useRouter } from 'next/router'
 import { BusinessStatustValues } from 'src/shared/enums/BusinessStatus.enum'
 import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
+import UpdateBusinessDialog from '../../dialogs/UpdateBusinessDialog'
 
 function BusinessesColumns(handleEdit: any, updateStatus: any) {
   return [
@@ -23,6 +24,8 @@ function BusinessesColumns(handleEdit: any, updateStatus: any) {
     {
       header: 'Status',
       accessorKey: 'status',
+      filterVariant: 'select',
+      filterSelectOptions: BusinessStatustValues,
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''
@@ -62,12 +65,9 @@ function BusinessesColumns(handleEdit: any, updateStatus: any) {
 
         return (
           <>
-            <ViewBusinessDialog data={cell.row.original} />
-            <Tooltip title='Edit'>
-              <Icon style={{ marginLeft: 15, cursor: 'pointer' }} onClick={() => handleEdit(_id)}>
-                <EditIcon />
-              </Icon>
-            </Tooltip>
+            <ViewBusinessDialog id={_id} />
+
+            <UpdateBusinessDialog id={_id} />
           </>
         )
       }

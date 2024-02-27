@@ -11,24 +11,12 @@ import { mapResponseForBusiness } from 'src/utils/mapResponseForBusiness'
 import SubmitButton from 'src/layouts/components/newTicketForm/SharedField/FormButton'
 import { Card, CardContent, CardHeader, Typography } from '@mui/material'
 import BusinessDetailsUpdate from 'src/layouts/components/BusinessDetailsUpdate'
+import FallbackSpinner from 'src/@core/components/spinner'
 
-function BusinessUpdate() {
-  const router = useRouter()
-  const { businessId } = router.query
+function BusinessUpdate({ businessId, setShow }: any) {
+  // const router = useRouter()
+  // const { businessId } = router.query
   const [apiLoading, setApiLoading] = useState(false)
-
-  const defaultValuesI: BusinessDetailsType = {
-    business_name: '',
-    business_email: '',
-    business_number: '',
-    business_hours: '',
-    state: '',
-    country: '',
-    zip_code: '',
-    street: '',
-    website_url: '',
-    social_profile: ''
-  }
 
   const defaultValues = async () => {
     try {
@@ -85,6 +73,7 @@ function BusinessUpdate() {
       .put('/api/business/update', requestData, { headers: { authorization: localStorage.getItem('token') } })
       .then(() => {
         toast.success('Business updated successfully')
+        setShow(false)
       })
       .catch(error => {
         console.error('Error:', error)
@@ -93,6 +82,14 @@ function BusinessUpdate() {
   }
 
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+
+  if (apiLoading) {
+    return (
+      <>
+        <FallbackSpinner showIcon={true} />
+      </>
+    )
+  }
   return (
     <>
       <FormProvider {...methods}>

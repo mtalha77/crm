@@ -34,7 +34,6 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
         }
       )
       .then(res => {
-        console.log(res.data)
         setData(res.data.payload.ticket)
       })
       .catch((error: any) => {

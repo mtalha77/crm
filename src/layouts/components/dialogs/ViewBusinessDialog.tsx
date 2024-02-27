@@ -17,12 +17,8 @@ import Icon from 'src/@core/components/icon'
 
 import { Slide, Tooltip, Icon as MuiIcon, Card, CardHeader, Divider, CardContent } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import ViewFullBusinessDetails from '../ViewFullBusinessDetails'
 
-const BoldText = ({ children }: any) => (
-  <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
-    {children}
-  </Typography>
-)
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -33,7 +29,6 @@ const Transition = forwardRef(function Transition(
 const ViewBusinessDialog = (props: any) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  const { data } = props
 
   return (
     <>
@@ -81,54 +76,7 @@ const ViewBusinessDialog = (props: any) => {
             />
             <Divider sx={{ m: '0 !important' }} />
             <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <BoldText>Status:</BoldText> {data?.status}
-                </Grid>
-                <Grid item xs={6}>
-                  <BoldText>Name:</BoldText> {data?.business_name}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Email:</BoldText> {data?.business_email}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Number:</BoldText> {data?.business_number}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Hours:</BoldText> {data?.business_hours}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Country:</BoldText> {data?.country}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>State:</BoldText> {data?.state}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Street:</BoldText> {data?.street}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>ZipCode:</BoldText> {data?.zip_code}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Website Url:</BoldText> {data?.website_url}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Social Profile:</BoldText> {data?.social_profile}
-                </Grid>
-
-                <Grid item xs={6}>
-                  <BoldText>Gmb Url:</BoldText> {data?.gmb_url}
-                </Grid>
-              </Grid>
+              <ViewFullBusinessDetails id={props.id} />
             </CardContent>
           </Card>
         </DialogContent>

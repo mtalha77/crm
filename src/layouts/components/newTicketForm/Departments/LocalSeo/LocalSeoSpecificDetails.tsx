@@ -7,9 +7,9 @@ import { LocalSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 const LocalSeoSpecificDetails = () => {
   const {
     formState: { errors },
-    control
+    control,
+    watch
   } = useFormContext<LocalSeoFormType>()
-
   return (
     <>
       <Grid container spacing={5}>

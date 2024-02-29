@@ -7,23 +7,72 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
-      const { priority, assignee_depart_id, assignee_depart_name, due_date, work_status, notes } = req.body
+      const {
+        priority,
+        assignee_depart_id,
+        assignee_depart_name,
+        due_date,
+        work_status,
+        notes,
+        service_name,
+        service_area,
+        referral_website,
+        service_location,
+        key_words,
+        login_credentials,
+        console_access,
+        analytics_access,
+        paid_marketing_location,
+        ad_account_access,
+        budget,
+        budget_price,
+        clients_objectives,
+        facebook_url,
+        no_of_backlinks,
+        no_of_posts,
+        no_of_blogs,
+        platform_name,
+        no_of_likes,
+        no_of_gmb_reviews
+      } = req.body
+
+      if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status)
+        return res.status(400).send('Network Error')
 
       const { role } = req.user
 
-      if (!(role === UserRole.SALE_EMPLOYEE))
-        return res.status(403).send({ message: 'Permission denied.Sales cannot create department ticket', payload: {} })
+      if (!(role === UserRole.TEAM_LEAD || role === UserRole.ADMIN)) return res.status(403).send('Permission denied.')
 
       const payload = {
         priority,
         created_by: req.user._id,
-        assignee_depart_id: new mongoose.Types.ObjectId(assignee_depart_id),
+        assignee_depart_id,
         assignee_depart_name,
         assignor_depart_id: req.user.department_id,
         assignor_depart_name: req.user.department_name,
         due_date,
+        work_status,
         notes,
-        work_status
+        service_name,
+        service_area,
+        referral_website,
+        service_location,
+        key_words,
+        login_credentials,
+        console_access,
+        analytics_access,
+        paid_marketing_location,
+        ad_account_access,
+        budget,
+        budget_price,
+        clients_objectives,
+        facebook_url,
+        no_of_backlinks,
+        no_of_posts,
+        no_of_blogs,
+        platform_name,
+        no_of_likes,
+        no_of_gmb_reviews
       }
 
       const newTicket = new DepartTicketModel(payload)

@@ -17,6 +17,7 @@ import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import { DSocialMediaYupSchema } from 'src/yupSchemas/departmentalforms/dSocialMediaYupSchema'
 import { mapResponseForDSocialMedia } from 'src/utils/departmentalTickets/mapResponseForDSocialMedia'
 import SocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/SocialMediaSpecificDetails'
+import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 
 const schema = DSocialMediaYupSchema
 
@@ -26,6 +27,7 @@ const DSocialMediaFormComponent = () => {
   const [apiLoading, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
 
   const methods = useForm({ defaultValues: dSocialMediaDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
@@ -78,7 +80,8 @@ const DSocialMediaFormComponent = () => {
       no_of_likes: socialMediaFormTypeDetails.no_of_likes,
       no_of_gmb_reviews: socialMediaFormTypeDetails.no_of_gmb_reviews,
       no_of_posts: socialMediaFormTypeDetails.no_of_posts,
-      ticketId: ticketId
+      ticketId: ticketId,
+      business_id
     }
     if (update) {
       const apiUrl = '/api/department-ticket/update'
@@ -113,7 +116,7 @@ const DSocialMediaFormComponent = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {apiLoading ? (
+          {false ? (
             <Spinner />
           ) : (
             <>
@@ -127,6 +130,9 @@ const DSocialMediaFormComponent = () => {
                 />
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
+                  <FormsHeader title='Business Details'>
+                    <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
+                  </FormsHeader>
                   <FormsHeader title='Ticket Details'>
                     <SocialMediaSpecificDetails />
                   </FormsHeader>

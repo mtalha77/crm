@@ -60,6 +60,11 @@ const navigation = (): VerticalNavItemsType => {
         { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
         { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
       ]
+    },
+    {
+      path: '/view-d-tickets',
+      title: 'View D Tickets',
+      icon: 'mdi:shield-outline'
     }
   ]
 }

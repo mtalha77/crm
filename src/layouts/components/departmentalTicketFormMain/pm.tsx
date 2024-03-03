@@ -17,6 +17,7 @@ import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import { mapResponseForDPaidMarketing } from 'src/utils/departmentalTickets/mapResponseForDPaidMarketing'
 import { dPaidMarketingYupSchema } from 'src/yupSchemas/departmentalforms/dPaidMarketingYupSchema'
 import PaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/PaidMarketingSpecificDetails'
+import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 
 const schema = dPaidMarketingYupSchema
 
@@ -26,6 +27,7 @@ const DPaidMarketingFormComponent = () => {
   const [apiLoading, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
 
   const methods = useForm({
     defaultValues: dPaidMarketingDefaultValues,
@@ -83,7 +85,8 @@ const DPaidMarketingFormComponent = () => {
       clients_objectives: paidMarketingDetails.clients_objectives,
       platform_name: paidMarketingDetails.platform_name,
       service_location: paidMarketingDetails.location,
-      ticketId
+      ticketId,
+      business_id
     }
     if (update) {
       const apiUrl = '/api/department-ticket/update'
@@ -118,7 +121,7 @@ const DPaidMarketingFormComponent = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {apiLoading ? (
+          {false ? (
             <Spinner />
           ) : (
             <>
@@ -132,6 +135,9 @@ const DPaidMarketingFormComponent = () => {
                 />
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
+                  <FormsHeader title='Business Details'>
+                    <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
+                  </FormsHeader>
                   <FormsHeader title='Ticket Details'>
                     <PaidMarketingSpecificDetails />
                   </FormsHeader>

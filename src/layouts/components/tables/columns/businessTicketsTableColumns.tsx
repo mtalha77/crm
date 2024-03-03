@@ -9,6 +9,7 @@ import Link from 'next/link'
 import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
+import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 
 const businessTicketsColumns: any = (
   user: UserDataType,
@@ -24,7 +25,7 @@ const businessTicketsColumns: any = (
     {
       header: 'Business Name',
       accessorKey: 'business_id.business_name',
-      filterVariant: 'multi-select',
+      filterVariant: 'autocomplete',
       filterSelectOptions: businessList
     },
     ...(user.role !== UserRole.EMPLOYEE
@@ -136,7 +137,7 @@ const businessTicketsColumns: any = (
     {
       header: 'Action',
       Cell: ({ cell }: any) => {
-        const { assignee_depart_name, _id } = cell.row.original
+        const { assignee_depart_name, _id, business_id } = cell.row.original
         return (
           <>
             <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} />
@@ -148,6 +149,7 @@ const businessTicketsColumns: any = (
                 <EditIcon />
               </Icon>
             </Tooltip>
+            <CreateChildTicketDialog parentId={_id} businessId={business_id?._id} />
           </>
         )
       }

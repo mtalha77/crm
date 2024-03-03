@@ -24,8 +24,13 @@ export const paymentHistorySchema = new mongoose.Schema(
   { timestamps: true, validateBeforeSave: true }
 )
 
+export const childTicketSchema = new mongoose.Schema({
+  child_id: { type: mongoose.Schema.Types.ObjectId, ref: 'DepartTicket', required: true }
+})
+
 const businessTicketSchema = new mongoose.Schema(
   {
+    child_tickets: { type: [childTicketSchema], required: false },
     status: { type: String, enum: TicketStatus, default: TicketStatus.NOT_STARTED_YET },
     priority: { type: String, enum: PriorityType, default: PriorityType.MEDIUM },
     created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

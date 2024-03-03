@@ -1,0 +1,99 @@
+import { DTicketDetails } from './departmentalForms.interface'
+import {
+  LocalSeoDetails,
+  PaidMarketingDetails,
+  SocialMediaDetails,
+  WebSeoDetails,
+  WordPressDetails
+} from './forms.interface'
+
+export interface ChildLocalSeoFormType extends DTicketDetails {
+  localSeoDetails: LocalSeoDetails
+}
+
+export interface ChildWordPressFormType extends DTicketDetails {
+  wordPressDetails: WordPressDetails
+}
+
+export interface ChildWebSeoFormType extends DTicketDetails {
+  webSeoDetails: WebSeoDetails
+}
+
+export interface ChildPaidMarketingFormType extends DTicketDetails {
+  paidMarketingDetails: PaidMarketingDetails
+}
+
+export interface ChildSocialMediaFormType extends DTicketDetails {
+  socialMediaFormTypeDetails: SocialMediaDetails
+}
+
+export const ChildLocalSeoDefaultValues: ChildLocalSeoFormType = {
+  priority: '',
+  due_date: new Date(),
+  localSeoDetails: {
+    notes: '',
+    work_status: ''
+  }
+}
+
+export const ChildWordPressDefaultValues: ChildWordPressFormType = {
+  priority: '',
+  due_date: new Date(),
+  wordPressDetails: {
+    service_name: '',
+    service_area: '',
+    referral_website: '',
+    notes: '',
+    work_status: ''
+  }
+}
+
+export const ChildWebSeoDefaultValues: ChildWebSeoFormType = {
+  priority: '',
+  due_date: new Date(),
+  webSeoDetails: {
+    service_name: '',
+    notes: '',
+    work_status: '',
+    service_location: '',
+    key_words: '',
+    login_credentials: '',
+    console_access: '',
+    analytics_access: '',
+    no_of_backlinks: '',
+    no_of_posts: '',
+    no_of_blogs: ''
+  }
+}
+
+export const ChildPaidMarketingDefaultValues: ChildPaidMarketingFormType = {
+  priority: '',
+  due_date: new Date(),
+  paidMarketingDetails: {
+    service_name: '',
+    location: '',
+    ad_account_access: '',
+    budget: '',
+    budget_price: 0,
+    clients_objectives: '',
+    notes: '',
+    work_status: '',
+    platform_name: ''
+  }
+}
+
+export const ChildSocialMediaDefaultValues: ChildSocialMediaFormType = {
+  priority: '',
+  due_date: new Date(),
+  socialMediaFormTypeDetails: {
+    service_name: '',
+    facebook_url: '',
+    login_credentials: '',
+    notes: '',
+    work_status: '',
+    platform_name: '',
+    no_of_likes: '',
+    no_of_gmb_reviews: '',
+    no_of_posts: ''
+  }
+}

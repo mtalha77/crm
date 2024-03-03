@@ -40,6 +40,7 @@ const LocalSeoFormComponent = () => {
       setApiLoading(false)
     }
   }
+
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
 

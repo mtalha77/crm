@@ -5,6 +5,7 @@ import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const departTicketSchema = new mongoose.Schema(
   {
+    parent_id: { type: mongoose.Schema.Types.ObjectId, required: false, ref: 'BusinessTicket' },
     business_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Business' },
     status: { type: String, enum: TicketStatus, default: TicketStatus.NOT_STARTED_YET },
     priority: { type: String, enum: PriorityType, default: PriorityType.MEDIUM },

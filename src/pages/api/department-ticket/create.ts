@@ -33,10 +33,11 @@ const handler = async (req: any, res: any) => {
         no_of_blogs,
         platform_name,
         no_of_likes,
-        no_of_gmb_reviews
+        no_of_gmb_reviews,
+        business_id
       } = req.body
 
-      if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status)
+      if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status || !business_id)
         return res.status(400).send('Network Error')
 
       const { role } = req.user
@@ -72,7 +73,8 @@ const handler = async (req: any, res: any) => {
         no_of_blogs,
         platform_name,
         no_of_likes,
-        no_of_gmb_reviews
+        no_of_gmb_reviews,
+        business_id
       }
 
       const newTicket = new DepartTicketModel(payload)

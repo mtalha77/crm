@@ -20,6 +20,7 @@ import AddNewPayment from '../AddNewPayment'
 import { Slide, Tooltip, Icon as MuiIcon } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import ViewFullTicketDetails from '../ViewFullTicketDetails'
+import ViewFullDepartmentalTicketDetails from '../ViewFullDepartmentalTicketDetails'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -31,7 +32,7 @@ const Transition = forwardRef(function Transition(
 const ViewTicketDialog = (props: any) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  const { ticketId, depart } = props
+  const { ticketId, depart, departmentalTicket } = props
 
   return (
     <>
@@ -68,8 +69,11 @@ const ViewTicketDialog = (props: any) => {
           >
             <Icon icon='mdi:close' />
           </IconButton>
-
-          <ViewFullTicketDetails ticketId={ticketId} depart={depart} />
+          {departmentalTicket ? (
+            <ViewFullDepartmentalTicketDetails ticketId={ticketId} depart={depart} />
+          ) : (
+            <ViewFullTicketDetails ticketId={ticketId} depart={depart} />
+          )}
         </DialogContent>
         <DialogActions
           sx={{

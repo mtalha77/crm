@@ -1,4 +1,5 @@
 import {
+  BusinessDetails,
   LocalSeoDetails,
   PaidMarketingDetails,
   SocialMediaDetails,
@@ -13,22 +14,27 @@ export interface DTicketDetails {
 
 export interface DLocalSeoFormType extends DTicketDetails {
   localSeoDetails: LocalSeoDetails
+  business: BusinessDetails
 }
 
 export interface DWordPressFormType extends DTicketDetails {
   wordPressDetails: WordPressDetails
+  business: BusinessDetails
 }
 
 export interface DWebSeoFormType extends DTicketDetails {
   webSeoDetails: WebSeoDetails
+  business: BusinessDetails
 }
 
 export interface DPaidMarketingFormType extends DTicketDetails {
   paidMarketingDetails: PaidMarketingDetails
+  business: BusinessDetails
 }
 
 export interface DSocialMediaFormType extends DTicketDetails {
   socialMediaFormTypeDetails: SocialMediaDetails
+  business: BusinessDetails
 }
 
 export const dLocalSeoDefaultValues: DLocalSeoFormType = {
@@ -37,6 +43,19 @@ export const dLocalSeoDefaultValues: DLocalSeoFormType = {
   localSeoDetails: {
     notes: '',
     work_status: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
   }
 }
 
@@ -49,6 +68,19 @@ export const dWordPressDefaultValues: DWordPressFormType = {
     referral_website: '',
     notes: '',
     work_status: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
   }
 }
 
@@ -67,6 +99,19 @@ export const dWebSeoDefaultValues: DWebSeoFormType = {
     no_of_backlinks: '',
     no_of_posts: '',
     no_of_blogs: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
   }
 }
 
@@ -83,6 +128,19 @@ export const dPaidMarketingDefaultValues: DPaidMarketingFormType = {
     notes: '',
     work_status: '',
     platform_name: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
   }
 }
 
@@ -99,5 +157,18 @@ export const dSocialMediaDefaultValues: DSocialMediaFormType = {
     no_of_likes: '',
     no_of_gmb_reviews: '',
     no_of_posts: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
   }
 }

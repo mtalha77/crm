@@ -17,6 +17,7 @@ import FormsHeader from '../newTicketForm/Header'
 import LocalSeoSpecificDetails from '../newTicketForm/Departments/LocalSeo/LocalSeoSpecificDetails'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import { dLocalSeoYupSchema } from 'src/yupSchemas/departmentalforms/dLocalSeoYupSchema'
+import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 
 const schema = dLocalSeoYupSchema
 
@@ -26,6 +27,7 @@ const DLocalSeoFormComponent = () => {
   const [apiLoading, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
 
   const methods = useForm({ defaultValues: dLocalSeoDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
@@ -71,7 +73,8 @@ const DLocalSeoFormComponent = () => {
       due_date: due_date,
       work_status: localSeoDetails.work_status,
       notes: localSeoDetails.notes,
-      ticketId: ticketId
+      ticketId: ticketId,
+      business_id: business_id
     }
     if (update) {
       const apiUrl = '/api/department-ticket/update'
@@ -106,7 +109,7 @@ const DLocalSeoFormComponent = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {apiLoading ? (
+          {false ? (
             <Spinner />
           ) : (
             <>
@@ -120,6 +123,9 @@ const DLocalSeoFormComponent = () => {
                 />
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
+                  <FormsHeader title='Business Details'>
+                    <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
+                  </FormsHeader>
                   <FormsHeader title='Ticket Details'>
                     <LocalSeoSpecificDetails />
                   </FormsHeader>

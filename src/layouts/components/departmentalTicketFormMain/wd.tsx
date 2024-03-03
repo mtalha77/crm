@@ -17,6 +17,7 @@ import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import { DWordPressYupSchema } from 'src/yupSchemas/departmentalforms/dWordpressYupSchema'
 import { mapResponseForDWordPress } from 'src/utils/departmentalTickets/mapResponseForDWordPress'
 import WordPressSpecificDetails from '../newTicketForm/Departments/Wordpress/WordPressSpecificDetails'
+import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 
 const schema = DWordPressYupSchema
 
@@ -26,6 +27,7 @@ const DWordPressFormComponent = () => {
   const [apiLoading, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
 
   const methods = useForm({ defaultValues: dWordPressDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
@@ -74,7 +76,8 @@ const DWordPressFormComponent = () => {
       service_name: wordPressDetails.service_name,
       service_area: wordPressDetails.service_area,
       referral_website: wordPressDetails.referral_website,
-      ticketId: ticketId
+      ticketId: ticketId,
+      business_id
     }
     if (update) {
       const apiUrl = '/api/department-ticket/update'
@@ -109,7 +112,7 @@ const DWordPressFormComponent = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {apiLoading ? (
+          {false ? (
             <Spinner />
           ) : (
             <>
@@ -123,6 +126,9 @@ const DWordPressFormComponent = () => {
                 />
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
+                  <FormsHeader title='Business Details'>
+                    <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
+                  </FormsHeader>
                   <FormsHeader title='Ticket Details'>
                     <WordPressSpecificDetails />
                   </FormsHeader>

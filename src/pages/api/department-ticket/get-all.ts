@@ -10,19 +10,25 @@ const handler = async (req: any, res: any) => {
     try {
       switch (req.user.role) {
         case UserRole.EMPLOYEE:
-          tickets = await DepartTicketModel.find({ employee_id: req.user._id })
+          tickets = await DepartTicketModel.find({ employee_id: req.user._id }).populate('business_id', 'business_name')
           break
 
         case UserRole.SALE_EMPLOYEE:
-          tickets = await DepartTicketModel.find({ assignor_depart_name: Department.Sales })
+          tickets = await DepartTicketModel.find({ assignor_depart_name: Department.Sales }).populate(
+            'business_id',
+            'business_name'
+          )
           break
 
         case UserRole.TEAM_LEAD:
-          tickets = await DepartTicketModel.find({ assignee_depart_id: req.user.department_id })
+          tickets = await DepartTicketModel.find({ assignee_depart_id: req.user.department_id }).populate(
+            'business_id',
+            'business_name'
+          )
           break
 
         case UserRole.ADMIN:
-          tickets = await DepartTicketModel.find({})
+          tickets = await DepartTicketModel.find({}).populate('business_id', 'business_name')
           break
 
         default:

@@ -14,9 +14,10 @@ import Common from './Common'
 import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
-import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dwebSeoYupSchema'
+import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dWebSeoYupSchema'
 import { mapResponseForDWebSeo } from 'src/utils/departmentalTickets/mapResponseForDWebSeo'
 import WebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/WebSeoSpecificDetails'
+import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 
 const schema = DWebSeoYupSchema
 
@@ -26,6 +27,7 @@ const DWebSeoFormComponent = () => {
   const [apiLoading, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
+  const [business_id, setBusiness_id] = useState('')
 
   const methods = useForm({ defaultValues: dWebSeoDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
@@ -80,7 +82,8 @@ const DWebSeoFormComponent = () => {
       no_of_backlinks: webSeoDetails.no_of_backlinks,
       no_of_posts: webSeoDetails.no_of_posts,
       no_of_blogs: webSeoDetails.no_of_blogs,
-      ticketId: ticketId
+      ticketId: ticketId,
+      business_id
     }
     if (update) {
       const apiUrl = '/api/department-ticket/update'
@@ -115,7 +118,7 @@ const DWebSeoFormComponent = () => {
     <>
       <FormProvider {...methods}>
         <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
-          {apiLoading ? (
+          {false ? (
             <Spinner />
           ) : (
             <>
@@ -129,6 +132,9 @@ const DWebSeoFormComponent = () => {
                 />
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
+                  <FormsHeader title='Business Details'>
+                    <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
+                  </FormsHeader>
                   <FormsHeader title='Ticket Details'>
                     <WebSeoSpecificDetails />
                   </FormsHeader>

@@ -10,6 +10,10 @@ const handler = async (req: any, res: any) => {
         .populate('business_id')
         .populate('created_by', 'user_name')
         .populate('assignee_employee_id', 'user_name')
+        .populate({
+          path: 'child_tickets.child_id',
+          model: 'DepartTicket'
+        })
 
       if (!ticket) {
         return res.status(404).send('ticket not found')
@@ -20,7 +24,7 @@ const handler = async (req: any, res: any) => {
         payload: { ticket }
       })
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       res.status(500).send('something went wrong')
     }
   } else {

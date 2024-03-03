@@ -11,6 +11,7 @@ import WebSeoView from 'src/layouts/components/ticket-view-department-wise/WebSe
 import PaidMarketingView from 'src/layouts/components/ticket-view-department-wise/PaidMarketingView'
 import SocialMediaView from 'src/layouts/components/ticket-view-department-wise/SocialMediaView'
 import FallbackSpinner from 'src/@core/components/spinner'
+import ChildTicketsTable from './tables/childTicketTable'
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
     {children}
@@ -213,6 +214,21 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
           {depart === Department.SocialMedia && <SocialMediaView data={data} />}
         </CardContent>
       </Card>
+      {data.child_tickets && data.child_tickets.length > 0 && (
+        <Card sx={{ mt: 6 }}>
+          <CardHeader
+            title={
+              <Typography variant='h5' color={'primary'}>
+                Linked Tickets
+              </Typography>
+            }
+          />
+          <Divider sx={{ m: '0 !important' }} />
+          <CardContent>
+            <ChildTicketsTable cdata={data.child_tickets} />
+          </CardContent>
+        </Card>
+      )}
     </>
   )
 }

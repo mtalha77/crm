@@ -16,14 +16,13 @@ const employeeNavigation = (): VerticalNavItemsType => {
       title: 'View Tickets',
       icon: 'mdi:shield-outline',
       subject: 'view-business-tickets'
+    },
+    {
+      path: '/view-d-tickets',
+      title: 'View D Tickets',
+      icon: 'mdi:shield-outline',
+      subject: 'view-departmental-tickets'
     }
-
-    // {
-    //   path: '/view-d-tickets',
-    //   title: 'View D Tickets',
-    //   icon: 'mdi:shield-outline',
-    //   subject: 'view-departmental-tickets'
-    // }
   ]
 }
 

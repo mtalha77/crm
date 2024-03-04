@@ -3,6 +3,7 @@ import { guardWrapper } from 'src/backend/auth.guard'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
 import { Department } from 'src/shared/enums/Department.enum'
+import mongoose from 'mongoose'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
@@ -10,7 +11,9 @@ const handler = async (req: any, res: any) => {
     try {
       switch (req.user.role) {
         case UserRole.EMPLOYEE:
-          tickets = await DepartTicketModel.find({ employee_id: req.user._id }).populate('business_id', 'business_name')
+          tickets = await DepartTicketModel.find({
+            assignee_employee_id: req.user._id
+          }).populate('business_id', 'business_name')
           break
 
         case UserRole.SALE_EMPLOYEE:

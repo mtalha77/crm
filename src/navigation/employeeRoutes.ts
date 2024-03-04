@@ -10,18 +10,14 @@ const employeeNavigation = (): VerticalNavItemsType => {
       subject: 'home',
       icon: 'mdi:home-outline'
     },
-
     {
-      path: '/view-tickets',
       title: 'View Tickets',
-      icon: 'mdi:shield-outline',
-      subject: 'view-business-tickets'
-    },
-    {
-      path: '/view-d-tickets',
-      title: 'View D Tickets',
-      icon: 'mdi:shield-outline',
-      subject: 'view-departmental-tickets'
+      icon: 'mdi-ticket-confirmation-outline',
+      subject: 'create-business-ticket',
+      children: [
+        { title: 'Business', path: '/view-tickets' },
+        { title: 'Departmental', path: '/view-d-tickets' }
+      ]
     }
   ]
 }

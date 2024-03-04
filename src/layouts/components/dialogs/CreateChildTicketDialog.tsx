@@ -6,7 +6,6 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
 
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 
 import { FadeProps } from '@mui/material/Fade'
@@ -20,6 +19,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import BusinessUpdate from 'src/layouts/components/business-update'
 import CreateChildTicket from '../ChildTicket/CreateChildTicket'
 import { useRouter } from 'next/router'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
+import { IconButton } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import React from 'react'
+import { useAuth } from 'src/hooks/useAuth'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
@@ -36,13 +43,13 @@ const Transition = forwardRef(function Transition(
 const CreateChildTicketDialog = (props: any) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  const { parentId, businessId } = props
+  const { parentId, businessId, handleEdit } = props
   const router = useRouter()
+  const { user } = useAuth()
 
   return (
     <>
-      <Tooltip title='Update'>
-        <MuiIcon
+      {/* <MuiIcon
           style={{ marginLeft: 15, cursor: 'pointer' }}
           onClick={() => {
             setShow(true)
@@ -51,10 +58,42 @@ const CreateChildTicketDialog = (props: any) => {
               query: { parentId, businessId }
             })
           }}
-        >
-          <EditIcon />
-        </MuiIcon>
-      </Tooltip>
+        > */}
+      <PopupState variant='popover' popupId='demo-popup-menu'>
+        {popupState => (
+          <React.Fragment>
+            <IconButton aria-label='more' id='long-button' aria-haspopup='true'>
+              <MoreVertIcon {...bindTrigger(popupState)} />
+            </IconButton>
+
+            <Menu {...bindMenu(popupState)}>
+              <MenuItem
+                onClick={() => {
+                  popupState.close()
+                  handleEdit()
+                }}
+              >
+                Edit
+              </MenuItem>
+              {user?.role !== UserRole.SALE_EMPLOYEE && (
+                <MenuItem
+                  onClick={() => {
+                    popupState.close()
+                    setShow(true)
+                    router.replace({
+                      pathname: router.pathname,
+                      query: { parentId, businessId }
+                    })
+                  }}
+                >
+                  Create Linked Ticket
+                </MenuItem>
+              )}
+            </Menu>
+          </React.Fragment>
+        )}
+      </PopupState>
+      {/* </MuiIcon> */}
       <Dialog
         fullScreen
         open={show}

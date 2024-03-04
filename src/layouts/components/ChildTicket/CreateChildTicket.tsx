@@ -27,6 +27,7 @@ function CreateChildTicket({ setShow }: any) {
         >
           <MenuItem value=''>Select Department</MenuItem>
           {DepartmentValues.map((e: any) => {
+            if (e === Department.Admin || e === Department.Sales) return
             return (
               <MenuItem key={e} value={e}>
                 {e}

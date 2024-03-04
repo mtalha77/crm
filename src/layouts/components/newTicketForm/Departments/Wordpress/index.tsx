@@ -14,7 +14,7 @@ const Wordpress = ({ update }: any) => {
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
-              Generate New Ticket For WordPress
+              {update ? 'Update Ticket' : ' Generate New Ticket For WordPress'}
             </Typography>
           }
         />

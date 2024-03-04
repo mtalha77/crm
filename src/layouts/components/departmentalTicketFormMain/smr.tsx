@@ -124,7 +124,7 @@ const DSocialMediaFormComponent = () => {
                 <CardHeader
                   title={
                     <Typography variant='h5' color={'primary'}>
-                      Generate New Ticket For Social Media
+                      {update ? 'Update Ticket' : 'Generate New Ticket For Social Media'}
                     </Typography>
                   }
                 />

@@ -1,11 +1,9 @@
-import { Button, FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
+import { Box, FormControl, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
-import EditIcon from '@mui/icons-material/Edit'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import Link from 'next/link'
+
 import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
@@ -19,7 +17,8 @@ const businessTicketsColumns: any = (
   handleTicketEdit: any,
   fetchAgain: any,
   businessList: any,
-  handleView: any
+  handleView: any,
+  employeesList: any
 ) => {
   return [
     {
@@ -32,6 +31,8 @@ const businessTicketsColumns: any = (
     {
       header: 'Assignee Employee',
       accessorKey: 'assignee_employee_id.user_name',
+      filterVariant: 'autocomplete',
+      filterSelectOptions: employeesList,
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''
@@ -79,11 +80,13 @@ const businessTicketsColumns: any = (
     {
       header: 'Status',
       accessorKey: 'status',
+      // filterVariant: 'select',
+      // filterSelectOptions: TicketStatusValues,
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''
         const [value, setValue] = useState(defaultValue)
-        if (user.role === UserRole.TEAM_LEAD || user.role === UserRole.ADMIN) {
+        if (user.role === UserRole.TEAM_LEAD) {
           return (
             <>
               <FormControl>
@@ -136,22 +139,17 @@ const businessTicketsColumns: any = (
       header: 'Action',
       Cell: ({ cell }: any) => {
         const { assignee_depart_name, _id, business_id } = cell.row.original
+        const handleEdit = () => {
+          handleTicketEdit(assignee_depart_name, _id)
+        }
         return (
           <>
-            <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} />
-            {user?.role !== UserRole.EMPLOYEE && (
-              <>
-                <Tooltip title='Edit'>
-                  <Icon
-                    style={{ marginLeft: 15, cursor: 'pointer' }}
-                    onClick={() => handleTicketEdit(assignee_depart_name, _id)}
-                  >
-                    <EditIcon />
-                  </Icon>
-                </Tooltip>
-                <CreateChildTicketDialog parentId={_id} businessId={business_id?._id} />
-              </>
-            )}
+            <Box alignItems={'center'} display={'flex'}>
+              <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} />
+              {user?.role !== UserRole.EMPLOYEE && (
+                <CreateChildTicketDialog parentId={_id} businessId={business_id?._id} handleEdit={handleEdit} />
+              )}
+            </Box>
           </>
         )
       }

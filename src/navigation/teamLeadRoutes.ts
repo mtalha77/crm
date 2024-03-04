@@ -12,14 +12,7 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
     },
 
     {
-      path: '/view-tickets',
-      title: 'View Tickets',
-      icon: 'mdi:shield-outline',
-      subject: 'view-business-tickets'
-    },
-
-    {
-      title: 'Create D Ticket',
+      title: 'Create Ticket',
       subject: 'create-departmental-ticket',
       icon: 'mdi-ticket-confirmation-outline',
       children: [
@@ -30,11 +23,15 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
         { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
       ]
     },
+
     {
-      path: '/view-d-tickets',
-      title: 'View D Tickets',
-      icon: 'mdi:shield-outline',
-      subject: 'view-departmental-tickets'
+      title: 'View Tickets',
+      icon: 'mdi-ticket-confirmation-outline',
+      subject: 'create-business-ticket',
+      children: [
+        { title: 'Business', path: '/view-tickets' },
+        { title: 'Departmental', path: '/view-d-tickets' }
+      ]
     }
   ]
 }

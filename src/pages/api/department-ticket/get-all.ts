@@ -7,31 +7,36 @@ import mongoose from 'mongoose'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
-    let tickets = []
+    let tickets: any = []
     try {
       switch (req.user.role) {
         case UserRole.EMPLOYEE:
           tickets = await DepartTicketModel.find({
             assignee_employee_id: req.user._id
-          }).populate('business_id', 'business_name')
+          })
+            .populate('business_id', 'business_name')
+            .sort({ createdAt: -1 })
           break
 
         case UserRole.SALE_EMPLOYEE:
-          tickets = await DepartTicketModel.find({ assignor_depart_name: Department.Sales }).populate(
-            'business_id',
-            'business_name'
-          )
+          tickets = await DepartTicketModel.find({ assignor_depart_name: Department.Sales })
+            .populate('business_id', 'business_name')
+            .populate('assignee_employee_id', 'user_name')
+            .sort({ createdAt: -1 })
           break
 
         case UserRole.TEAM_LEAD:
-          tickets = await DepartTicketModel.find({ assignee_depart_id: req.user.department_id }).populate(
-            'business_id',
-            'business_name'
-          )
+          tickets = await DepartTicketModel.find({ assignee_depart_id: req.user.department_id })
+            .populate('business_id', 'business_name')
+            .populate('assignee_employee_id', 'user_name')
+            .sort({ createdAt: -1 })
           break
 
         case UserRole.ADMIN:
-          tickets = await DepartTicketModel.find({}).populate('business_id', 'business_name')
+          tickets = await DepartTicketModel.find({})
+            .populate('business_id', 'business_name')
+            .populate('assignee_employee_id', 'user_name')
+            .sort({ createdAt: -1 })
           break
 
         default:

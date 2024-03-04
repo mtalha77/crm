@@ -9,6 +9,7 @@ import MuiTable from './MuiTable'
 import businessTicketsColumns from './columns/businessTicketsTableColumns'
 import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
 import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 let filteredData: any = []
 function BusinessTicketsTable() {
   const [data, setData] = useState([])
@@ -238,6 +239,16 @@ function BusinessTicketsTable() {
         options={{
           state: {
             isLoading: isLoading
+          },
+          initialState: {
+            columnVisibility: {
+              ['assignee_employee_id.user_name']: !(
+                user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD
+              ),
+
+              payment_history: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD),
+              assignee_depart_name: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD)
+            }
           }
         }}
       />

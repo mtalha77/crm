@@ -14,7 +14,7 @@ const SmmForm = ({ update }: any) => {
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
-              Generate New Ticket For Social Media / Customer Reviews Management
+              {update ? 'Update Ticket' : ' Generate New Ticket For Social Media / Customer Reviews Management'}
             </Typography>
           }
         />

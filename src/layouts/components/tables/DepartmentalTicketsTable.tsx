@@ -10,6 +10,7 @@ import businessTicketsColumns from './columns/businessTicketsTableColumns'
 import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
 import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import DepartmentalTicketsColumns from './columns/DepartmentalTicketsColumn'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 let filteredData: any = []
 function DepartmentalTicketsTable() {
   const [data, setData] = useState([])
@@ -18,6 +19,7 @@ function DepartmentalTicketsTable() {
   const { user } = useAuth()
   const router = useRouter()
   const [businessList, setBusinessList] = useState([])
+  const [employeesList, setEmployeesList] = useState([])
 
   const fetchData = async () => {
     try {
@@ -38,6 +40,9 @@ function DepartmentalTicketsTable() {
       const { data: ticketsData } = dataResponse
 
       // Set the state for users and data
+      setEmployeesList(() => {
+        return usersData.payload.users.map((b: any) => b.user_name)
+      })
       setEmployees(usersData.payload.users)
       setData(ticketsData.payload.tickets)
     } catch (error) {
@@ -133,7 +138,8 @@ function DepartmentalTicketsTable() {
         handleTicketEdit,
         fetchAgain,
         businessList,
-        handleView
+        handleView,
+        employeesList
       ),
     [employees, businessList]
   )
@@ -146,6 +152,13 @@ function DepartmentalTicketsTable() {
         options={{
           state: {
             isLoading: isLoading
+          },
+          initialState: {
+            columnVisibility: {
+              ['assignee_employee_id.user_name']: !(user?.role === UserRole.EMPLOYEE),
+
+              assignee_depart_name: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD)
+            }
           }
         }}
       />

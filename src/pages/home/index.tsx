@@ -11,6 +11,7 @@ import { useAuth } from 'src/hooks/useAuth'
 
 import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
 import DepartmentalTicketCards from 'src/layouts/components/cards/DepartmentalTicketsCards'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const Home = () => {
   const { user } = useAuth()
@@ -106,7 +107,7 @@ const Home = () => {
         </Grid>
       </Grid>
       <BusinessTicketCards statusCounts={statusCounts} />
-      <DepartmentalTicketCards />
+      {user?.role !== UserRole.SALE_EMPLOYEE && <DepartmentalTicketCards />}
     </>
   )
 }

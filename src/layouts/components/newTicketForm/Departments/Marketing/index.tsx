@@ -15,7 +15,7 @@ const PaidMarketingForm = (props: any) => {
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
-              Generate New Ticket For Paid Marketing
+              {update ? 'Update Ticket' : 'Generate New Ticket For Paid Marketing'}
             </Typography>
           }
         />

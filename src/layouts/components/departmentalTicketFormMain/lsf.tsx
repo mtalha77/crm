@@ -117,7 +117,7 @@ const DLocalSeoFormComponent = () => {
                 <CardHeader
                   title={
                     <Typography variant='h5' color={'primary'}>
-                      Generate New Ticket For LocalSeo
+                      {update ? 'Update Ticket' : 'Generate New Ticket For LocalSeo'}
                     </Typography>
                   }
                 />

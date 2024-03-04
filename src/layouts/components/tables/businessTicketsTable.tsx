@@ -248,6 +248,7 @@ function BusinessTicketsTable() {
             isLoading: isLoading
           },
           initialState: {
+            density: 'compact',
             columnVisibility: {
               ['assignee_employee_id.user_name']: !(user?.role === UserRole.EMPLOYEE),
 

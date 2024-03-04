@@ -75,7 +75,8 @@ const businessTicketsColumns: any = (
       header: 'Assignee Department',
       accessorKey: 'assignee_depart_name',
       filterVariant: 'multi-select',
-      filterSelectOptions: DepartmentValues
+      filterSelectOptions: DepartmentValues,
+      muiFilterTextFieldProps: { placeholder: 'Filter by department' }
     },
     {
       header: 'Status',

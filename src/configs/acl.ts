@@ -17,18 +17,11 @@ export type ACLObj = {
  * We have just shown Admin and Client rules for demo purpose where
  * admin can manage everything and client can just visit ACL page
  */
+const adminRoutes = ['home', 'create-business-ticket']
 const defineRulesFor = (role: string, subject: string) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
 
-  if (role === UserRole.ADMIN) {
-    can('manage', 'all')
-  } else if (role === UserRole.EMPLOYEE) {
-    can('manage', 'all')
-  } else if (role === UserRole.TEAM_LEAD) {
-    can('manage', 'all')
-  } else {
-    can(['read', 'create', 'update', 'delete'], subject)
-  }
+  can('manage', 'all')
 
   return rules
 }

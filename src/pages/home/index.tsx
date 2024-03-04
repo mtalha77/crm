@@ -10,6 +10,7 @@ import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
 
 import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
+import DepartmentalTicketCards from 'src/layouts/components/cards/DepartmentalTicketsCards'
 
 const Home = () => {
   const { user } = useAuth()
@@ -105,6 +106,7 @@ const Home = () => {
         </Grid>
       </Grid>
       <BusinessTicketCards statusCounts={statusCounts} />
+      <DepartmentalTicketCards />
     </>
   )
 }

@@ -5,6 +5,7 @@ import adminNavigation from '../adminRoutes'
 import employeeNavigation from '../employeeRoutes'
 import saleEmployeeNavigation from '../saleEmployeeRoutes'
 import teamLeadNavigation from '../teamLeadRoutes'
+import saleManagerNavigation from '../saleManagerRoutes'
 
 const navigation = (): VerticalNavItemsType => {
   const userData: any = localStorage.getItem('userData')
@@ -25,6 +26,9 @@ const navigation = (): VerticalNavItemsType => {
 
     case UserRole.TEAM_LEAD:
       return teamLeadNavigation()
+
+    case UserRole.SALE_MANAGER:
+      return saleManagerNavigation()
 
     default:
       return []

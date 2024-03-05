@@ -6,8 +6,9 @@ import { useRouter } from 'next/router'
 import { BusinessStatustValues } from 'src/shared/enums/BusinessStatus.enum'
 import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
 import UpdateBusinessDialog from '../../dialogs/UpdateBusinessDialog'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
-function BusinessesColumns(handleEdit: any, updateStatus: any) {
+function BusinessesColumns(handleEdit: any, updateStatus: any, user: any) {
   return [
     {
       header: 'Name',
@@ -66,8 +67,7 @@ function BusinessesColumns(handleEdit: any, updateStatus: any) {
         return (
           <>
             <ViewBusinessDialog id={_id} />
-
-            <UpdateBusinessDialog id={_id} />
+            {user?.role !== UserRole.TEAM_LEAD && <UpdateBusinessDialog id={_id} />}
           </>
         )
       }

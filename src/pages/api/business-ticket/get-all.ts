@@ -5,6 +5,7 @@ import { getAllTicketsForEmployee } from 'src/backend/utils/business-tickets/get
 import { getAllTicketsForSalesEmployee } from 'src/backend/utils/business-tickets/getAllTicketsForSalesEmployee'
 import { getAllTicketsTeamLead } from 'src/backend/utils/business-tickets/getAllTicketsForTeamLead'
 import { getAllTicketsForAdmin } from 'src/backend/utils/business-tickets/getAllTicketsForAdmin'
+import { getAllTicketsForSalesManager } from 'src/backend/utils/business-tickets/getAllTicketsForSalesManager'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
@@ -21,6 +22,9 @@ const handler = async (req: any, res: any) => {
 
         case UserRole.ADMIN:
           return getAllTicketsForAdmin(req, res)
+
+        case UserRole.SALE_MANAGER:
+          return getAllTicketsForSalesManager(req, res)
 
         default:
           break

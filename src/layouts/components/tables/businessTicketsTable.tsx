@@ -250,7 +250,11 @@ function BusinessTicketsTable() {
           initialState: {
             density: 'compact',
             columnVisibility: {
-              ['assignee_employee_id.user_name']: !(user?.role === UserRole.EMPLOYEE),
+              ['assignee_employee_id.user_name']: !(
+                user?.role === UserRole.EMPLOYEE ||
+                user?.role === UserRole.SALE_MANAGER ||
+                user?.role === UserRole.SALE_EMPLOYEE
+              ),
 
               payment_history: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD),
               assignee_depart_name: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD)

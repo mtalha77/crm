@@ -9,7 +9,7 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'PUT') {
     const { role } = req.user
 
-    if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE))
+    if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE || req.user.role === UserRole.SALE_MANAGER))
       return res.status(403).send('Permission denied. Not authorized update ticket')
 
     try {

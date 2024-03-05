@@ -1,11 +1,8 @@
-import { FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
-import React, { useState } from 'react'
-import EditIcon from '@mui/icons-material/Edit'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import { useRouter } from 'next/router'
+import { FormControl, MenuItem, Select } from '@mui/material'
+import { useState } from 'react'
 import { BusinessStatustValues } from 'src/shared/enums/BusinessStatus.enum'
-import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
 import UpdateBusinessDialog from '../../dialogs/UpdateBusinessDialog'
+import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
 
 function BusinessesColumns(handleEdit: any, updateStatus: any) {
   return [

@@ -1,7 +1,6 @@
 import mongoose, { PipelineStage } from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
-import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
@@ -9,7 +8,7 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     let analytics = []
     try {
-      let pipeline: PipelineStage[] = [
+      const pipeline: PipelineStage[] = [
         {
           $group: {
             _id: '$status',

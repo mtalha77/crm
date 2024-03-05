@@ -1,13 +1,10 @@
-import { Button, FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import { FormControl, Icon, MenuItem, Select, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
+import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
-import EditIcon from '@mui/icons-material/Edit'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import Link from 'next/link'
-import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
-import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 
 const DepartmentalTicketsColumns: any = (
@@ -50,7 +47,6 @@ const DepartmentalTicketsColumns: any = (
                     assignedEmployeeToTicket(e.target.value, _id)
                     setValue(e.target.value)
                   }}
-                  // defaultValue=''
                   value={value}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
@@ -97,7 +93,6 @@ const DepartmentalTicketsColumns: any = (
                     setValue(e.target.value)
                     updateTicketStatus(_id, e.target.value)
                   }}
-                  // defaultValue=''
                   value={value}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
@@ -127,6 +122,7 @@ const DepartmentalTicketsColumns: any = (
       header: 'Action',
       Cell: ({ cell }: any) => {
         const { assignee_depart_name, _id } = cell.row.original
+
         return (
           <>
             <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} departmentalTicket={true} />

@@ -8,6 +8,7 @@ import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import MuiTable from './MuiTable'
 import DepartmentalTicketsColumns from './columns/DepartmentalTicketsColumn'
+
 function DepartmentalTicketsTable() {
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])

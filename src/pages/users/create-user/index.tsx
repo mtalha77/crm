@@ -98,7 +98,7 @@ const FormValidationAsync = () => {
     if (loading) return
     try {
       setLoading(true)
-      const res = await axios.post(
+      await axios.post(
         '/api/user/create',
         {
           user_name: data.user_name,
@@ -256,6 +256,7 @@ const FormValidationAsync = () => {
                           if (d === UserRole.SALE_EMPLOYEE || d === UserRole.ADMIN) return
 
                         if (departmentValue === Department.Admin) if (!(d === UserRole.ADMIN)) return
+
                         return (
                           <MenuItem key={d} value={d}>
                             {d}

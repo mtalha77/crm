@@ -1,4 +1,3 @@
-import React from 'react'
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
 
 function MuiTable(props: any) {
@@ -8,14 +7,17 @@ function MuiTable(props: any) {
     columns,
     data,
     enableColumnActions: false,
+
     // enableColumnFilters: false,
     // enablePagination: false,
+
     enableSorting: false,
     enableDensityToggle: false,
     enableFullScreenToggle: false,
     enableHiding: false,
     ...options
   })
+
   return <MaterialReactTable table={table} />
 }
 MuiTable.defaultProps = {

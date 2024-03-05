@@ -1,14 +1,14 @@
-import React from 'react'
-import FormsHeader from '../../Header'
-import SaleDepartment from '../../SharedField/SaleDepartment'
 import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
-import SubmitButton from '../../SharedField/FormButton'
+import FormsHeader from '../../Header'
 import BusinessDetails from '../../SharedField/BusinessDetails'
+import SubmitButton from '../../SharedField/FormButton'
+import SaleDepartment from '../../SharedField/SaleDepartment'
 import TicketDetails from '../../SharedField/TicketDetails'
 import LocalSeoSpecificDetails from './LocalSeoSpecificDetails'
 
 const LocalSeoForm = (props: any) => {
   const { update } = props
+
   return (
     <>
       <Card>

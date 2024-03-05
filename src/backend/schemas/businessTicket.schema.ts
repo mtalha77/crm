@@ -45,14 +45,14 @@ const businessTicketSchema = new mongoose.Schema(
     fronter: {
       type: String,
       trim: true,
-      required: function () {
+      required: function (this: any) {
         return this.sales_type === SaleType.NEW_SALE
       }
     },
     fronter_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: function () {
+      required: function (this: any) {
         return this.sales_type === SaleType.NEW_SALE
       }
     },

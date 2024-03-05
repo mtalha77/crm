@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     sub_role: {
       type: String,
       enum: SaleEmployeeRole,
-      required: function () {
+      required: function (this: any) {
         return this.role === UserRole.SALE_EMPLOYEE
       }
     }

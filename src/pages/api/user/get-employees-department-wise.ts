@@ -2,7 +2,6 @@ import connectDb from 'src/backend/DatabaseConnection'
 
 import { guardWrapper } from 'src/backend/auth.guard'
 import UserModel from 'src/backend/schemas/user.schema'
-import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req, res) => {

@@ -59,6 +59,15 @@ const handler = async (req: any, res: any) => {
         case UserRole.SALE_EMPLOYEE:
           pipeline.unshift({
             $match: {
+              created_by: new mongoose.Types.ObjectId(req.user._id)
+            }
+          })
+          analytics = await BusinessTicketModel.aggregate(pipeline)
+          break
+
+        case UserRole.SALE_MANAGER:
+          pipeline.unshift({
+            $match: {
               assignor_depart_name: Department.Sales
             }
           })

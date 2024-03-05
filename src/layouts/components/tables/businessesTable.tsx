@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import BusinessesColumns from './columns/BusinessesColumns'
 import toast from 'react-hot-toast'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 function BusinessesTable() {
   const [data, setData] = useState([])
@@ -45,7 +46,7 @@ function BusinessesTable() {
       toast.error(error.response.data)
     }
   }
-  const columns: any = useMemo(() => BusinessesColumns(handleEdit, updateStatus), [data])
+  const columns: any = useMemo(() => BusinessesColumns(handleEdit, updateStatus, user), [data])
 
   useEffect(() => {
     fetchBusinesses()
@@ -58,6 +59,12 @@ function BusinessesTable() {
         options={{
           state: {
             isLoading: isLoading
+          },
+          initialState: {
+            density: 'compact',
+            columnVisibility: {
+              status: !(user?.role === UserRole.TEAM_LEAD)
+            }
           }
         }}
       />

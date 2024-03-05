@@ -107,7 +107,7 @@ const Home = () => {
         </Grid>
       </Grid>
       <BusinessTicketCards statusCounts={statusCounts} />
-      {user?.role !== UserRole.SALE_EMPLOYEE && <DepartmentalTicketCards />}
+      {user?.role !== UserRole.SALE_EMPLOYEE && user?.role !== UserRole.SALE_MANAGER && <DepartmentalTicketCards />}
     </>
   )
 }

@@ -249,10 +249,12 @@ const FormValidationAsync = () => {
                     >
                       {UserRoleValues.map(d => {
                         const departmentValue = getValues('department')
-                        if (departmentValue === Department.Sales) if (!(d === UserRole.SALE_EMPLOYEE)) return
+                        if (departmentValue === Department.Sales)
+                          if (!(d === UserRole.SALE_EMPLOYEE || d === UserRole.SALE_MANAGER)) return
 
                         if (departmentValue !== Department.Sales && departmentValue !== Department.Admin)
-                          if (d === UserRole.SALE_EMPLOYEE || d === UserRole.ADMIN) return
+                          if (d === UserRole.SALE_EMPLOYEE || d === UserRole.ADMIN || d === UserRole.SALE_MANAGER)
+                            return
 
                         if (departmentValue === Department.Admin) if (!(d === UserRole.ADMIN)) return
                         return (

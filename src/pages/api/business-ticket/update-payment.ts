@@ -7,7 +7,13 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 const handler = async (req: any, res: any) => {
   if (req.method === 'PATCH') {
     try {
-      if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_EMPLOYEE))
+      if (
+        !(
+          req.user.role === UserRole.ADMIN ||
+          req.user.role === UserRole.SALE_EMPLOYEE ||
+          req.user.role === UserRole.SALE_MANAGER
+        )
+      )
         return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')
 
       const { ticketId, payment, payment_id, refund_amount } = req.body

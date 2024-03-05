@@ -19,6 +19,13 @@ const handler = async (req: any, res: any) => {
           break
 
         case UserRole.SALE_EMPLOYEE:
+          tickets = await DepartTicketModel.find({ created_by: new mongoose.Types.ObjectId(req.user._id) })
+            .populate('business_id', 'business_name')
+            .populate('assignee_employee_id', 'user_name')
+            .sort({ createdAt: -1 })
+          break
+
+        case UserRole.SALE_MANAGER:
           tickets = await DepartTicketModel.find({ assignor_depart_name: Department.Sales })
             .populate('business_id', 'business_name')
             .populate('assignee_employee_id', 'user_name')

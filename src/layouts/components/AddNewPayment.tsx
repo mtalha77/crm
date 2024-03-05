@@ -58,7 +58,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
       shouldValidate: true,
       shouldDirty: true
     })
-  }, [totalPrice, advancePrice])
+  }, [setValue, totalPrice, advancePrice])
 
   const onSubmit = async (data: PaymentHistory) => {
     const { total_payment, advance_payment, remaining_payment } = data

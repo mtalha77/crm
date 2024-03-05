@@ -124,7 +124,7 @@ const WebSeoFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <WebSeoForm update={update} />}
         </form>
       </FormProvider>

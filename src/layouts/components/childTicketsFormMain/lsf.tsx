@@ -23,7 +23,7 @@ const schema = ChildLocalSeoYupSchema
 const ChildLocalSeoFormComponent = () => {
   const router = useRouter()
   const { ticketId, parentId, businessId } = router.query
-  const [setApiLoading] = useState(false)
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
 
@@ -111,7 +111,7 @@ const ChildLocalSeoFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {false ? (
             <Spinner />
           ) : (

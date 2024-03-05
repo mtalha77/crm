@@ -120,7 +120,7 @@ const WordPressFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <Wordpress update={update} />}
         </form>
       </FormProvider>

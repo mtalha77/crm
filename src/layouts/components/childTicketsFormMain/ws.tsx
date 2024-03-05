@@ -23,7 +23,7 @@ const schema = ChildWebSeoYupSchema
 const ChildWebSeoFormComponent = () => {
   const router = useRouter()
   const { ticketId, parentId, businessId } = router.query
-  const [setApiLoading] = useState(false)
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
 

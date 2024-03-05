@@ -7,7 +7,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import Spinner from 'src/@core/components/spinner'
 import { useAuth } from 'src/hooks/useAuth'
-import { PaidMarketingFormType, paidMarketingDefaultValues } from 'src/interfaces/forms.interface'
+import {
+  PaidMarketingFormType,
+  localSeoDefaultValues,
+  paidMarketingDefaultValues
+} from 'src/interfaces/forms.interface'
 import PaidMarketingForm from 'src/layouts/components/newTicketForm/Departments/Marketing'
 import { Department } from 'src/shared/enums/Department.enum'
 import { mapResponseForPaidMarketing } from 'src/utils/mapResponseForPaidMarketing'
@@ -123,7 +127,7 @@ const PaidMarketingFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <PaidMarketingForm update={update} />}
         </form>
       </FormProvider>

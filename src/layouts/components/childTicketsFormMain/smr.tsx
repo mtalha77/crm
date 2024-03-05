@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
 import { ChildSocialMediaDefaultValues, ChildSocialMediaFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildSocialMedia } from 'src/utils/childTickets/mapResponseForChildSocialMedia'
+import { ChildSocialMediaYupSchema } from 'src/yupSchemas/childTickets/childSocialMediaYupSchema'
 import SocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/SocialMediaSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
@@ -22,7 +23,7 @@ const schema = ChildSocialMediaYupSchema
 const ChildSocialMediaFormComponent = () => {
   const router = useRouter()
   const { ticketId, parentId, businessId } = router.query
-  const [setApiLoading] = useState(false)
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
 

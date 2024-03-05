@@ -124,7 +124,7 @@ const SocialMediaFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <SmmForm update={update} />}
         </form>
       </FormProvider>

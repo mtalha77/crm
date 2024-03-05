@@ -14,9 +14,9 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { buildAbilityFor } from 'src/configs/acl'
 
 // ** Component Import
-import NotAuthorized from 'src/pages/401'
 import Spinner from 'src/@core/components/spinner'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+import NotAuthorized from 'src/pages/401'
 
 // ** Hooks
 import { useAuth } from 'src/hooks/useAuth'
@@ -51,7 +51,10 @@ const AclGuard = (props: AclGuardProps) => {
 
   // User is logged in, build ability for the user based on his role
   if (auth.user && !ability) {
-    ability = buildAbilityFor(auth.user.role, aclAbilities.subject)
+    // ability = buildAbilityFor(auth.user.role, aclAbilities.subject)
+
+    ability = buildAbilityFor()
+
     if (router.route === '/') {
       return <Spinner />
     }

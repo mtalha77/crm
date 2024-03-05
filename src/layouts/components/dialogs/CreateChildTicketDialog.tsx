@@ -67,14 +67,16 @@ const CreateChildTicketDialog = (props: any) => {
             </IconButton>
 
             <Menu {...bindMenu(popupState)}>
-              <MenuItem
-                onClick={() => {
-                  popupState.close()
-                  handleEdit()
-                }}
-              >
-                Edit
-              </MenuItem>
+              {user?.role !== UserRole.TEAM_LEAD && (
+                <MenuItem
+                  onClick={() => {
+                    popupState.close()
+                    handleEdit()
+                  }}
+                >
+                  Edit
+                </MenuItem>
+              )}
               {user?.role !== UserRole.SALE_EMPLOYEE && user?.role !== UserRole.SALE_MANAGER && (
                 <MenuItem
                   onClick={() => {

@@ -1,15 +1,17 @@
-import { FormControl, MenuItem, Select, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { FormControl, MenuItem, Select } from '@mui/material'
+import { useState } from 'react'
 import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
-import DLocalSeoFormComponent from '../departmentalTicketFormMain/lsf'
 import ChildLocalSeoFormComponent from '../childTicketsFormMain/lsf'
 import ChildPaidMarketingFormComponent from '../childTicketsFormMain/pm'
 import ChildSocialMediaFormComponent from '../childTicketsFormMain/smr'
 import ChildWordPressFormComponent from '../childTicketsFormMain/wd'
 import ChildWebSeoFormComponent from '../childTicketsFormMain/ws'
 
-function CreateChildTicket({ setShow }: any) {
+// function CreateChildTicket({ setShow }: any) {
+
+function CreateChildTicket() {
   const [value, setValue] = useState('')
+
   return (
     <>
       {/* <Typography>Select Department</Typography> */}
@@ -28,6 +30,7 @@ function CreateChildTicket({ setShow }: any) {
           <MenuItem value=''>Select Department</MenuItem>
           {DepartmentValues.map((e: any) => {
             if (e === Department.Admin || e === Department.Sales) return
+
             return (
               <MenuItem key={e} value={e}>
                 {e}

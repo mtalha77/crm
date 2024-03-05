@@ -7,6 +7,7 @@ export const DWordPressYupSchema: yup.ObjectSchema<DWordPressFormType> = yup.obj
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import FallbackSpinner from 'src/@core/components/spinner'
 
@@ -41,6 +41,7 @@ function ViewFullBusinessDetails({ id }: any) {
       </>
     )
   }
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>

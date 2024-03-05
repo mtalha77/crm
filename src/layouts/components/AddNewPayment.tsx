@@ -1,10 +1,10 @@
-import { Button, CircularProgress, FormControl, FormHelperText, Grid, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Controller, useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import toast from 'react-hot-toast'
+import { Button, CircularProgress, FormControl, FormHelperText, Grid, TextField } from '@mui/material'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import * as yup from 'yup'
 
 interface PaymentHistory {
   total_payment: number
@@ -84,6 +84,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
       setApiLoading(false)
     }
   }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={6}>

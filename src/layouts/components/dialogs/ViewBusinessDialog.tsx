@@ -1,22 +1,21 @@
 // ** React Imports
-import { Ref, useState, forwardRef, ReactElement, useEffect } from 'react'
+import { ReactElement, Ref, forwardRef, useState } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+
 import Dialog from '@mui/material/Dialog'
 
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 
-import { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import { FadeProps } from '@mui/material/Fade'
 
 import Icon from 'src/@core/components/icon'
 
-import { Slide, Tooltip, Icon as MuiIcon, Card, CardHeader, Divider, CardContent } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import { Card, CardContent, CardHeader, Divider, Icon as MuiIcon, Slide, Tooltip } from '@mui/material'
 import ViewFullBusinessDetails from '../ViewFullBusinessDetails'
 
 const Transition = forwardRef(function Transition(

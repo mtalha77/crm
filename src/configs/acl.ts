@@ -1,5 +1,4 @@
-import { AbilityBuilder, Ability } from '@casl/ability'
-import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { Ability, AbilityBuilder } from '@casl/ability'
 
 export type Subjects = string
 export type Actions = 'manage' | 'create' | 'read' | 'update' | 'delete'
@@ -17,8 +16,9 @@ export type ACLObj = {
  * We have just shown Admin and Client rules for demo purpose where
  * admin can manage everything and client can just visit ACL page
  */
-const adminRoutes = ['home', 'create-business-ticket']
-const defineRulesFor = (role: string, subject: string) => {
+// const adminRoutes = ['home', 'create-business-ticket']
+// const defineRulesFor = (role: string, subject: string) => {
+const defineRulesFor = () => {
   const { can, rules } = new AbilityBuilder(AppAbility)
 
   can('manage', 'all')

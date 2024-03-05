@@ -1,38 +1,34 @@
 // ** React Imports
-import { Ref, useState, forwardRef, ReactElement, useEffect } from 'react'
+import { ReactElement, Ref, forwardRef, useState } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
 
-import Typography from '@mui/material/Typography'
-
-import { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import { FadeProps } from '@mui/material/Fade'
 
 import Icon from 'src/@core/components/icon'
 
-import { Slide, Tooltip, Icon as MuiIcon, Card, CardHeader, Divider, CardContent } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
-import BusinessUpdate from 'src/layouts/components/business-update'
-import CreateChildTicket from '../ChildTicket/CreateChildTicket'
-import { useRouter } from 'next/router'
+import { Slide } from '@mui/material'
+
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { IconButton } from '@mui/material'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
-import { IconButton } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useAuth } from 'src/hooks/useAuth'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
+import CreateChildTicket from '../ChildTicket/CreateChildTicket'
 
-const BoldText = ({ children }: any) => (
-  <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
-    {children}
-  </Typography>
-)
+// const BoldText = ({ children }: any) => (
+//   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
+//     {children}
+//   </Typography>
+// )
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -49,16 +45,6 @@ const CreateChildTicketDialog = (props: any) => {
 
   return (
     <>
-      {/* <MuiIcon
-          style={{ marginLeft: 15, cursor: 'pointer' }}
-          onClick={() => {
-            setShow(true)
-            router.replace({
-              pathname: router.pathname,
-              query: { parentId, businessId }
-            })
-          }}
-        > */}
       <PopupState variant='popover' popupId='demo-popup-menu'>
         {popupState => (
           <React.Fragment>

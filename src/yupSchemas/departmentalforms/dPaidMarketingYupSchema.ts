@@ -7,6 +7,7 @@ export const dPaidMarketingYupSchema: yup.ObjectSchema<DPaidMarketingFormType> =
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

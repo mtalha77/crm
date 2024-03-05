@@ -1,7 +1,6 @@
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import BusinessModel from 'src/backend/schemas/business.schema'
-import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {

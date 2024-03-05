@@ -57,6 +57,7 @@ const handler = async (req: any, res: any) => {
       })
     } catch (error) {
       console.log(error)
+
       return res.status(500).send('Not able to update ticket.Please try again')
     }
   } else {

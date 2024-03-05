@@ -97,13 +97,16 @@ function SinglePaymentHistory(props: any) {
         { headers: { Authorization: localStorage.getItem('token') } }
       )
       toast.success('Payment updated successfully')
+
       // setShow(false)
+
       fetchAgain()
     } catch (error: any) {
       console.log(error)
       toast.error(error.response?.data)
     }
   }
+
   return (
     <>
       <FormProvider {...methods}>

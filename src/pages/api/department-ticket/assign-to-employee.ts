@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
-import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
@@ -33,12 +32,14 @@ const handler = async (req: any, res: any) => {
         if (!result) return res.status(500).send('Not able to assign ticket.Please try again')
         msg = `Ticket assigned to ${user_name}`
       }
+
       return res.send({
         message: msg,
         payload: {}
       })
     } catch (error) {
       console.log(error)
+
       return res.status(500).send('something went wrong')
     }
   } else {

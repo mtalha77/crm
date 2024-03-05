@@ -69,8 +69,8 @@ const PaymentHistoryDialog = (props: any) => {
             </Typography>
           </Box>
 
-          {payment_history.map((p: any) => {
-            return <SinglePaymentHistory payment={p} ticketId={ticketId} fetchAgain={fetchAgain} />
+          {payment_history.map((p: any, index: number) => {
+            return <SinglePaymentHistory key={index} payment={p} ticketId={ticketId} fetchAgain={fetchAgain} />
           })}
         </DialogContent>
         <DialogActions

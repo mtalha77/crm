@@ -1,4 +1,4 @@
-import { WebSeoFormType, WordPressFormType } from 'src/interfaces/forms.interface'
+import { WebSeoFormType } from 'src/interfaces/forms.interface'
 
 export const mapResponseForWebSeo = (data: any): WebSeoFormType => {
   return {

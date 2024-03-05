@@ -60,6 +60,7 @@ const TicketDetailsDialogBox = () => {
       notes: 'Value 12'
     }
   }
+
   return (
     <Card>
       <CardContent sx={{ textAlign: 'center', '& svg': { mb: 2 } }}>

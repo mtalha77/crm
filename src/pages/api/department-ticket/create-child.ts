@@ -97,6 +97,7 @@ const handler = async (req: any, res: any) => {
       if (!parent) throw new Error('Network error')
 
       await session.commitTransaction()
+
       return res.send({
         message: 'Ticket Created',
         payload: { _id: result._id }

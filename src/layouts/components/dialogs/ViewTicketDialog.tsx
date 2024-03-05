@@ -1,26 +1,21 @@
 // ** React Imports
-import { Ref, useState, forwardRef, ReactElement } from 'react'
+import { ReactElement, Ref, forwardRef, useState } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+
 import Dialog from '@mui/material/Dialog'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 
-import Fade, { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import { FadeProps } from '@mui/material/Fade'
 
-import Icon from 'src/@core/components/icon'
-import SinglePaymentHistory from '../singlePaymentHistory'
-import AddNewPayment from '../AddNewPayment'
-import { Slide, Tooltip, Icon as MuiIcon } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import ViewFullTicketDetails from '../ViewFullTicketDetails'
+import { Icon as MuiIcon, Slide, Tooltip } from '@mui/material'
+import Icon from 'src/@core/components/icon'
 import ViewFullDepartmentalTicketDetails from '../ViewFullDepartmentalTicketDetails'
+import ViewFullTicketDetails from '../ViewFullTicketDetails'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },

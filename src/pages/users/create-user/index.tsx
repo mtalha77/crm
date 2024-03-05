@@ -1,33 +1,33 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // ** MUI Imports
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import CardHeader from '@mui/material/CardHeader'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
+import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import FormHelperText from '@mui/material/FormHelperText'
-import InputAdornment from '@mui/material/InputAdornment'
+import CardHeader from '@mui/material/CardHeader'
 import CircularProgress from '@mui/material/CircularProgress'
+import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import TextField from '@mui/material/TextField'
 
 // ** Third Party Imports
+import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
-import { MenuItem, Select } from '@mui/material'
-import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { SaleEmployeeRoleValues, UserRole, UserRoleValues } from 'src/shared/enums/UserRole.enum'
+import { MenuItem, Select } from '@mui/material'
 import axios from 'axios'
+import Icon from 'src/@core/components/icon'
+import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
+import { SaleEmployeeRoleValues, UserRole, UserRoleValues } from 'src/shared/enums/UserRole.enum'
+import * as yup from 'yup'
 
 interface State {
   password: string
@@ -62,9 +62,10 @@ const validationSchema = yup.object({
   department: yup.string().required('Department is required'),
   role: yup.string().required('Role is required'),
   sub_role: yup.string().when('department', {
-    is: (val: any) => val === Department.Sales,
-    then: schema => yup.string().required('Sub Role is required'),
-    otherwise: schema => yup.string()
+    is: (val: any) => val === Department.Sales
+
+    // then: schema => yup.string().required('Sub Role is required'),
+    // otherwise: schema => yup.string()
   })
 })
 

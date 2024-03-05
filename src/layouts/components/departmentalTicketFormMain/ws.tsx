@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
-import toast from 'react-hot-toast'
 
+import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
 import { DWebSeoFormType, dWebSeoDefaultValues } from 'src/interfaces/departmentalForms.interface'
-import Common from './Common'
-import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
-import FormsHeader from '../newTicketForm/Header'
-import SubmitButton from '../newTicketForm/SharedField/FormButton'
-import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dWebSeoYupSchema'
 import { mapResponseForDWebSeo } from 'src/utils/departmentalTickets/mapResponseForDWebSeo'
+import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dWebSeoYupSchema'
 import WebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/WebSeoSpecificDetails'
+import FormsHeader from '../newTicketForm/Header'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
+import SubmitButton from '../newTicketForm/SharedField/FormButton'
+import Common from './Common'
 
 const schema = DWebSeoYupSchema
 
 const DWebSeoFormComponent = () => {
   const router = useRouter()
   const { ticketId } = router.query
-  const [apiLoading, setApiLoading] = useState(false)
+  const [setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
   const [business_id, setBusiness_id] = useState('')

@@ -1,4 +1,4 @@
-import { LocalSeoFormType, SocialMediaFormType } from 'src/interfaces/forms.interface'
+import { SocialMediaFormType } from 'src/interfaces/forms.interface'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import * as yup from 'yup'
 
@@ -51,6 +51,7 @@ export const socialMediaYupSchema: yup.ObjectSchema<SocialMediaFormType> = yup.o
       .date()
       .transform(originalValue => {
         const parsedDate = new Date(originalValue)
+
         return isNaN(parsedDate.getTime()) ? null : parsedDate
       })
       .required('Due Date is required'),

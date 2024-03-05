@@ -1,5 +1,4 @@
 import { ChildSocialMediaFormType } from 'src/interfaces/childTicketForms.interface'
-import { DSocialMediaFormType } from 'src/interfaces/departmentalForms.interface'
 
 import * as yup from 'yup'
 
@@ -9,6 +8,7 @@ export const ChildSocialMediaYupSchema: yup.ObjectSchema<ChildSocialMediaFormTyp
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

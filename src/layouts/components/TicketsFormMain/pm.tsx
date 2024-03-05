@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import PaidMarketingForm from 'src/layouts/components/newTicketForm/Departments/Marketing'
-import { PaidMarketingFormType, paidMarketingDefaultValues } from 'src/interfaces/forms.interface'
-import { paidMarketingYupSchema } from 'src/yupSchemas/paidMarketingYupSchema'
-import { useAuth } from 'src/hooks/useAuth'
-import { Department } from 'src/shared/enums/Department.enum'
 import axios from 'axios'
-import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
-import { mapResponseForPaidMarketing } from 'src/utils/mapResponseForPaidMarketing'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import Spinner from 'src/@core/components/spinner'
+import { useAuth } from 'src/hooks/useAuth'
+import { PaidMarketingFormType, paidMarketingDefaultValues } from 'src/interfaces/forms.interface'
+import PaidMarketingForm from 'src/layouts/components/newTicketForm/Departments/Marketing'
+import { Department } from 'src/shared/enums/Department.enum'
+import { mapResponseForPaidMarketing } from 'src/utils/mapResponseForPaidMarketing'
+import { paidMarketingYupSchema } from 'src/yupSchemas/paidMarketingYupSchema'
 
 const schema = paidMarketingYupSchema
 const PaidMarketingFormComponent = () => {
@@ -24,6 +24,7 @@ const PaidMarketingFormComponent = () => {
   const defaultValues = async () => {
     if (!ticketId) {
       setUpdate(false)
+
       return paidMarketingDefaultValues
     }
     try {
@@ -33,6 +34,7 @@ const PaidMarketingFormComponent = () => {
       })
       setUpdate(true)
       setBusiness_id(res.data.payload.ticket.business_id)
+
       return mapResponseForPaidMarketing(res.data.payload.ticket)
     } catch (error: any) {
       toast.error(error?.response?.data)
@@ -117,6 +119,7 @@ const PaidMarketingFormComponent = () => {
         })
     }
   }
+
   return (
     <>
       <FormProvider {...methods}>

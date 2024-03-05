@@ -1,8 +1,6 @@
 import { Box, Card, CardContent, Skeleton, Typography, useTheme } from '@mui/material'
-import React from 'react'
-import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import Icon from 'src/@core/components/icon'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 function SimpleCard({ count, icon, loading, text, iconColor }: any) {
   const theme = useTheme()
@@ -14,6 +12,7 @@ function SimpleCard({ count, icon, loading, text, iconColor }: any) {
         <Skeleton width={'100%'} height={'100%'} />
       </>
     )
+
   return (
     <>
       <Card>

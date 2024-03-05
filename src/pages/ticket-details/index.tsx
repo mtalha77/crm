@@ -1,157 +1,3 @@
-// import CloseIcon from '@mui/icons-material/Close'
-// import AppBar from '@mui/material/AppBar'
-// import Button from '@mui/material/Button'
-// import Dialog from '@mui/material/Dialog'
-// import Divider from '@mui/material/Divider'
-// import IconButton from '@mui/material/IconButton'
-// import List from '@mui/material/List'
-// import ListItemButton from '@mui/material/ListItemButton'
-// import ListItemText from '@mui/material/ListItemText'
-// import Slide from '@mui/material/Slide'
-// import Toolbar from '@mui/material/Toolbar'
-// import Typography from '@mui/material/Typography'
-// import { TransitionProps } from '@mui/material/transitions'
-// import * as React from 'react'
-// import Icon from 'src/@core/components/icon'
-
-// const Transition = React.forwardRef(function Transition(
-//   props: TransitionProps & {
-//     children: React.ReactElement
-//   },
-//   ref: React.Ref<unknown>
-// ) {
-//   return <Slide direction='up' ref={ref} {...props} />
-// })
-
-// export default function FullScreenDialog() {
-//   const [open, setOpen] = React.useState(false)
-//   const [businessDetailsOpen, setBusinessDetailsOpen] = React.useState(false)
-//   const [salePersonsOpen, setSalePersonsOpen] = React.useState(false)
-//   const [ticketDetailsOpen, setTicketDetailsOpen] = React.useState(false)
-//   const ticketData = {
-//     SalesDepart: {
-//       closer: 'closer name'
-//     },
-//     ticketDetails: {
-//       priority: 'priority',
-//       deadline: 'due_date'
-//     },
-//     business: {
-//       business_name: 'Value 1',
-//       business_email: 'Value 2',
-//       business_number: 'Value 3',
-//       business_hours: 'Value 4',
-//       state: 'Value 5',
-//       country: 'Value 6',
-//       zip_code: 'Value 7',
-//       street: 'Value 8',
-//       website_url: 'Value 9',
-//       gmb_url: 'Value 10',
-//       social_profile: 'Value 11',
-//       work_status: 'Value 11',
-//       notes: 'Value 12'
-//     }
-//   }
-//   const handleClickOpen = () => {
-//     setOpen(true)
-//   }
-
-//   const handleClose = () => {
-//     setOpen(false)
-//   }
-
-//   const handleSalePersonsToggle = () => {
-//     setSalePersonsOpen(prev => !prev)
-//   }
-
-//   const handleDepartmentDetailsToggle = () => {
-//     setTicketDetailsOpen(prev => !prev)
-//   }
-//   const handleBusinessDetailsToggle = () => {
-//     setBusinessDetailsOpen(prev => !prev)
-//   }
-
-//   return (
-//     <React.Fragment>
-//       <Button variant='outlined' onClick={handleClickOpen}>
-//         Open full-screen dialog
-//       </Button>
-//       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-//         <AppBar sx={{ position: 'relative' }}>
-//           <Toolbar>
-//             <IconButton edge='start' color='inherit' onClick={handleClose} aria-label='close'>
-//               <CloseIcon />
-//             </IconButton>
-//             <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div' color='black' textAlign='center'>
-//               Ticket Details of "Business Name"
-//             </Typography>
-//           </Toolbar>
-//         </AppBar>
-//         <List>
-//           <ListItemButton
-//             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-//             onClick={handleDepartmentDetailsToggle}
-//           >
-//             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-//               <Icon icon='bxs:message-rounded-detail' style={{ marginRight: '3px', fontSize: '30px' }} />
-//               <ListItemText primary='Ticket Details' />
-//             </div>
-//           </ListItemButton>
-//           {ticketDetailsOpen && (
-//             <>
-//               <Divider />
-//               {Object.entries(ticketData.ticketDetails).map(([key, value]) => (
-//                 <ListItemButton key={key} style={{ display: 'flex' }}>
-//                   <ListItemText primary={`${key} : ${value}`} style={{ textAlign: 'center' }} />
-//                 </ListItemButton>
-//               ))}{' '}
-//             </>
-//           )}
-//           <ListItemButton
-//             onClick={handleSalePersonsToggle}
-//             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-//           >
-//             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-//               <Icon icon='foundation:burst-sale' style={{ marginRight: '3px', fontSize: '30px' }} />{' '}
-//               <ListItemText primary='Sales Department' />
-//             </div>
-//           </ListItemButton>
-//           {salePersonsOpen && (
-//             <>
-//               <Divider />
-//               {Object.entries(ticketData.SalesDepart).map(([key, value]) => (
-//                 <ListItemButton key={key} style={{ display: 'flex' }}>
-//                   <ListItemText primary={`${key} : ${value}`} style={{ textAlign: 'center' }} />
-//                 </ListItemButton>
-//               ))}
-//             </>
-//           )}
-
-//           <ListItemButton
-//             onClick={handleBusinessDetailsToggle}
-//             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-//           >
-//             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-//               <Icon icon='mdi:business-card' style={{ marginRight: '3px' }} />{' '}
-//               <ListItemText primary='Business Details' />
-//             </div>
-//           </ListItemButton>
-
-//           {businessDetailsOpen && (
-//             <>
-//               <Divider />
-//               {Object.entries(ticketData.business).map(([key, value]) => (
-//                 <ListItemButton key={key} style={{ display: 'flex' }}>
-//                   <ListItemText primary={`${key} : ${value}`} style={{ textAlign: 'center' }} />
-//                 </ListItemButton>
-//               ))}
-//             </>
-//           )}
-//         </List>
-//       </Dialog>
-//     </React.Fragment>
-//   )
-// }
 // ** React Imports
 import { Divider, ListItem, ListItemText } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -168,17 +14,17 @@ import { ReactElement, Ref, forwardRef, useState } from 'react'
 import Icon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
 
-interface DataType {
-  name: string
-  email: string
-  value: string
-  avatar: string
-}
+// interface DataType {
+//   name: string
+//   email: string
+//   value: string
+//   avatar: string
+// }
 
-interface OptionsType {
-  name: string
-  avatar: string
-}
+// interface OptionsType {
+//   name: string
+//   avatar: string
+// }
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -257,6 +103,7 @@ const TicketDetailsDialogBox = () => {
           <Box sx={{ maxHeight: 600, overflowY: 'auto' }}>
             <List dense sx={{ py: 4 }}>
               {/* Sales Department */}
+
               <Typography variant='h6' sx={{ mb: 2, textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Icon icon='foundation:burst-sale' style={{ marginRight: '3px', fontSize: '30px' }} /> Sales
@@ -271,6 +118,7 @@ const TicketDetailsDialogBox = () => {
               ))}
 
               {/* Ticket Details */}
+
               <Typography variant='h6' sx={{ mb: 2, textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Icon icon='bxs:message-rounded-detail' style={{ marginRight: '3px', fontSize: '25px' }} />
@@ -283,7 +131,9 @@ const TicketDetailsDialogBox = () => {
                   <ListItemText primary={`${key}: ${value}`} />
                 </ListItem>
               ))}
+
               {/* Business Details */}
+
               <Typography variant='h6' sx={{ mb: 2, textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Icon icon='mdi:business-card' style={{ marginRight: '3px', fontSize: '25px' }} />

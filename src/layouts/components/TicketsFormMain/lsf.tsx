@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import LocalSeoForm from 'src/layouts/components/newTicketForm/Departments/LocalSeo'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import { useAuth } from 'src/hooks/useAuth'
-import { Department } from 'src/shared/enums/Department.enum'
-import toast from 'react-hot-toast'
-import { LocalSeoFormType, localSeoDefaultValues } from 'src/interfaces/forms.interface'
-import { localSeoYupSchema } from 'src/yupSchemas/localSeoYupSchema'
 import { useRouter } from 'next/router'
-import { mapResponseForLocalSeo } from 'src/utils/mapResponseForLocalSeo'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import Spinner from 'src/@core/components/spinner'
+import { useAuth } from 'src/hooks/useAuth'
+import { LocalSeoFormType, localSeoDefaultValues } from 'src/interfaces/forms.interface'
+import { Department } from 'src/shared/enums/Department.enum'
+import { mapResponseForLocalSeo } from 'src/utils/mapResponseForLocalSeo'
+import { localSeoYupSchema } from 'src/yupSchemas/localSeoYupSchema'
 
 const schema = localSeoYupSchema
 
@@ -24,6 +24,7 @@ const LocalSeoFormComponent = () => {
   const defaultValues = async () => {
     if (!ticketId) {
       setUpdate(false)
+
       return localSeoDefaultValues
     }
     try {
@@ -33,6 +34,7 @@ const LocalSeoFormComponent = () => {
       })
       setUpdate(true)
       setBusiness_id(res.data.payload.ticket.business_id)
+
       return mapResponseForLocalSeo(res.data.payload.ticket)
     } catch (error: any) {
       toast.error(error?.response?.data)

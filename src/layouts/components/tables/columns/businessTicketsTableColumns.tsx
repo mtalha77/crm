@@ -1,13 +1,14 @@
 import { Box, FormControl, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
-import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
+import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
+import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 
 const businessTicketsColumns: any = (
   user: UserDataType,
@@ -81,8 +82,9 @@ const businessTicketsColumns: any = (
     {
       header: 'Status',
       accessorKey: 'status',
-      // filterVariant: 'select',
-      // filterSelectOptions: TicketStatusValues,
+      filterVariant: 'autocomplete',
+      filterSelectOptions: TicketStatusValues,
+
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''
@@ -121,7 +123,9 @@ const businessTicketsColumns: any = (
     },
     {
       header: 'Priority',
-      accessorKey: 'priority'
+      accessorKey: 'priority',
+      filterVariant: 'autocomplete',
+      filterSelectOptions: PriorityTypeValues
     },
     {
       header: 'Payment',

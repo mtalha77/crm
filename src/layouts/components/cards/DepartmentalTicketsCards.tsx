@@ -8,11 +8,12 @@ import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import SimpleCard from '../cards/simpleCard'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 const DepartmentalTicketCards = () => {
   // ** Hook
   const [statusCounts, setStatusCounts] = useState()
-
+  const router = useRouter()
   useEffect(() => {
     const temp = async () => {
       await axios
@@ -39,14 +40,36 @@ const DepartmentalTicketCards = () => {
         </Box>
       </Paper>
       <Grid container spacing={6} mb={'20px'}>
-        <Grid item xs={12} sm={3}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          onClick={() => {
+            router.push({
+              pathname: '/view-d-tickets',
+              query: { status: TicketStatus.NOT_STARTED_YET }
+            })
+          }}
+          sx={{ cursor: 'pointer' }}
+        >
           <SimpleCard
             count={statusCounts?.[TicketStatus.NOT_STARTED_YET]}
             icon={'circum:no-waiting-sign'}
             text={'Not Started Yet'}
           />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          onClick={() => {
+            router.push({
+              pathname: '/view-d-tickets',
+              query: { status: TicketStatus.PENDING }
+            })
+          }}
+          sx={{ cursor: 'pointer' }}
+        >
           <SimpleCard
             count={statusCounts?.[TicketStatus.PENDING]}
             icon={'ic:outline-pending-actions'}
@@ -54,7 +77,18 @@ const DepartmentalTicketCards = () => {
             iconColor='warning'
           />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          onClick={() => {
+            router.push({
+              pathname: '/view-d-tickets',
+              query: { status: TicketStatus.IN_PROGRESS }
+            })
+          }}
+          sx={{ cursor: 'pointer' }}
+        >
           <SimpleCard
             count={statusCounts?.[TicketStatus.IN_PROGRESS]}
             icon={'carbon:in-progress'}
@@ -63,7 +97,18 @@ const DepartmentalTicketCards = () => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={3}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          onClick={() => {
+            router.push({
+              pathname: '/view-d-tickets',
+              query: { status: TicketStatus.COMPLETED }
+            })
+          }}
+          sx={{ cursor: 'pointer' }}
+        >
           <SimpleCard
             count={statusCounts?.[TicketStatus.COMPLETED]}
             icon={'fluent-mdl2:completed'}

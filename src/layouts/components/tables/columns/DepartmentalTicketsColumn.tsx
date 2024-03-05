@@ -82,6 +82,8 @@ const DepartmentalTicketsColumns: any = (
     {
       header: 'Status',
       accessorKey: 'status',
+      filterVariant: 'select',
+      filterSelectOptions: TicketStatusValues,
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''

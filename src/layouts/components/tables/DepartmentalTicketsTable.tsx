@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { mapDFormPageRoutes, mapFormPageRoutes } from 'src/constants'
 import { useAuth } from 'src/hooks/useAuth'
@@ -20,7 +20,8 @@ function DepartmentalTicketsTable() {
   const router = useRouter()
   const [businessList, setBusinessList] = useState([])
   const [employeesList, setEmployeesList] = useState([])
-
+  const dataRendered = useRef<boolean>(false)
+  const { status } = router.query
   const fetchData = async () => {
     try {
       setIsLoading(true)
@@ -158,6 +159,14 @@ function DepartmentalTicketsTable() {
               ['assignee_employee_id.user_name']: !(user?.role === UserRole.EMPLOYEE),
 
               assignee_depart_name: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD)
+            }
+          },
+          muiTableBodyCellProps: ({ column }: any) => {
+            if (column.id === 'status') {
+              if (dataRendered.current === false) {
+                dataRendered.current = true
+                if (!column.getIsFiltered()) if (status) column.setFilterValue(status)
+              }
             }
           }
         }}

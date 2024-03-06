@@ -2,16 +2,13 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import { mapDFormPageRoutes, mapFormPageRoutes } from 'src/constants'
+import { mapDFormPageRoutes } from 'src/constants'
 import { useAuth } from 'src/hooks/useAuth'
-import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
-import MuiTable from './MuiTable'
-import businessTicketsColumns from './columns/businessTicketsTableColumns'
-import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
-import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
-import DepartmentalTicketsColumns from './columns/DepartmentalTicketsColumn'
+import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
-let filteredData: any = []
+import MuiTable from './MuiTable'
+import DepartmentalTicketsColumns from './columns/DepartmentalTicketsColumn'
+
 function DepartmentalTicketsTable() {
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])

@@ -147,7 +147,9 @@ const LoginPage = () => {
   }
 
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
+
   // const imageSource = 'Rank-BPO-PVT-LTD-LOGO.png'
+
   return (
     <Box className='content-right'>
       {!hidden ? (

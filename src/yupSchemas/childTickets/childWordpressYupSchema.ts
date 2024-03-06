@@ -1,5 +1,4 @@
 import { ChildWordPressFormType } from 'src/interfaces/childTicketForms.interface'
-import { DWordPressFormType } from 'src/interfaces/departmentalForms.interface'
 import * as yup from 'yup'
 
 export const ChildWordPressYupSchema: yup.ObjectSchema<ChildWordPressFormType> = yup.object().shape({
@@ -8,6 +7,7 @@ export const ChildWordPressYupSchema: yup.ObjectSchema<ChildWordPressFormType> =
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

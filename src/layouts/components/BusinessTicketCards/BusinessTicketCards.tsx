@@ -8,7 +8,7 @@ import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import SimpleCard from '../cards/simpleCard'
 import { useRouter } from 'next/router'
 
-const series = [{ data: [0, 20, 5, 30, 15, 45] }]
+// const series = [{ data: [0, 20, 5, 30, 15, 45] }]
 
 const BusinessTicketCards = ({ statusCounts }: any) => {
   // ** Hook

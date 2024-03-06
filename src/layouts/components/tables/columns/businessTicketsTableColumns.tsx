@@ -4,11 +4,11 @@ import { UserDataType } from 'src/context/types'
 import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
-import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
-import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
+import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
+import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 
 const businessTicketsColumns: any = (
   user: UserDataType,
@@ -49,7 +49,6 @@ const businessTicketsColumns: any = (
                     assignedEmployeeToTicket(e.target.value, _id)
                     setValue(e.target.value)
                   }}
-                  // defaultValue=''
                   value={value}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
@@ -100,7 +99,6 @@ const businessTicketsColumns: any = (
                     setValue(e.target.value)
                     updateTicketStatus(_id, e.target.value)
                   }}
-                  // defaultValue=''
                   value={value}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
@@ -133,6 +131,7 @@ const businessTicketsColumns: any = (
       Cell: ({ cell }: any) => {
         const value = cell.getValue()
         const { _id } = cell.row.original
+
         return (
           <>
             <PaymentHistoryDialog payment_history={value} ticketId={_id} fetchAgain={fetchAgain} />
@@ -147,6 +146,7 @@ const businessTicketsColumns: any = (
         const handleEdit = () => {
           handleTicketEdit(assignee_depart_name, _id)
         }
+
         return (
           <>
             <Box alignItems={'center'} display={'flex'}>

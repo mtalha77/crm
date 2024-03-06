@@ -8,6 +8,7 @@ export const DSocialMediaYupSchema: yup.ObjectSchema<DSocialMediaFormType> = yup
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

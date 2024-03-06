@@ -1,7 +1,6 @@
 // ** MUI Imports
-import { styled } from '@mui/material/styles'
 import Box, { BoxProps } from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { styled } from '@mui/material/styles'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'

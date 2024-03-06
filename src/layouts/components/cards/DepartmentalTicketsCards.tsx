@@ -4,10 +4,11 @@ import Box from '@mui/material/Box'
 
 import Typography from '@mui/material/Typography'
 
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import SimpleCard from '../cards/simpleCard'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+
 import { useRouter } from 'next/router'
 
 const DepartmentalTicketCards = () => {
@@ -32,6 +33,7 @@ const DepartmentalTicketCards = () => {
     }
     temp()
   }, [])
+
   return (
     <>
       <Paper sx={{ mt: 8, mb: 6 }}>

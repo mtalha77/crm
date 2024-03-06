@@ -1,12 +1,7 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { LocalSeoFormType, SocialMediaFormType } from 'src/interfaces/forms.interface'
-import {
-  LocalSeoWorkStatusValues,
-  SocialMediaWorkStatus,
-  SocialMediaWorkStatusValues
-} from 'src/shared/enums/WorkStatusType.enum'
+import { SocialMediaFormType } from 'src/interfaces/forms.interface'
+import { SocialMediaWorkStatus, SocialMediaWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const SocialMediaSpecificDetails = () => {
   const {

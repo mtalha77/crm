@@ -1,33 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
-import toast from 'react-hot-toast'
 
+import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
-import { DPaidMarketingFormType, dPaidMarketingDefaultValues } from 'src/interfaces/departmentalForms.interface'
-import Common from './Common'
-import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
-import FormsHeader from '../newTicketForm/Header'
-import SubmitButton from '../newTicketForm/SharedField/FormButton'
-import { mapResponseForDPaidMarketing } from 'src/utils/departmentalTickets/mapResponseForDPaidMarketing'
-import { dPaidMarketingYupSchema } from 'src/yupSchemas/departmentalforms/dPaidMarketingYupSchema'
-import PaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/PaidMarketingSpecificDetails'
-import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
-import { ChildPaidMarketingYupSchema } from 'src/yupSchemas/childTickets/childPaidMarketingYupSchema'
 import { ChildPaidMarketingDefaultValues, ChildPaidMarketingFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildPaidMarketing } from 'src/utils/childTickets/mapResponseForChildPaidMarketing'
+import { ChildPaidMarketingYupSchema } from 'src/yupSchemas/childTickets/childPaidMarketingYupSchema'
+import PaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/PaidMarketingSpecificDetails'
+import FormsHeader from '../newTicketForm/Header'
+import SubmitButton from '../newTicketForm/SharedField/FormButton'
+import Common from './Common'
 
 const schema = ChildPaidMarketingYupSchema
 
 const ChildPaidMarketingFormComponent = () => {
   const router = useRouter()
   const { ticketId, parentId, businessId } = router.query
-  const [apiLoading, setApiLoading] = useState(false)
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
 

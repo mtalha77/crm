@@ -4,15 +4,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { mapFormPageRoutes } from 'src/constants'
 import { useAuth } from 'src/hooks/useAuth'
-import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
+import { Department } from 'src/shared/enums/Department.enum'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 import MuiTable from './MuiTable'
 import businessTicketsColumns from './columns/businessTicketsTableColumns'
-import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
-import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
-import { UserRole } from 'src/shared/enums/UserRole.enum'
-import Edit from '@mui/icons-material/Edit'
-import { MRT_ActionMenuItem } from 'material-react-table'
-let filteredData: any = []
+
+// let filteredData: any = []
+
 function BusinessTicketsTable() {
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])

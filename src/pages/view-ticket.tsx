@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { Typography, Paper, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material'
-import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
+import { Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import LocalSeoView from 'src/layouts/components/ticket-view-department-wise/LocalSeoView'
-import { Department } from 'src/shared/enums/Department.enum'
-import WordPressView from 'src/layouts/components/ticket-view-department-wise/WordPressView'
-import WebSeoView from 'src/layouts/components/ticket-view-department-wise/WebSeoView'
 import PaidMarketingView from 'src/layouts/components/ticket-view-department-wise/PaidMarketingView'
 import SocialMediaView from 'src/layouts/components/ticket-view-department-wise/SocialMediaView'
+import WebSeoView from 'src/layouts/components/ticket-view-department-wise/WebSeoView'
+import WordPressView from 'src/layouts/components/ticket-view-department-wise/WordPressView'
+import { Department } from 'src/shared/enums/Department.enum'
 
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
@@ -20,7 +20,6 @@ const BoldText = ({ children }: any) => (
 const ViewPage = () => {
   const router = useRouter()
   const { ticketId, depart } = router.query
-  const [apiLoading, setApiLoading] = useState(false)
   const [data, setData] = useState<any>({})
 
   const { business_id } = data

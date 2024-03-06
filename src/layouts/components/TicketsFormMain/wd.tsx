@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Wordpress from 'src/layouts/components/newTicketForm/Departments/Wordpress'
-import { WordPressFormType, wordPressDefaultValues } from 'src/interfaces/forms.interface'
-import { wordPressYupSchema } from 'src/yupSchemas/wordpressYupSchema'
-import { useAuth } from 'src/hooks/useAuth'
-import { Department } from 'src/shared/enums/Department.enum'
 import axios from 'axios'
-import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
-import { mapResponseForWordPress } from 'src/utils/mapResponseForWordPress'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import Spinner from 'src/@core/components/spinner'
+import { useAuth } from 'src/hooks/useAuth'
+import { WordPressFormType, wordPressDefaultValues } from 'src/interfaces/forms.interface'
+import Wordpress from 'src/layouts/components/newTicketForm/Departments/Wordpress'
+import { Department } from 'src/shared/enums/Department.enum'
+import { mapResponseForWordPress } from 'src/utils/mapResponseForWordPress'
+import { wordPressYupSchema } from 'src/yupSchemas/wordpressYupSchema'
 
 const schema = wordPressYupSchema
 
@@ -25,6 +25,7 @@ const WordPressFormComponent = () => {
   const defaultValues = async () => {
     if (!ticketId) {
       setUpdate(false)
+
       return wordPressDefaultValues
     }
     try {
@@ -34,6 +35,7 @@ const WordPressFormComponent = () => {
       })
       setUpdate(true)
       setBusiness_id(res.data.payload.ticket.business_id)
+
       return mapResponseForWordPress(res.data.payload.ticket)
     } catch (error: any) {
       toast.error(error?.response?.data)
@@ -118,7 +120,7 @@ const WordPressFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <Wordpress update={update} />}
         </form>
       </FormProvider>

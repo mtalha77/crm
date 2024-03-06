@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { WebSeoFormType, webSeoDefaultValues } from 'src/interfaces/forms.interface'
-import { webSeoYupSchema } from 'src/yupSchemas/webSeoYupSchema'
-import { useAuth } from 'src/hooks/useAuth'
-import { Department } from 'src/shared/enums/Department.enum'
 import axios from 'axios'
-import toast from 'react-hot-toast'
-import WebSeoForm from 'src/layouts/components/newTicketForm/Departments/WebSeo'
 import { useRouter } from 'next/router'
-import { mapResponseForWebSeo } from 'src/utils/mapResponseForWebSeo'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import Spinner from 'src/@core/components/spinner'
+import { useAuth } from 'src/hooks/useAuth'
+import { WebSeoFormType, webSeoDefaultValues } from 'src/interfaces/forms.interface'
+import WebSeoForm from 'src/layouts/components/newTicketForm/Departments/WebSeo'
+import { Department } from 'src/shared/enums/Department.enum'
+import { mapResponseForWebSeo } from 'src/utils/mapResponseForWebSeo'
+import { webSeoYupSchema } from 'src/yupSchemas/webSeoYupSchema'
 
 const schema = webSeoYupSchema
 
@@ -24,6 +23,7 @@ const WebSeoFormComponent = () => {
   const defaultValues = async () => {
     if (!ticketId) {
       setUpdate(false)
+
       return webSeoDefaultValues
     }
     try {
@@ -33,6 +33,7 @@ const WebSeoFormComponent = () => {
       })
       setUpdate(true)
       setBusiness_id(res.data.payload.ticket.business_id)
+
       return mapResponseForWebSeo(res.data.payload.ticket)
     } catch (error: any) {
       toast.error(error?.response?.data)
@@ -119,10 +120,11 @@ const WebSeoFormComponent = () => {
         })
     }
   }
+
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <WebSeoForm update={update} />}
         </form>
       </FormProvider>

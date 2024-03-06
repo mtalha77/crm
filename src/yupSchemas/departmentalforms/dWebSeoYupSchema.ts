@@ -7,6 +7,7 @@ export const DWebSeoYupSchema: yup.ObjectSchema<DWebSeoFormType> = yup.object().
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

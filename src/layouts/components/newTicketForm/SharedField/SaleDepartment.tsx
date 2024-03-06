@@ -1,6 +1,6 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select } from '@mui/material'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { CommonFormType } from 'src/interfaces/forms.interface'
 import { SaleType, SaleTypeValues } from 'src/shared/enums/SaleType.enum'
@@ -103,6 +103,7 @@ const SaleDepartment = () => {
                   {saleUsers.length > 0 &&
                     saleUsers.map((u: any) => {
                       if (u.sub_role === SaleEmployeeRole.FRONTER) return
+
                       return (
                         <MenuItem key={u._id} value={u.user_name}>
                           {u.user_name}
@@ -149,6 +150,7 @@ const SaleDepartment = () => {
                     {saleUsers.length > 0 &&
                       saleUsers.map((u: any) => {
                         if (u.sub_role === SaleEmployeeRole.CLOSER) return
+
                         return (
                           <MenuItem key={u._id} value={u.user_name}>
                             {u.user_name}

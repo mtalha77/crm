@@ -158,6 +158,7 @@ const handler = async (req: any, res: any) => {
       if (!result) return res.status(500).send('Not able to create ticket.Please try again')
 
       await session.commitTransaction()
+
       return res.send({
         message: 'Ticket Created',
         payload: { _id: result._id }
@@ -165,6 +166,7 @@ const handler = async (req: any, res: any) => {
     } catch (error) {
       console.log(error)
       await session.abortTransaction()
+
       return res.status(500).send('something went wrong')
     } finally {
       if (session) session.endSession()

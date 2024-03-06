@@ -80,12 +80,14 @@ const handler = async (req: any, res: any) => {
       if (!updatedTicket) throw new Error('Error while updating')
 
       console.log('Successfully updated')
+
       return res.send({
         message: 'Ticket Updated',
         payload: { _id: updatedTicket._id }
       })
     } catch (error) {
       console.log(error)
+
       return res.status(500).send('Not able to update ticket.Please try again')
     }
   } else {

@@ -1,23 +1,21 @@
 // ** React Imports
-import { Ref, useState, forwardRef, ReactElement } from 'react'
+import { ReactElement, Ref, forwardRef, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 
-import Fade, { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import { FadeProps } from '@mui/material/Fade'
 
-import Icon from 'src/@core/components/icon'
-import SinglePaymentHistory from '../singlePaymentHistory'
-import AddNewPayment from '../AddNewPayment'
 import { Slide } from '@mui/material'
+import Icon from 'src/@core/components/icon'
+import AddNewPayment from '../AddNewPayment'
+import SinglePaymentHistory from '../singlePaymentHistory'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -28,6 +26,7 @@ const Transition = forwardRef(function Transition(
 
 const PaymentHistoryDialog = (props: any) => {
   // ** States
+
   const [show, setShow] = useState<boolean>(false)
   const { payment_history, ticketId, fetchAgain } = props
 
@@ -37,11 +36,8 @@ const PaymentHistoryDialog = (props: any) => {
         Payment history
       </Button>
       <Dialog
-        // fullWidth
         fullScreen
         open={show}
-        // maxWidth='md'
-        // scroll='body'
         onClose={() => setShow(false)}
         TransitionComponent={Transition}
         onBackdropClick={() => setShow(false)}
@@ -73,8 +69,8 @@ const PaymentHistoryDialog = (props: any) => {
             </Typography>
           </Box>
 
-          {payment_history.map((p: any) => {
-            return <SinglePaymentHistory payment={p} ticketId={ticketId} fetchAgain={fetchAgain} />
+          {payment_history.map((p: any, index: number) => {
+            return <SinglePaymentHistory key={index} payment={p} ticketId={ticketId} fetchAgain={fetchAgain} />
           })}
         </DialogContent>
         <DialogActions

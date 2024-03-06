@@ -45,6 +45,7 @@ const handler = async (req: any, res: any) => {
       )
 
       if (result.modifiedCount === 0) return res.status(500).send('Not able to update ticket.Please try again')
+
       return res.send({
         message: `Payment updated successfully`,
         payload: {}

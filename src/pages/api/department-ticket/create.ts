@@ -1,6 +1,7 @@
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
+import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
@@ -33,10 +34,12 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        task_details,
         business_id
       } = req.body
 
-      if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status || !business_id)
+      if (assignee_depart_name !== Department.Writer && !work_status) return res.status(400).send('Network Error')
+      if (!assignee_depart_id || !assignee_depart_name || !due_date || !business_id)
         return res.status(400).send('Network Error')
 
       const { role } = req.user
@@ -73,6 +76,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        task_details,
         business_id
       }
 
@@ -87,7 +91,7 @@ const handler = async (req: any, res: any) => {
         payload: { _id: result._id }
       })
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       res.status(500).send('something went wrong')
     }
   } else {

@@ -4,7 +4,8 @@ import {
   PaidMarketingDetails,
   SocialMediaDetails,
   WebSeoDetails,
-  WordPressDetails
+  WordPressDetails,
+  WriterDetails
 } from './forms.interface'
 
 export interface ChildLocalSeoFormType extends DTicketDetails {
@@ -27,12 +28,25 @@ export interface ChildSocialMediaFormType extends DTicketDetails {
   socialMediaFormTypeDetails: SocialMediaDetails
 }
 
+export interface ChildWriterFormType extends DTicketDetails {
+  writerFormTypeDetails: WriterDetails
+}
+
 export const ChildLocalSeoDefaultValues: ChildLocalSeoFormType = {
   priority: '',
   due_date: new Date(),
   localSeoDetails: {
     notes: '',
     work_status: ''
+  }
+}
+
+export const ChildWriterDefaultValues: ChildWriterFormType = {
+  priority: '',
+  due_date: new Date(),
+  writerFormTypeDetails: {
+    notes: '',
+    task_details: ''
   }
 }
 

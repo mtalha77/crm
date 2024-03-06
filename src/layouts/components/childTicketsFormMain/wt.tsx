@@ -1,43 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
-import toast from 'react-hot-toast'
 
+import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
-import {
-  DWebSeoFormType,
-  DWriterFormType,
-  dWebSeoDefaultValues,
-  dWriterDefaultValues
-} from 'src/interfaces/departmentalForms.interface'
-import Common from './Common'
-import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
+import { ChildWriterDefaultValues, ChildWriterFormType } from 'src/interfaces/childTicketForms.interface'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
-import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dWebSeoYupSchema'
-import { mapResponseForDWebSeo } from 'src/utils/departmentalTickets/mapResponseForDWebSeo'
-import WebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/WebSeoSpecificDetails'
-import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
-import { mapResponseForDWriter } from 'src/utils/departmentalTickets/mapResponseForDWriter'
-import { DWriterYupSchema } from 'src/yupSchemas/departmentalforms/dWriterYupSchema'
+import Common from './Common'
 import WriterSpecificDetails from '../newTicketForm/Departments/Writer/WriterSpecificDetails'
+import { ChildWriterYupSchema } from 'src/yupSchemas/childTickets/childWriterYupSchema'
+import { mapResponseForChildWriter } from 'src/utils/childTickets/mapResponseForChildWriter'
 
-const schema = DWriterYupSchema
+const schema = ChildWriterYupSchema
 
-const DWritersFormComponent = () => {
+const ChildWriterFormComponent = () => {
   const router = useRouter()
-  const { ticketId } = router.query
-  const [apiLoading, setApiLoading] = useState(false)
+  const { ticketId, parentId, businessId } = router.query
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
-  const [business_id, setBusiness_id] = useState('')
 
-  const methods = useForm({ defaultValues: dWriterDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+  const methods = useForm({ defaultValues: ChildWriterDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
 
   const fetchTicket = async () => {
@@ -47,7 +37,7 @@ const DWritersFormComponent = () => {
       const res = await axios.get(`/api/department-ticket/${ticketId}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
-      const mapResult = mapResponseForDWriter(res.data.payload.ticket)
+      const mapResult = mapResponseForChildWriter(res.data.payload.ticket)
       methods.reset(mapResult)
     } catch (error: any) {
       toast.error(error?.response?.data)
@@ -58,7 +48,7 @@ const DWritersFormComponent = () => {
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      methods.reset(dWriterDefaultValues)
+      methods.reset(ChildWriterDefaultValues)
     }
   }, [isSubmitSuccessful])
 
@@ -68,7 +58,7 @@ const DWritersFormComponent = () => {
     }
   }, [ticketId])
 
-  const onSubmit = async (data: DWriterFormType) => {
+  const onSubmit = async (data: ChildWriterFormType) => {
     const { priority, due_date, writerFormTypeDetails } = data
 
     // Create a new object with the destructured properties
@@ -82,7 +72,8 @@ const DWritersFormComponent = () => {
       notes: writerFormTypeDetails.notes,
       task_details: writerFormTypeDetails.task_details,
       ticketId: ticketId,
-      business_id
+      business_id: businessId,
+      parentId
     }
     if (update) {
       const apiUrl = '/api/department-ticket/update'
@@ -98,7 +89,7 @@ const DWritersFormComponent = () => {
         })
     } else {
       setIsSubmitSuccessful(false)
-      const apiUrl = '/api/department-ticket/create'
+      const apiUrl = '/api/department-ticket/create-child'
 
       await axios
         .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
@@ -125,15 +116,12 @@ const DWritersFormComponent = () => {
                 <CardHeader
                   title={
                     <Typography variant='h5' color={'primary'}>
-                      {update ? 'Update Ticket' : ' Generate New Ticket For Writer'}
+                      Generate New Linked Ticket For Writer
                     </Typography>
                   }
                 />
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
-                  <FormsHeader title='Business Details'>
-                    <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
-                  </FormsHeader>
                   <FormsHeader title='Ticket Details'>
                     <WriterSpecificDetails />
                   </FormsHeader>
@@ -158,4 +146,4 @@ const DWritersFormComponent = () => {
   )
 }
 
-export default DWritersFormComponent
+export default ChildWriterFormComponent

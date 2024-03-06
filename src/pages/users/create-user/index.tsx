@@ -62,10 +62,9 @@ const validationSchema = yup.object({
   department: yup.string().required('Department is required'),
   role: yup.string().required('Role is required'),
   sub_role: yup.string().when('department', {
-    is: (val: any) => val === Department.Sales
-
-    // then: schema => yup.string().required('Sub Role is required'),
-    // otherwise: schema => yup.string()
+    is: (val: any) => val === Department.Sales,
+    then: () => yup.string().required('Sub Role is required'),
+    otherwise: () => yup.string()
   })
 })
 

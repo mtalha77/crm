@@ -2,7 +2,7 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import DepartmentModel from 'src/backend/schemas/department.schema'
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
       const departments = await DepartmentModel.find({})

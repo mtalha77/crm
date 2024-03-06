@@ -5,7 +5,7 @@ import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
       let businesses = []
@@ -83,6 +83,7 @@ const handler = async (req, res) => {
         default:
           break
       }
+
       return res.send({
         message: 'businesses fetched successfully',
         payload: { businesses }

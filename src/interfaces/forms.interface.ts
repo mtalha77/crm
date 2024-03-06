@@ -61,7 +61,7 @@ export interface PaidMarketingDetails {
   location?: string
   ad_account_access?: string
   budget?: string
-  budget_price?: number
+  budget_price?: number | null
   clients_objectives?: string
   notes?: string
   work_status: string

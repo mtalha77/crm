@@ -1,7 +1,7 @@
 import { Box, FormControl, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
-import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
+import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
@@ -18,7 +18,6 @@ const businessTicketsColumns: any = (
   handleTicketEdit: any,
   fetchAgain: any,
   businessList: any,
-  handleView: any,
   employeesList: any
 ) => {
   return [

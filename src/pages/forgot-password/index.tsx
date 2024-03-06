@@ -5,12 +5,12 @@ import { ReactNode } from 'react'
 import Link from 'next/link'
 
 // ** MUI Components
+import Box, { BoxProps } from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import Box, { BoxProps } from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { styled, useTheme } from '@mui/material/styles'
 import Typography, { TypographyProps } from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'

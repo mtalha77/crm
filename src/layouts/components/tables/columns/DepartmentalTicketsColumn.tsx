@@ -13,9 +13,7 @@ const DepartmentalTicketsColumns: any = (
   assignedEmployeeToTicket: any,
   updateTicketStatus: any,
   handleTicketEdit: any,
-  fetchAgain: any,
   businessList: any,
-  handleView: any,
   employeesList: any
 ) => {
   return [

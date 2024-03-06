@@ -1,8 +1,6 @@
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
-import { UserRole } from 'src/shared/enums/UserRole.enum'
 import MuiTable from './MuiTable'
 import BusinessesColumns from './columns/BusinessesColumns'
 import { useAuth } from 'src/hooks/useAuth'
@@ -10,7 +8,6 @@ import { useAuth } from 'src/hooks/useAuth'
 function BusinessesTable() {
   const [data, setData] = useState([])
   const [isLoading] = useState(false)
-  const router = useRouter()
   const { user } = useAuth()
   const fetchBusinesses = async () => {
     try {
@@ -21,12 +18,6 @@ function BusinessesTable() {
     } catch (error) {
       console.error(error)
     }
-  }
-  const handleEdit = (businessId: string) => {
-    router.push({
-      pathname: '/business-update',
-      query: { businessId }
-    })
   }
 
   const updateStatus = async (id: string, status: string) => {
@@ -45,7 +36,7 @@ function BusinessesTable() {
       toast.error(error.response.data)
     }
   }
-  const columns: any = useMemo(() => BusinessesColumns(handleEdit, updateStatus, user), [data])
+  const columns: any = useMemo(() => BusinessesColumns(updateStatus, user), [data])
 
   useEffect(() => {
     fetchBusinesses()
@@ -62,9 +53,6 @@ function BusinessesTable() {
           },
           initialState: {
             density: 'compact'
-            // columnVisibility: {
-            //   status: !(user?.role === UserRole.TEAM_LEAD)
-            // }
           }
         }}
       />

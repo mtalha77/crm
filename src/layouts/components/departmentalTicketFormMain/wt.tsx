@@ -9,19 +9,11 @@ import toast from 'react-hot-toast'
 
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
-import {
-  DWebSeoFormType,
-  DWriterFormType,
-  dWebSeoDefaultValues,
-  dWriterDefaultValues
-} from 'src/interfaces/departmentalForms.interface'
+import { DWriterFormType, dWriterDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import Common from './Common'
-import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
-import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dWebSeoYupSchema'
-import { mapResponseForDWebSeo } from 'src/utils/departmentalTickets/mapResponseForDWebSeo'
-import WebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/WebSeoSpecificDetails'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import { mapResponseForDWriter } from 'src/utils/departmentalTickets/mapResponseForDWriter'
 import { DWriterYupSchema } from 'src/yupSchemas/departmentalforms/dWriterYupSchema'
@@ -39,6 +31,8 @@ const DWritersFormComponent = () => {
 
   const methods = useForm({ defaultValues: dWriterDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
+
+  console.log(apiLoading)
 
   const fetchTicket = async () => {
     try {

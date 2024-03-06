@@ -1,4 +1,4 @@
-import { DWebSeoFormType, DWriterFormType } from 'src/interfaces/departmentalForms.interface'
+import { DWriterFormType } from 'src/interfaces/departmentalForms.interface'
 import * as yup from 'yup'
 
 export const DWriterYupSchema: yup.ObjectSchema<DWriterFormType> = yup.object().shape({
@@ -7,6 +7,7 @@ export const DWriterYupSchema: yup.ObjectSchema<DWriterFormType> = yup.object().
     .date()
     .transform(originalValue => {
       const parsedDate = new Date(originalValue)
+
       return isNaN(parsedDate.getTime()) ? null : parsedDate
     })
     .required('Due Date is required'),

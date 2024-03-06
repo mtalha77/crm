@@ -69,10 +69,6 @@ function DepartmentalTicketsTable() {
     fetchBusinesses()
   }, [])
 
-  const fetchAgain = () => {
-    fetchData()
-  }
-
   const assignedEmployeeToTicket = async (user_name: string | 'Not Assigned', ticketId: string) => {
     const userFound: any = employees.find((e: any) => e.user_name === user_name)
 
@@ -119,13 +115,6 @@ function DepartmentalTicketsTable() {
     })
   }
 
-  const handleView = (ticketId: string, department: string) => {
-    router.push({
-      pathname: '/view-ticket',
-      query: { ticketId, depart: department }
-    })
-  }
-
   const columns: any = useMemo(
     () =>
       DepartmentalTicketsColumns(
@@ -134,9 +123,7 @@ function DepartmentalTicketsTable() {
         assignedEmployeeToTicket,
         updateTicketStatus,
         handleTicketEdit,
-        fetchAgain,
         businessList,
-        handleView,
         employeesList
       ),
     [employees, businessList]

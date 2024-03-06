@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'

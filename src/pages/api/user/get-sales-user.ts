@@ -4,7 +4,7 @@ import { guardWrapper } from 'src/backend/auth.guard'
 import UserModel from 'src/backend/schemas/user.schema'
 import { Department } from 'src/shared/enums/Department.enum'
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
       const salesUsers = await UserModel.find({ department_name: Department.Sales }, '-password')

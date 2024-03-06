@@ -5,7 +5,7 @@ import UpdateBusinessDialog from '../../dialogs/UpdateBusinessDialog'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
 
-function BusinessesColumns(handleEdit: any, updateStatus: any, user: any) {
+function BusinessesColumns(updateStatus: any, user: any) {
   return [
     {
       header: 'Name',

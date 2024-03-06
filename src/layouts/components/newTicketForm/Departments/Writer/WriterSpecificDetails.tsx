@@ -1,15 +1,12 @@
-import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { FormControl, FormHelperText, Grid, TextField } from '@mui/material'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { DWriterFormType } from 'src/interfaces/departmentalForms.interface'
-import { WebSeoFormType } from 'src/interfaces/forms.interface'
-import { WebSeoWorkStatus, WebSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const WriterSpecificDetails = () => {
   const {
     formState: { errors },
-    control,
-    watch
+    control
   } = useFormContext<DWriterFormType>()
 
   return (

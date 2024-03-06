@@ -5,12 +5,13 @@ import toast from 'react-hot-toast'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import MuiTable from './MuiTable'
 import BusinessesColumns from './columns/BusinessesColumns'
+import { useAuth } from 'src/hooks/useAuth'
 
 function BusinessesTable() {
   const [data, setData] = useState([])
   const [isLoading] = useState(false)
   const router = useRouter()
-
+  const { user } = useAuth()
   const fetchBusinesses = async () => {
     try {
       const res = await axios.get('/api/business/get-all', {

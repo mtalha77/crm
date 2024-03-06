@@ -3,6 +3,7 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
+import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
@@ -37,16 +38,18 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        task_details,
         business_id,
         parentId
       } = req.body
-
-      if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status || !business_id || !parentId)
+      if (assignee_depart_name !== Department.Writer && !work_status) return res.status(400).send('Network Error')
+      if (!assignee_depart_id || !assignee_depart_name || !due_date || !business_id || !parentId)
         return res.status(400).send('Network Error')
 
       const { role } = req.user
 
       if (!(role === UserRole.TEAM_LEAD || role === UserRole.ADMIN)) return res.status(403).send('Permission denied.')
+      console.log(task_details)
 
       const payload = {
         priority,
@@ -78,12 +81,12 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        task_details,
         business_id,
         parent_id: new mongoose.Types.ObjectId(parentId)
       }
 
       const newTicket = new DepartTicketModel(payload)
-
       const result = await newTicket.save({ session })
 
       if (!result) return res.status(500).send('Not able to create ticket.Please try again')

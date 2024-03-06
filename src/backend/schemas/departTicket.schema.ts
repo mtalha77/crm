@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { Department } from 'src/shared/enums/Department.enum'
 import { PriorityType } from 'src/shared/enums/PriorityType.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
@@ -17,7 +18,13 @@ const departTicketSchema = new mongoose.Schema(
     assignor_depart_name: { type: String, required: true },
     outsourced_work: { type: Boolean, default: false },
     due_date: { type: Date, required: true },
-    work_status: { type: String, required: true, enum: WorkStatusValues },
+    work_status: {
+      type: String,
+      required: function (this: any) {
+        return this.assignee_depart_name !== Department.Writer
+      },
+      enum: WorkStatusValues
+    },
     notes: { type: String, required: false, default: '' },
     service_name: { type: String, required: false, trim: true },
     service_area: { type: String, required: false, trim: true },
@@ -38,7 +45,8 @@ const departTicketSchema = new mongoose.Schema(
     no_of_blogs: { type: String, required: false, trim: true },
     platform_name: { type: String, required: false, trim: true },
     no_of_likes: { type: String, required: false, trim: true },
-    no_of_gmb_reviews: { type: String, required: false, trim: true }
+    no_of_gmb_reviews: { type: String, required: false, trim: true },
+    task_details: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

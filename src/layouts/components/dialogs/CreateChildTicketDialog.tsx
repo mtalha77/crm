@@ -106,7 +106,7 @@ const CreateChildTicketDialog = (props: any) => {
             <Icon icon='mdi:close' />
           </IconButton>
 
-          <CreateChildTicket setShow={setShow} />
+          <CreateChildTicket />
         </DialogContent>
         <DialogActions
           sx={{

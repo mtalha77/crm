@@ -18,6 +18,6 @@ export const mapDFormPageRoutes = {
   [Department.PaidMarketing]: '/ticket-d-update/paidMarketing',
   [Department.SocialMedia]: '/ticket-d-update/socialMedia',
   [Department.Admin]: '/',
-  [Department.Writer]: '/',
+  [Department.Writer]: '/ticket-d-update/writer',
   [Department.Sales]: '/'
 }

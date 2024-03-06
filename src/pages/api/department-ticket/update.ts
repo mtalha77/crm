@@ -38,6 +38,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        task_details,
         ticketId
       } = req.body
       if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status || !ticketId)
@@ -72,7 +73,8 @@ const handler = async (req: any, res: any) => {
             no_of_blogs,
             platform_name,
             no_of_likes,
-            no_of_gmb_reviews
+            no_of_gmb_reviews,
+            task_details
           }
         }
       )

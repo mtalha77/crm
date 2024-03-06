@@ -4,7 +4,8 @@ import {
   PaidMarketingDetails,
   SocialMediaDetails,
   WebSeoDetails,
-  WordPressDetails
+  WordPressDetails,
+  WriterDetails
 } from './forms.interface'
 
 export interface DTicketDetails {
@@ -34,6 +35,11 @@ export interface DPaidMarketingFormType extends DTicketDetails {
 
 export interface DSocialMediaFormType extends DTicketDetails {
   socialMediaFormTypeDetails: SocialMediaDetails
+  business: BusinessDetails
+}
+
+export interface DWriterFormType extends DTicketDetails {
+  writerFormTypeDetails: WriterDetails
   business: BusinessDetails
 }
 
@@ -157,6 +163,28 @@ export const dSocialMediaDefaultValues: DSocialMediaFormType = {
     no_of_likes: '',
     no_of_gmb_reviews: '',
     no_of_posts: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
+  }
+}
+
+export const dWriterDefaultValues: DWriterFormType = {
+  priority: '',
+  due_date: new Date(),
+  writerFormTypeDetails: {
+    notes: '',
+    task_details: ''
   },
   business: {
     business_name: '',

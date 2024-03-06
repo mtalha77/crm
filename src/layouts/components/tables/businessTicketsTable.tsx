@@ -257,7 +257,11 @@ function BusinessTicketsTable() {
                 user?.role === UserRole.SALE_EMPLOYEE
               ),
 
-              payment_history: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD),
+              payment_history: !(
+                user?.role === UserRole.EMPLOYEE ||
+                user?.role === UserRole.TEAM_LEAD ||
+                user?.role === UserRole.SALE_EMPLOYEE
+              ),
               assignee_depart_name: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD)
             }
           },

@@ -79,6 +79,12 @@ export interface SocialMediaDetails {
   no_of_gmb_reviews?: string
   no_of_posts?: string
 }
+
+export interface WriterDetails {
+  notes?: string
+  task_details?: string
+}
+
 export interface CommonFormType {
   business: BusinessDetails
   saleDepart: SaleDepartDetails

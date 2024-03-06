@@ -61,10 +61,10 @@ function BusinessesTable() {
             isLoading: isLoading
           },
           initialState: {
-            density: 'compact',
-            columnVisibility: {
-              status: !(user?.role === UserRole.TEAM_LEAD)
-            }
+            density: 'compact'
+            // columnVisibility: {
+            //   status: !(user?.role === UserRole.TEAM_LEAD)
+            // }
           }
         }}
       />

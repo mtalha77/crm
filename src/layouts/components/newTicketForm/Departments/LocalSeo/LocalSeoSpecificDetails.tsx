@@ -1,5 +1,4 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { LocalSeoFormType } from 'src/interfaces/forms.interface'
 import { LocalSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
@@ -7,9 +6,9 @@ import { LocalSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 const LocalSeoSpecificDetails = () => {
   const {
     formState: { errors },
-    control,
-    watch
+    control
   } = useFormContext<LocalSeoFormType>()
+
   return (
     <>
       <Grid container spacing={5}>

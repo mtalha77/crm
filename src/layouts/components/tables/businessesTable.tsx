@@ -1,16 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import MuiTable from './MuiTable'
-import { useAuth } from 'src/hooks/useAuth'
-import { useRouter } from 'next/router'
 import axios from 'axios'
-import BusinessesColumns from './columns/BusinessesColumns'
+import { useRouter } from 'next/router'
+import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
+import MuiTable from './MuiTable'
+import BusinessesColumns from './columns/BusinessesColumns'
 
 function BusinessesTable() {
   const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const { user } = useAuth()
+  const [isLoading] = useState(false)
   const router = useRouter()
 
   const fetchBusinesses = async () => {
@@ -51,6 +49,7 @@ function BusinessesTable() {
   useEffect(() => {
     fetchBusinesses()
   }, [])
+
   return (
     <>
       <MuiTable

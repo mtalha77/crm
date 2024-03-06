@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import SmmForm from 'src/layouts/components/newTicketForm/Departments/SMM'
-import { SocialMediaFormType, socialMediaDefaultValues } from 'src/interfaces/forms.interface'
-import { socialMediaYupSchema } from 'src/yupSchemas/socialMediaYupSchema'
-import { useAuth } from 'src/hooks/useAuth'
-import { Department } from 'src/shared/enums/Department.enum'
 import axios from 'axios'
-import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
-import { mapResponseForSocialMedia } from 'src/utils/mapResponseForSocialMedia'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import Spinner from 'src/@core/components/spinner'
+import { useAuth } from 'src/hooks/useAuth'
+import { SocialMediaFormType, socialMediaDefaultValues } from 'src/interfaces/forms.interface'
+import SmmForm from 'src/layouts/components/newTicketForm/Departments/SMM'
+import { Department } from 'src/shared/enums/Department.enum'
+import { mapResponseForSocialMedia } from 'src/utils/mapResponseForSocialMedia'
+import { socialMediaYupSchema } from 'src/yupSchemas/socialMediaYupSchema'
 
 const schema = socialMediaYupSchema
 
@@ -24,6 +24,7 @@ const SocialMediaFormComponent = () => {
   const defaultValues = async () => {
     if (!ticketId) {
       setUpdate(false)
+
       return socialMediaDefaultValues
     }
     try {
@@ -33,6 +34,7 @@ const SocialMediaFormComponent = () => {
       })
       setUpdate(true)
       setBusiness_id(res.data.payload.ticket.business_id)
+
       return mapResponseForSocialMedia(res.data.payload.ticket)
     } catch (error: any) {
       toast.error(error?.response?.data)
@@ -122,7 +124,7 @@ const SocialMediaFormComponent = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {apiLoading ? <Spinner /> : <SmmForm update={update} />}
         </form>
       </FormProvider>

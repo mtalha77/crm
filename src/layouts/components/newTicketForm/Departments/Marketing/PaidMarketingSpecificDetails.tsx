@@ -1,5 +1,4 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { PaidMarketingFormType } from 'src/interfaces/forms.interface'
 import { PaidMarketingWorkStatus, PaidMarketingWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
@@ -12,6 +11,7 @@ const PaidMarketingSpecificDetails = () => {
   } = useFormContext<PaidMarketingFormType>()
 
   const workStatus = watch('paidMarketingDetails.work_status')
+
   return (
     <>
       <Grid container spacing={5}>

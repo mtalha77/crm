@@ -2,20 +2,17 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
-import { mapDFormPageRoutes, mapFormPageRoutes } from 'src/constants'
+import { mapDFormPageRoutes } from 'src/constants'
 import { useAuth } from 'src/hooks/useAuth'
-import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
+import { Department } from 'src/shared/enums/Department.enum'
 import MuiTable from './MuiTable'
-import businessTicketsColumns from './columns/businessTicketsTableColumns'
-import { Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
-import { TicketStatus, TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
-import DepartmentalTicketsColumns from './columns/DepartmentalTicketsColumn'
 import ChildTicketsColumns from './columns/ChildTicketColumns'
-let filteredData: any = []
+
+// let filteredData: any = []
+
 function ChildTicketsTable({ cdata }: any) {
-  const [data, setData] = useState([])
-  const [employees, setEmployees] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [employees] = useState([])
+  const [isLoading] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
   const [businessList, setBusinessList] = useState([])

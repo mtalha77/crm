@@ -9,7 +9,7 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       let analytics = []
-      let pipeline: PipelineStage[] = [
+      const pipeline: PipelineStage[] = [
         {
           $group: {
             _id: '$status',

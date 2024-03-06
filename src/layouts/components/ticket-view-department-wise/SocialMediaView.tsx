@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
-import React from 'react'
-import { PaidMarketingWorkStatus, SocialMediaWorkStatus } from 'src/shared/enums/WorkStatusType.enum'
+import { SocialMediaWorkStatus } from 'src/shared/enums/WorkStatusType.enum'
+
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
     {children}

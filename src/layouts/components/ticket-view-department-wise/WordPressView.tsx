@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material'
-import React from 'react'
+
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
     {children}

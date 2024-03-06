@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
-import toast from 'react-hot-toast'
 
+import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
-import { DSocialMediaFormType, dSocialMediaDefaultValues } from 'src/interfaces/departmentalForms.interface'
-import Common from './Common'
-import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
-import FormsHeader from '../newTicketForm/Header'
-import SubmitButton from '../newTicketForm/SharedField/FormButton'
-import { DSocialMediaYupSchema } from 'src/yupSchemas/departmentalforms/dSocialMediaYupSchema'
-import { mapResponseForDSocialMedia } from 'src/utils/departmentalTickets/mapResponseForDSocialMedia'
-import SocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/SocialMediaSpecificDetails'
-import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
-import { ChildSocialMediaYupSchema } from 'src/yupSchemas/childTickets/childSocialMediaYupSchema'
 import { ChildSocialMediaDefaultValues, ChildSocialMediaFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildSocialMedia } from 'src/utils/childTickets/mapResponseForChildSocialMedia'
+import { ChildSocialMediaYupSchema } from 'src/yupSchemas/childTickets/childSocialMediaYupSchema'
+import SocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/SocialMediaSpecificDetails'
+import FormsHeader from '../newTicketForm/Header'
+import SubmitButton from '../newTicketForm/SharedField/FormButton'
+import Common from './Common'
 
 const schema = ChildSocialMediaYupSchema
 
 const ChildSocialMediaFormComponent = () => {
   const router = useRouter()
   const { ticketId, parentId, businessId } = router.query
-  const [apiLoading, setApiLoading] = useState(false)
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
-  const [business_id, setBusiness_id] = useState('')
 
   const methods = useForm({
     defaultValues: ChildSocialMediaDefaultValues,

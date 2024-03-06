@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
-import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
@@ -132,6 +131,7 @@ const handler = async (req: any, res: any) => {
 
       console.log('Successfully updated')
       await session.commitTransaction()
+
       return res.send({
         message: 'Ticket Updated',
         payload: { _id: result._id }
@@ -139,6 +139,7 @@ const handler = async (req: any, res: any) => {
     } catch (error) {
       console.log(error)
       await session.abortTransaction()
+
       return res.status(500).send('Not able to update ticket.Please try again')
     } finally {
       if (session) session.endSession()

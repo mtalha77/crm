@@ -1,11 +1,11 @@
-import { Box, Button, Divider, FormControl, FormHelperText, Grid, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import moment from 'moment'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import toast from 'react-hot-toast'
+import { Divider, FormControl, FormHelperText, Grid, TextField, Typography } from '@mui/material'
 import axios from 'axios'
+import moment from 'moment'
+import { useEffect } from 'react'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import * as yup from 'yup'
 import SubmitButton from './newTicketForm/SharedField/FormButton'
 
 interface Payment {
@@ -55,7 +55,7 @@ function SinglePaymentHistory(props: any) {
   })
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const {
-    formState: { errors, isSubmitting },
+    formState: { errors },
     control,
     handleSubmit,
     watch,
@@ -64,7 +64,8 @@ function SinglePaymentHistory(props: any) {
 
   const totalPrice = watch('total_payment')
   const advancePrice = watch('advance_payment')
-  const refund_amount = watch('refund_amount')
+
+  // const refund_amount = watch('refund_amount')
 
   useEffect(() => {
     setValue('remaining_payment', totalPrice - advancePrice, {
@@ -96,13 +97,16 @@ function SinglePaymentHistory(props: any) {
         { headers: { Authorization: localStorage.getItem('token') } }
       )
       toast.success('Payment updated successfully')
+
       // setShow(false)
+
       fetchAgain()
     } catch (error: any) {
       console.log(error)
       toast.error(error.response?.data)
     }
   }
+
   return (
     <>
       <FormProvider {...methods}>

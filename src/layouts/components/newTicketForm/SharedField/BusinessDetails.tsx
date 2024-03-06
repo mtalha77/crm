@@ -1,6 +1,6 @@
 import { Autocomplete, FormControl, FormHelperText, Grid, TextField } from '@mui/material'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { CommonFormType } from 'src/interfaces/forms.interface'
 
@@ -72,6 +72,7 @@ const BusinessDetails = (props: any) => {
                   options={data.map((option: any) => option.business_name)}
                   getOptionLabel={option => {
                     if (typeof option === 'object') return option.business_name
+
                     return option
                   }}
                   renderInput={params => (

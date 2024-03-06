@@ -32,12 +32,14 @@ const handler = async (req: any, res: any) => {
         if (!result) return res.status(500).send('Not able to assign ticket.Please try again')
         msg = `Ticket assigned to ${user_name}`
       }
+
       return res.send({
         message: msg,
         payload: {}
       })
     } catch (error) {
       console.log(error)
+
       return res.status(500).send('something went wrong')
     }
   } else {

@@ -1,10 +1,10 @@
-import React, { forwardRef, useEffect } from 'react'
-import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid } from '@mui/material'
-import { Controller, useFormContext } from 'react-hook-form'
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { forwardRef } from 'react'
 import DatePicker from 'react-datepicker'
+import { Controller, useFormContext } from 'react-hook-form'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 import { DTicketDetails } from 'src/interfaces/departmentalForms.interface'
+import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 
 interface CustomInputProps {
   value: any
@@ -18,9 +18,7 @@ const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
 function Common() {
   const {
     formState: { errors },
-    control,
-    watch,
-    setValue
+    control
   } = useFormContext<DTicketDetails>()
 
   return (

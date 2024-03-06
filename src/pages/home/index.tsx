@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
 
-import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
 import DepartmentalTicketCards from 'src/layouts/components/cards/DepartmentalTicketsCards'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
+import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
 
 const Home = () => {
   const { user } = useAuth()
@@ -59,7 +59,9 @@ const Home = () => {
     } else {
       newGreeting = 'Good Evening'
     }
+
     // Add an excited message to the greeting
+
     const excitedMessage = 'Welcome back to your dashboard!'
 
     // Combine the greeting with the excited message

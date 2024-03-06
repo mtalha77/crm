@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
-import BusinessDetails from 'src/layouts/components/newTicketForm/SharedField/BusinessDetails'
-import * as yup from 'yup'
-import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { BusinessDetails as BusinessDetailsType } from 'src/interfaces/forms.interface'
-import { useRouter } from 'next/router'
-import axios from 'axios'
-import toast from 'react-hot-toast'
-import { mapResponseForBusiness } from 'src/utils/mapResponseForBusiness'
-import SubmitButton from 'src/layouts/components/newTicketForm/SharedField/FormButton'
 import { Card, CardContent, CardHeader, Typography } from '@mui/material'
-import BusinessDetailsUpdate from 'src/layouts/components/BusinessDetailsUpdate'
+import axios from 'axios'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import FallbackSpinner from 'src/@core/components/spinner'
+import { BusinessDetails as BusinessDetailsType } from 'src/interfaces/forms.interface'
+import BusinessDetailsUpdate from 'src/layouts/components/BusinessDetailsUpdate'
+import SubmitButton from 'src/layouts/components/newTicketForm/SharedField/FormButton'
+import { mapResponseForBusiness } from 'src/utils/mapResponseForBusiness'
+import * as yup from 'yup'
 
 function BusinessUpdate({ businessId, setShow }: any) {
   // const router = useRouter()
@@ -24,6 +22,7 @@ function BusinessUpdate({ businessId, setShow }: any) {
       const res = await axios.get(`/api/business/${businessId}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
+
       return mapResponseForBusiness(res.data.payload.business)
     } catch (error) {
       console.log(error)
@@ -90,10 +89,11 @@ function BusinessUpdate({ businessId, setShow }: any) {
       </>
     )
   }
+
   return (
     <>
       <FormProvider {...methods}>
-        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit)}>
+        <form noValidate autoComplete='off' onSubmit={methods.handleSubmit(onSubmit as any)}>
           {!apiLoading && (
             <>
               <Card>

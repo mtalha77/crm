@@ -149,7 +149,7 @@ function SinglePaymentHistory(props: any) {
                         size='small'
                         type='number'
                         {...field}
-                        label='Advance Payment'
+                        label='Payment Received'
                         error={Boolean(errors?.advance_payment)}
                         fullWidth
                       />

@@ -63,6 +63,21 @@ const adminNavigation = (): VerticalNavItemsType => {
       title: 'View Businesses',
       icon: 'mdi:shield-outline',
       subject: 'view-businesses'
+    },
+    {
+      path: '/fronter-sheet',
+      title: 'Fronter Sheet',
+      icon: 'mdi:shield-outline'
+    },
+    {
+      path: '/closer-sheet',
+      title: 'Closer Sheet',
+      icon: 'mdi:shield-outline'
+    },
+    {
+      path: '/view-payment-history',
+      title: 'payment',
+      icon: 'mdi:shield-outline'
     }
   ]
 }

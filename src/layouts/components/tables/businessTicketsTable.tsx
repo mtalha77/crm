@@ -121,6 +121,13 @@ function BusinessTicketsTable() {
     })
   }
 
+  const ViewPaymentHistory = (ticketId: string) => {
+    router.push({
+      pathname: '/view-payment-history',
+      query: { ticketId }
+    })
+  }
+
   const columns: any = useMemo(
     () =>
       businessTicketsColumns(
@@ -129,7 +136,7 @@ function BusinessTicketsTable() {
         assignedEmployeeToTicket,
         updateTicketStatus,
         handleTicketEdit,
-        fetchAgain,
+        ViewPaymentHistory,
         businessList,
         employeesList
       ),

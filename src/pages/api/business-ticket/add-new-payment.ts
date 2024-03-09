@@ -1,35 +1,74 @@
+import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
+import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
+import { PaymentType } from 'src/shared/enums/PaymentType.enum'
+import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'PATCH') {
-    try {
-      if (
-        !(
-          req.user.role === UserRole.ADMIN ||
-          req.user.role === UserRole.SALE_EMPLOYEE ||
-          req.user.role === UserRole.SALE_MANAGER
-        )
-      )
-        return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')
-      const { ticketId, payment } = req.body
-      if (!ticketId || !payment) return res.status(400).send('Fields Missing')
+    const session = await mongoose.startSession()
 
-      const result = await BusinessTicketModel.findByIdAndUpdate(ticketId, {
-        $push: { payment_history: payment }
+    try {
+      session.startTransaction()
+
+      if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_MANAGER))
+        return res.status(403).send('Permission denied')
+      const { ticketId, total_payment, advance_payment, remaining_payment, closer_id } = req.body
+      if (!ticketId || !total_payment || !advance_payment || !remaining_payment || !closer_id)
+        return res.status(400).send('Fields Missing')
+
+      const ticket = await BusinessTicketModel.findByIdAndUpdate(
+        ticketId,
+        { $inc: { current_session: 1 } },
+        { new: true, session }
+      )
+
+      if (!ticket) throw new Error('No ticket found')
+
+      const newPaymentSession = new PaymentSessionModel({
+        total_payment: total_payment,
+        advance_payment: advance_payment,
+        remaining_payment: total_payment - advance_payment,
+        closer_id: closer_id,
+        business_id: ticket.business_id,
+        sales_type: SaleType.RECURRING_SALE,
+        ticket_id: ticket._id,
+        session: ticket.current_session
       })
 
-      if (!result) return res.status(500).send('Not able to update ticket.Please try again')
+      const savedPaymentSession = await newPaymentSession.save({ session })
 
+      if (!savedPaymentSession) throw new Error('not able to save payment session')
+
+      const newPaymentHistory = new PaymentHistoryModel({
+        received_amount: advance_payment,
+        payment_type: PaymentType.Credit,
+        remaining_amount: total_payment - advance_payment,
+        ticket_id: ticket._id,
+        payment_session_id: savedPaymentSession._id,
+        business_id: ticket.business_id,
+        session: ticket.current_session,
+        sales_type: SaleType.RECURRING_SALE,
+        closer_id
+      })
+      const savedPaymentHistory = await newPaymentHistory.save({ session })
+      if (!savedPaymentHistory) throw new Error('Not able to save payment history')
+
+      await session.commitTransaction()
       return res.send({
         message: `Payment history updated`,
         payload: {}
       })
     } catch (error) {
       console.log(error)
+      await session.abortTransaction()
       res.status(500).send('something went wrong')
+    } finally {
+      if (session) session.endSession()
     }
   } else {
     res.status(500).send('this is a patch request')

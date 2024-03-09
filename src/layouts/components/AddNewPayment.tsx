@@ -1,24 +1,44 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, CircularProgress, FormControl, FormHelperText, Grid, TextField } from '@mui/material'
+import {
+  Button,
+  CircularProgress,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField
+} from '@mui/material'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { SaleType } from 'src/shared/enums/SaleType.enum'
 import * as yup from 'yup'
 
 interface PaymentHistory {
   total_payment: number
   advance_payment: number
   remaining_payment: number
+  closer: string
+  closer_id: string
 }
 
-function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
+function AddNewPayment() {
   const [apiLoading, setApiLoading] = useState(false)
+  const [closerPersons, setCloserPersons] = useState([])
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
   const defaultValues: PaymentHistory = {
     total_payment: 0,
     advance_payment: 0,
-    remaining_payment: 0
+    remaining_payment: 0,
+    closer: '',
+    closer_id: ''
   }
+  const router = useRouter()
+  const { ticketId } = router.query
 
   const schema: yup.ObjectSchema<PaymentHistory> = yup.object().shape({
     total_payment: yup
@@ -39,7 +59,9 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
       .transform(value => (Number.isNaN(value) ? null : value))
       .nullable()
       .max(1000000000, 'Remaining cannot exceed 1000000000 characters')
-      .required('Remaining is required')
+      .required('Remaining is required'),
+    closer: yup.string().required('Closer is required'),
+    closer_id: yup.string().required('Closer ID is required')
   })
   const methods = useForm({ defaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const {
@@ -47,36 +69,62 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
     control,
     handleSubmit,
     watch,
-    setValue
+    setValue,
+    reset
   } = methods
 
   const totalPrice = watch('total_payment')
   const advancePrice = watch('advance_payment')
 
   useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues)
+      setIsSubmitSuccessful(false)
+    }
+  }, [isSubmitSuccessful])
+
+  useEffect(() => {
     setValue('remaining_payment', totalPrice - advancePrice, {
       shouldValidate: true,
       shouldDirty: true
     })
-  }, [setValue, totalPrice, advancePrice])
+  }, [totalPrice, advancePrice])
+
+  useEffect(() => {
+    const getClosers = async () => {
+      try {
+        const res = await axios.get('/api/user/get-closer-users', {
+          headers: { authorization: localStorage.getItem('token') }
+        })
+        setCloserPersons(res.data.payload.closerUsers)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getClosers()
+  }, [])
 
   const onSubmit = async (data: PaymentHistory) => {
     const { total_payment, advance_payment, remaining_payment } = data
     const reqData = {
       total_payment,
       advance_payment,
-      remaining_payment
+      remaining_payment,
+      closer_id: data.closer_id
+    }
+    if (!ticketId) {
+      toast.error('Network Error')
+      return
     }
     try {
       setApiLoading(true)
       await axios.patch(
         '/api/business-ticket/add-new-payment',
-        { ticketId, payment: reqData },
+        { ticketId, ...reqData },
         { headers: { Authorization: localStorage.getItem('token') } }
       )
-      toast.success('Payment added successfully')
-      setShow(false)
-      fetchAgain()
+      toast.success('Recurring Payment Added')
+      setIsSubmitSuccessful(true)
     } catch (error: any) {
       console.log(error)
       toast.error(error.response?.data)
@@ -88,7 +136,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={6}>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <FormControl fullWidth error={!!errors.total_payment}>
             <Controller
               name='total_payment'
@@ -96,7 +144,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
               render={({ field }) => (
                 <>
                   <TextField
-                    size='small'
+                    // size='small'
                     type='number'
                     {...field}
                     label='Total'
@@ -109,7 +157,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <FormControl fullWidth error={!!errors.advance_payment}>
             <Controller
               name='advance_payment'
@@ -117,7 +165,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
               render={({ field }) => (
                 <>
                   <TextField
-                    size='small'
+                    // size='small'
                     type='number'
                     {...field}
                     label='Advance'
@@ -131,7 +179,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <FormControl fullWidth error={!!errors.remaining_payment}>
             <Controller
               name='remaining_payment'
@@ -140,7 +188,7 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
                 <>
                   <TextField
                     disabled
-                    size='small'
+                    // size='small'
                     type='number'
                     {...field}
                     label='Remaining'
@@ -154,10 +202,55 @@ function AddNewPayment({ ticketId, fetchAgain, setShow }: any) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={3}>
-          <Button type='submit' variant='contained' disabled={apiLoading}>
+        <Grid item xs={12} sm={12}>
+          <FormControl fullWidth>
+            <InputLabel
+              id='validation-supportPerson-select'
+              error={Boolean(errors?.closer)}
+              htmlFor='validation-supportPerson-select'
+            >
+              Closer Person
+            </InputLabel>
+            <Controller
+              name='closer'
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  value={value}
+                  label='Closer Person'
+                  onChange={(e: any) => {
+                    const closer: any = closerPersons.find((user: any) => user.user_name === e.target.value)
+                    setValue('closer_id', closer._id)
+                    onChange(e)
+                  }}
+                  error={Boolean(errors?.closer)}
+                  labelId='validation-closerPerson-select'
+                  aria-describedby='validation-closerPerson-select'
+                >
+                  {closerPersons.length > 0 &&
+                    closerPersons.map((u: any) => {
+                      return (
+                        <MenuItem key={u._id} value={u.user_name}>
+                          {u.user_name}
+                        </MenuItem>
+                      )
+                    })}
+                </Select>
+              )}
+            />
+            {errors?.closer && (
+              <FormHelperText sx={{ color: 'error.main' }} id='validation-closerPerson-select'>
+                Closer person is required
+              </FormHelperText>
+            )}
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <Button type='submit' variant='contained' disabled={apiLoading} sx={{ width: '100%' }}>
             {apiLoading && <CircularProgress sx={{ marginInline: '10px' }} size={24} color='inherit' />}
-            {apiLoading ? 'Adding' : 'Add'}
+            {apiLoading ? 'Adding' : 'Add Recurring'}
           </Button>
         </Grid>
       </Grid>

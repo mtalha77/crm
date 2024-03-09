@@ -7,6 +7,8 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import * as yup from 'yup'
 import SubmitButton from './newTicketForm/SharedField/FormButton'
+import { Box } from '@mui/system'
+import AddCreditPaymentDialog from './dialogs/AddCreditPaymentDialog'
 
 interface Payment {
   total_payment: number
@@ -213,6 +215,19 @@ function SinglePaymentHistory(props: any) {
                 variant='contained'
               />
             </Grid>
+            <Box>
+              <Typography>History</Typography>
+              {payment.history.map((h: any) => {
+                return (
+                  <>
+                    <Box>{h.payment_date}</Box>
+                    <Box>{h.amount}</Box>
+                    <Box>{h.payment_type}</Box>
+                  </>
+                )
+              })}
+            </Box>
+            <AddCreditPaymentDialog payment_id={payment._id} ticketId={ticketId} />
           </Grid>
         </form>
       </FormProvider>

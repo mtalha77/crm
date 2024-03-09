@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
+import { Box, Button, FormControl, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
@@ -16,7 +16,7 @@ const businessTicketsColumns: any = (
   assignedEmployeeToTicket: any,
   updateTicketStatus: any,
   handleTicketEdit: any,
-  fetchAgain: any,
+  ViewPaymentHistory: any,
   businessList: any,
   employeesList: any
 ) => {
@@ -122,7 +122,8 @@ const businessTicketsColumns: any = (
       header: 'Priority',
       accessorKey: 'priority',
       filterVariant: 'autocomplete',
-      filterSelectOptions: PriorityTypeValues
+      filterSelectOptions: PriorityTypeValues,
+      size: 120
     },
     {
       header: 'Payment',
@@ -133,7 +134,14 @@ const businessTicketsColumns: any = (
 
         return (
           <>
-            <PaymentHistoryDialog payment_history={value} ticketId={_id} fetchAgain={fetchAgain} />
+            <Button
+              sx={{ textTransform: 'none' }}
+              variant='contained'
+              size='small'
+              onClick={() => ViewPaymentHistory(_id)}
+            >
+              Payment History
+            </Button>
           </>
         )
       }

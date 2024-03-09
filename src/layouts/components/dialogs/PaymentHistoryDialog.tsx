@@ -62,7 +62,7 @@ const PaymentHistoryDialog = (props: any) => {
               Make New Payment
             </Typography>
           </Box>
-          <AddNewPayment ticketId={ticketId} fetchAgain={fetchAgain} setShow={setShow} />
+          {/* <AddNewPayment ticketId={ticketId} fetchAgain={fetchAgain} setShow={setShow} /> */}
           <Box sx={{ textAlign: 'center', mt: '50px' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
               Payment History

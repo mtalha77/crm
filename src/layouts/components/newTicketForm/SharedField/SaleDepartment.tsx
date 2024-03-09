@@ -57,6 +57,7 @@ const SaleDepartment = () => {
                   aria-describedby='validation-sale_type'
                 >
                   {SaleTypeValues.map(v => {
+                    if (v === SaleType.RECURRING_SALE) return
                     return (
                       <MenuItem key={v} value={v}>
                         {v}

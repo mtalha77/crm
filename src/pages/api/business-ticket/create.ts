@@ -3,8 +3,11 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
+import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { createNewBusiness } from 'src/backend/utils/business/createNewBusiness'
 import { getBusinessWithName } from 'src/backend/utils/business/getBusinessWithName'
+import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
@@ -123,7 +126,6 @@ const handler = async (req: any, res: any) => {
         business_id: busines_id,
         sales_type,
         notes,
-        payment_history,
         work_status,
         closer_id,
         service_name,
@@ -155,7 +157,40 @@ const handler = async (req: any, res: any) => {
 
       const result = await newTicket.save({ session })
 
-      if (!result) return res.status(500).send('Not able to create ticket.Please try again')
+      if (!result) throw new Error('Not able to create ticket.Please try again')
+
+      const { total_payment, advance_payment, remaining_payment } = payment_history[0]
+
+      const paymentSession = new PaymentSessionModel({
+        total_payment,
+        advance_payment,
+        remaining_payment: total_payment - advance_payment,
+        sales_type: sales_type,
+        fronter_id: sales_type === SaleType.NEW_SALE ? fronter_id : undefined,
+        closer_id,
+        ticket_id: result._id,
+        business_id: result.business_id,
+        session: 1
+      })
+
+      const result2 = await paymentSession.save({ session })
+
+      if (!result2) throw new Error('Not able to create ticket.Please try again')
+
+      const paymentHistory = new PaymentHistoryModel({
+        received_amount: advance_payment,
+        payment_type: PaymentType.Credit,
+        remaining_amount: total_payment - advance_payment,
+        ticket_id: result._id,
+        payment_session_id: result2._id,
+        business_id: result.business_id,
+        session: 1,
+        sales_type: sales_type,
+        fronter_id: sales_type === SaleType.NEW_SALE ? fronter_id : undefined,
+        closer_id
+      })
+      const result3 = await paymentHistory.save({ session })
+      if (!result3) throw new Error('Not able to create ticket.Please try again')
 
       await session.commitTransaction()
 

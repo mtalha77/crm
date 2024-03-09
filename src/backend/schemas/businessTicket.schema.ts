@@ -4,32 +4,13 @@ import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
-export const paymentHistorySchema = new mongoose.Schema(
-  {
-    total_payment: { type: Number, required: true },
-    advance_payment: { type: Number, required: true },
-    remaining_payment: { type: Number, required: true },
-    payment_method: { type: String, required: false },
-    refunds: {
-      type: [
-        {
-          refund_amount: { type: Number, required: true },
-          refund_date: { type: Date, default: Date.now() },
-          reason: { type: String, default: '' }
-        }
-      ],
-      required: false
-    }
-  },
-  { timestamps: true, validateBeforeSave: true }
-)
-
 export const childTicketSchema = new mongoose.Schema({
   child_id: { type: mongoose.Schema.Types.ObjectId, ref: 'DepartTicket', required: true }
 })
 
 const businessTicketSchema = new mongoose.Schema(
   {
+    current_session: { type: Number, required: true, default: 1 },
     child_tickets: { type: [childTicketSchema], required: false },
     status: { type: String, enum: TicketStatus, default: TicketStatus.NOT_STARTED_YET },
     priority: { type: String, enum: PriorityType, default: PriorityType.MEDIUM },
@@ -61,7 +42,6 @@ const businessTicketSchema = new mongoose.Schema(
     business_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Business' },
     sales_type: { type: String, enum: SaleType, required: true },
     work_status: { type: String, required: true, enum: WorkStatusValues },
-    payment_history: { type: [paymentHistorySchema], required: true, ref: 'PaymentHistory' },
     notes: { type: String, required: false, default: '', trim: true },
     service_name: { type: String, required: false, trim: true },
     service_area: { type: String, required: false, trim: true },

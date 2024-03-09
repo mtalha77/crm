@@ -31,7 +31,7 @@ const adminNavigation = (): VerticalNavItemsType => {
     },
 
     {
-      title: 'Create D Ticket',
+      title: 'Create Dep. Ticket',
       subject: 'create-departmental-ticket',
       icon: 'mdi-ticket-confirmation-outline',
       children: [
@@ -45,7 +45,7 @@ const adminNavigation = (): VerticalNavItemsType => {
     },
     {
       path: '/view-d-tickets',
-      title: 'View D Tickets',
+      title: 'View Dep. Tickets',
       icon: 'mdi:shield-outline',
       subject: 'view-departmental-tickets'
     },

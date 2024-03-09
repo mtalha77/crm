@@ -59,7 +59,7 @@ const PaymentHistoryDialog = (props: any) => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              Make New Payment
+              Recurring Payment
             </Typography>
           </Box>
           {/* <AddNewPayment ticketId={ticketId} fetchAgain={fetchAgain} setShow={setShow} /> */}

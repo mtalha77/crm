@@ -9,8 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button
+  Paper
 } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
@@ -76,7 +75,7 @@ function ViewPaymentHistories() {
       {paymentSessions.map((session: any) => {
         // console.log(session.session)
         return (
-          <Card sx={{ mt: 10 }}>
+          <Card sx={{ mt: 10 }} key={session._id}>
             <CardContent>
               <AddCreditPaymentDialog
                 ticketId={ticketId}
@@ -126,12 +125,13 @@ function ViewPaymentHistories() {
                   <TableBody>
                     {paymentHistories.map((history: any) => {
                       if (history.payment_session_id !== session._id) return
+
                       return (
                         <TableRow key={history._id}>
                           <TableCell>{moment(history?.createdAt).format('D MMMM YYYY')}</TableCell>
                           <TableCell>{history.payment_type}</TableCell>
-                          <TableCell>{history.received_amount}</TableCell>
-                          <TableCell>{history.remaining_amount}</TableCell>
+                          <TableCell>{history.received_payment}</TableCell>
+                          <TableCell>{history.remaining_payment}</TableCell>
                         </TableRow>
                       )
                     })}

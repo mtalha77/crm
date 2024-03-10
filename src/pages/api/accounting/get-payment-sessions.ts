@@ -11,6 +11,7 @@ const handler = async (req: any, res: any) => {
       const paymentSessions = await PaymentSessionModel.find({ ticket_id: ticketId })
         .populate('closer_id', 'user_name')
         .populate('fronter_id', 'user_name')
+        .sort({ createdAt: -1 })
 
       return res.send({
         message: 'payment sessions fetched successfully',

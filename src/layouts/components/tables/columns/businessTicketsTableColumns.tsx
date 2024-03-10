@@ -7,7 +7,6 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
-import PaymentHistoryDialog from '../../dialogs/PaymentHistoryDialog'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 
 const businessTicketsColumns: any = (
@@ -129,7 +128,6 @@ const businessTicketsColumns: any = (
       header: 'Payment',
       accessorKey: 'payment_history',
       Cell: ({ cell }: any) => {
-        const value = cell.getValue()
         const { _id } = cell.row.original
 
         return (

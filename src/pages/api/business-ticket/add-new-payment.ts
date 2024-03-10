@@ -45,9 +45,9 @@ const handler = async (req: any, res: any) => {
       if (!savedPaymentSession) throw new Error('not able to save payment session')
 
       const newPaymentHistory = new PaymentHistoryModel({
-        received_amount: advance_payment,
+        received_payment: advance_payment,
         payment_type: PaymentType.Credit,
-        remaining_amount: total_payment - advance_payment,
+        remaining_payment: total_payment - advance_payment,
         ticket_id: ticket._id,
         payment_session_id: savedPaymentSession._id,
         business_id: ticket.business_id,
@@ -59,6 +59,7 @@ const handler = async (req: any, res: any) => {
       if (!savedPaymentHistory) throw new Error('Not able to save payment history')
 
       await session.commitTransaction()
+
       return res.send({
         message: `Payment history updated`,
         payload: {}

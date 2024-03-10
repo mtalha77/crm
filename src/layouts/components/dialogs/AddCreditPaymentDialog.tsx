@@ -10,7 +10,7 @@ import axios from 'axios'
 export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymentHistories }: any) {
   const [open, setOpen] = React.useState(false)
   const [amount, setAmount] = React.useState<number | null>(null)
-  const [apiLoading, setApiLoading] = React.useState(false)
+  const [, setApiLoading] = React.useState(false)
   const regex = /^[0-9]+$/
   const handleClickOpen = () => {
     setOpen(true)
@@ -23,6 +23,7 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
   const handleChange = (e: any) => {
     if (!e.target.value) {
       setAmount(e.target.value)
+
       return
     }
     if (!regex.test(e.target.value)) return
@@ -31,15 +32,14 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
 
   const handleSubmit = async () => {
     try {
-      // const remaining_amount =
       setApiLoading(true)
       const res = await axios.patch(
         `/api/business-ticket/add-credit-payment`,
         {
-          received_amount: amount,
+          received_payment: amount,
           id: session._id,
           total_payment: session.total_payment,
-          session_remaining_amount: session.remaining_payment
+          session_remaining_payment: session.remaining_payment
         },
         {
           headers: { authorization: localStorage.getItem('token') }
@@ -53,6 +53,7 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
       console.log(error)
     }
   }
+
   return (
     <React.Fragment>
       <Button variant='contained' onClick={handleClickOpen} sx={{ mb: 10 }}>

@@ -71,10 +71,6 @@ function BusinessTicketsTable() {
     fetchBusinesses()
   }, [])
 
-  const fetchAgain = () => {
-    fetchData()
-  }
-
   const assignedEmployeeToTicket = async (user_name: string | 'Not Assigned', ticketId: string) => {
     const userFound: any = employees.find((e: any) => e.user_name === user_name)
 

@@ -159,7 +159,7 @@ const handler = async (req: any, res: any) => {
 
       if (!result) throw new Error('Not able to create ticket.Please try again')
 
-      const { total_payment, advance_payment, remaining_payment } = payment_history[0]
+      const { total_payment, advance_payment } = payment_history[0]
 
       const paymentSession = new PaymentSessionModel({
         total_payment,
@@ -178,9 +178,9 @@ const handler = async (req: any, res: any) => {
       if (!result2) throw new Error('Not able to create ticket.Please try again')
 
       const paymentHistory = new PaymentHistoryModel({
-        received_amount: advance_payment,
+        received_payment: advance_payment,
         payment_type: PaymentType.Credit,
-        remaining_amount: total_payment - advance_payment,
+        remaining_payment: total_payment - advance_payment,
         ticket_id: result._id,
         payment_session_id: result2._id,
         business_id: result.business_id,

@@ -5,9 +5,8 @@ import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
-      const paymentHistory = await PaymentHistoryModel.find({ closer_id: { $exists: true } })
+      const paymentHistory = await PaymentHistoryModel.find({})
         .populate('business_id', 'business_name')
-        .populate('closer_id', 'user_name')
         .populate('ticket_id', 'work_status')
         .sort({ createdAt: -1 })
 

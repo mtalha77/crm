@@ -9,7 +9,7 @@ const handler = async (req: any, res: any) => {
         .populate('business_id', 'business_name')
         .populate('fronter_id', 'user_name')
         .populate('ticket_id', 'work_status')
-        .sort({ createdAt: 1 })
+        .sort({ createdAt: -1 })
 
       return res.send({
         message: 'payment history fetched successfully',

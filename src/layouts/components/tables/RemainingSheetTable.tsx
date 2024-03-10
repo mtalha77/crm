@@ -3,19 +3,18 @@ import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import MuiTable from './MuiTable'
-import FronterSheetColumns from './columns/FronterSheetColumns'
+import RemainingSheetColumns from './columns/RemainingSheetColumns'
 
-function FronterSheetTable() {
+function RemainingSheetTable() {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-
   const [businessList, setBusinessList] = useState([])
 
   const fetchData = async () => {
     try {
       setIsLoading(true)
 
-      const res = await axios.get('/api/accounting/get-fronter-sheet', {
+      const res = await axios.get('/api/accounting/get-remaining-sheet', {
         headers: { authorization: localStorage.getItem('token') }
       })
 
@@ -46,7 +45,7 @@ function FronterSheetTable() {
     fetchBusinesses()
   }, [])
 
-  const columns: any = useMemo(() => FronterSheetColumns(businessList), [businessList])
+  const columns: any = useMemo(() => RemainingSheetColumns(businessList), [businessList])
 
   return (
     <>
@@ -63,4 +62,4 @@ function FronterSheetTable() {
   )
 }
 
-export default FronterSheetTable
+export default RemainingSheetTable

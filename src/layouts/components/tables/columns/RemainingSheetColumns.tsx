@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-const CloserSheetColumns: any = (businessList: any) => {
+const RemainingSheetColumns: any = (businessList: any) => {
   return [
     {
       header: 'Date',
@@ -19,16 +19,12 @@ const CloserSheetColumns: any = (businessList: any) => {
     },
 
     {
-      header: 'Closer',
-      accessorKey: 'closer_id.user_name'
-    },
-    {
       header: 'Work Type',
       accessorKey: 'ticket_id.work_status'
     },
     {
-      header: 'Payment',
-      accessorKey: 'received_payment',
+      header: 'Remaining Balance',
+      accessorKey: 'remaining_payment',
       Cell: ({ cell }: any) => {
         const value = cell.getValue()
 
@@ -38,4 +34,4 @@ const CloserSheetColumns: any = (businessList: any) => {
   ]
 }
 
-export default CloserSheetColumns
+export default RemainingSheetColumns

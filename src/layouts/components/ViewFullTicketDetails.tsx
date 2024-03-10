@@ -117,7 +117,7 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
         </CardContent>
       </Card>
 
-      <Card sx={{ mt: 6 }}>
+      {/* <Card sx={{ mt: 6 }}>
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
@@ -140,7 +140,7 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
             </Grid>
           </Grid>
         </CardContent>
-      </Card>
+      </Card> */}
       {/* Sale Department Section */}
 
       <Card sx={{ mt: 6 }}>

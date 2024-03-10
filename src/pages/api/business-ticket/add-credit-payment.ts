@@ -16,25 +16,25 @@ const handler = async (req: any, res: any) => {
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_MANAGER))
         return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')
 
-      const { received_amount, session_remaining_amount, id } = req.body
-      if (!received_amount || !session_remaining_amount || !id) return res.status(400).send('Fields Missing')
+      const { received_payment, session_remaining_payment, id } = req.body
+      if (!received_payment || !session_remaining_payment || !id) return res.status(400).send('Fields Missing')
 
-      const remaining_amount = session_remaining_amount - received_amount
+      const remaining_payment = session_remaining_payment - received_payment
 
       const session = await PaymentSessionModel.findByIdAndUpdate(
         id,
         {
           $set: {
-            remaining_payment: remaining_amount
+            remaining_payment: remaining_payment
           }
         },
         { session: sessionm, new: true }
       )
 
       const paymentHistory = new PaymentHistoryModel({
-        received_amount: received_amount,
+        received_payment: received_payment,
         payment_type: PaymentType.Credit,
-        remaining_amount: remaining_amount,
+        remaining_payment: remaining_payment,
         ticket_id: session.ticket_id,
         payment_session_id: session._id,
         business_id: session.business_id,
@@ -47,6 +47,7 @@ const handler = async (req: any, res: any) => {
       if (!result3) throw new Error('Not able to create ticket.Please try again')
 
       await sessionm.commitTransaction()
+
       return res.send({
         message: `Payment Credited`,
         payload: { paymentHistory: result3, session }

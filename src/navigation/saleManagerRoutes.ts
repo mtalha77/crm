@@ -1,5 +1,6 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import { viewCloserSheetRouteObj, viewFronterSheetRouteObj, viewRemainingSheetRouteObj } from './routes'
 
 const saleManagerNavigation = (): VerticalNavItemsType => {
   return [
@@ -33,7 +34,10 @@ const saleManagerNavigation = (): VerticalNavItemsType => {
       title: 'View Businesses',
       icon: 'mdi:shield-outline',
       subject: 'view-businesses'
-    }
+    },
+    viewFronterSheetRouteObj,
+    viewCloserSheetRouteObj,
+    viewRemainingSheetRouteObj
   ]
 }
 

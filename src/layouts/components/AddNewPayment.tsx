@@ -15,7 +15,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { SaleType } from 'src/shared/enums/SaleType.enum'
 import * as yup from 'yup'
 
 interface PaymentHistory {
@@ -114,6 +113,7 @@ function AddNewPayment() {
     }
     if (!ticketId) {
       toast.error('Network Error')
+
       return
     }
     try {
@@ -143,14 +143,7 @@ function AddNewPayment() {
               control={control}
               render={({ field }) => (
                 <>
-                  <TextField
-                    // size='small'
-                    type='number'
-                    {...field}
-                    label='Total'
-                    error={Boolean(errors?.total_payment)}
-                    fullWidth
-                  />
+                  <TextField type='number' {...field} label='Total' error={Boolean(errors?.total_payment)} fullWidth />
                   {errors.total_payment && <FormHelperText>{errors.total_payment.message}</FormHelperText>}
                 </>
               )}
@@ -165,7 +158,6 @@ function AddNewPayment() {
               render={({ field }) => (
                 <>
                   <TextField
-                    // size='small'
                     type='number'
                     {...field}
                     label='Advance'
@@ -188,7 +180,6 @@ function AddNewPayment() {
                 <>
                   <TextField
                     disabled
-                    // size='small'
                     type='number'
                     {...field}
                     label='Remaining'

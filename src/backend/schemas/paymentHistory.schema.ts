@@ -4,9 +4,9 @@ import { SaleType } from 'src/shared/enums/SaleType.enum'
 
 const paymentHistorySchema = new mongoose.Schema(
   {
-    received_amount: { type: Number, required: true },
+    received_payment: { type: Number, required: true },
     payment_type: { type: String, enum: PaymentType, required: true },
-    remaining_amount: { type: Number, required: true },
+    remaining_payment: { type: Number, required: true },
     ticket_id: { type: mongoose.Schema.Types.ObjectId, ref: 'BusinessTicket', required: true },
     business_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
     payment_session_id: { type: mongoose.Schema.Types.ObjectId, ref: 'PaymentSession', required: true },

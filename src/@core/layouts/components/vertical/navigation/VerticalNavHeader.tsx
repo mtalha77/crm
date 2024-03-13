@@ -198,6 +198,8 @@ const VerticalNavHeader = (props: Props) => {
               </linearGradient>
             </defs>
           </svg> */}
+          <img src='/images/rankbpo.svg' alt='Rank BPO Icon' width={50} height={28} />
+
           <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {themeConfig.templateName}
           </HeaderTitle>

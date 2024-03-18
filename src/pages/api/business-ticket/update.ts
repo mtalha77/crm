@@ -12,8 +12,6 @@ const handler = async (req: any, res: any) => {
     if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE || role === UserRole.SALE_MANAGER))
       return res.status(403).send('Permission denied. Not authorized update ticket')
 
-    const session = await mongoose.startSession()
-    session.startTransaction()
     try {
       const {
         priority,
@@ -75,22 +73,8 @@ const handler = async (req: any, res: any) => {
 
         if (ticketExists) return res.status(400).send('This Business already exists with this work status.')
       }
-
-      const deletedTicket = await BusinessTicketModel.findOneAndDelete({ _id: ticketId }, { session })
-      if (!deletedTicket) throw new Error('Something went wrong')
-
       const payload: any = {
-        _id: deletedTicket._id,
-        business_id: deletedTicket.business_id,
-        createdAt: deletedTicket.createdAt,
-        updatedAt: deletedTicket.updatedAt,
-        payment_history: deletedTicket.payment_history,
         priority: priority,
-        created_by: deletedTicket.created_by,
-        assignee_depart_id: deletedTicket.assignee_depart_id,
-        assignee_depart_name: deletedTicket.assignee_depart_name,
-        assignor_depart_id: deletedTicket.assignor_depart_id,
-        assignor_depart_name: deletedTicket.assignor_depart_name,
         client_reporting_date: client_reporting_date,
         due_date: due_date,
         closer: closer,
@@ -119,18 +103,11 @@ const handler = async (req: any, res: any) => {
         no_of_likes,
         no_of_gmb_reviews
       }
-      if (sales_type === SaleType.NEW_SALE) {
-        payload.fronter = fronter
-        payload.fronter_id = fronter_id
-      }
-      const newTicket = new BusinessTicketModel(payload)
 
-      const result = await newTicket.save({ session })
-
-      if (!result) throw new Error('Error while updating')
+      const result = await BusinessTicketModel.findByIdAndUpdate({ _id: ticketId }, { $set: payload })
+      if (!result) throw new Error('Something went wrong')
 
       console.log('Successfully updated')
-      await session.commitTransaction()
 
       return res.send({
         message: 'Ticket Updated',
@@ -138,11 +115,8 @@ const handler = async (req: any, res: any) => {
       })
     } catch (error) {
       console.log(error)
-      await session.abortTransaction()
 
       return res.status(500).send('Not able to update ticket.Please try again')
-    } finally {
-      if (session) session.endSession()
     }
   } else {
     res.status(500).send('this is a put request')

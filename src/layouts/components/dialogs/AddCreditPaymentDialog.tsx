@@ -6,8 +6,11 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import axios from 'axios'
+import { FormControl, MenuItem, Select } from '@mui/material'
+import { SaleEmployeeRole } from 'src/shared/enums/UserRole.enum'
+import toast from 'react-hot-toast'
 
-export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymentHistories }: any) {
+export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymentHistories, saleUsers }: any) {
   const [open, setOpen] = React.useState(false)
   const [amount, setAmount] = React.useState<number | null>(null)
   const [, setApiLoading] = React.useState(false)
@@ -15,7 +18,7 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
   const handleClickOpen = () => {
     setOpen(true)
   }
-
+  const [value, setValue] = React.useState('')
   const handleClose = () => {
     setOpen(false)
   }
@@ -32,6 +35,16 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
 
   const handleSubmit = async () => {
     try {
+      if (!value || !amount) {
+        toast.error('PLease fill all fields')
+        return
+      }
+      const userFound: any = saleUsers.find((e: any) => e.user_name === value)
+
+      if (!userFound) {
+        toast.error('Network error')
+        return
+      }
       setApiLoading(true)
       const res = await axios.patch(
         `/api/business-ticket/add-credit-payment`,
@@ -39,7 +52,8 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
           received_payment: amount,
           id: session._id,
           total_payment: session.total_payment,
-          session_remaining_payment: session.remaining_payment
+          session_remaining_payment: session.remaining_payment,
+          closer_id: userFound._id
         },
         {
           headers: { authorization: localStorage.getItem('token') }
@@ -72,6 +86,31 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
             onChange={handleChange}
             value={amount}
           />
+          <FormControl>
+            <Select
+              fullWidth
+              sx={{ mt: 2 }}
+              onChange={e => {
+                setValue(e.target.value)
+              }}
+              value={value}
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              <MenuItem value='' disabled>
+                Select Closer
+              </MenuItem>
+              {saleUsers.map((e: any) => {
+                if (e.sub_role !== SaleEmployeeRole.CLOSER) return
+
+                return (
+                  <MenuItem key={e.user_name} value={e.user_name}>
+                    {e.user_name}
+                  </MenuItem>
+                )
+              })}
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button variant='contained' onClick={handleSubmit}>

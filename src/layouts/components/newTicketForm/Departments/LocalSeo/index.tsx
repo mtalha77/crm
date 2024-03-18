@@ -25,11 +25,11 @@ const LocalSeoForm = (props: any) => {
             <FormsHeader title='Business Details'>
               <BusinessDetails update={update} />
             </FormsHeader>
-
-            <FormsHeader title='Sale Department'>
-              <SaleDepartment />
-            </FormsHeader>
-
+            {!update && (
+              <FormsHeader title='Sale Department'>
+                <SaleDepartment />
+              </FormsHeader>
+            )}
             <FormsHeader title='Ticket Details'>
               <TicketDetails update={update} />
             </FormsHeader>

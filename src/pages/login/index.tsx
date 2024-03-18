@@ -182,7 +182,7 @@ const LoginPage = () => {
                 justifyContent: 'center'
               }}
             >
-              <svg width={47} fill='none' height={26} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
+              {/* <svg width={47} fill='none' height={26} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
                 <rect
                   rx='25.1443'
                   width='50.2886'
@@ -251,7 +251,17 @@ const LoginPage = () => {
                     <stop offset='1' stopOpacity='0' />
                   </linearGradient>
                 </defs>
-              </svg>
+              </svg> */}
+
+              <img
+                src='/images/rankbpo.svg'
+                alt='Rank BPO Icon'
+                style={{ width: '70px', height: '60px' }}
+
+                // width={50}
+                // height={28}
+              />
+
               <Typography variant='h6' sx={{ ml: 2, lineHeight: 1, fontWeight: 700, fontSize: '1.5rem !important' }}>
                 {themeConfig.templateName}
               </Typography>

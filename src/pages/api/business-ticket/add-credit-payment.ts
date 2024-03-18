@@ -16,8 +16,9 @@ const handler = async (req: any, res: any) => {
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_MANAGER))
         return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')
 
-      const { received_payment, session_remaining_payment, id } = req.body
-      if (!received_payment || !session_remaining_payment || !id) return res.status(400).send('Fields Missing')
+      const { received_payment, session_remaining_payment, id, closer_id } = req.body
+      if (!received_payment || !session_remaining_payment || !id || !closer_id)
+        return res.status(400).send('Fields Missing')
 
       const remaining_payment = session_remaining_payment - received_payment
 
@@ -41,7 +42,7 @@ const handler = async (req: any, res: any) => {
         session: session.session,
         sales_type: session.sales_type,
         fronter_id: session.fronter_id ? session.fronter_id : undefined,
-        closer_id: session.closer_id
+        closer_id: closer_id
       })
       const result3 = await paymentHistory.save({ session: sessionm })
 

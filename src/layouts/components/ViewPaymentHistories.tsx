@@ -47,7 +47,7 @@ const CloserComponent = ({ defaultValue, closers, id }: any) => {
       )
       toast.success('Closer updated successfully')
     } catch (error) {
-      toast.success('Network Error')
+      toast.error('Network Error')
     }
   }
 
@@ -70,6 +70,61 @@ const CloserComponent = ({ defaultValue, closers, id }: any) => {
             closers.length > 0 &&
             closers.map((e: any) => {
               if (e.sub_role !== SaleEmployeeRole.CLOSER) return
+
+              return (
+                <MenuItem key={e.user_name} value={e.user_name}>
+                  {e.user_name}
+                </MenuItem>
+              )
+            })}
+        </Select>
+      </FormControl>
+    </>
+  )
+}
+
+const FronterComponent = ({ defaultValue, closers, sessionId }: any) => {
+  const [value, setValue] = useState(defaultValue)
+  const handleChange = async (user_name: string) => {
+    const userFound: any = closers.find((e: any) => e.user_name === user_name)
+    try {
+      await axios.patch(
+        '/api/accounting/change-fronter',
+        {
+          sessionId,
+          fronterId: userFound._id
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem('token')
+          }
+        }
+      )
+      toast.success('Fronter updated successfully')
+    } catch (error) {
+      toast.error('Network Error')
+    }
+  }
+
+  return (
+    <>
+      <FormControl>
+        <Select
+          size='small'
+          sx={{ fontSize: '14px' }}
+          onChange={e => {
+            handleChange(e.target.value)
+            setValue(e.target.value)
+          }}
+          value={value}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {/* <MenuItem value=''>Not Assigned</MenuItem> */}
+          {closers &&
+            closers.length > 0 &&
+            closers.map((e: any) => {
+              if (e.sub_role !== SaleEmployeeRole.FRONTER) return
 
               return (
                 <MenuItem key={e.user_name} value={e.user_name}>
@@ -277,10 +332,11 @@ function ViewPaymentHistories() {
                     ticketId={ticketId}
                     session={session}
                     pushNewPaymentInPaymentHistories={pushNewPaymentInPaymentHistories}
+                    saleUsers={saleUsers}
                   />
                 </Grid>
               </Grid>
-              <Grid container>
+              <Grid container gap={10}>
                 <Grid item xs={12} sm={2}>
                   <Typography>Total Payment</Typography>
                   <Typography>{session.total_payment}</Typography>
@@ -302,7 +358,11 @@ function ViewPaymentHistories() {
                 {session?.fronter_id && (
                   <Grid item xs={12} sm={2}>
                     <Typography>Fronter</Typography>
-                    <Typography>{session?.fronter_id?.user_name}</Typography>
+                    <FronterComponent
+                      defaultValue={session.fronter_id?.user_name}
+                      closers={saleUsers}
+                      sessionId={session._id}
+                    />
                   </Grid>
                 )}
               </Grid>

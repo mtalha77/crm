@@ -25,9 +25,11 @@ const SmmForm = ({ update }: any) => {
               <BusinessDetails update={update} />
             </FormsHeader>
 
-            <FormsHeader title='Sale Department'>
-              <SaleDepartment />
-            </FormsHeader>
+            {!update && (
+              <FormsHeader title='Sale Department'>
+                <SaleDepartment />
+              </FormsHeader>
+            )}
 
             <FormsHeader title='Ticket Details'>
               <TicketDetails update={update} />

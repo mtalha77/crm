@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { ConfirmProvider } from 'material-ui-confirm'
 import React from 'react'
 import AddNewPayment from 'src/layouts/components/AddNewPayment'
 import ViewPaymentHistories from 'src/layouts/components/ViewPaymentHistories'
@@ -17,7 +18,9 @@ function ViewPaymentHistory() {
         <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
           Payment History
         </Typography>
-        <ViewPaymentHistories />
+        <ConfirmProvider>
+          <ViewPaymentHistories />
+        </ConfirmProvider>
       </Box>
     </>
   )

@@ -8,7 +8,10 @@ const handler = async (req: any, res: any) => {
       const { ticketId } = req.body
       if (!ticketId) return res.status(500).send('Network Error')
 
-      const paymentHistories = await PaymentHistoryModel.find({ ticket_id: ticketId })
+      const paymentHistories = await PaymentHistoryModel.find({ ticket_id: ticketId }).populate(
+        'closer_id',
+        'user_name'
+      )
 
       return res.send({
         message: 'payment history fetched successfully',

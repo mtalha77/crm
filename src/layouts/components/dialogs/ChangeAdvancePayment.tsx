@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import axios from 'axios'
 
-export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymentHistories }: any) {
+export default function ChangeAdvancePaymentDialog({ session, handleChangeAdvancePayment }: any) {
   const [open, setOpen] = React.useState(false)
   const [amount, setAmount] = React.useState<number | null>(null)
   const [, setApiLoading] = React.useState(false)
@@ -34,12 +34,10 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
     try {
       setApiLoading(true)
       const res = await axios.patch(
-        `/api/business-ticket/add-credit-payment`,
+        `/api/accounting/update-advance-payment`,
         {
-          received_payment: amount,
-          id: session._id,
-          total_payment: session.total_payment,
-          session_remaining_payment: session.remaining_payment
+          advance_amount: amount,
+          id: session._id
         },
         {
           headers: { authorization: localStorage.getItem('token') }
@@ -48,7 +46,7 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
       setApiLoading(false)
       setOpen(false)
 
-      pushNewPaymentInPaymentHistories(res.data.payload.paymentHistory, res.data.payload.session)
+      handleChangeAdvancePayment(res.data.payload.paymentHistory, res.data.payload.session)
     } catch (error) {
       console.log(error)
     }
@@ -57,16 +55,16 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
   return (
     <React.Fragment>
       <Button variant='contained' onClick={handleClickOpen} sx={{ mb: 10 }}>
-        Add Received payment
+        Update Advance Payment
       </Button>
       <Dialog open={open} onClose={handleClose} keepMounted={false}>
-        <DialogTitle>Add Received Payment</DialogTitle>
+        <DialogTitle>Update Advance Payment</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin='dense'
             name='amount'
-            label='Received Amount'
+            label='Enter Advance Payment'
             type='text'
             fullWidth
             onChange={handleChange}
@@ -75,7 +73,7 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
         </DialogContent>
         <DialogActions>
           <Button variant='contained' onClick={handleSubmit}>
-            Add
+            update
           </Button>
         </DialogActions>
       </Dialog>

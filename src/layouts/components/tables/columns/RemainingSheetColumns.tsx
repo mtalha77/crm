@@ -1,14 +1,15 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const RemainingSheetColumns: any = (businessList: any) => {
   return [
     {
       header: 'Date',
-      accessorKey: 'createdAt',
+      accessorFn: (originalRow: any) => dayjs(originalRow.createdAt),
+      filterVariant: 'date-range',
       Cell: ({ cell }: any) => {
         const value = cell.getValue()
 
-        return moment(value).format('D MMMM YYYY')
+        return dayjs(value).format('l')
       }
     },
     {

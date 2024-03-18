@@ -1,4 +1,6 @@
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 function MuiTable(props: any) {
   const { columns, data, options } = props
@@ -18,7 +20,11 @@ function MuiTable(props: any) {
     ...options
   })
 
-  return <MaterialReactTable table={table} />
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <MaterialReactTable table={table} />
+    </LocalizationProvider>
+  )
 }
 MuiTable.defaultProps = {
   options: {}

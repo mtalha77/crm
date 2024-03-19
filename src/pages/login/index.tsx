@@ -54,9 +54,9 @@ const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const LoginIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '35rem',
+  maxWidth: '25rem',
   [theme.breakpoints.down('xl')]: {
-    maxWidth: '38rem'
+    maxWidth: '30rem'
   },
   [theme.breakpoints.down('lg')]: {
     maxWidth: '30rem'
@@ -256,15 +256,15 @@ const LoginPage = () => {
               <img
                 src='/images/rankbpo.svg'
                 alt='Rank BPO Icon'
-                style={{ width: '70px', height: '60px' }}
+                style={{ width: '100%' }}
 
                 // width={50}
                 // height={28}
               />
 
-              <Typography variant='h6' sx={{ ml: 2, lineHeight: 1, fontWeight: 700, fontSize: '1.5rem !important' }}>
+              {/* <Typography variant='h6' sx={{ ml: 2, lineHeight: 1, fontWeight: 700, fontSize: '1.5rem !important' }}>
                 {themeConfig.templateName}
-              </Typography>
+              </Typography> */}
             </Box>
             <Box sx={{ mb: 6 }}>
               <TypographyStyled variant='h6'>{`Welcome to ${themeConfig.templateName} CRM! 👋🏻`}</TypographyStyled>

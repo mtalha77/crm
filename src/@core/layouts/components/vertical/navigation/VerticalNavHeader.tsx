@@ -4,7 +4,6 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box, { BoxProps } from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
-import Typography, { TypographyProps } from '@mui/material/Typography'
 import { styled, useTheme } from '@mui/material/styles'
 
 // ** Type Import
@@ -14,7 +13,6 @@ import { LayoutProps } from 'src/@core/layouts/types'
 import Icon from 'src/@core/components/icon'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
 
 interface Props {
   navHover: boolean
@@ -39,11 +37,11 @@ const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   minHeight: theme.mixins.toolbar.minHeight
 }))
 
-const HeaderTitle = styled(Typography)<TypographyProps>({
-  fontWeight: 700,
-  lineHeight: 1.2,
-  transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
-})
+// const HeaderTitle = styled(Typography)<TypographyProps>({
+//   fontWeight: 700,
+//   lineHeight: 1.2,
+//   transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
+// })
 
 const LinkStyled = styled(Link)({
   display: 'flex',
@@ -69,7 +67,8 @@ const VerticalNavHeader = (props: Props) => {
   // ** Hooks & Vars
   const theme = useTheme()
   const { mode, direction, navCollapsed } = settings
-  const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
+
+  // const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
 
   const svgFillSecondary = () => {
     if (mode === 'semi-dark') {
@@ -198,11 +197,12 @@ const VerticalNavHeader = (props: Props) => {
               </linearGradient>
             </defs>
           </svg> */}
-          <img src='/images/rankbpo.svg' alt='Rank BPO Icon' width={50} height={28} />
 
-          <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
+          <img src='/images/rankbpo.svg' alt='Rank BPO Icon' style={{ width: '100%' }} />
+
+          {/* <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {themeConfig.templateName}
-          </HeaderTitle>
+          </HeaderTitle> */}
         </LinkStyled>
       )}
 

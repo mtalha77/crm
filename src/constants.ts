@@ -8,7 +8,8 @@ export const mapFormPageRoutes = {
   [Department.SocialMedia]: '/ticket-update/socialMedia',
   [Department.Admin]: '/',
   [Department.Writer]: '/',
-  [Department.Sales]: '/'
+  [Department.Sales]: '/',
+  [Department.Designer]: '/'
 }
 
 export const mapDFormPageRoutes = {
@@ -19,5 +20,6 @@ export const mapDFormPageRoutes = {
   [Department.SocialMedia]: '/ticket-d-update/socialMedia',
   [Department.Admin]: '/',
   [Department.Writer]: '/ticket-d-update/writer',
-  [Department.Designer]: '/ticket-d-update/designer'
+  [Department.Designer]: '/ticket-d-update/designer',
+  [Department.Sales]: '/'
 }

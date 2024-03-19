@@ -1,4 +1,4 @@
-import { DDesignerFormType, DWriterFormType } from 'src/interfaces/departmentalForms.interface'
+import { DDesignerFormType } from 'src/interfaces/departmentalForms.interface'
 import * as yup from 'yup'
 
 export const DDesignerYupSchema: yup.ObjectSchema<DDesignerFormType> = yup.object().shape({

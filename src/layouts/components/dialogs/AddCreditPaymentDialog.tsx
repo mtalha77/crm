@@ -37,12 +37,14 @@ export default function AddCreditPaymentDialog({ session, pushNewPaymentInPaymen
     try {
       if (!value || !amount) {
         toast.error('PLease fill all fields')
+
         return
       }
       const userFound: any = saleUsers.find((e: any) => e.user_name === value)
 
       if (!userFound) {
         toast.error('Network error')
+
         return
       }
       setApiLoading(true)

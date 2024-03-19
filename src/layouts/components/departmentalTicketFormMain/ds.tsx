@@ -24,7 +24,7 @@ const schema = DDesignerYupSchema
 const DDesignerFormComponent = () => {
   const router = useRouter()
   const { ticketId } = router.query
-  const [apiLoading, setApiLoading] = useState(false)
+  const [, setApiLoading] = useState(false)
   const [update, setUpdate] = useState(false)
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
   const [business_id, setBusiness_id] = useState('')

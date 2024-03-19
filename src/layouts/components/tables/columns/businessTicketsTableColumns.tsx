@@ -8,6 +8,7 @@ import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
+import dayjs from 'dayjs'
 
 const businessTicketsColumns: any = (
   user: UserDataType,
@@ -123,6 +124,18 @@ const businessTicketsColumns: any = (
       filterVariant: 'autocomplete',
       filterSelectOptions: PriorityTypeValues,
       size: 120
+    },
+    {
+      header: 'Due Date',
+
+      accessorFn: (originalRow: any) => dayjs(originalRow.due_date),
+
+      filterVariant: 'date',
+      Cell: ({ cell }: any) => {
+        const value = cell.getValue()
+
+        return dayjs(value).format('l')
+      }
     },
     {
       header: 'Payment',

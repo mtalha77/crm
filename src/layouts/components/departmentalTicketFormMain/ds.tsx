@@ -9,19 +9,19 @@ import toast from 'react-hot-toast'
 
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
-import { DWriterFormType, dWriterDefaultValues } from 'src/interfaces/departmentalForms.interface'
+import { DDesignerFormType, dDesignerDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import Common from './Common'
 import { Box, Card, CardContent, CardHeader, Divider, Typography } from '@mui/material'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
-import { mapResponseForDWriter } from 'src/utils/departmentalTickets/mapResponseForDWriter'
-import { DWriterYupSchema } from 'src/yupSchemas/departmentalforms/dWriterYupSchema'
-import WriterSpecificDetails from '../newTicketForm/Departments/Writer/WriterSpecificDetails'
+import { DDesignerYupSchema } from 'src/yupSchemas/departmentalforms/dDesignerYupSchema'
+import { mapResponseForDDesigner } from 'src/utils/departmentalTickets/mapResponseForDDesigner'
+import DesignerSpecificDetails from '../newTicketForm/Departments/Designer/DesignerSpecificDetails'
 
-const schema = DWriterYupSchema
+const schema = DDesignerYupSchema
 
-const DWritersFormComponent = () => {
+const DDesignerFormComponent = () => {
   const router = useRouter()
   const { ticketId } = router.query
   const [apiLoading, setApiLoading] = useState(false)
@@ -29,7 +29,7 @@ const DWritersFormComponent = () => {
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
   const [business_id, setBusiness_id] = useState('')
 
-  const methods = useForm({ defaultValues: dWriterDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
+  const methods = useForm({ defaultValues: dDesignerDefaultValues, resolver: yupResolver(schema), mode: 'onChange' })
   const { departments } = useAuth()
 
   const fetchTicket = async () => {
@@ -39,7 +39,7 @@ const DWritersFormComponent = () => {
       const res = await axios.get(`/api/department-ticket/${ticketId}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
-      const mapResult = mapResponseForDWriter(res.data.payload.ticket)
+      const mapResult = mapResponseForDDesigner(res.data.payload.ticket)
       methods.reset(mapResult)
     } catch (error: any) {
       toast.error(error?.response?.data)
@@ -50,7 +50,7 @@ const DWritersFormComponent = () => {
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      methods.reset(dWriterDefaultValues)
+      methods.reset(dDesignerDefaultValues)
     }
   }, [isSubmitSuccessful])
 
@@ -60,19 +60,19 @@ const DWritersFormComponent = () => {
     }
   }, [ticketId])
 
-  const onSubmit = async (data: DWriterFormType) => {
-    const { priority, due_date, writerFormTypeDetails } = data
+  const onSubmit = async (data: DDesignerFormType) => {
+    const { priority, due_date, designerFormTypeDetails } = data
 
     // Create a new object with the destructured properties
-    const depart: any = departments.find((d: any) => d.name === Department.Writer)
+    const depart: any = departments.find((d: any) => d.name === Department.Designer)
 
     const requestData = {
       priority: priority,
       assignee_depart_id: depart._id,
       assignee_depart_name: depart.name,
       due_date: due_date,
-      notes: writerFormTypeDetails.notes,
-      task_details: writerFormTypeDetails.task_details,
+      notes: designerFormTypeDetails.notes,
+      task_details: designerFormTypeDetails.task_details,
       ticketId: ticketId,
       business_id
     }
@@ -127,7 +127,7 @@ const DWritersFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <WriterSpecificDetails />
+                    <DesignerSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />
@@ -150,4 +150,4 @@ const DWritersFormComponent = () => {
   )
 }
 
-export default DWritersFormComponent
+export default DDesignerFormComponent

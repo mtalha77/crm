@@ -11,6 +11,7 @@ import WebSeoView from 'src/layouts/components/ticket-view-department-wise/WebSe
 import WordPressView from 'src/layouts/components/ticket-view-department-wise/WordPressView'
 import { Department } from 'src/shared/enums/Department.enum'
 import WriterView from './ticket-view-department-wise/WriterView'
+import DesignerView from './ticket-view-department-wise/DesignerView'
 
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
@@ -182,6 +183,7 @@ const ViewFullDepartmentalTicketDetails = ({ ticketId, depart }: any) => {
           {depart === Department.PaidMarketing && <PaidMarketingView data={data} />}
           {depart === Department.SocialMedia && <SocialMediaView data={data} />}
           {depart === Department.Writer && <WriterView data={data} />}
+          {depart === Department.Designer && <DesignerView data={data} />}
         </CardContent>
       </Card>
     </>

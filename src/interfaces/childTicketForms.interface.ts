@@ -1,5 +1,6 @@
 import { DTicketDetails } from './departmentalForms.interface'
 import {
+  DesignerDetails,
   LocalSeoDetails,
   PaidMarketingDetails,
   SocialMediaDetails,
@@ -32,6 +33,10 @@ export interface ChildWriterFormType extends DTicketDetails {
   writerFormTypeDetails: WriterDetails
 }
 
+export interface ChildDesignerFormType extends DTicketDetails {
+  designerFormTypeDetails: DesignerDetails
+}
+
 export const ChildLocalSeoDefaultValues: ChildLocalSeoFormType = {
   priority: '',
   due_date: new Date(),
@@ -45,6 +50,15 @@ export const ChildWriterDefaultValues: ChildWriterFormType = {
   priority: '',
   due_date: new Date(),
   writerFormTypeDetails: {
+    notes: '',
+    task_details: ''
+  }
+}
+
+export const ChildDesignerDefaultValues: ChildDesignerFormType = {
+  priority: '',
+  due_date: new Date(),
+  designerFormTypeDetails: {
     notes: '',
     task_details: ''
   }

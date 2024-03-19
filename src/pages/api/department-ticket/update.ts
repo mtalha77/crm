@@ -1,6 +1,7 @@
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
+import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
@@ -41,7 +42,9 @@ const handler = async (req: any, res: any) => {
         task_details,
         ticketId
       } = req.body
-      if (!assignee_depart_id || !assignee_depart_name || !due_date || !work_status || !ticketId)
+      if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
+        return res.status(400).send('Network Error')
+      if (!assignee_depart_id || !assignee_depart_name || !due_date || !ticketId)
         return res.status(400).send('Network Error')
 
       const updatedTicket = await DepartTicketModel.findByIdAndUpdate(

@@ -38,7 +38,9 @@ const handler = async (req: any, res: any) => {
         business_id
       } = req.body
 
-      if (assignee_depart_name !== Department.Writer && !work_status) return res.status(400).send('Network Error')
+      if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
+        return res.status(400).send('Network Error')
+
       if (!assignee_depart_id || !assignee_depart_name || !due_date || !business_id)
         return res.status(400).send('Network Error')
 

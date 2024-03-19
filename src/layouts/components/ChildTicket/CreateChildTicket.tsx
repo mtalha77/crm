@@ -7,6 +7,7 @@ import ChildSocialMediaFormComponent from '../childTicketsFormMain/smr'
 import ChildWordPressFormComponent from '../childTicketsFormMain/wd'
 import ChildWebSeoFormComponent from '../childTicketsFormMain/ws'
 import ChildWriterFormComponent from '../childTicketsFormMain/wt'
+import ChildDesignerFormComponent from '../childTicketsFormMain/ds'
 
 // function CreateChildTicket({ setShow }: any) {
 
@@ -47,6 +48,7 @@ function CreateChildTicket() {
       {value === Department.WordPress && <ChildWordPressFormComponent />}
       {value === Department.WebSeo && <ChildWebSeoFormComponent />}
       {value === Department.Writer && <ChildWriterFormComponent />}
+      {value === Department.Designer && <ChildDesignerFormComponent />}
     </>
   )
 }

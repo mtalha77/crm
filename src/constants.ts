@@ -19,5 +19,5 @@ export const mapDFormPageRoutes = {
   [Department.SocialMedia]: '/ticket-d-update/socialMedia',
   [Department.Admin]: '/',
   [Department.Writer]: '/ticket-d-update/writer',
-  [Department.Sales]: '/'
+  [Department.Designer]: '/ticket-d-update/designer'
 }

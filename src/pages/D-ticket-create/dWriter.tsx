@@ -1,8 +1,8 @@
 import React from 'react'
 import DWritersFormComponent from 'src/layouts/components/departmentalTicketFormMain/wt'
 
-function WordPress() {
+function Writer() {
   return <DWritersFormComponent />
 }
 
-export default WordPress
+export default Writer

@@ -1,5 +1,6 @@
 import {
   BusinessDetails,
+  DesignerDetails,
   LocalSeoDetails,
   PaidMarketingDetails,
   SocialMediaDetails,
@@ -40,6 +41,11 @@ export interface DSocialMediaFormType extends DTicketDetails {
 
 export interface DWriterFormType extends DTicketDetails {
   writerFormTypeDetails: WriterDetails
+  business: BusinessDetails
+}
+
+export interface DDesignerFormType extends DTicketDetails {
+  designerFormTypeDetails: DesignerDetails
   business: BusinessDetails
 }
 
@@ -183,6 +189,28 @@ export const dWriterDefaultValues: DWriterFormType = {
   priority: '',
   due_date: new Date(),
   writerFormTypeDetails: {
+    notes: '',
+    task_details: ''
+  },
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: ''
+  }
+}
+
+export const dDesignerDefaultValues: DDesignerFormType = {
+  priority: '',
+  due_date: new Date(),
+  designerFormTypeDetails: {
     notes: '',
     task_details: ''
   },

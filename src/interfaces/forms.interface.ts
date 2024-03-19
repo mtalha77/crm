@@ -85,6 +85,11 @@ export interface WriterDetails {
   task_details?: string
 }
 
+export interface DesignerDetails {
+  notes?: string
+  task_details?: string
+}
+
 export interface CommonFormType {
   business: BusinessDetails
   saleDepart: SaleDepartDetails

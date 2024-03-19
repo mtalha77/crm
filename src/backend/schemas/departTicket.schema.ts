@@ -21,7 +21,7 @@ const departTicketSchema = new mongoose.Schema(
     work_status: {
       type: String,
       required: function (this: any) {
-        return this.assignee_depart_name !== Department.Writer
+        return this.assignee_depart_name !== Department.Writer && this.assignee_depart_name !== Department.Designer
       },
       enum: WorkStatusValues
     },

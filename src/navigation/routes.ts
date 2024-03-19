@@ -50,7 +50,8 @@ export const createDepartmentalTicketsRouteObj = {
     { title: 'Website SEO', path: '/D-ticket-create/dWebSeo' },
     { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
     { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' },
-    { title: 'Writers', path: '/D-ticket-create/dWriter' }
+    { title: 'Writer', path: '/D-ticket-create/dWriter' },
+    { title: 'Designer', path: '/D-ticket-create/dDesigner' }
   ]
 }
 

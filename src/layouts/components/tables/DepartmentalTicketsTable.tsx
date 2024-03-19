@@ -108,7 +108,7 @@ function DepartmentalTicketsTable() {
 
   const handleTicketEdit = (depart_name: Department, ticketId: string) => {
     const page: string = mapDFormPageRoutes[depart_name]
-
+    console.log(page)
     router.push({
       pathname: page,
       query: { ticketId }

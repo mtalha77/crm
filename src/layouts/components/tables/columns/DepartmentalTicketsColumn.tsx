@@ -6,6 +6,7 @@ import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
+import dayjs from 'dayjs'
 
 const DepartmentalTicketsColumns: any = (
   user: UserDataType,
@@ -116,6 +117,19 @@ const DepartmentalTicketsColumns: any = (
     {
       header: 'Priority',
       accessorKey: 'priority'
+    },
+
+    {
+      header: 'Due Date',
+
+      accessorFn: (originalRow: any) => dayjs(originalRow.due_date),
+
+      filterVariant: 'date',
+      Cell: ({ cell }: any) => {
+        const value = cell.getValue()
+
+        return dayjs(value).format('l')
+      }
     },
 
     {

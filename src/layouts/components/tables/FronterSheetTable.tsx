@@ -4,6 +4,10 @@ import toast from 'react-hot-toast'
 
 import MuiTable from './MuiTable'
 import FronterSheetColumns from './columns/FronterSheetColumns'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
+import { Button } from '@mui/material'
+import dayjs from 'dayjs'
 
 function FronterSheetTable() {
   const [data, setData] = useState([])
@@ -41,6 +45,28 @@ function FronterSheetTable() {
     }
   }
 
+  const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+    filename: 'Fronter Sheet'
+  })
+
+  const handleExportRows = (rows: any[]) => {
+    const rowData = rows.map(d => {
+      return {
+        date: dayjs(d.original.createdAt).format('l'),
+        'business name': d.original.business_id.business_name,
+        fronter: d.original.fronter_id.user_name,
+        'work type': d.original.ticket_id.work_status,
+        payment: `$${d.original.received_payment}`
+      }
+    })
+
+    const csv = generateCsv(csvConfig)(rowData)
+    download(csvConfig)(csv)
+  }
+
   useEffect(() => {
     fetchData()
     fetchBusinesses()
@@ -56,7 +82,24 @@ function FronterSheetTable() {
         options={{
           state: {
             isLoading: isLoading
-          }
+          },
+          enableFacetedValues: true,
+          initialState: {
+            showGlobalFilter: true,
+            showColumnFilters: true
+          },
+          renderTopToolbarCustomActions: ({ table }: any) => (
+            <Button
+              disabled={table.getPrePaginationRowModel().rows.length === 0}
+
+              //export all rows, including from the next page, (still respects filtering and sorting)
+              onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+              variant='contained'
+              startIcon={<FileDownloadIcon />}
+            >
+              Export Csv
+            </Button>
+          )
         }}
       />
     </>

@@ -90,6 +90,13 @@ function ViewFullBusinessDetails({ id }: any) {
       <Grid item xs={6}>
         <BoldText>Gmb Url:</BoldText> {data?.gmb_url}
       </Grid>
+      <Grid item xs={12}>
+        <BoldText>Services:</BoldText>{' '}
+        {data?.work_status &&
+          data?.work_status.map((s: string) => {
+            return `${s}, `
+          })}
+      </Grid>
     </Grid>
   )
 }

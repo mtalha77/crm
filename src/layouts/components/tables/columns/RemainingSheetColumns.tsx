@@ -21,7 +21,8 @@ const RemainingSheetColumns: any = (businessList: any) => {
 
     {
       header: 'Work Type',
-      accessorKey: 'ticket_id.work_status'
+      accessorKey: 'ticket_id.work_status',
+      filterVariant: 'autocomplete'
     },
     {
       header: 'Remaining Balance',

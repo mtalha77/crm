@@ -4,6 +4,10 @@ import toast from 'react-hot-toast'
 
 import MuiTable from './MuiTable'
 import RemainingSheetColumns from './columns/RemainingSheetColumns'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
+import { Button } from '@mui/material'
+import dayjs from 'dayjs'
 
 function RemainingSheetTable() {
   const [data, setData] = useState([])
@@ -39,6 +43,26 @@ function RemainingSheetTable() {
       console.error(error)
     }
   }
+  const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+    filename: 'Remaining Sheet'
+  })
+
+  const handleExportRows = (rows: any[]) => {
+    const rowData = rows.map(d => {
+      return {
+        date: dayjs(d.original.createdAt).format('l'),
+        'business name': d.original.business_id.business_name,
+        'work type': d.original.ticket_id.work_status,
+        'remaining balance': `$${d.original.remaining_payment}`
+      }
+    })
+
+    const csv = generateCsv(csvConfig)(rowData)
+    download(csvConfig)(csv)
+  }
 
   useEffect(() => {
     fetchData()
@@ -55,7 +79,22 @@ function RemainingSheetTable() {
         options={{
           state: {
             isLoading: isLoading
-          }
+          },
+          initialState: {
+            showGlobalFilter: true,
+            showColumnFilters: true
+          },
+          enableFacetedValues: true,
+          renderTopToolbarCustomActions: ({ table }: any) => (
+            <Button
+              disabled={table.getPrePaginationRowModel().rows.length === 0}
+              onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+              variant='contained'
+              startIcon={<FileDownloadIcon />}
+            >
+              Export CSV
+            </Button>
+          )
         }}
       />
     </>

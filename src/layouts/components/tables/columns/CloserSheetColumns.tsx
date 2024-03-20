@@ -19,16 +19,21 @@ const CloserSheetColumns: any = (businessList: any) => {
       header: 'Business Name',
       accessorKey: 'business_id.business_name',
       filterVariant: 'autocomplete',
-      filterSelectOptions: businessList
+      filterSelectOptions: businessList,
+      filterFn: 'equals'
     },
 
     {
       header: 'Closer',
-      accessorKey: 'closer_id.user_name'
+      accessorKey: 'closer_id.user_name',
+      filterVariant: 'autocomplete',
+      filterFn: 'equals'
     },
     {
       header: 'Work Type',
-      accessorKey: 'ticket_id.work_status'
+      accessorKey: 'ticket_id.work_status',
+      filterVariant: 'autocomplete',
+      filterFn: 'equals'
     },
     {
       header: 'Payment',

@@ -13,27 +13,25 @@ const FronterSheetColumns: any = (businessList: any) => {
 
         return dayjs(value).format('l')
       }
-
-      // Cell: ({ cell }: any) => {
-      //   const value = cell.getValue()
-
-      //   return moment(value).format('D MMMM YYYY')
-      // }
     },
     {
       header: 'Business Name',
       accessorKey: 'business_id.business_name',
       filterVariant: 'autocomplete',
-      filterSelectOptions: businessList
+      filterSelectOptions: businessList,
+      filterFn: 'equals'
     },
 
     {
       header: 'Fronter',
-      accessorKey: 'fronter_id.user_name'
+      accessorKey: 'fronter_id.user_name',
+      filterVariant: 'autocomplete',
+      filterFn: 'equals'
     },
     {
       header: 'Work Type',
-      accessorKey: 'ticket_id.work_status'
+      accessorKey: 'ticket_id.work_status',
+      filterFn: 'equals'
     },
     {
       header: 'Payment',

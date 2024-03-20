@@ -11,7 +11,8 @@ const CloserSheetColumns: any = (businessList: any) => {
 
         return dayjs(value).format('l')
       },
-      accessorKey: 'createdAt'
+      accessorKey: 'createdAt',
+      size: 20
 
       // Cell: ({ cell }: any) => cell.getValue().toLocaleDateString()
     },
@@ -34,6 +35,10 @@ const CloserSheetColumns: any = (businessList: any) => {
       accessorKey: 'ticket_id.work_status',
       filterVariant: 'autocomplete',
       filterFn: 'equals'
+    },
+    {
+      header: 'Sale Type',
+      accessorKey: 'sales_type'
     },
     {
       header: 'Payment',

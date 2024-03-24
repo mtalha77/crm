@@ -11,7 +11,8 @@ import businessTicketsColumns from './columns/businessTicketsTableColumns'
 
 // let filteredData: any = []
 
-function BusinessTicketsTable() {
+function BusinessTicketsTable({ businessIdProps }: any) {
+  console.log(businessIdProps)
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -29,7 +30,7 @@ function BusinessTicketsTable() {
         axios.get('/api/user/get-employees-department-wise', {
           headers: { authorization: localStorage.getItem('token') }
         }),
-        axios.get('/api/business-ticket/get-all', {
+        axios.get(`/api/business-ticket/get-all?businessId=${businessIdProps}`, {
           headers: { authorization: localStorage.getItem('token') }
         })
       ])
@@ -140,99 +141,6 @@ function BusinessTicketsTable() {
 
   return (
     <>
-      {/* <Card sx={{ mb: 8 }}>
-        <CardHeader title='Filters' />
-        <CardContent>
-          <Grid container spacing={0}>
-            <Grid item xs={12} sm={3}>
-              <FormControl>
-                <InputLabel id='validation-Department' htmlFor='validation-Department'>
-                  Select Department
-                </InputLabel>
-                <Select
-                  // size='small'
-                  style={{ width: '200px' }}
-                  onChange={e => {
-                    setSelectedDepartment(e.target.value)
-                  }}
-                  value={selectedDepartment}
-                  label='Select Department'
-                  // displayEmpty
-                  labelId='validation-Department'
-                >
-                  <MenuItem value='All'>All</MenuItem>
-                  {DepartmentValues.map((e: any) => {
-                    return (
-                      <MenuItem key={e} value={e}>
-                        {e}
-                      </MenuItem>
-                    )
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={3}>
-              <FormControl>
-                <InputLabel id='validation-supportPerson' htmlFor='validation-supportPerson'>
-                  Select Business
-                </InputLabel>
-                <Select
-                  style={{ width: '200px' }}
-                  // size='small'
-                  onChange={e => {
-                    setSelectedBusiness(e.target.value)
-                  }}
-                  value={selectedBusiness}
-                  label='Select Business'
-                  labelId='validation-sale_type'
-                >
-                  <MenuItem value='All'>All</MenuItem>
-                  {businessList.map((e: any) => {
-                    return (
-                      <MenuItem key={e.business_name} value={e.business_name}>
-                        {e.business_name}
-                      </MenuItem>
-                    )
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={3}>
-              <FormControl>
-                <InputLabel id='validation-Status' htmlFor='validation-Status'>
-                  Select Status
-                </InputLabel>
-                <Select
-                  style={{ width: '200px' }}
-                  // size='small'
-                  onChange={e => {
-                    setSelectedStatus(e.target.value)
-                  }}
-                  value={selectedStatus}
-                  label='Select Status'
-                  labelId='validation-Status'
-                >
-                  <MenuItem value='All'>All</MenuItem>
-                  {TicketStatusValues.map((e: any) => {
-                    return (
-                      <MenuItem key={e} value={e}>
-                        {e}
-                      </MenuItem>
-                    )
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Button onClick={handleClear} variant='contained'>
-                Clear Filters
-              </Button>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card> */}
       <MuiTable
         data={data}
         columns={columns}

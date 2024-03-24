@@ -6,7 +6,7 @@ import MuiTable from './MuiTable'
 import RemainingSheetColumns from './columns/RemainingSheetColumns'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
-import { Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 
 function RemainingSheetTable() {
@@ -64,6 +64,14 @@ function RemainingSheetTable() {
     download(csvConfig)(csv)
   }
 
+  const getTotal = (rows: any[]) => {
+    let total = 0
+    rows.forEach((r: any) => {
+      total = total + r.original.remaining_payment
+    })
+    return total
+  }
+
   useEffect(() => {
     fetchData()
     fetchBusinesses()
@@ -86,14 +94,19 @@ function RemainingSheetTable() {
           },
           enableFacetedValues: true,
           renderTopToolbarCustomActions: ({ table }: any) => (
-            <Button
-              disabled={table.getPrePaginationRowModel().rows.length === 0}
-              onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-              variant='contained'
-              startIcon={<FileDownloadIcon />}
-            >
-              Export CSV
-            </Button>
+            <Box>
+              <Button
+                disabled={table.getPrePaginationRowModel().rows.length === 0}
+                onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+                variant='contained'
+                startIcon={<FileDownloadIcon />}
+              >
+                Export CSV
+              </Button>
+              <Typography variant='h5' sx={{ mt: 5, mb: 2 }}>{`Total : $${getTotal(
+                table.getPrePaginationRowModel().rows
+              )}`}</Typography>
+            </Box>
           )
         }}
       />

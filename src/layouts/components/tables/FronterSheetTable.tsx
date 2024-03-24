@@ -6,7 +6,7 @@ import MuiTable from './MuiTable'
 import FronterSheetColumns from './columns/FronterSheetColumns'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
-import { Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 
 function FronterSheetTable() {
@@ -67,6 +67,14 @@ function FronterSheetTable() {
     download(csvConfig)(csv)
   }
 
+  const getTotal = (rows: any[]) => {
+    let total = 0
+    rows.forEach((r: any) => {
+      total = total + r.original.received_payment
+    })
+    return total
+  }
+
   useEffect(() => {
     fetchData()
     fetchBusinesses()
@@ -89,16 +97,20 @@ function FronterSheetTable() {
             showColumnFilters: true
           },
           renderTopToolbarCustomActions: ({ table }: any) => (
-            <Button
-              disabled={table.getPrePaginationRowModel().rows.length === 0}
-
-              //export all rows, including from the next page, (still respects filtering and sorting)
-              onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
-              variant='contained'
-              startIcon={<FileDownloadIcon />}
-            >
-              Export Csv
-            </Button>
+            <Box>
+              <Button
+                disabled={table.getPrePaginationRowModel().rows.length === 0}
+                //export all rows, including from the next page, (still respects filtering and sorting)
+                onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+                variant='contained'
+                startIcon={<FileDownloadIcon />}
+              >
+                Export Csv
+              </Button>
+              <Typography variant='h5' sx={{ mt: 5, mb: 2 }}>{`Total : $${getTotal(
+                table.getPrePaginationRowModel().rows
+              )}`}</Typography>
+            </Box>
           )
         }}
       />

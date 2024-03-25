@@ -72,6 +72,7 @@ function FronterSheetTable() {
     rows.forEach((r: any) => {
       total = total + r.original.received_payment
     })
+
     return total
   }
 
@@ -93,14 +94,14 @@ function FronterSheetTable() {
           },
           enableFacetedValues: true,
           initialState: {
-            showGlobalFilter: true,
-            showColumnFilters: true
+            showGlobalFilter: true
+
+            // showColumnFilters: true
           },
           renderTopToolbarCustomActions: ({ table }: any) => (
             <Box>
               <Button
                 disabled={table.getPrePaginationRowModel().rows.length === 0}
-                //export all rows, including from the next page, (still respects filtering and sorting)
                 onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
                 variant='contained'
                 startIcon={<FileDownloadIcon />}

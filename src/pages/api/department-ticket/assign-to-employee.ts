@@ -8,33 +8,22 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.TEAM_LEAD))
-        return res.status(403).send('Permission denied')
-      const { ticketId, employee_id, user_name } = req.body
-      if (!ticketId) return res.status(400).send('Fields Missing')
-      let msg = ''
-      if (!user_name) {
-        const result = await DepartTicketModel.findByIdAndUpdate(ticketId, {
-          $unset: {
-            assignee_employee_id: 1
-          }
-        })
+        return res.status(403).send('Permission denied.Only Admin and TeamLead can update ticket')
+      const { ticketId, userIds } = req.body
+      if (!ticketId || !userIds) return res.status(400).send('Fields Missing')
+      const uniqueArray = [...new Set(userIds)]
+      const mapped = uniqueArray.map((u: any) => new mongoose.Types.ObjectId(u))
 
-        if (!result) return res.status(500).send('Not able to unassign ticket.Please try again')
+      const result = await DepartTicketModel.findByIdAndUpdate(ticketId, {
+        $set: {
+          assignee_employees: mapped
+        }
+      })
 
-        msg = 'Ticket unassigned successfully'
-      } else {
-        const result = await DepartTicketModel.findByIdAndUpdate(ticketId, {
-          $set: {
-            assignee_employee_id: new mongoose.Types.ObjectId(employee_id)
-          }
-        })
-
-        if (!result) return res.status(500).send('Not able to assign ticket.Please try again')
-        msg = `Ticket assigned to ${user_name}`
-      }
+      if (!result) return res.status(500).send('Not able to assign ticket.Please try again')
 
       return res.send({
-        message: msg,
+        message: 'success',
         payload: {}
       })
     } catch (error) {

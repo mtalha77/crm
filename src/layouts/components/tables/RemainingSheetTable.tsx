@@ -69,6 +69,7 @@ function RemainingSheetTable() {
     rows.forEach((r: any) => {
       total = total + r.original.remaining_payment
     })
+
     return total
   }
 
@@ -89,8 +90,9 @@ function RemainingSheetTable() {
             isLoading: isLoading
           },
           initialState: {
-            showGlobalFilter: true,
-            showColumnFilters: true
+            showGlobalFilter: true
+
+            // showColumnFilters: true
           },
           enableFacetedValues: true,
           renderTopToolbarCustomActions: ({ table }: any) => (

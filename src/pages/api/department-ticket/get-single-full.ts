@@ -9,7 +9,7 @@ const handler = async (req: any, res: any) => {
       const ticket = await DepartTicketModel.findById(ticketId)
         .populate('business_id')
         .populate('created_by', 'user_name')
-        .populate('assignee_employee_id', 'user_name')
+        .populate('assignee_employees', 'user_name')
 
       if (!ticket) {
         return res.status(404).send('ticket not found')

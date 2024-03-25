@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material'
+import { Card, CardContent, CardHeader, Chip, Divider, Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
@@ -181,7 +181,23 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
             </Grid>
 
             <Grid item xs={6}>
-              <BoldText>Assignee Employee:</BoldText> {data?.assignee_employee_id?.user_name}
+              <Grid container>
+                <Grid item>
+                  <BoldText>Assignee Employee:</BoldText>{' '}
+                </Grid>
+                <Grid item sx={{ marginLeft: '5px', width: '60%' }}>
+                  <Grid container gap={2}>
+                    {data?.assignee_employees &&
+                      data?.assignee_employees.map((e: any) => {
+                        return (
+                          <Grid item key={e.user_name}>
+                            <Chip style={{ borderRadius: '8px' }} color='primary' label={e.user_name} size='small' />
+                          </Grid>
+                        )
+                      })}
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
 
             <Grid item xs={6}>

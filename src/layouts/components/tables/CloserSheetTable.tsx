@@ -71,6 +71,7 @@ function CloserSheetTable() {
     rows.forEach((r: any) => {
       total = total + r.original.received_payment
     })
+
     return total
   }
 
@@ -91,8 +92,9 @@ function CloserSheetTable() {
             isLoading: isLoading
           },
           initialState: {
-            showGlobalFilter: true,
-            showColumnFilters: true
+            showGlobalFilter: true
+
+            // showColumnFilters: true
           },
           enableFacetedValues: true,
           renderTopToolbarCustomActions: ({ table }: any) => (

@@ -18,6 +18,7 @@ function DepartmentalTicketsTable() {
   const [businessList, setBusinessList] = useState([])
   const [employeesList, setEmployeesList] = useState([])
   const { status } = router.query
+
   const fetchData = async () => {
     try {
       setIsLoading(true)
@@ -68,29 +69,59 @@ function DepartmentalTicketsTable() {
     fetchBusinesses()
   }, [])
 
-  const assignedEmployeeToTicket = async (user_name: string | 'Not Assigned', ticketId: string) => {
-    const userFound: any = employees.find((e: any) => e.user_name === user_name)
+  const assignedEmployeeToTicket = async (users: string[], ticketId: string) => {
+    const userIds: any = employees.filter((e: any) => users.includes(e.user_name)).map((e: any) => e._id)
+    const mapped: any = employees
+      .filter((e: any) => users.includes(e.user_name))
+      .map((e: any) => {
+        return { _id: e._id, user_name: e.user_name }
+      })
+    setData((): any => {
+      return data.map((t: any) => {
+        if (t._id === ticketId) {
+          return {
+            ...t,
+            assignee_employees: mapped
+          }
+        } else {
+          return t
+        }
+      })
+    })
 
-    try {
-      const res: any = await axios.post(
+    axios
+      .post(
         '/api/department-ticket/assign-to-employee',
         {
           ticketId,
-          user_name,
-          employee_id: userFound?._id
+          userIds
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
-      toast.success(res.data?.message)
-    } catch (error: any) {
-      console.log(error)
-      toast.error(error.response?.data)
-    }
+      .then(() => {
+        toast.success('Assignee Employee updated successfully')
+      })
+      .catch(() => {
+        toast.error('Network error. Please refresh the page.')
+      })
   }
 
   const updateTicketStatus = async (ticketId: string, status: string) => {
-    try {
-      const res: any = await axios.post(
+    setData((): any => {
+      return data.map((t: any) => {
+        if (t._id === ticketId) {
+          return {
+            ...t,
+            status
+          }
+        } else {
+          return t
+        }
+      })
+    })
+
+    await axios
+      .post(
         '/api/department-ticket/update-status',
         {
           ticketId,
@@ -98,16 +129,17 @@ function DepartmentalTicketsTable() {
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
-      toast.success(res.data.message)
-    } catch (error: any) {
-      console.log(error)
-      toast.error(error.response.data)
-    }
+      .then((res: any) => {
+        toast.success(res.data.message)
+      })
+      .catch((error: any) => {
+        console.log(error)
+        toast.error(error.response.data)
+      })
   }
 
   const handleTicketEdit = (depart_name: Department, ticketId: string) => {
     const page: string = mapDFormPageRoutes[depart_name]
-    console.log(page)
     router.push({
       pathname: page,
       query: { ticketId }
@@ -139,8 +171,7 @@ function DepartmentalTicketsTable() {
           },
           initialState: {
             columnVisibility: {
-              ['assignee_employee_id.user_name']: !(user?.role === UserRole.EMPLOYEE),
-
+              ['assignee_employees']: !(user?.role === UserRole.EMPLOYEE),
               assignee_depart_name: !(user?.role === UserRole.EMPLOYEE || user?.role === UserRole.TEAM_LEAD)
             },
             columnFilters: [

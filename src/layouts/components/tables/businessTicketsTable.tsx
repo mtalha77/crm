@@ -12,7 +12,6 @@ import businessTicketsColumns from './columns/businessTicketsTableColumns'
 // let filteredData: any = []
 
 function BusinessTicketsTable({ businessIdProps }: any) {
-  console.log(businessIdProps)
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -71,29 +70,59 @@ function BusinessTicketsTable({ businessIdProps }: any) {
     fetchBusinesses()
   }, [])
 
-  const assignedEmployeeToTicket = async (user_name: string | 'Not Assigned', ticketId: string) => {
-    const userFound: any = employees.find((e: any) => e.user_name === user_name)
+  const assignedEmployeeToTicket = async (users: string[], ticketId: string) => {
+    const userIds: any = employees.filter((e: any) => users.includes(e.user_name)).map((e: any) => e._id)
+    const mapped: any = employees
+      .filter((e: any) => users.includes(e.user_name))
+      .map((e: any) => {
+        return { _id: e._id, user_name: e.user_name }
+      })
+    setData((): any => {
+      return data.map((t: any) => {
+        if (t._id === ticketId) {
+          return {
+            ...t,
+            assignee_employees: mapped
+          }
+        } else {
+          return t
+        }
+      })
+    })
 
-    try {
-      const res: any = await axios.post(
+    axios
+      .post(
         '/api/business-ticket/assign-to-employee',
         {
           ticketId,
-          user_name,
-          employee_id: userFound?._id
+          userIds
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
-      toast.success(res.data?.message)
-    } catch (error: any) {
-      console.log(error)
-      toast.error(error.response?.data)
-    }
+      .then(() => {
+        toast.success('Assignee Employee updated successfully')
+      })
+      .catch(() => {
+        toast.error('Network error. Please refresh the page.')
+      })
   }
 
   const updateTicketStatus = async (ticketId: string, status: string) => {
-    try {
-      const res: any = await axios.post(
+    setData((): any => {
+      return data.map((t: any) => {
+        if (t._id === ticketId) {
+          return {
+            ...t,
+            status
+          }
+        } else {
+          return t
+        }
+      })
+    })
+
+    await axios
+      .post(
         '/api/business-ticket/update-status',
         {
           ticketId,
@@ -101,11 +130,13 @@ function BusinessTicketsTable({ businessIdProps }: any) {
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
-      toast.success(res.data.message)
-    } catch (error: any) {
-      console.log(error)
-      toast.error(error.response.data)
-    }
+      .then((res: any) => {
+        toast.success(res.data.message)
+      })
+      .catch((error: any) => {
+        console.log(error)
+        toast.error(error.response.data)
+      })
   }
 
   const handleTicketEdit = (depart_name: Department, ticketId: string) => {
@@ -151,7 +182,7 @@ function BusinessTicketsTable({ businessIdProps }: any) {
           initialState: {
             density: 'compact',
             columnVisibility: {
-              ['assignee_employee_id.user_name']: !(
+              ['assignee_employees']: !(
                 user?.role === UserRole.EMPLOYEE ||
                 user?.role === UserRole.SALE_MANAGER ||
                 user?.role === UserRole.SALE_EMPLOYEE

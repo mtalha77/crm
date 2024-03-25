@@ -19,6 +19,8 @@ const handler = async (req: any, res: any) => {
       BusinessModel.schema
       PaymentHistoryModel.schema
       PaymentSessionModel.schema
+      UserModel.schema
+      BusinessModel.schema
       const user = await UserModel.findOne({ user_name })
       if (!user) return res.status(500).send('Invalid username')
       if (password !== user.password) return res.status(500).send('Invalid password')

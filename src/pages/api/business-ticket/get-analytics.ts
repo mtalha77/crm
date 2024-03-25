@@ -50,7 +50,7 @@ const handler = async (req: any, res: any) => {
         case UserRole.EMPLOYEE:
           pipeline.unshift({
             $match: {
-              assignee_employee_id: new mongoose.Types.ObjectId(req.user._id)
+              assignee_employees: { $elemMatch: { $eq: new mongoose.Types.ObjectId(req.user._id) } }
             }
           })
           analytics = await BusinessTicketModel.aggregate(pipeline)

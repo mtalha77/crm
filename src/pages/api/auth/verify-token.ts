@@ -18,6 +18,8 @@ const handler = async (req: any, res: any) => {
       BusinessModel.schema
       PaymentHistoryModel.schema
       PaymentSessionModel.schema
+      UserModel.schema
+      BusinessModel.schema
 
       const decoded: any = jwt.verify(token, tokenSecret)
 

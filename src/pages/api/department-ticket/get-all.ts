@@ -12,7 +12,7 @@ const handler = async (req: any, res: any) => {
       switch (req.user.role) {
         case UserRole.EMPLOYEE:
           tickets = await DepartTicketModel.find({
-            assignee_employee_id: req.user._id
+            assignee_employees: { $elemMatch: { $eq: req.user._id } }
           })
             .populate('business_id', 'business_name')
             .sort({ createdAt: -1 })
@@ -21,28 +21,28 @@ const handler = async (req: any, res: any) => {
         case UserRole.SALE_EMPLOYEE:
           tickets = await DepartTicketModel.find({ created_by: new mongoose.Types.ObjectId(req.user._id) })
             .populate('business_id', 'business_name')
-            .populate('assignee_employee_id', 'user_name')
+            .populate('assignee_employees', 'user_name')
             .sort({ createdAt: -1 })
           break
 
         case UserRole.SALE_MANAGER:
           tickets = await DepartTicketModel.find({ assignor_depart_name: Department.Sales })
             .populate('business_id', 'business_name')
-            .populate('assignee_employee_id', 'user_name')
+            .populate('assignee_employees', 'user_name')
             .sort({ createdAt: -1 })
           break
 
         case UserRole.TEAM_LEAD:
           tickets = await DepartTicketModel.find({ assignee_depart_id: req.user.department_id })
             .populate('business_id', 'business_name')
-            .populate('assignee_employee_id', 'user_name')
+            .populate('assignee_employees', 'user_name')
             .sort({ createdAt: -1 })
           break
 
         case UserRole.ADMIN:
           tickets = await DepartTicketModel.find({})
             .populate('business_id', 'business_name')
-            .populate('assignee_employee_id', 'user_name')
+            .populate('assignee_employees', 'user_name')
             .sort({ createdAt: -1 })
           break
 

@@ -1,4 +1,4 @@
 # crm
 
-- Use node version : 20.11.0
+- Use node version : 18.19.0
 - npm i

@@ -14,13 +14,15 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       const { user_name, password } = req.body
-      DepartTicketModel.schema
-      BusinessTicketModel.schema
-      BusinessModel.schema
-      PaymentHistoryModel.schema
-      PaymentSessionModel.schema
+
       UserModel.schema
+      DepartmentModel.schema
       BusinessModel.schema
+      BusinessTicketModel.schema
+      DepartTicketModel.schema
+      PaymentSessionModel.schema
+      PaymentHistoryModel.schema
+
       const user = await UserModel.findOne({ user_name })
       if (!user) return res.status(500).send('Invalid username')
       if (password !== user.password) return res.status(500).send('Invalid password')

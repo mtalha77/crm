@@ -18,7 +18,7 @@ const handler = async (req: any, res: any) => {
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_MANAGER))
         return res.status(403).send('Permission denied')
       const { ticketId, total_payment, advance_payment, remaining_payment, closer_id } = req.body
-      if (!ticketId || !total_payment || !advance_payment || !remaining_payment || !closer_id)
+      if (!ticketId || !total_payment || !advance_payment || remaining_payment === undefined || !closer_id)
         return res.status(400).send('Fields Missing')
 
       const ticket = await BusinessTicketModel.findByIdAndUpdate(

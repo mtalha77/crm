@@ -13,13 +13,14 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       const { token } = req.body
-      DepartTicketModel.schema
-      BusinessTicketModel.schema
-      BusinessModel.schema
-      PaymentHistoryModel.schema
-      PaymentSessionModel.schema
+
       UserModel.schema
+      DepartmentModel.schema
       BusinessModel.schema
+      BusinessTicketModel.schema
+      DepartTicketModel.schema
+      PaymentSessionModel.schema
+      PaymentHistoryModel.schema
 
       const decoded: any = jwt.verify(token, tokenSecret)
 

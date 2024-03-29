@@ -1,4 +1,4 @@
-// const requiredVersion = 'v20.11.0'
+// const requiredVersion = 'v18.19.0'
 // const actualVersion = process.version
 
 // if (actualVersion !== requiredVersion) {

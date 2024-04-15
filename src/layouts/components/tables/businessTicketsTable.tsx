@@ -45,7 +45,6 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
       } else {
         setData(dataFromParent)
       }
-      // Set the state for users and data
       setEmployeesList(() => {
         return usersData.payload.users.map((b: any) => b.user_name)
       })

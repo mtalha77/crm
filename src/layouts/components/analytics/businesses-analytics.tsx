@@ -16,7 +16,6 @@ import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
 import dayjs from 'dayjs'
 import { Box } from '@mui/material'
-import TopServicesTable from '../tables/TopServicesTable'
 import TopBusinessesTable from '../tables/TopBusinessesTable'
 
 const BusinessesAnalyticsChart = () => {
@@ -43,7 +42,7 @@ const BusinessesAnalyticsChart = () => {
 
       const temp: any = []
       const newCategories: any = []
-      let tempData: any = []
+      const tempData: any = []
       let index = 0
       res.data.payload.stats.forEach((s: any) => {
         if (index < 5) {
@@ -83,7 +82,16 @@ const BusinessesAnalyticsChart = () => {
 
     colors: ['#ff9f43'],
     stroke: { curve: 'straight' },
-    dataLabels: { enabled: true },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#ff9f43']
+      },
+      background: {
+        enabled: true,
+        dropShadow: { enabled: false }
+      }
+    },
     markers: {
       strokeWidth: 7,
       strokeOpacity: 1,

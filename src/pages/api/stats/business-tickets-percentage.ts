@@ -146,6 +146,7 @@ const handler = async (req: any, res: any) => {
           }
         }
       ])
+
       return res.send({
         message: 'Ticket statistics fetched successfully',
         payload: {

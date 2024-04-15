@@ -16,6 +16,8 @@ import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
 import utc from 'dayjs/plugin/utc'
 import dayjs from 'dayjs'
+import { Box } from '@mui/material'
+import TopFrontersTable from '../tables/TopFrontersTable'
 
 dayjs.extend(utc)
 const FrontersSalesChart = () => {
@@ -28,31 +30,39 @@ const FrontersSalesChart = () => {
   ])
   const [month, setMonth] = useState<DateType>(new Date())
   const [categories, setCategories] = useState([])
+  const [data, setData] = useState<any>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchMonthlySales = async () => {
     const startDate = dayjs(month).startOf('month').toISOString()
     const endDate = dayjs(month).endOf('month').toISOString()
     try {
+      setIsLoading(true)
       const res = await axios.get(`/api/stats/get-top-fronters?startDate=${startDate}&endDate=${endDate}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
 
       const temp: any = []
       const newCategories: any = []
+      const tempData: any = []
+
       let index = 0
       res.data.payload.stats.forEach((s: any) => {
         if (index < 5) {
           temp.push(s.total_sales)
           newCategories.push(s.user_name)
-          index++
         }
+        index++
+        tempData.push({ ...s, index })
       })
       setSeries([
         {
           data: temp
         }
       ])
+      setData(tempData)
       setCategories(newCategories)
+      setIsLoading(false)
     } catch (error) {
       console.log(error)
       toast.error('Network error')
@@ -75,7 +85,16 @@ const FrontersSalesChart = () => {
 
     colors: ['#ff9f43'],
     stroke: { curve: 'straight' },
-    dataLabels: { enabled: true },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#ff9f43']
+      },
+      background: {
+        enabled: true,
+        dropShadow: { enabled: false }
+      }
+    },
     markers: {
       strokeWidth: 7,
       strokeOpacity: 1,
@@ -131,6 +150,10 @@ const FrontersSalesChart = () => {
         <ApexChartWrapper>
           <ReactApexcharts type='bar' height={400} options={options} series={series} />
         </ApexChartWrapper>
+        <Box sx={{ mt: 10 }}></Box>
+        <Box>
+          <TopFrontersTable data={data} isLoading={isLoading} month={dayjs(month).format('MMMM YYYY')} />
+        </Box>
       </CardContent>
     </Card>
   )

@@ -34,7 +34,7 @@ const donutColors = {
   series5: '#FDB528'
 }
 
-const BusinessTicketsAnalytics = () => {
+const DepartmentalTicketsAnalytics = () => {
   // ** Hook
   const theme = useTheme()
   const [series, setSeries] = useState<any>([0, 0, 0, 0])
@@ -213,7 +213,7 @@ const BusinessTicketsAnalytics = () => {
   return (
     <Card>
       <CardHeader
-        title='Business Tickets'
+        title='Departmental Tickets'
         subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
@@ -337,4 +337,4 @@ const BusinessTicketsAnalytics = () => {
   )
 }
 
-export default BusinessTicketsAnalytics
+export default DepartmentalTicketsAnalytics

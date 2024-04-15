@@ -1,6 +1,6 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import { accountsRouteObj } from './routes'
+import { accountsRouteObj, analyticsRouteObj } from './routes'
 
 const saleManagerNavigation = (): VerticalNavItemsType => {
   return [
@@ -35,7 +35,8 @@ const saleManagerNavigation = (): VerticalNavItemsType => {
       icon: 'mdi:shield-outline',
       subject: 'view-businesses'
     },
-    accountsRouteObj
+    accountsRouteObj,
+    analyticsRouteObj
   ]
 }
 

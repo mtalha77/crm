@@ -9,9 +9,7 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 import MuiTable from './MuiTable'
 import businessTicketsColumns from './columns/businessTicketsTableColumns'
 
-// let filteredData: any = []
-
-function BusinessTicketsTable({ businessIdProps }: any) {
+function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
   const [data, setData] = useState([])
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -24,26 +22,34 @@ function BusinessTicketsTable({ businessIdProps }: any) {
     try {
       setIsLoading(true)
 
-      // Make both API requests concurrently
-      const [usersResponse, dataResponse] = await Promise.all([
+      const promiseArray = [
         axios.get('/api/user/get-employees-department-wise', {
           headers: { authorization: localStorage.getItem('token') }
-        }),
-        axios.get(`/api/business-ticket/get-all?businessId=${businessIdProps}`, {
-          headers: { authorization: localStorage.getItem('token') }
         })
-      ])
+      ]
 
-      // Destructure the responses
+      if (!dataFromParent) {
+        promiseArray.push(
+          axios.get(`/api/business-ticket/get-all?businessId=${businessIdProps}`, {
+            headers: { authorization: localStorage.getItem('token') }
+          })
+        )
+      }
+
+      const [usersResponse, dataResponse] = await Promise.all(promiseArray)
+
       const { data: usersData } = usersResponse
-      const { data: ticketsData } = dataResponse
-
+      if (!dataFromParent) {
+        const { data: ticketsData } = dataResponse
+        setData(ticketsData.payload.tickets)
+      } else {
+        setData(dataFromParent)
+      }
       // Set the state for users and data
       setEmployeesList(() => {
         return usersData.payload.users.map((b: any) => b.user_name)
       })
       setEmployees(usersData.payload.users)
-      setData(ticketsData.payload.tickets)
     } catch (error) {
       console.error(error)
       toast.error('Network error. Please refresh the page.')
@@ -67,6 +73,7 @@ function BusinessTicketsTable({ businessIdProps }: any) {
 
   useEffect(() => {
     fetchData()
+
     fetchBusinesses()
   }, [])
 

@@ -14,7 +14,10 @@ import axios from 'axios'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
+import utc from 'dayjs/plugin/utc'
+import dayjs from 'dayjs'
 
+dayjs.extend(utc)
 const FrontersSalesChart = () => {
   // ** Hook
   const theme = useTheme()
@@ -27,9 +30,10 @@ const FrontersSalesChart = () => {
   const [categories, setCategories] = useState([])
 
   const fetchMonthlySales = async () => {
-    const monthNumber = month?.getMonth()
+    const startDate = dayjs(month).startOf('month').toISOString()
+    const endDate = dayjs(month).endOf('month').toISOString()
     try {
-      const res = await axios.get(`/api/stats/get-top-fronters?month=${monthNumber}&year=${month?.getFullYear()}`, {
+      const res = await axios.get(`/api/stats/get-top-fronters?startDate=${startDate}&endDate=${endDate}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
 
@@ -123,7 +127,7 @@ const FrontersSalesChart = () => {
         }}
       />
       <CardContent>
-        <PickersMonthYear popperPlacement='auto' month={month} setMonth={setMonth} />
+        <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
         <ApexChartWrapper>
           <ReactApexcharts type='bar' height={400} options={options} series={series} />
         </ApexChartWrapper>

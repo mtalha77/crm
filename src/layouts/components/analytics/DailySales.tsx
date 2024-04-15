@@ -19,12 +19,13 @@ import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import WeeklySalesChart from './WeeklySales'
-
-// Extend dayjs with the weekOfYear plugin
-dayjs.extend(weekOfYear)
+import utc from 'dayjs/plugin/utc'
 
 const DailySalesChart = ({ username }: any) => {
   // ** Hook
+  dayjs.extend(weekOfYear)
+  dayjs.extend(utc)
+
   const theme = useTheme()
   const [series, setSeries] = useState<any>([
     {
@@ -59,14 +60,15 @@ const DailySalesChart = ({ username }: any) => {
   }
 
   const fetchMonthlySales = async () => {
-    const monthNumber = month?.getMonth()
+    const startDate = dayjs(month).startOf('month').toISOString()
+    const endDate = dayjs(month).endOf('month').toISOString()
 
     try {
       let user_name
       if (username !== 'All') user_name = username
 
       const res = await axios.get(
-        `/api/stats/get-daily-sales?month=${monthNumber}&user_name=${user_name}&year=${month?.getFullYear()}`,
+        `/api/stats/get-daily-sales?startDate=${startDate}&user_name=${user_name}&endDate=${endDate}`,
         {
           headers: { authorization: localStorage.getItem('token') }
         }
@@ -186,7 +188,7 @@ const DailySalesChart = ({ username }: any) => {
         }
       />
       <CardContent>
-        <PickersMonthYear popperPlacement='auto' month={month} setMonth={setMonth} />
+        <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
         <ApexChartWrapper>
           <ReactApexcharts type='bar' options={options} series={series} />
           <WeeklySalesChart

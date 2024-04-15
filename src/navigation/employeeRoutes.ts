@@ -18,6 +18,17 @@ const employeeNavigation = (): VerticalNavItemsType => {
         { title: 'Business', path: '/view-tickets' },
         { title: 'Departmental', path: '/view-d-tickets' }
       ]
+    },
+    {
+      title: 'Analytics',
+      subject: 'analytics',
+      icon: 'carbon:analytics',
+      children: [
+        {
+          path: '/analytics/business-tickets',
+          title: 'Business Tickets'
+        }
+      ]
     }
   ]
 }

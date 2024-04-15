@@ -69,7 +69,7 @@ const DepartmentalTicketsAnalytics = () => {
       if (user?.role === UserRole.EMPLOYEE) employee_id = user?._id
 
       let depart: any
-      let departName =
+      const departName =
         user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.EMPLOYEE ? user.department_name : department
       if (departName !== 'All') {
         depart = departments.find((d: any) => d.name === departName)

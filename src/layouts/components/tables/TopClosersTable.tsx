@@ -4,14 +4,14 @@ import MuiTable from './MuiTable'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
 import { Box, Button, Typography } from '@mui/material'
-import TopBusinessesColumns from './columns/TopBusinessesColumn'
+import TopCloserColumns from './columns/TopClosersColumns'
 
-function TopBusinessesTable({ data, isLoading, month }: any) {
+function TopClosersTable({ data, isLoading, month }: any) {
   const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
     useKeysAsHeaders: true,
-    filename: 'Top Businesses'
+    filename: 'Top Closers'
   })
 
   const handleExportData = () => {
@@ -19,8 +19,8 @@ function TopBusinessesTable({ data, isLoading, month }: any) {
       return {
         date: month,
         Ranking: d.index,
-        'Business Name': d.business_name,
-        'Total Payment Received ($)': d.totalReceivedPayment
+        Username: d.user_name,
+        'Total Sales ($)': d.total_sales
       }
     })
     const csv = generateCsv(csvConfig)(rowData)
@@ -30,13 +30,13 @@ function TopBusinessesTable({ data, isLoading, month }: any) {
   const getTotal = (rows: any[]) => {
     let total = 0
     rows.forEach((r: any) => {
-      total = total + r.original.totalReceivedPayment
+      total = total + r.original.total_sales
     })
 
     return total
   }
 
-  const columns: any = useMemo(() => TopBusinessesColumns(), [data])
+  const columns: any = useMemo(() => TopCloserColumns(), [data])
 
   return (
     <>
@@ -74,4 +74,4 @@ function TopBusinessesTable({ data, isLoading, month }: any) {
   )
 }
 
-export default TopBusinessesTable
+export default TopClosersTable

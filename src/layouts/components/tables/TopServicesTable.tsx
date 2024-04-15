@@ -27,10 +27,10 @@ function TopServicesTable({ data, isLoading, month }: any) {
     download(csvConfig)(csv)
   }
 
-  const getTotal = () => {
+  const getTotal = (rows: any[]) => {
     let total = 0
-    data.forEach((r: any) => {
-      total = total + r.totalReceivedPayment
+    rows.forEach((r: any) => {
+      total = total + r.original.totalReceivedPayment
     })
 
     return total
@@ -63,7 +63,9 @@ function TopServicesTable({ data, isLoading, month }: any) {
               >
                 Export Csv
               </Button>
-              <Typography variant='h5' sx={{ mt: 5, mb: 2 }}>{`Total : $${getTotal()}`}</Typography>
+              <Typography variant='h5' sx={{ mt: 5, mb: 2 }}>{`Total : $${getTotal(
+                table.getPrePaginationRowModel().rows
+              )}`}</Typography>
             </Box>
           )
         }}

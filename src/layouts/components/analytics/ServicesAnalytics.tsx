@@ -42,7 +42,7 @@ const ServicesAnalyticsChart = () => {
 
       const temp: any = []
       const newCategories: any = []
-      let tempData: any = []
+      const tempData: any = []
       let index = 0
       res.data.payload.stats.forEach((s: any) => {
         if (index < 5) {
@@ -82,7 +82,16 @@ const ServicesAnalyticsChart = () => {
 
     colors: ['#ff9f43'],
     stroke: { curve: 'straight' },
-    dataLabels: { enabled: true },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#ff9f43']
+      },
+      background: {
+        enabled: true,
+        dropShadow: { enabled: false }
+      }
+    },
     markers: {
       strokeWidth: 7,
       strokeOpacity: 1,

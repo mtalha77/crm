@@ -11,21 +11,16 @@ dayjs.extend(utc)
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
-      const { month, user_name, year } = req.query
+      const { startDate, user_name, endDate } = req.query
 
-      const selectedMonth = parseInt(month)
-
-      const selectedYear = parseInt(year)
-
-      const startDate = dayjs().year(selectedYear).month(selectedMonth).startOf('month').utc().toDate()
-      const endDate = dayjs().year(selectedYear).month(selectedMonth).endOf('month').utc().toDate()
+      if (!dayjs(startDate).isValid() || !dayjs(endDate).isValid()) return res.status(500).send('something went wrong')
 
       const stats = await PaymentHistoryModel.aggregate([
         {
           $match: {
             $and: [
               { payment_type: PaymentType.Credit },
-              { createdAt: { $gte: startDate, $lte: endDate } },
+              { createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) } },
               ...(user_name !== 'undefined'
                 ? [
                     {

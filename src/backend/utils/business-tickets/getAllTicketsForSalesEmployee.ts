@@ -1,21 +1,58 @@
 import mongoose from 'mongoose'
-import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 
 export const getAllTicketsForSalesEmployee = async (req: any, res: any) => {
-  let businessId = req.query.businessId
-
-  let filters = {}
-  if (businessId !== 'undefined') {
-    businessId = new mongoose.Types.ObjectId(businessId)
-
-    filters = { business_id: businessId }
-  }
-  const tickets = await BusinessTicketModel.find({ created_by: new mongoose.Types.ObjectId(req.user._id), ...filters })
-    .populate({ path: 'business_id', select: 'business_name' })
-    .sort({ createdAt: -1 })
+  const tickets = await PaymentHistoryModel.aggregate([
+    {
+      $match: {
+        $or: [
+          { closer_id: new mongoose.Types.ObjectId(req.user._id) },
+          { fronter_id: new mongoose.Types.ObjectId(req.user._id) }
+        ]
+      }
+    },
+    {
+      $lookup: {
+        from: 'businesstickets',
+        localField: 'ticket_id',
+        foreignField: '_id',
+        as: 'ticket'
+      }
+    },
+    {
+      $unwind: '$ticket'
+    },
+    {
+      $lookup: {
+        from: 'businesses',
+        localField: 'ticket.business_id',
+        foreignField: '_id',
+        as: 'business'
+      }
+    },
+    {
+      $addFields: {
+        'ticket.business_id': {
+          business_name: { $arrayElemAt: ['$business.business_name', 0] }
+        }
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        tickets: { $push: '$ticket' }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        tickets: 1
+      }
+    }
+  ])
 
   return res.send({
     message: 'tickets fetched successfully',
-    payload: { tickets }
+    payload: { tickets: tickets[0]?.tickets }
   })
 }

@@ -38,6 +38,21 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
       title: 'View Businesses',
       icon: 'mdi:shield-outline',
       subject: 'view-businesses'
+    },
+    {
+      title: 'Analytics',
+      subject: 'analytics',
+      icon: 'carbon:analytics',
+      children: [
+        {
+          path: '/analytics/business-tickets',
+          title: 'Business Tickets'
+        },
+        {
+          path: '/analytics/departmental-tickets',
+          title: 'Departmental Tickets'
+        }
+      ]
     }
   ]
 }

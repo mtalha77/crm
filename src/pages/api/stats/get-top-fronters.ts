@@ -3,6 +3,7 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
+import { SaleType } from 'src/shared/enums/SaleType.enum'
 import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
@@ -10,23 +11,23 @@ dayjs.extend(utc)
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
-      const { month, year } = req.query
+      const { startDate, endDate } = req.query
 
-      const selectedMonth = parseInt(month)
-      const selectedYear = parseInt(year)
-
-      const startDate = dayjs().year(selectedYear).month(selectedMonth).startOf('month').utc().toDate()
-      const endDate = dayjs().year(selectedYear).month(selectedMonth).endOf('month').utc().toDate()
+      if (!dayjs(startDate).isValid() || !dayjs(endDate).isValid) return res.status(500).send('something went wrong')
 
       const stats = await PaymentHistoryModel.aggregate([
         {
           $match: {
-            $and: [{ payment_type: PaymentType.Credit }, { createdAt: { $gte: startDate, $lte: endDate } }]
+            $and: [
+              { sales_type: SaleType.NEW_SALE },
+              { payment_type: PaymentType.Credit },
+              { createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) } }
+            ]
           }
         },
         {
           $group: {
-            _id: '$closer_id',
+            _id: '$fronter_id',
             total_sales: { $sum: '$received_payment' }
           }
         },
@@ -35,12 +36,12 @@ const handler = async (req: any, res: any) => {
             from: 'users',
             localField: '_id',
             foreignField: '_id',
-            as: 'closer'
+            as: 'fronter'
           }
         },
         {
           $project: {
-            user_name: { $arrayElemAt: ['$closer.user_name', 0] },
+            user_name: { $arrayElemAt: ['$fronter.user_name', 0] },
             total_sales: 1
           }
         },

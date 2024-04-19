@@ -14,13 +14,11 @@ import axios from 'axios'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
-import utc from 'dayjs/plugin/utc'
 import dayjs from 'dayjs'
 import { Box } from '@mui/material'
-import TopFrontersTable from '../tables/TopFrontersTable'
+import TopServicesTable from '../tables/TopServicesTable'
 
-dayjs.extend(utc)
-const FrontersSalesChart = () => {
+const ServicesAnalyticsChart = () => {
   // ** Hook
   const theme = useTheme()
   const [series, setSeries] = useState<any>([
@@ -38,19 +36,18 @@ const FrontersSalesChart = () => {
     const endDate = dayjs(month).endOf('month').toISOString()
     try {
       setIsLoading(true)
-      const res = await axios.get(`/api/stats/get-top-fronters?startDate=${startDate}&endDate=${endDate}`, {
+      const res = await axios.get(`/api/stats/services?startDate=${startDate}&endDate=${endDate}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
 
       const temp: any = []
       const newCategories: any = []
       const tempData: any = []
-
       let index = 0
       res.data.payload.stats.forEach((s: any) => {
         if (index < 5) {
-          temp.push(s.total_sales)
-          newCategories.push(s.user_name)
+          temp.push(s.totalReceivedPayment)
+          newCategories.push(s._id)
         }
         index++
         tempData.push({ ...s, index })
@@ -137,7 +134,7 @@ const FrontersSalesChart = () => {
   return (
     <Card sx={{ minWidth: '600px' }}>
       <CardHeader
-        title='Top Fronters'
+        title='Top Services'
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],
@@ -152,11 +149,11 @@ const FrontersSalesChart = () => {
         </ApexChartWrapper>
         <Box sx={{ mt: 10 }}></Box>
         <Box>
-          <TopFrontersTable data={data} isLoading={isLoading} month={dayjs(month).format('MMMM YYYY')} />
+          <TopServicesTable data={data} isLoading={isLoading} month={dayjs(month).format('MMMM YYYY')} />
         </Box>
       </CardContent>
     </Card>
   )
 }
 
-export default FrontersSalesChart
+export default ServicesAnalyticsChart

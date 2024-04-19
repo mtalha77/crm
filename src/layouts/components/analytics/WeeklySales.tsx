@@ -35,7 +35,16 @@ const WeeklySalesChart = ({ oTotalWeekSales }: any) => {
 
     colors: ['#ff9f43'],
     stroke: { curve: 'straight' },
-    dataLabels: { enabled: true },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#ff9f43']
+      },
+      background: {
+        enabled: true,
+        dropShadow: { enabled: false }
+      }
+    },
     markers: {
       strokeWidth: 7,
       strokeOpacity: 1,

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 
 import { guardWrapper } from 'src/backend/auth.guard'
@@ -15,7 +16,14 @@ const handler = async (req: any, res: any) => {
             { $or: [{ role: UserRole.EMPLOYEE }, { role: UserRole.TEAM_LEAD }] },
             '-password'
           )
-
+        case UserRole.TEAM_LEAD:
+          users = await UserModel.find(
+            {
+              department_id: new mongoose.Types.ObjectId(req.user.department_id),
+              $or: [{ role: UserRole.EMPLOYEE }, { role: UserRole.TEAM_LEAD }]
+            },
+            '-password'
+          )
           break
 
         default:

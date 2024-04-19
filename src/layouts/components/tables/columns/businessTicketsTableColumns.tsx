@@ -178,7 +178,7 @@ const businessTicketsColumns: any = (
           )
         }
 
-        return cell.getValue() ? cell.getValue() : 'Not Assigned'
+        return cell.getValue() ? cell.getValue() : ''
       }
     },
     {

@@ -12,11 +12,16 @@ import { useAuth } from 'src/hooks/useAuth'
 import DepartmentalTicketCards from 'src/layouts/components/cards/DepartmentalTicketsCards'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
+import dayjs from 'dayjs'
+import DueDateTicketsTable from 'src/layouts/components/tables/DueDateTicketsTable'
+import ClientReportatingDateDueTicketsTable from 'src/layouts/components/tables/ClientReportatingDateDueTicketsTable'
 
 const Home = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
   const [statusCounts, setStatusCounts] = useState()
+  const [tickets, setTickets] = useState<any>([])
+  const [cltickets, setCltickets] = useState<any>([])
 
   useEffect(() => {
     const temp = async () => {
@@ -33,8 +38,47 @@ const Home = () => {
         .then(res => {
           setStatusCounts(res.data.payload.analytics[0])
         })
+        .catch(err => {
+          console.log(err)
+        })
     }
     temp()
+  }, [])
+
+  useEffect(() => {
+    const temp = async () => {
+      await axios
+        .get(`/api/business-ticket/get-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
+          headers: {
+            authorization: localStorage.getItem('token')
+          }
+        })
+        .then(res => {
+          setTickets(res.data.payload.tickets)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
+  }, [])
+
+  useEffect(() => {
+    const temp = async () => {
+      await axios
+        .get(`/api/business-ticket/get-client-reporting-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
+          headers: {
+            authorization: localStorage.getItem('token')
+          }
+        })
+        .then(res => {
+          setCltickets(res.data.payload.tickets)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
   }, [])
   useEffect(() => {
     // Get current time
@@ -110,6 +154,28 @@ const Home = () => {
       </Grid>
       <BusinessTicketCards statusCounts={statusCounts} />
       {user?.role !== UserRole.SALE_EMPLOYEE && user?.role !== UserRole.SALE_MANAGER && <DepartmentalTicketCards />}
+
+      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+        <Card sx={{ mt: 10 }}>
+          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+            <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
+              Overdue Business Tickets
+            </Typography>
+            <DueDateTicketsTable data={tickets} />
+          </CardContent>
+        </Card>
+      )}
+
+      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+        <Card sx={{ mt: 10 }}>
+          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+            <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
+              Overdue Client Reports Business Tickets
+            </Typography>
+            <ClientReportatingDateDueTicketsTable data={cltickets} />
+          </CardContent>
+        </Card>
+      )}
     </>
   )
 }

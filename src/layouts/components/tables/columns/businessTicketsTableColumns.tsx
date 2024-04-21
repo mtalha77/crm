@@ -9,6 +9,7 @@ import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
+import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -125,10 +126,12 @@ const businessTicketsColumns: any = (
         }
 
         return (
-          defaultValue &&
-          defaultValue.map((v: any) => {
-            return <Chip key={v} label={v} sx={{ m: 0.75 }} />
-          })
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 250 }}>
+            {defaultValue &&
+              defaultValue.map((v: any) => {
+                return <Chip key={v} label={v} sx={{ m: 0.75 }} />
+              })}
+          </Box>
         )
       }
     },
@@ -188,7 +191,11 @@ const businessTicketsColumns: any = (
       filterSelectOptions: PriorityTypeValues,
       size: 120,
       Cell: ({ cell }: any) => {
-        return <Chip style={{ borderRadius: '8px' }} label={cell.getValue()} />
+        const color: any = getPriorityColor(cell.getValue())
+
+        return (
+          <Chip style={{ borderRadius: '8px', backgroundColor: color, fontWeight: 'bold' }} label={cell.getValue()} />
+        )
       }
     },
     {

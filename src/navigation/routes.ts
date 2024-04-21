@@ -101,6 +101,16 @@ export const analyticsRouteObj = {
   ]
 }
 
+export const CommissionsRouteObj = {
+  title: 'Commissions',
+  subject: 'commissions',
+  icon: 'mdi:shield-outline',
+  children: [
+    { title: 'Fronters', path: '/commissions/fronterCommission' },
+    { title: 'Closers', path: '/commissions/closerCommission' }
+  ]
+}
+
 export const UsersRouteObj = {
   title: 'Users',
   subject: 'users',

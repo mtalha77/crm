@@ -19,6 +19,7 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
+import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -87,10 +88,11 @@ const DepartmentalTicketsColumns: any = (
         )
       },
       Cell: ({ cell }: any) => {
-        const { _id } = cell.row.original
+        const { _id, created_by } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue().map((v: any) => v.user_name) : []
+
         const [value, setValue] = useState(defaultValue)
-        if (user.role === UserRole.TEAM_LEAD) {
+        if (user.role === UserRole.TEAM_LEAD && created_by !== user._id) {
           return (
             <>
               <FormControl fullWidth>
@@ -198,7 +200,11 @@ const DepartmentalTicketsColumns: any = (
       filterSelectOptions: PriorityTypeValues,
       size: 120,
       Cell: ({ cell }: any) => {
-        return <Chip style={{ borderRadius: '8px' }} label={cell.getValue()} />
+        const color: any = getPriorityColor(cell.getValue())
+
+        return (
+          <Chip style={{ borderRadius: '8px', backgroundColor: color, fontWeight: 'bold' }} label={cell.getValue()} />
+        )
       }
     },
 

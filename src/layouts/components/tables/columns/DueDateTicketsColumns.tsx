@@ -47,6 +47,7 @@ const DueDateTicketsColumns: any = (
       size: 120,
       Cell: ({ cell }: any) => {
         const color: any = getPriorityColor(cell.getValue())
+
         return (
           <Chip style={{ borderRadius: '8px', backgroundColor: color, fontWeight: 'bold' }} label={cell.getValue()} />
         )

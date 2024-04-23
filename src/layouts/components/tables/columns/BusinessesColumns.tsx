@@ -64,7 +64,7 @@ function BusinessesColumns(updateStatus: any, user: any) {
         return (
           <>
             <ViewBusinessDialog id={_id} />
-            {user?.role !== UserRole.TEAM_LEAD && <UpdateBusinessDialog id={_id} />}
+            {<UpdateBusinessDialog id={_id} />}
           </>
         )
       }

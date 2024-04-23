@@ -22,6 +22,8 @@ const Home = () => {
   const [statusCounts, setStatusCounts] = useState()
   const [tickets, setTickets] = useState<any>([])
   const [cltickets, setCltickets] = useState<any>([])
+  const [ticketsLoading, setTicketsLoading] = useState(true)
+  const [clticketsLoading, setClTicketsLoading] = useState(true)
 
   useEffect(() => {
     const temp = async () => {
@@ -47,6 +49,7 @@ const Home = () => {
 
   useEffect(() => {
     const temp = async () => {
+      setTicketsLoading(true)
       await axios
         .get(`/api/business-ticket/get-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
           headers: {
@@ -55,6 +58,7 @@ const Home = () => {
         })
         .then(res => {
           setTickets(res.data.payload.tickets)
+          setTicketsLoading(false)
         })
         .catch(err => {
           console.log(err)
@@ -65,6 +69,7 @@ const Home = () => {
 
   useEffect(() => {
     const temp = async () => {
+      setClTicketsLoading(true)
       await axios
         .get(`/api/business-ticket/get-client-reporting-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
           headers: {
@@ -73,6 +78,7 @@ const Home = () => {
         })
         .then(res => {
           setCltickets(res.data.payload.tickets)
+          setClTicketsLoading(false)
         })
         .catch(err => {
           console.log(err)
@@ -161,7 +167,7 @@ const Home = () => {
             <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
               Overdue Business Tickets
             </Typography>
-            <DueDateTicketsTable data={tickets} />
+            <DueDateTicketsTable data={tickets} isLoading={ticketsLoading} />
           </CardContent>
         </Card>
       )}
@@ -172,7 +178,7 @@ const Home = () => {
             <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
               Overdue Client Reports Business Tickets
             </Typography>
-            <ClientReportatingDateDueTicketsTable data={cltickets} />
+            <ClientReportatingDateDueTicketsTable data={cltickets} isLoading={clticketsLoading} />
           </CardContent>
         </Card>
       )}

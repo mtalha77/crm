@@ -83,7 +83,7 @@ const handler = async (req: any, res: any) => {
 
       if (sales_type === SaleType.NEW_SALE) if (!fronter || !fronter_id) return res.status(400).send('Network Error')
 
-      const business = await getBusinessWithName(business_name)
+      const business = await BusinessModel.findOne({ business_name: business_name })
       let busines_id = business?._id
       if (business?.work_status.includes(work_status)) {
         return res.status(400).send('Business already exists with this work status.')
@@ -110,7 +110,13 @@ const handler = async (req: any, res: any) => {
         )
         busines_id = newBusiness?._id
       } else {
-        await BusinessModel.findByIdAndUpdate(business._id, { $push: { work_status: work_status } }, { session })
+        const updatedBusiness = await BusinessModel.findByIdAndUpdate(
+          business._id,
+          { $push: { work_status: work_status } },
+          { session }
+        )
+
+        if (!updatedBusiness) return res.status(500).send('Not able to create ticket.Please Refresh')
       }
 
       const payload: any = {

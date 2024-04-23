@@ -8,6 +8,7 @@ import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
+import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
 
 const DueDateTicketsColumns: any = (
   user: UserDataType,
@@ -45,7 +46,10 @@ const DueDateTicketsColumns: any = (
       filterSelectOptions: PriorityTypeValues,
       size: 120,
       Cell: ({ cell }: any) => {
-        return <Chip style={{ borderRadius: '8px' }} label={cell.getValue()} />
+        const color: any = getPriorityColor(cell.getValue())
+        return (
+          <Chip style={{ borderRadius: '8px', backgroundColor: color, fontWeight: 'bold' }} label={cell.getValue()} />
+        )
       }
     },
     {

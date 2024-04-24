@@ -11,26 +11,29 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
       icon: 'mdi:home-outline'
     },
 
-    {
-      title: 'Create Ticket',
-      subject: 'create-departmental-ticket',
-      icon: 'mdi-ticket-confirmation-outline',
-      children: [
-        { title: 'Local SEO / GMB Optimization', path: '/D-ticket-create/dLocalSeo' },
-        { title: 'Wordpress Development', path: '/D-ticket-create/dWordPress' },
-        { title: 'Website SEO', path: '/D-ticket-create/dWebSeo' },
-        { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
-        { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
-      ]
-    },
+    // comment for shabi
+    // {
+    //   title: 'Create Ticket',
+    //   subject: 'create-departmental-ticket',
+    //   icon: 'mdi-ticket-confirmation-outline',
+    //   children: [
+    //     { title: 'Local SEO / GMB Optimization', path: '/D-ticket-create/dLocalSeo' },
+    //     { title: 'Wordpress Development', path: '/D-ticket-create/dWordPress' },
+    //     { title: 'Website SEO', path: '/D-ticket-create/dWebSeo' },
+    //     { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
+    //     { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
+    //   ]
+    // },
 
     {
       title: 'View Tickets',
       icon: 'mdi-ticket-confirmation-outline',
       subject: 'create-business-ticket',
       children: [
-        { title: 'Business', path: '/view-tickets' },
-        { title: 'Departmental', path: '/view-d-tickets' }
+        { title: 'Business', path: '/view-tickets' }
+
+        // comment for shabi
+        // { title: 'Departmental', path: '/view-d-tickets' }
       ]
     },
     {
@@ -47,11 +50,13 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
         {
           path: '/analytics/business-tickets',
           title: 'Business Tickets'
-        },
-        {
-          path: '/analytics/departmental-tickets',
-          title: 'Departmental Tickets'
         }
+
+        // comment for shabi
+        // {
+        //   path: '/analytics/departmental-tickets',
+        //   title: 'Departmental Tickets'
+        // }
       ]
     }
   ]

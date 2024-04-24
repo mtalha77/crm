@@ -2,12 +2,23 @@ import axios from 'axios'
 import React, { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import MuiTable from './MuiTable'
-import { userColumns } from './columns/userTableColumns'
+import { UserColumns } from './columns/userTableColumns'
 
 function UserTable() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState<any>([])
   const [isLoading, setIsLoading] = useState(false)
-  const columns: any = useMemo(() => userColumns(), [])
+
+  const handleUpdateUser = (userDetails: any) => {
+    const newData = data.map((d: any) => {
+      if (d._id === userDetails._id) return userDetails
+
+      return d
+    })
+
+    setData(newData)
+  }
+
+  const columns: any = useMemo(() => UserColumns(handleUpdateUser), [data])
   useEffect(() => {
     const getData = async () => {
       try {

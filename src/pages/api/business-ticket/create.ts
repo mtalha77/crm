@@ -6,7 +6,6 @@ import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { createNewBusiness } from 'src/backend/utils/business/createNewBusiness'
-import { getBusinessWithName } from 'src/backend/utils/business/getBusinessWithName'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
@@ -83,7 +82,7 @@ const handler = async (req: any, res: any) => {
 
       if (sales_type === SaleType.NEW_SALE) if (!fronter || !fronter_id) return res.status(400).send('Network Error')
 
-      const business = await getBusinessWithName(business_name)
+      const business = await BusinessModel.findOne({ business_name: business_name })
       let busines_id = business?._id
       if (business?.work_status.includes(work_status)) {
         return res.status(400).send('Business already exists with this work status.')
@@ -110,7 +109,13 @@ const handler = async (req: any, res: any) => {
         )
         busines_id = newBusiness?._id
       } else {
-        await BusinessModel.findByIdAndUpdate(business._id, { $push: { work_status: work_status } }, { session })
+        const updatedBusiness = await BusinessModel.findByIdAndUpdate(
+          business._id,
+          { $push: { work_status: work_status } },
+          { session }
+        )
+
+        if (!updatedBusiness) return res.status(500).send('Not able to create ticket.Please Refresh')
       }
 
       const payload: any = {

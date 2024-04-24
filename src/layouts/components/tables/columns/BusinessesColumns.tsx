@@ -2,10 +2,9 @@ import { FormControl, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { BusinessStatustValues } from 'src/shared/enums/BusinessStatus.enum'
 import UpdateBusinessDialog from '../../dialogs/UpdateBusinessDialog'
-import { UserRole } from 'src/shared/enums/UserRole.enum'
 import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
 
-function BusinessesColumns(updateStatus: any, user: any) {
+function BusinessesColumns(updateStatus: any) {
   return [
     {
       header: 'Name',
@@ -64,7 +63,7 @@ function BusinessesColumns(updateStatus: any, user: any) {
         return (
           <>
             <ViewBusinessDialog id={_id} />
-            {user?.role !== UserRole.TEAM_LEAD && <UpdateBusinessDialog id={_id} />}
+            {<UpdateBusinessDialog id={_id} />}
           </>
         )
       }

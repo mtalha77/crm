@@ -9,7 +9,7 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'PUT') {
     const { role } = req.user
 
-    if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE || req.user.role === UserRole.SALE_MANAGER))
+    if (!(role === UserRole.ADMIN || role === UserRole.TEAM_LEAD || req.user.role === UserRole.SALE_MANAGER))
       return res.status(403).send('Permission denied. Not authorized update ticket')
 
     try {
@@ -24,7 +24,8 @@ const handler = async (req: any, res: any) => {
         street,
         website_url,
         social_profile,
-        businessId
+        businessId,
+        gmb_url
       } = req.body
       if (!businessId) return res.status(400).send('Network Error')
 
@@ -45,7 +46,8 @@ const handler = async (req: any, res: any) => {
           zip_code,
           street,
           website_url,
-          social_profile
+          social_profile,
+          gmb_url
         }
       })
 

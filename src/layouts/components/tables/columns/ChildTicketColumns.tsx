@@ -1,4 +1,6 @@
+import { Tooltip } from '@mui/material'
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
+import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 
 const ChildTicketsColumns: any = () =>
   // user: UserDataType,
@@ -27,27 +29,22 @@ const ChildTicketsColumns: any = () =>
       {
         header: 'Priority',
         accessorKey: 'child_id.priority'
-      }
+      },
 
-      // {
-      //   header: 'Action',
-      //   Cell: ({ cell }: any) => {
-      //     const { assignee_depart_name, _id } = cell.row.original
-      //     return (
-      //       <>
-      //         <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} departmentalTicket={true} />
-      //         <Tooltip title='Edit'>
-      //           <Icon
-      //             style={{ marginLeft: 15, cursor: 'pointer' }}
-      //             onClick={() => handleTicketEdit(assignee_depart_name, _id)}
-      //           >
-      //             <EditIcon />
-      //           </Icon>
-      //         </Tooltip>
-      //       </>
-      //     )
-      //   }
-      // }
+      {
+        header: 'Action',
+        Cell: ({ cell }: any) => {
+          const { assignee_depart_name, _id } = cell.row.original.child_id
+
+          return (
+            <>
+              <Tooltip title='Edit'>
+                <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} departmentalTicket={true} />
+              </Tooltip>
+            </>
+          )
+        }
+      }
     ]
   }
 

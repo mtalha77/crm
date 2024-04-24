@@ -41,13 +41,6 @@ interface FormInputs {
   role: string
 }
 
-const defaultValues = {
-  user_name: '',
-  password: '',
-  department: '',
-  role: ''
-}
-
 const validationSchema = yup.object({
   user_name: yup
     .string()
@@ -61,13 +54,21 @@ const validationSchema = yup.object({
   role: yup.string().required('Role is required')
 })
 
-const FormValidationAsync = () => {
+const UpdateUser = (props: any) => {
   // ** States
   const [loading, setLoading] = useState<boolean>(false)
   const [state, setState] = useState<State>({
     password: '',
     showPassword: false
   })
+  const userDetails = props.userDetails
+
+  const defaultValues = {
+    user_name: userDetails.user_name,
+    password: userDetails.password,
+    department: userDetails.department_name,
+    role: userDetails.role
+  }
 
   // ** Hook
   const {
@@ -76,7 +77,6 @@ const FormValidationAsync = () => {
     getValues,
     setValue,
     watch,
-    reset,
     formState: { errors }
   } = useForm<FormInputs>({ defaultValues, resolver: yupResolver(validationSchema), mode: 'onChange' })
 
@@ -90,18 +90,20 @@ const FormValidationAsync = () => {
     if (loading) return
     try {
       setLoading(true)
-      await axios.post(
-        '/api/user/create',
+      const res = await axios.post(
+        '/api/user/update',
         {
           user_name: data.user_name,
           password: data.password,
           role: data.role,
-          department_name: data.department
+          department_name: data.department,
+          user_id: userDetails._id
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
-      toast.success('User created successfully')
-      reset(defaultValues)
+      toast.success('User updated successfully')
+      props.handleUpdateUser(res.data.payload.user)
+      props.setShow(false)
     } catch (error: any) {
       console.log(error)
       toast.error(error.response.data)
@@ -112,7 +114,7 @@ const FormValidationAsync = () => {
 
   return (
     <Card>
-      <CardHeader title='Create New User' />
+      <CardHeader title='Update User' />
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={5}>
@@ -192,6 +194,7 @@ const FormValidationAsync = () => {
                   rules={{ required: true }}
                   render={({ field: { value, onChange } }) => (
                     <Select
+                      disabled
                       value={value}
                       label='Department'
                       onChange={e => {
@@ -264,7 +267,7 @@ const FormValidationAsync = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Button size='large' type='submit' variant='contained' disabled={loading}>
+              <Button size='large' type='submit' variant='contained' fullWidth disabled={loading}>
                 {loading ? (
                   <CircularProgress
                     sx={{
@@ -275,7 +278,7 @@ const FormValidationAsync = () => {
                     }}
                   />
                 ) : null}
-                Create User
+                Update User
               </Button>
             </Grid>
           </Grid>
@@ -285,4 +288,4 @@ const FormValidationAsync = () => {
   )
 }
 
-export default FormValidationAsync
+export default UpdateUser

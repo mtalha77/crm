@@ -1,6 +1,6 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import { accountsRouteObj, analyticsRouteObj } from './routes'
+import { CommissionsRouteObj, accountsRouteObj, analyticsRouteObj } from './routes'
 
 const saleManagerNavigation = (): VerticalNavItemsType => {
   return [
@@ -36,7 +36,8 @@ const saleManagerNavigation = (): VerticalNavItemsType => {
       subject: 'view-businesses'
     },
     accountsRouteObj,
-    analyticsRouteObj
+    analyticsRouteObj,
+    CommissionsRouteObj
   ]
 }
 

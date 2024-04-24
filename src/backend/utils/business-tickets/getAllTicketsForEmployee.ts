@@ -6,6 +6,18 @@ export const getAllTicketsForEmployee = async (req: any, res: any) => {
   })
     .populate({ path: 'business_id', select: 'business_name' })
     .sort({ createdAt: -1 })
+    .select({
+      status: 1,
+      priority: 1,
+      assignee_depart_name: 1,
+      due_date: 1,
+      business_id: 1,
+      createdAt: 1,
+      assignee_employees: 1,
+      assignee_depart_id: 1,
+      assignor_depart_id: 1,
+      assignor_depart_name: 1
+    })
 
   return res.send({
     message: 'tickets fetched successfully',

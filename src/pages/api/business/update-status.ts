@@ -9,8 +9,8 @@ const handler = async (req: any, res: any) => {
       if (
         !(
           req.user.role === UserRole.ADMIN ||
-          req.user.role === UserRole.SALE_EMPLOYEE ||
-          req.user.role === UserRole.SALE_MANAGER
+          req.user.role === UserRole.SALE_MANAGER ||
+          req.user.role === UserRole.TEAM_LEAD
         )
       )
         return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')

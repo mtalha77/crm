@@ -3,12 +3,10 @@ import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import MuiTable from './MuiTable'
 import BusinessesColumns from './columns/BusinessesColumns'
-import { useAuth } from 'src/hooks/useAuth'
 
 function BusinessesTable() {
   const [data, setData] = useState([])
   const [isLoading] = useState(false)
-  const { user } = useAuth()
   const fetchBusinesses = async () => {
     try {
       const res = await axios.get('/api/business/get-all', {
@@ -36,7 +34,7 @@ function BusinessesTable() {
       toast.error(error.response.data)
     }
   }
-  const columns: any = useMemo(() => BusinessesColumns(updateStatus, user), [data])
+  const columns: any = useMemo(() => BusinessesColumns(updateStatus), [data])
 
   useEffect(() => {
     fetchBusinesses()

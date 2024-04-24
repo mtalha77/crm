@@ -24,7 +24,8 @@ const handler = async (req: any, res: any) => {
         street,
         website_url,
         social_profile,
-        businessId
+        businessId,
+        gmb_url
       } = req.body
       if (!businessId) return res.status(400).send('Network Error')
 
@@ -45,7 +46,8 @@ const handler = async (req: any, res: any) => {
           zip_code,
           street,
           website_url,
-          social_profile
+          social_profile,
+          gmb_url
         }
       })
 

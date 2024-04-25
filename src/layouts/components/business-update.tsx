@@ -39,7 +39,9 @@ function BusinessUpdate({ businessId, setShow }: any) {
       .required('Business Name is required'),
     business_email: yup
       .string()
-      .email('Invalid email')
+
+      // .email('Invalid email') comment shabi
+
       .max(200, 'Business Email cannot exceed 200 characters')
       .required('Business Email is required'),
     business_number: yup.string().max(200, 'Business Number cannot exceed 200 characters'),

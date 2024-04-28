@@ -21,7 +21,8 @@ export const wordPressYupSchema: yup.ObjectSchema<WordPressFormType> = yup.objec
     street: yup.string().max(200, 'Street cannot exceed 200 characters'),
     website_url: yup.string().max(200, 'Website URL cannot exceed 200 characters'),
     social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters'),
-    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters')
+    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters'),
+    client_name: yup.string().max(200, 'Client Name cannot exceed 200 characters')
   }),
   saleDepart: yup.object().shape({
     fronter: yup
@@ -47,14 +48,15 @@ export const wordPressYupSchema: yup.ObjectSchema<WordPressFormType> = yup.objec
       .string()
       .max(200, 'Priority Level cannot exceed 200 characters')
       .required('Priority Level is required'),
-    due_date: yup
-      .date()
-      .transform(originalValue => {
-        const parsedDate = new Date(originalValue)
 
-        return isNaN(parsedDate.getTime()) ? null : parsedDate
-      })
-      .required('Due Date is required'),
+    // due_date: yup
+    //   .date()
+    //   .transform(originalValue => {
+    //     const parsedDate = new Date(originalValue)
+
+    //     return isNaN(parsedDate.getTime()) ? null : parsedDate
+    //   })
+    //   .required('Due Date is required'),
     total_payment: yup
       .number()
       .transform(value => (Number.isNaN(value) ? null : value))
@@ -73,7 +75,8 @@ export const wordPressYupSchema: yup.ObjectSchema<WordPressFormType> = yup.objec
       .nullable()
       .max(1000000000, 'Remaining cannot exceed 1000000000 characters')
       .required('Remaining is required'),
-    client_reporting_date: yup.date().nullable()
+    client_reporting_date: yup.date().nullable(),
+    remaining_price_date: yup.date().nullable()
   }),
   wordPressDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),

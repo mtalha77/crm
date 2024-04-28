@@ -19,7 +19,8 @@ export const mapResponseForDDesigner = (data: any): DDesignerFormType => {
       street: data.business_id.street,
       website_url: data.business_id.website_url,
       social_profile: data.business_id.social_profile,
-      gmb_url: data.business_id.gmb_url
+      gmb_url: data.business_id.gmb_url,
+      client_name: data.business_id.client_name
     }
   }
 }

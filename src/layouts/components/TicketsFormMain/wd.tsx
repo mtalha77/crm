@@ -56,7 +56,9 @@ const WordPressFormComponent = () => {
       assignee_depart_id: depart._id,
       assignee_depart_name: depart.name,
       client_reporting_date: ticketDetails.client_reporting_date,
-      due_date: ticketDetails.due_date,
+      remaining_price_date: ticketDetails.remaining_price_date,
+
+      // due_date: ticketDetails.due_date,
       fronter: saleDepart.fronter,
       closer: saleDepart.closer,
       closer_id: saleDepart.closer_id,
@@ -73,6 +75,8 @@ const WordPressFormComponent = () => {
       business_number: business.business_number,
       business_hours: business.business_hours,
       business_email: business.business_email,
+      client_name: business.client_name,
+
       state: business.state,
       country: business.country,
       street: business.street,

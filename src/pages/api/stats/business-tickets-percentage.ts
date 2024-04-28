@@ -106,7 +106,8 @@ const handler = async (req: any, res: any) => {
                   assignee_depart_name: 1,
                   outsourced_work: 1,
                   client_reporting_date: 1,
-                  due_date: 1,
+
+                  // due_date: 1,
                   business_id: 1,
                   work_status: 1,
                   notes: 1
@@ -133,7 +134,8 @@ const handler = async (req: any, res: any) => {
                   assignee_depart_name: 1,
                   outsourced_work: 1,
                   client_reporting_date: 1,
-                  due_date: 1,
+
+                  // due_date: 1,
                   business_id: {
                     _id: '$business._id',
                     business_name: '$business.business_name'

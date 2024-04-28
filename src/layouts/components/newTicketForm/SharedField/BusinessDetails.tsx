@@ -174,6 +174,29 @@ const BusinessDetails = (props: any) => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.business?.client_name}>
+            <Controller
+              name='business.client_name'
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    disabled={update}
+                    label='Client Name'
+                    {...field}
+                    fullWidth
+                    error={Boolean(errors?.business?.client_name)}
+                  />
+                  {errors.business?.client_name && (
+                    <FormHelperText>{errors.business.client_name.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.business?.country}>
             <Controller
               name='business.country'

@@ -38,6 +38,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        gmb_access_email,
         task_details,
         business_id,
         parentId
@@ -50,7 +51,6 @@ const handler = async (req: any, res: any) => {
       const { role } = req.user
 
       if (!(role === UserRole.TEAM_LEAD || role === UserRole.ADMIN)) return res.status(403).send('Permission denied.')
-      console.log(task_details)
 
       const payload = {
         priority,
@@ -82,6 +82,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        gmb_access_email,
         task_details,
         business_id,
         parent_id: new mongoose.Types.ObjectId(parentId)

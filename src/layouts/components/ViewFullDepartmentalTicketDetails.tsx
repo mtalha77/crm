@@ -88,6 +88,10 @@ const ViewFullDepartmentalTicketDetails = ({ ticketId, depart }: any) => {
             </Grid>
 
             <Grid item xs={6}>
+              <BoldText>Client Name:</BoldText> {business_id?.client_name}
+            </Grid>
+
+            <Grid item xs={6}>
               <BoldText>Country:</BoldText> {business_id?.country}
             </Grid>
 

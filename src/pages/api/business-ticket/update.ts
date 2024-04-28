@@ -25,7 +25,9 @@ const handler = async (req: any, res: any) => {
         assignee_depart_id,
         assignee_depart_name,
         client_reporting_date,
-        due_date,
+        remaining_price_date,
+
+        // due_date,
         fronter,
         fronter_id,
         closer,
@@ -53,13 +55,13 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        gmb_access_email,
         ticketId,
         business_id
       } = req.body
       if (
         !assignee_depart_id ||
         !assignee_depart_name ||
-        !due_date ||
         !closer ||
         !sales_type ||
         !closer_id ||
@@ -83,7 +85,9 @@ const handler = async (req: any, res: any) => {
       const payload: any = {
         priority: priority,
         client_reporting_date: client_reporting_date,
-        due_date: due_date,
+        remaining_price_date: remaining_price_date,
+
+        // due_date: due_date,
         closer: closer,
         sales_type: sales_type,
         notes: notes,
@@ -108,13 +112,12 @@ const handler = async (req: any, res: any) => {
         no_of_blogs,
         platform_name,
         no_of_likes,
-        no_of_gmb_reviews
+        no_of_gmb_reviews,
+        gmb_access_email
       }
 
       const result = await BusinessTicketModel.findByIdAndUpdate({ _id: ticketId }, { $set: payload })
       if (!result) throw new Error('Something went wrong')
-
-      console.log('Successfully updated')
 
       return res.send({
         message: 'Ticket Updated',

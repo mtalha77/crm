@@ -6,7 +6,8 @@ export const mapResponseForChildLocalSeo = (data: any): ChildLocalSeoFormType =>
     due_date: new Date(data.due_date),
     localSeoDetails: {
       notes: data.notes,
-      work_status: data.work_status
+      work_status: data.work_status,
+      gmb_access_email: data.gmb_access_email
     }
   }
 }

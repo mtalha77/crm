@@ -17,14 +17,14 @@ const handler = async (req: any, res: any) => {
       switch (req.user.role) {
         case UserRole.ADMIN:
           tickets = await BusinessTicketModel.find({
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            remaining_price_date: { $gte: new Date(monthStart), $lte: new Date(date) }
           })
             .populate('business_id', 'business_name')
             .select({
               status: 1,
               priority: 1,
               assignee_depart_name: 1,
-              client_reporting_date: 1,
+              remaining_price_date: 1,
 
               // due_date: 1,
               business_id: 1,
@@ -34,14 +34,14 @@ const handler = async (req: any, res: any) => {
 
         case UserRole.SALE_MANAGER:
           tickets = await BusinessTicketModel.find({
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            remaining_price_date: { $gte: new Date(monthStart), $lte: new Date(date) }
           })
             .populate('business_id', 'business_name')
             .select({
               status: 1,
               priority: 1,
               assignee_depart_name: 1,
-              client_reporting_date: 1,
+              remaining_price_date: 1,
 
               // due_date: 1,
               business_id: 1,
@@ -52,14 +52,14 @@ const handler = async (req: any, res: any) => {
         case UserRole.TEAM_LEAD:
           tickets = await BusinessTicketModel.find({
             assignee_depart_id: new mongoose.Types.ObjectId(req.user.department_id),
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            remaining_price_date: { $gte: new Date(monthStart), $lte: new Date(date) }
           })
             .populate('business_id', 'business_name')
             .select({
               status: 1,
               priority: 1,
               assignee_depart_name: 1,
-              client_reporting_date: 1,
+              remaining_price_date: 1,
 
               // due_date: 1,
               business_id: 1,

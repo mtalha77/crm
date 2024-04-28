@@ -10,6 +10,7 @@ export const mapResponseForBusiness = (data: any) => {
     street: data.street,
     website_url: data.website_url,
     social_profile: data.social_profile,
-    gmb_url: data.gmb_url
+    gmb_url: data.gmb_url,
+    client_name: data.client_name
   }
 }

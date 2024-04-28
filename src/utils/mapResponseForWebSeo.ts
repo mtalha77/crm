@@ -13,7 +13,8 @@ export const mapResponseForWebSeo = (data: any): WebSeoFormType => {
       street: data.business_id.street,
       website_url: data.business_id.website_url,
       social_profile: data.business_id.social_profile,
-      gmb_url: data.business_id.gmb_url
+      gmb_url: data.business_id.gmb_url,
+      client_name: data.business_id.client_name
     },
     saleDepart: {
       fronter: data.fronter,
@@ -24,7 +25,9 @@ export const mapResponseForWebSeo = (data: any): WebSeoFormType => {
     },
     ticketDetails: {
       priority: data.priority,
-      due_date: new Date(data.due_date),
+      remaining_price_date: data.remaining_price_date ? new Date(data.remaining_price_date) : null,
+
+      // due_date: new Date(data.due_date),
       total_payment: 0,
       advance_payment: 0,
       remaining_payment: 0,

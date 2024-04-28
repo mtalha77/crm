@@ -13,17 +13,23 @@ import DepartmentalTicketCards from 'src/layouts/components/cards/DepartmentalTi
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
 import dayjs from 'dayjs'
-import DueDateTicketsTable from 'src/layouts/components/tables/DueDateTicketsTable'
 import ClientReportatingDateDueTicketsTable from 'src/layouts/components/tables/ClientReportatingDateDueTicketsTable'
+import RemainingPriceDateDueTicketsTable from 'src/layouts/components/tables/RemainingPriceDueDateTicketsTable'
 
 const Home = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
   const [statusCounts, setStatusCounts] = useState()
-  const [tickets, setTickets] = useState<any>([])
+
+  // const [tickets, setTickets] = useState<any>([])
+
   const [cltickets, setCltickets] = useState<any>([])
-  const [ticketsLoading, setTicketsLoading] = useState(true)
+  const [rptickets, setRpTickets] = useState([])
+
+  // const [ticketsLoading, setTicketsLoading] = useState(true)
+
   const [clticketsLoading, setClTicketsLoading] = useState(true)
+  const [rpticketsLoading, setRpTicketsLoading] = useState(true)
 
   useEffect(() => {
     const temp = async () => {
@@ -47,25 +53,25 @@ const Home = () => {
     temp()
   }, [])
 
-  useEffect(() => {
-    const temp = async () => {
-      setTicketsLoading(true)
-      await axios
-        .get(`/api/business-ticket/get-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
-          headers: {
-            authorization: localStorage.getItem('token')
-          }
-        })
-        .then(res => {
-          setTickets(res.data.payload.tickets)
-          setTicketsLoading(false)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
-  }, [])
+  // useEffect(() => {
+  //   const temp = async () => {
+  //     setTicketsLoading(true)
+  //     await axios
+  //       .get(`/api/business-ticket/get-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
+  //         headers: {
+  //           authorization: localStorage.getItem('token')
+  //         }
+  //       })
+  //       .then(res => {
+  //         setTickets(res.data.payload.tickets)
+  //         setTicketsLoading(false)
+  //       })
+  //       .catch(err => {
+  //         console.log(err)
+  //       })
+  //   }
+  //   if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
+  // }, [])
 
   useEffect(() => {
     const temp = async () => {
@@ -84,8 +90,31 @@ const Home = () => {
           console.log(err)
         })
     }
-    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
+    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD)
+      temp()
   }, [])
+
+  useEffect(() => {
+    const temp = async () => {
+      setRpTicketsLoading(true)
+      await axios
+        .get(`/api/business-ticket/get-remaining-price-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
+          headers: {
+            authorization: localStorage.getItem('token')
+          }
+        })
+        .then(res => {
+          setRpTickets(res.data.payload.tickets)
+          setRpTicketsLoading(false)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD)
+      temp()
+  }, [])
+
   useEffect(() => {
     // Get current time
     const currentTime = new Date()
@@ -161,7 +190,7 @@ const Home = () => {
       <BusinessTicketCards statusCounts={statusCounts} />
       {user?.role !== UserRole.SALE_EMPLOYEE && user?.role !== UserRole.SALE_MANAGER && <DepartmentalTicketCards />}
 
-      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+      {/* {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
             <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
@@ -170,15 +199,26 @@ const Home = () => {
             <DueDateTicketsTable data={tickets} isLoading={ticketsLoading} />
           </CardContent>
         </Card>
-      )}
+      )} */}
 
-      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD) && (
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
             <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
               Overdue Client Reports Business Tickets
             </Typography>
             <ClientReportatingDateDueTicketsTable data={cltickets} isLoading={clticketsLoading} />
+          </CardContent>
+        </Card>
+      )}
+
+      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD) && (
+        <Card sx={{ mt: 10 }}>
+          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+            <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
+              Overdue Remaining Price Business Tickets
+            </Typography>
+            <RemainingPriceDateDueTicketsTable data={rptickets} isLoading={rpticketsLoading} />
           </CardContent>
         </Card>
       )}

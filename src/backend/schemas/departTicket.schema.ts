@@ -46,6 +46,7 @@ const departTicketSchema = new mongoose.Schema(
     platform_name: { type: String, required: false, trim: true },
     no_of_likes: { type: String, required: false, trim: true },
     no_of_gmb_reviews: { type: String, required: false, trim: true },
+    gmb_access_email: { type: String, required: false, trim: true },
     task_details: { type: String, required: false, trim: true }
   },
   { timestamps: true }

@@ -22,7 +22,10 @@ const businessTicketSchema = new mongoose.Schema(
     assignor_depart_name: { type: String, required: true },
     outsourced_work: { type: Boolean, default: false },
     client_reporting_date: { type: Date, required: false },
-    due_date: { type: Date, required: true },
+    remaining_price_date: { type: Date, required: false },
+
+    // due_date: { type: Date, required: true },
+
     fronter: {
       type: String,
       trim: true,
@@ -62,7 +65,8 @@ const businessTicketSchema = new mongoose.Schema(
     no_of_blogs: { type: String, required: false, trim: true },
     platform_name: { type: String, required: false, trim: true },
     no_of_likes: { type: String, required: false, trim: true },
-    no_of_gmb_reviews: { type: String, required: false, trim: true }
+    no_of_gmb_reviews: { type: String, required: false, trim: true },
+    gmb_access_email: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

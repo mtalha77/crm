@@ -74,23 +74,14 @@ const ChildLocalSeoFormComponent = () => {
       assignee_depart_name: depart.name,
       due_date: due_date,
       work_status: localSeoDetails.work_status,
+      gmb_access_email: localSeoDetails.gmb_access_email,
       notes: localSeoDetails.notes,
       ticketId: ticketId,
       parentId,
       business_id: businessId
     }
-    if (update) {
-      const apiUrl = '/api/department-ticket/update'
 
-      await axios
-        .put(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
-        .then(() => {
-          toast.success('Ticket updated successfully')
-        })
-        .catch(error => {
-          console.error('Error:', error)
-          toast.error(error?.response?.data || 'Network error')
-        })
+    if (update) {
     } else {
       setIsSubmitSuccessful(false)
       const apiUrl = '/api/department-ticket/create-child'

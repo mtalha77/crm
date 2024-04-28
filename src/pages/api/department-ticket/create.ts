@@ -34,6 +34,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        gmb_access_email,
         task_details,
         business_id
       } = req.body
@@ -78,6 +79,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        gmb_access_email,
         task_details,
         business_id
       }

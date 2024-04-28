@@ -6,7 +6,8 @@ export const mapResponseForDLocalSeo = (data: any): DLocalSeoFormType => {
     due_date: new Date(data.due_date),
     localSeoDetails: {
       notes: data.notes,
-      work_status: data.work_status
+      work_status: data.work_status,
+      gmb_access_email: data.gmb_access_email
     },
     business: {
       business_name: data.business_id.business_name,
@@ -19,7 +20,8 @@ export const mapResponseForDLocalSeo = (data: any): DLocalSeoFormType => {
       street: data.business_id.street,
       website_url: data.business_id.website_url,
       social_profile: data.business_id.social_profile,
-      gmb_url: data.business_id.gmb_url
+      gmb_url: data.business_id.gmb_url,
+      client_name: data.business_id.client_name
     }
   }
 }

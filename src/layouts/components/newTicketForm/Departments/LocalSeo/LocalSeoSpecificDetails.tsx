@@ -40,6 +40,28 @@ const LocalSeoSpecificDetails = () => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.localSeoDetails?.gmb_access_email}>
+            <Controller
+              name='localSeoDetails.gmb_access_email'
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    label='Gmb Access Email'
+                    {...field}
+                    error={Boolean(errors?.localSeoDetails?.gmb_access_email)}
+                    fullWidth
+                  />
+                  {errors.localSeoDetails?.gmb_access_email && (
+                    <FormHelperText>{errors.localSeoDetails.gmb_access_email.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.localSeoDetails?.notes}>
             <Controller
               name='localSeoDetails.notes'

@@ -13,7 +13,8 @@ export const mapResponseForLocalSeo = (data: any): LocalSeoFormType => {
       street: data.business_id.street,
       website_url: data.business_id.website_url,
       social_profile: data.business_id.social_profile,
-      gmb_url: data.business_id.gmb_url
+      gmb_url: data.business_id.gmb_url,
+      client_name: data.business_id.client_name
     },
     saleDepart: {
       fronter: data.fronter,
@@ -24,7 +25,9 @@ export const mapResponseForLocalSeo = (data: any): LocalSeoFormType => {
     },
     ticketDetails: {
       priority: data.priority,
-      due_date: new Date(data.due_date),
+      remaining_price_date: data.remaining_price_date ? new Date(data.remaining_price_date) : null,
+
+      // due_date: new Date(data.due_date),
       total_payment: 0,
       advance_payment: 0,
       remaining_payment: 0,
@@ -32,7 +35,8 @@ export const mapResponseForLocalSeo = (data: any): LocalSeoFormType => {
     },
     localSeoDetails: {
       notes: data.notes,
-      work_status: data.work_status
+      work_status: data.work_status,
+      gmb_access_email: data.gmb_access_email
     }
   }
 }

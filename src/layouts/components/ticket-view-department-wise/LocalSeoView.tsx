@@ -13,6 +13,10 @@ function LocalSeoView({ data }: any) {
       </Grid>
 
       <Grid item xs={6}>
+        <BoldText>Gmb Access Email:</BoldText> {data?.gmb_access_email}
+      </Grid>
+
+      <Grid item xs={6}>
         <BoldText>Notes:</BoldText> {data?.notes}
       </Grid>
     </Grid>

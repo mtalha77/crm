@@ -2,7 +2,6 @@ import mongoose, { PipelineStage } from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
-import { Department } from 'src/shared/enums/Department.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
@@ -66,11 +65,6 @@ const handler = async (req: any, res: any) => {
           break
 
         case UserRole.SALE_MANAGER:
-          pipeline.unshift({
-            $match: {
-              assignor_depart_name: Department.Sales
-            }
-          })
           analytics = await BusinessTicketModel.aggregate(pipeline)
           break
 

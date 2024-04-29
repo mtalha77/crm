@@ -2,15 +2,14 @@
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import {
   UsersRouteObj,
+  accountsRouteObj,
+  analyticsRouteObj,
   createDepartmentalTicketsRouteObj,
   createTicketsRouteObj,
   homeRouteObj,
   viewBusinessesRouteObj,
-  accountsRouteObj,
   viewDepartmentalTicketsRouteObj,
-  viewTicketsRouteObj,
-  analyticsRouteObj,
-  CommissionsRouteObj
+  viewTicketsRouteObj
 } from './routes'
 
 const adminNavigation = (): VerticalNavItemsType => {
@@ -23,8 +22,9 @@ const adminNavigation = (): VerticalNavItemsType => {
     UsersRouteObj,
     viewBusinessesRouteObj,
     accountsRouteObj,
-    analyticsRouteObj,
-    CommissionsRouteObj
+    analyticsRouteObj
+
+    // CommissionsRouteObj
   ]
 }
 

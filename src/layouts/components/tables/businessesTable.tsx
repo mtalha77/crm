@@ -3,6 +3,9 @@ import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import MuiTable from './MuiTable'
 import BusinessesColumns from './columns/BusinessesColumns'
+import { download, generateCsv, mkConfig } from 'export-to-csv'
+import { Box, Button } from '@mui/material'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 function BusinessesTable() {
   const [data, setData] = useState([])
@@ -40,6 +43,27 @@ function BusinessesTable() {
     fetchBusinesses()
   }, [])
 
+  const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+    filename: 'Businesses'
+  })
+
+  const handleExportRows = (rows: any[]) => {
+    const rowData = rows.map(d => {
+      return {
+        Name: d.original.business_name,
+        Email: d.original.business_email,
+        Number: d.original.business_number,
+        Status: d.original.status
+      }
+    })
+
+    const csv = generateCsv(csvConfig)(rowData)
+    download(csvConfig)(csv)
+  }
+
   return (
     <>
       <MuiTable
@@ -51,7 +75,19 @@ function BusinessesTable() {
           },
           initialState: {
             density: 'compact'
-          }
+          },
+          renderTopToolbarCustomActions: ({ table }: any) => (
+            <Box>
+              <Button
+                disabled={table.getPrePaginationRowModel().rows.length === 0}
+                onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+                variant='contained'
+                startIcon={<FileDownloadIcon />}
+              >
+                Export Csv
+              </Button>
+            </Box>
+          )
         }}
       />
     </>

@@ -29,8 +29,8 @@ export enum WebSeoWorkStatus {
 export enum WordPressWorkStatus {
   ECOMMERCE = 'E-Commerce',
   REDESIGN_WEBSITE = 'Redesign Website',
-  ON_PAGE_WEBSITE = 'On Page Website',
-  FULL = 'Full'
+  ON_PAGE_WEBSITE = 'One Page Website',
+  FULL = 'Full Website'
 }
 
 export enum WriterWorkStatus {

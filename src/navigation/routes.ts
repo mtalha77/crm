@@ -33,7 +33,7 @@ export const createTicketsRouteObj = {
   subject: 'create-business-ticket',
   children: [
     { title: 'Local SEO / GMB Optimization', path: '/ticket-create/localSeo' },
-    { title: 'Wordpress Development', path: '/ticket-create/wordPress' },
+    { title: 'Website Development', path: '/ticket-create/wordPress' },
     { title: 'Website SEO', path: '/ticket-create/webSeo' },
     { title: 'Paid Marketing', path: '/ticket-create/paidMarketing' },
     { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' }

@@ -16,7 +16,8 @@ const handler = async (req: any, res: any) => {
         return res.status(403).send('Permission denied.Only Admin can update ticket')
 
       const { id, total_amount } = req.body
-      if (!id || !total_amount) return res.status(400).send('Fields Missing')
+      if (!id || total_amount === undefined || typeof total_amount !== 'number')
+        return res.status(400).send('Fields Missing')
 
       const paymentHistories = await PaymentHistoryModel.find({ payment_session_id: new mongoose.Types.ObjectId(id) })
 

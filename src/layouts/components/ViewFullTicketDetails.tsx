@@ -87,6 +87,10 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
             </Grid>
 
             <Grid item xs={6}>
+              <BoldText>Client Name:</BoldText> {business_id?.client_name}
+            </Grid>
+
+            <Grid item xs={6}>
               <BoldText>Country:</BoldText> {business_id?.country}
             </Grid>
 
@@ -163,13 +167,18 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
               <BoldText>Status:</BoldText> {data?.status}
             </Grid>
 
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <BoldText>Due Date:</BoldText> {moment(data?.due_date).format('MMMM Do YYYY')}
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={6}>
               <BoldText>Client Reporting Date:</BoldText>{' '}
               {data?.client_reporting_date && moment(data?.client_reporting_date).format('MMMM Do YYYY')}
+            </Grid>
+
+            <Grid item xs={6}>
+              <BoldText>Remaining Price Date:</BoldText>{' '}
+              {data?.remaining_price_date && moment(data?.remaining_price_date).format('MMMM Do YYYY')}
             </Grid>
 
             <Grid item xs={6}>

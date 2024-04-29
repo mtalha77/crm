@@ -12,6 +12,7 @@ export interface BusinessDetails {
   website_url?: string
   social_profile?: string
   gmb_url?: string
+  client_name?: string
 }
 
 export interface SaleDepartDetails {
@@ -24,7 +25,9 @@ export interface SaleDepartDetails {
 
 export interface TicketDetails {
   priority: string
-  due_date: Date
+  remaining_price_date?: Date | null
+
+  // due_date: Date
   total_payment: number
   advance_payment: number
   remaining_payment: number
@@ -34,6 +37,7 @@ export interface TicketDetails {
 export interface LocalSeoDetails {
   notes?: string
   work_status: string
+  gmb_access_email?: string
 }
 
 export interface WordPressDetails {
@@ -129,7 +133,8 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     street: '',
     website_url: '',
     social_profile: '',
-    gmb_url: ''
+    gmb_url: '',
+    client_name: ''
   },
   saleDepart: {
     fronter: '',
@@ -140,7 +145,9 @@ export const localSeoDefaultValues: LocalSeoFormType = {
   },
   ticketDetails: {
     priority: '',
-    due_date: new Date(),
+    remaining_price_date: null,
+
+    // due_date: new Date(),
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
@@ -148,7 +155,8 @@ export const localSeoDefaultValues: LocalSeoFormType = {
   },
   localSeoDetails: {
     notes: '',
-    work_status: ''
+    work_status: '',
+    gmb_access_email: ''
   }
 }
 
@@ -164,7 +172,8 @@ export const wordPressDefaultValues: WordPressFormType = {
     street: '',
     website_url: '',
     social_profile: '',
-    gmb_url: ''
+    gmb_url: '',
+    client_name: ''
   },
   saleDepart: {
     fronter: '',
@@ -175,7 +184,9 @@ export const wordPressDefaultValues: WordPressFormType = {
   },
   ticketDetails: {
     priority: '',
-    due_date: new Date(),
+    remaining_price_date: null,
+
+    // due_date: new Date(),
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
@@ -202,7 +213,8 @@ export const webSeoDefaultValues: WebSeoFormType = {
     street: '',
     website_url: '',
     social_profile: '',
-    gmb_url: ''
+    gmb_url: '',
+    client_name: ''
   },
   saleDepart: {
     fronter: '',
@@ -213,7 +225,9 @@ export const webSeoDefaultValues: WebSeoFormType = {
   },
   ticketDetails: {
     priority: '',
-    due_date: new Date(),
+    remaining_price_date: null,
+
+    // due_date: new Date(),
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
@@ -246,7 +260,8 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     street: '',
     website_url: '',
     social_profile: '',
-    gmb_url: ''
+    gmb_url: '',
+    client_name: ''
   },
   saleDepart: {
     fronter: '',
@@ -257,7 +272,9 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
   },
   ticketDetails: {
     priority: '',
-    due_date: new Date(),
+    remaining_price_date: null,
+
+    // due_date: new Date(),
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
@@ -288,7 +305,8 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
     street: '',
     website_url: '',
     social_profile: '',
-    gmb_url: ''
+    gmb_url: '',
+    client_name: ''
   },
   saleDepart: {
     fronter: '',
@@ -299,7 +317,9 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
   },
   ticketDetails: {
     priority: '',
-    due_date: new Date(),
+    remaining_price_date: null,
+
+    // due_date: new Date(),
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,

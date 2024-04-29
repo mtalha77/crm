@@ -52,7 +52,8 @@ function BusinessUpdate({ businessId, setShow }: any) {
     street: yup.string().max(200, 'Street cannot exceed 200 characters'),
     website_url: yup.string().max(200, 'Website URL cannot exceed 200 characters'),
     social_profile: yup.string().max(200, 'Social Profile cannot exceed 200 characters'),
-    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters')
+    gmb_url: yup.string().max(200, 'GMB URL cannot exceed 200 characters'),
+    client_name: yup.string().max(200, 'Client Name cannot exceed 200 characters')
   })
 
   const onSubmit = async (data: BusinessDetailsType) => {
@@ -68,6 +69,7 @@ function BusinessUpdate({ businessId, setShow }: any) {
       website_url: data.website_url,
       social_profile: data.social_profile,
       gmb_url: data.gmb_url,
+      client_name: data.client_name,
       businessId
     }
     await axios

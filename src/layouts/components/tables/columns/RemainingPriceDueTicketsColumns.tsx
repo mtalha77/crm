@@ -10,7 +10,7 @@ import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
 import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
 
-const DueDateTicketsColumns: any = (
+const RemainingPriceDueDateTicketsColumns: any = (
   user: UserDataType,
 
   handleTicketEdit: any,
@@ -54,13 +54,13 @@ const DueDateTicketsColumns: any = (
       }
     },
     {
-      header: 'Reporting Date',
+      header: 'Remaining Price Date',
       accessorFn: (originalRow: any) =>
-        originalRow.client_reporting_date ? dayjs(originalRow.client_reporting_date) : '',
+        originalRow.remaining_price_date ? dayjs(originalRow.remaining_price_date) : '',
       filterVariant: 'date',
-      accessorKey: 'client_reporting_date',
+      accessorKey: 'remaining_price_date',
       filterFn: (row: any, _columnIds: any, filterValue: any) => {
-        return filterValue.isSame(row.getValue('client_reporting_date'), 'day')
+        return filterValue.isSame(row.getValue('remaining_price_date'), 'day')
       },
       Cell: ({ cell }: any) => {
         const value = cell.getValue()
@@ -111,4 +111,4 @@ const DueDateTicketsColumns: any = (
   ]
 }
 
-export default DueDateTicketsColumns
+export default RemainingPriceDueDateTicketsColumns

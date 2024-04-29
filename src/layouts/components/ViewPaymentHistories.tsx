@@ -26,6 +26,8 @@ import ChangeTotalPaymentDialog from './dialogs/ChangeTotalPayment'
 import ChangeAdvancePaymentDialog from './dialogs/ChangeAdvancePayment'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useConfirm } from 'material-ui-confirm'
+import { useAuth } from 'src/hooks/useAuth'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const CloserComponent = ({ defaultValue, closers, id }: any) => {
   const [value, setValue] = useState(defaultValue)
@@ -138,6 +140,7 @@ function ViewPaymentHistories() {
   const confirm = useConfirm()
   const router = useRouter()
   const { ticketId } = router.query
+  const { user } = useAuth()
   useEffect(() => {
     const getPaymentHistories = async () => {
       try {
@@ -307,19 +310,23 @@ function ViewPaymentHistories() {
           <Card sx={{ mt: 10 }} key={session._id}>
             <CardContent>
               <Grid container>
-                <Grid item xs={12} sm={4}>
-                  <ChangeTotalPaymentDialog
-                    ticketId={ticketId}
-                    session={session}
-                    handleChangeTotalPayment={handleChangeTotalPayment}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <ChangeAdvancePaymentDialog
-                    session={session}
-                    handleChangeAdvancePayment={handleChangeAdvancePayment}
-                  />
-                </Grid>
+                {user?.role === UserRole.ADMIN && (
+                  <>
+                    <Grid item xs={12} sm={4}>
+                      <ChangeTotalPaymentDialog
+                        ticketId={ticketId}
+                        session={session}
+                        handleChangeTotalPayment={handleChangeTotalPayment}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <ChangeAdvancePaymentDialog
+                        session={session}
+                        handleChangeAdvancePayment={handleChangeAdvancePayment}
+                      />
+                    </Grid>
+                  </>
+                )}
                 <Grid item xs={12} sm={4}>
                   <AddCreditPaymentDialog
                     ticketId={ticketId}

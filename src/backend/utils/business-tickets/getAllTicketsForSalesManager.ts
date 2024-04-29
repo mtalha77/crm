@@ -17,7 +17,9 @@ export const getAllTicketsForSalesManager = async (req: any, res: any) => {
       status: 1,
       priority: 1,
       assignee_depart_name: 1,
-      due_date: 1,
+      client_reporting_date: 1,
+
+      // due_date: 1,
       business_id: 1,
       createdAt: 1,
       assignee_employees: 1,

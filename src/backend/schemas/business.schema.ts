@@ -23,7 +23,8 @@ const businessSchema = new mongoose.Schema(
         required: true
       }
     ],
-    status: { type: String, enum: BusinessStatus, default: BusinessStatus.ACTIVE }
+    status: { type: String, enum: BusinessStatus, default: BusinessStatus.ACTIVE },
+    client_name: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

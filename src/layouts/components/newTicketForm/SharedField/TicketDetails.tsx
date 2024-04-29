@@ -139,7 +139,7 @@ const TicketDetails = (props: any) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <Controller
             name='ticketDetails.due_date'
             control={control}
@@ -168,6 +168,39 @@ const TicketDetails = (props: any) => {
           {errors.ticketDetails?.due_date && (
             <FormHelperText sx={{ mx: 3.5, color: 'error.main' }} id='validation-basic-dob'>
               {errors?.ticketDetails?.due_date?.message}
+            </FormHelperText>
+          )}
+        </Grid> */}
+
+        <Grid item xs={12} sm={6}>
+          <Controller
+            name='ticketDetails.remaining_price_date'
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { value, onChange } }) => (
+              <DatePickerWrapper>
+                <DatePicker
+                  selected={value}
+                  showYearDropdown
+                  showMonthDropdown
+                  onChange={e => onChange(e)}
+                  placeholderText='MM/DD/YYYY'
+                  customInput={
+                    <CustomInput
+                      value={value}
+                      onChange={onChange}
+                      label='Remaining Price Date'
+                      error={Boolean(errors.ticketDetails?.remaining_price_date)}
+                      aria-describedby='validation-basic-dob'
+                    />
+                  }
+                />
+              </DatePickerWrapper>
+            )}
+          />
+          {errors.ticketDetails?.remaining_price_date && (
+            <FormHelperText sx={{ mx: 3.5, color: 'error.main' }} id='validation-basic-dob'>
+              {errors?.ticketDetails?.remaining_price_date?.message}
             </FormHelperText>
           )}
         </Grid>

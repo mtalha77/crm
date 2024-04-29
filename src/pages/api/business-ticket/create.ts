@@ -25,7 +25,9 @@ const handler = async (req: any, res: any) => {
         assignee_depart_id,
         assignee_depart_name,
         client_reporting_date,
-        due_date,
+        remaining_price_date,
+
+        // due_date,
         fronter,
         fronter_id,
         closer,
@@ -64,12 +66,13 @@ const handler = async (req: any, res: any) => {
         no_of_blogs,
         platform_name,
         no_of_likes,
-        no_of_gmb_reviews
+        no_of_gmb_reviews,
+        gmb_access_email,
+        client_name
       } = req.body
       if (
         !assignee_depart_id ||
         !assignee_depart_name ||
-        !due_date ||
         !closer ||
         !sales_type ||
         !payment_history ||
@@ -103,7 +106,8 @@ const handler = async (req: any, res: any) => {
             social_profile,
             website_url,
             work_status: [work_status],
-            gmb_url
+            gmb_url,
+            client_name
           },
           session
         )
@@ -126,7 +130,9 @@ const handler = async (req: any, res: any) => {
         assignor_depart_id: req.user.department_id,
         assignor_depart_name: req.user.department_name,
         client_reporting_date,
-        due_date,
+        remaining_price_date,
+
+        // due_date,
         closer,
         business_id: busines_id,
         sales_type,
@@ -152,7 +158,8 @@ const handler = async (req: any, res: any) => {
         no_of_blogs,
         platform_name,
         no_of_likes,
-        no_of_gmb_reviews
+        no_of_gmb_reviews,
+        gmb_access_email
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

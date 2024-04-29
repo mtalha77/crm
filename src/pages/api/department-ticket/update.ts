@@ -39,6 +39,7 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        gmb_access_email,
         task_details,
         ticketId
       } = req.body
@@ -77,14 +78,13 @@ const handler = async (req: any, res: any) => {
             platform_name,
             no_of_likes,
             no_of_gmb_reviews,
+            gmb_access_email,
             task_details
           }
         }
       )
 
       if (!updatedTicket) throw new Error('Error while updating')
-
-      console.log('Successfully updated')
 
       return res.send({
         message: 'Ticket Updated',

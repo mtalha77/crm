@@ -129,7 +129,16 @@ const businessTicketsColumns: any = (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 250 }}>
             {defaultValue &&
               defaultValue.map((v: any) => {
-                return <Chip key={v} label={v} sx={{ m: 0.75 }} />
+                return (
+                  <Chip
+                    key={v}
+                    label={v}
+                    sx={{ m: 0.75 }}
+                    style={{ borderRadius: '8px' }}
+                    color='primary'
+                    size='small'
+                  />
+                )
               })}
           </Box>
         )
@@ -198,20 +207,38 @@ const businessTicketsColumns: any = (
         )
       }
     },
+
+    // {
+    //   header: 'Due Date',
+    //   accessorFn: (originalRow: any) => dayjs(originalRow.due_date),
+    //   filterVariant: 'date',
+    //   accessorKey: 'due_date',
+    //   filterFn: (row: any, _columnIds: any, filterValue: any) => {
+    //     return filterValue.isSame(row.getValue('due_date'), 'day')
+    //   },
+    //   Cell: ({ cell }: any) => {
+    //     const value = cell.getValue()
+
+    //     return dayjs(value).format('l')
+    //   }
+    // },
+
     {
-      header: 'Due Date',
-      accessorFn: (originalRow: any) => dayjs(originalRow.due_date),
+      header: 'Reporting Date',
+      accessorFn: (originalRow: any) =>
+        originalRow.client_reporting_date ? dayjs(originalRow.client_reporting_date) : '',
       filterVariant: 'date',
-      accessorKey: 'due_date',
+      accessorKey: 'client_reporting_date',
       filterFn: (row: any, _columnIds: any, filterValue: any) => {
-        return filterValue.isSame(row.getValue('due_date'), 'day')
+        return filterValue.isSame(row.getValue('client_reporting_date'), 'day')
       },
       Cell: ({ cell }: any) => {
         const value = cell.getValue()
 
-        return dayjs(value).format('l')
+        return value ? dayjs(value).format('l') : ''
       }
     },
+
     {
       header: 'Payment',
       accessorKey: 'payment_history',

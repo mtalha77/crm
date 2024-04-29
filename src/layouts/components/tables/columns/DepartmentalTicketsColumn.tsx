@@ -139,7 +139,9 @@ const DepartmentalTicketsColumns: any = (
         return (
           defaultValue &&
           defaultValue.map((v: any) => {
-            return <Chip key={v} label={v} sx={{ m: 0.75 }} />
+            return (
+              <Chip key={v} label={v} sx={{ m: 0.75 }} style={{ borderRadius: '8px' }} color='primary' size='small' />
+            )
           })
         )
       }

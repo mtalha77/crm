@@ -66,6 +66,10 @@ function ViewFullBusinessDetails({ id }: any) {
         </Grid>
 
         <Grid item xs={6}>
+          <BoldText>Client Name:</BoldText> {data?.client_name}
+        </Grid>
+
+        <Grid item xs={6}>
           <BoldText>Country:</BoldText> {data?.country}
         </Grid>
 

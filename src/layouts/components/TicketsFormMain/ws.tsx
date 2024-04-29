@@ -54,7 +54,9 @@ const WebSeoFormComponent = () => {
       assignee_depart_id: depart._id,
       assignee_depart_name: depart.name,
       client_reporting_date: ticketDetails.client_reporting_date,
-      due_date: ticketDetails.due_date,
+      remaining_price_date: ticketDetails.remaining_price_date,
+
+      // due_date: ticketDetails.due_date,
       fronter: saleDepart.fronter,
       closer: saleDepart.closer,
       closer_id: saleDepart.closer_id,
@@ -76,6 +78,8 @@ const WebSeoFormComponent = () => {
       street: business.street,
       zip_code: business.zip_code,
       social_profile: business.social_profile,
+      client_name: business.client_name,
+
       website_url: business.website_url,
       work_status: webSeoDetails.work_status,
       gmb_url: business.gmb_url,

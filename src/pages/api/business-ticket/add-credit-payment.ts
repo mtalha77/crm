@@ -17,7 +17,13 @@ const handler = async (req: any, res: any) => {
         return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')
 
       const { received_payment, session_remaining_payment, id, closer_id } = req.body
-      if (!received_payment || !session_remaining_payment || !id || !closer_id)
+      if (
+        !received_payment ||
+        !id ||
+        !closer_id ||
+        session_remaining_payment === undefined ||
+        typeof session_remaining_payment !== 'number'
+      )
         return res.status(400).send('Fields Missing')
 
       const remaining_payment = session_remaining_payment - received_payment

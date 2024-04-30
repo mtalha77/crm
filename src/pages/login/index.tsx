@@ -253,14 +253,15 @@ const LoginPage = () => {
                 </defs>
               </svg> */}
 
-              <img
-                src='/images/rankbpo.svg'
-                alt='Rank BPO Icon'
-                style={{ width: '100%' }}
+              {/* <img
 
-                // width={50}
-                // height={28}
-              />
+              // src='/images/rankbpo.svg'
+              // alt='Rank BPO Icon'
+              // style={{ width: '100%' }}
+
+              // width={50}
+              // height={28}
+              /> */}
 
               {/* <Typography variant='h6' sx={{ ml: 2, lineHeight: 1, fontWeight: 700, fontSize: '1.5rem !important' }}>
                 {themeConfig.templateName}

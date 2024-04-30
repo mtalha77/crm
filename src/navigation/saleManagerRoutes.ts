@@ -1,6 +1,6 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import { CommissionsRouteObj, accountsRouteObj, analyticsRouteObj } from './routes'
+import { accountsRouteObj, analyticsRouteObj } from './routes'
 
 const saleManagerNavigation = (): VerticalNavItemsType => {
   return [
@@ -17,7 +17,7 @@ const saleManagerNavigation = (): VerticalNavItemsType => {
       subject: 'create-business-ticket',
       children: [
         { title: 'Local SEO / GMB Optimization', path: '/ticket-create/localSeo' },
-        { title: 'Wordpress Development', path: '/ticket-create/wordPress' },
+        { title: 'Website Development', path: '/ticket-create/wordPress' },
         { title: 'Website SEO', path: '/ticket-create/webSeo' },
         { title: 'Paid Marketing', path: '/ticket-create/paidMarketing' },
         { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' }
@@ -36,8 +36,9 @@ const saleManagerNavigation = (): VerticalNavItemsType => {
       subject: 'view-businesses'
     },
     accountsRouteObj,
-    analyticsRouteObj,
-    CommissionsRouteObj
+    analyticsRouteObj
+
+    // CommissionsRouteObj
   ]
 }
 

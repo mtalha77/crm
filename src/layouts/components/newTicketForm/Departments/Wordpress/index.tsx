@@ -1,9 +1,8 @@
-import React from 'react'
-import FormsHeader from '../../Header'
-import SaleDepartment from '../../SharedField/SaleDepartment'
 import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
-import SubmitButton from '../../SharedField/FormButton'
+import FormsHeader from '../../Header'
 import BusinessDetails from '../../SharedField/BusinessDetails'
+import SubmitButton from '../../SharedField/FormButton'
+import SaleDepartment from '../../SharedField/SaleDepartment'
 import TicketDetails from '../../SharedField/TicketDetails'
 import WordPressSpecificDetails from './WordPressSpecificDetails'
 
@@ -14,7 +13,7 @@ const Wordpress = ({ update }: any) => {
         <CardHeader
           title={
             <Typography variant='h5' color={'primary'}>
-              {update ? 'Update Ticket' : ' Generate New Ticket For WordPress'}
+              {update ? 'Update Ticket' : ' Generate New Ticket For Website Development'}
             </Typography>
           }
         />

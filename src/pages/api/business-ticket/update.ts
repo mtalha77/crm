@@ -56,6 +56,7 @@ const handler = async (req: any, res: any) => {
         no_of_likes,
         no_of_gmb_reviews,
         gmb_access_email,
+        ticket_notes,
         ticketId,
         business_id
       } = req.body
@@ -82,6 +83,16 @@ const handler = async (req: any, res: any) => {
 
         if (ticketExists) return res.status(400).send('This Business already exists with this work status.')
       }
+      let ticket_notes_formatted_text
+
+      if (ticket_notes) {
+        const trimmedText = ticket_notes
+          .split('\n')
+          .map((line: any) => line.trim())
+          .filter((line: any) => line !== '')
+        ticket_notes_formatted_text = trimmedText.join('\n')
+      }
+
       const payload: any = {
         priority: priority,
         client_reporting_date: client_reporting_date,
@@ -113,7 +124,8 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
-        gmb_access_email
+        gmb_access_email,
+        ticket_notes: ticket_notes_formatted_text
       }
 
       const result = await BusinessTicketModel.findByIdAndUpdate({ _id: ticketId }, { $set: payload })

@@ -60,6 +60,7 @@ const PaidMarketingFormComponent = () => {
       assignee_depart_name: depart.name,
       client_reporting_date: ticketDetails.client_reporting_date,
       remaining_price_date: ticketDetails.remaining_price_date,
+      ticket_notes: ticketDetails.ticket_notes,
 
       // due_date: ticketDetails.due_date,
       fronter: saleDepart.fronter,

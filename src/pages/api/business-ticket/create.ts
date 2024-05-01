@@ -68,7 +68,8 @@ const handler = async (req: any, res: any) => {
         no_of_likes,
         no_of_gmb_reviews,
         gmb_access_email,
-        client_name
+        client_name,
+        ticket_notes
       } = req.body
       if (
         !assignee_depart_id ||
@@ -122,6 +123,16 @@ const handler = async (req: any, res: any) => {
         if (!updatedBusiness) return res.status(500).send('Not able to create ticket.Please Refresh')
       }
 
+      let ticket_notes_formatted_text
+
+      if (ticket_notes) {
+        const trimmedText = ticket_notes
+          .split('\n')
+          .map((line: any) => line.trim())
+          .filter((line: any) => line !== '')
+        ticket_notes_formatted_text = trimmedText.join('\n')
+      }
+
       const payload: any = {
         priority,
         created_by: req.user._id,
@@ -159,7 +170,8 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
-        gmb_access_email
+        gmb_access_email,
+        ticket_notes: ticket_notes_formatted_text
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

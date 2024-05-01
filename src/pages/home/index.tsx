@@ -111,8 +111,7 @@ const Home = () => {
           console.log(err)
         })
     }
-    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD)
-      temp()
+    if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
   }, [])
 
   useEffect(() => {
@@ -212,7 +211,7 @@ const Home = () => {
         </Card>
       )}
 
-      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD) && (
+      {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
             <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>

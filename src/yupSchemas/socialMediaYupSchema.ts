@@ -76,7 +76,8 @@ export const socialMediaYupSchema: yup.ObjectSchema<SocialMediaFormType> = yup.o
       .max(1000000000, 'Remaining cannot exceed 1000000000 characters')
       .required('Remaining is required'),
     client_reporting_date: yup.date().nullable(),
-    remaining_price_date: yup.date().nullable()
+    remaining_price_date: yup.date().nullable(),
+    ticket_notes: yup.string().max(2000, 'Ticket notes cannot exceed 2000 characters')
   }),
   socialMediaFormTypeDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),

@@ -32,6 +32,7 @@ export interface TicketDetails {
   advance_payment: number
   remaining_payment: number
   client_reporting_date?: Date | null
+  ticket_notes?: string
 }
 
 export interface LocalSeoDetails {
@@ -151,7 +152,8 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
-    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate()
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
   },
   localSeoDetails: {
     notes: '',
@@ -190,7 +192,8 @@ export const wordPressDefaultValues: WordPressFormType = {
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
-    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate()
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
   },
   wordPressDetails: {
     service_name: '',
@@ -231,7 +234,8 @@ export const webSeoDefaultValues: WebSeoFormType = {
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
-    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate()
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
   },
   webSeoDetails: {
     service_name: '',
@@ -278,7 +282,8 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
-    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate()
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
   },
   paidMarketingDetails: {
     service_name: '',
@@ -323,7 +328,8 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
     total_payment: 0,
     advance_payment: 0,
     remaining_payment: 0,
-    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate()
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
   },
   socialMediaFormTypeDetails: {
     service_name: '',

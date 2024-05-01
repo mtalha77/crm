@@ -216,6 +216,10 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
             <Grid item xs={6}>
               <BoldText>Date Of Creation:</BoldText> {moment(data?.createdAt).format('MMMM Do YYYY')}
             </Grid>
+
+            <Grid item xs={12}>
+              <BoldText>Ticket Notes:</BoldText> {data?.ticket_notes}
+            </Grid>
           </Grid>
         </CardContent>
       </Card>

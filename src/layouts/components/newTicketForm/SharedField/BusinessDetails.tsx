@@ -48,7 +48,8 @@ const BusinessDetails = (props: any) => {
     setValue('business.website_url', business.website_url)
     setValue('business.social_profile', business.social_profile)
     setValue('business.gmb_url', business.gmb_url)
-    setValue('business.client_name', business.client_name)
+
+    // setValue('business.client_name', business.client_name)
   }
 
   return (

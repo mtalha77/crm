@@ -106,6 +106,14 @@ export interface LocalSeoFormType extends CommonFormType {
   localSeoDetails: LocalSeoDetails
 }
 
+export interface WriterFormType extends CommonFormType {
+  writerFormTypeDetails: WriterDetails
+}
+
+export interface DesignerFormType extends CommonFormType {
+  designerFormTypeDetails: DesignerDetails
+}
+
 export interface WordPressFormType extends CommonFormType {
   wordPressDetails: WordPressDetails
 }
@@ -159,6 +167,82 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     notes: '',
     work_status: '',
     gmb_access_email: ''
+  }
+}
+
+export const writerDefaultValues: WriterFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: '',
+    client_name: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    remaining_price_date: null,
+
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
+  },
+  writerFormTypeDetails: {
+    notes: '',
+    task_details: ''
+  }
+}
+
+export const designerDefaultValues: DesignerFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: '',
+    client_name: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    remaining_price_date: null,
+
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: ''
+  },
+  designerFormTypeDetails: {
+    notes: '',
+    task_details: ''
   }
 }
 

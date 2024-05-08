@@ -6,6 +6,7 @@ import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { createNewBusiness } from 'src/backend/utils/business/createNewBusiness'
+import { Department } from 'src/shared/enums/Department.enum'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
@@ -69,8 +70,14 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         client_name,
-        ticket_notes
+        ticket_notes,
+        task_details
       } = req.body
+      console.log('task_details : ', task_details)
+      console.log('nots : ', notes)
+      if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
+        return res.status(400).send('Network Error')
+
       if (
         !assignee_depart_id ||
         !assignee_depart_name ||
@@ -79,8 +86,7 @@ const handler = async (req: any, res: any) => {
         !payment_history ||
         !business_name ||
         !business_email ||
-        !closer_id ||
-        !work_status
+        !closer_id
       )
         return res.status(400).send('Network Error')
 
@@ -171,6 +177,7 @@ const handler = async (req: any, res: any) => {
         no_of_likes,
         no_of_gmb_reviews,
         gmb_access_email,
+        task_details,
         ticket_notes: ticket_notes_formatted_text
       }
       if (sales_type === SaleType.NEW_SALE) {

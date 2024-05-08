@@ -36,7 +36,9 @@ export const createTicketsRouteObj = {
     { title: 'Website Development', path: '/ticket-create/wordPress' },
     { title: 'Website SEO', path: '/ticket-create/webSeo' },
     { title: 'Paid Marketing', path: '/ticket-create/paidMarketing' },
-    { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' }
+    { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' },
+    { title: 'Writer', path: '/ticket-create/writer' },
+    { title: 'Designer', path: '/ticket-create/designer' }
   ]
 }
 

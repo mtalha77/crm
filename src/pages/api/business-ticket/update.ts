@@ -57,6 +57,7 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         ticket_notes,
+        task_details,
         ticketId,
         business_id
       } = req.body
@@ -125,6 +126,7 @@ const handler = async (req: any, res: any) => {
         no_of_likes,
         no_of_gmb_reviews,
         gmb_access_email,
+        task_details,
         ticket_notes: ticket_notes_formatted_text
       }
 

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { Department } from 'src/shared/enums/Department.enum'
 import { PriorityType } from 'src/shared/enums/PriorityType.enum'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
@@ -44,7 +45,13 @@ const businessTicketSchema = new mongoose.Schema(
     closer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     business_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Business' },
     sales_type: { type: String, enum: SaleType, required: true },
-    work_status: { type: String, required: true, enum: WorkStatusValues },
+    work_status: {
+      type: String,
+      required: function (this: any) {
+        return this.assignee_depart_name !== Department.Writer && this.assignee_depart_name !== Department.Designer
+      },
+      enum: WorkStatusValues
+    },
     notes: { type: String, required: false, default: '', trim: true },
     service_name: { type: String, required: false, trim: true },
     service_area: { type: String, required: false, trim: true },
@@ -67,7 +74,8 @@ const businessTicketSchema = new mongoose.Schema(
     no_of_likes: { type: String, required: false, trim: true },
     no_of_gmb_reviews: { type: String, required: false, trim: true },
     gmb_access_email: { type: String, required: false, trim: true },
-    ticket_notes: { type: String, required: false, trim: true, maxLength: 2000 }
+    ticket_notes: { type: String, required: false, trim: true, maxLength: 2000 },
+    task_details: { type: String, required: false, trim: true }
   },
   { timestamps: true }
 )

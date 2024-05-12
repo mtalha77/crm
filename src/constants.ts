@@ -7,9 +7,9 @@ export const mapFormPageRoutes = {
   [Department.PaidMarketing]: '/ticket-update/paidMarketing',
   [Department.SocialMedia]: '/ticket-update/socialMedia',
   [Department.Admin]: '/',
-  [Department.Writer]: '/',
+  [Department.Writer]: '/ticket-update/writer',
   [Department.Sales]: '/',
-  [Department.Designer]: '/'
+  [Department.Designer]: '/ticket-update/designer'
 }
 
 export const mapDFormPageRoutes = {

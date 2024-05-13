@@ -11,7 +11,7 @@ export const getAllTicketsTeamLead = async (req: any, res: any) => {
     filters = { business_id: businessId }
   }
   const tickets = await BusinessTicketModel.find({ assignee_depart_id: req.user.department_id, ...filters })
-    .populate({ path: 'business_id', select: 'business_name' })
+    .populate({ path: 'business_id', select: 'business_name client_name' })
     .populate({ path: 'assignee_employees', select: 'user_name' })
     .sort({ createdAt: -1 })
     .select({
@@ -26,7 +26,9 @@ export const getAllTicketsTeamLead = async (req: any, res: any) => {
       assignee_employees: 1,
       assignee_depart_id: 1,
       assignor_depart_id: 1,
-      assignor_depart_name: 1
+      assignor_depart_name: 1,
+      work_status: 1,
+      client_name: 1
     })
 
   return res.send({

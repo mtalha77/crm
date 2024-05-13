@@ -38,6 +38,14 @@ const businessTicketsColumns: any = (
       filterVariant: 'autocomplete',
       filterSelectOptions: businessList
     },
+    {
+      header: 'Client Name',
+      accessorKey: 'business_id.client_name'
+    },
+    {
+      header: 'Work Status',
+      accessorKey: 'work_status'
+    },
 
     {
       header: 'Assignee Employees',

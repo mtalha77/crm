@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
@@ -17,7 +18,8 @@ const handler = async (req: any, res: any) => {
       switch (req.user.role) {
         case UserRole.ADMIN:
           tickets = await BusinessTicketModel.find({
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            status: { $ne: TicketStatus.COMPLETED }
           })
             .populate('business_id', 'business_name')
             .select({
@@ -34,7 +36,8 @@ const handler = async (req: any, res: any) => {
 
         case UserRole.SALE_MANAGER:
           tickets = await BusinessTicketModel.find({
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            status: { $ne: TicketStatus.COMPLETED }
           })
             .populate('business_id', 'business_name')
             .select({
@@ -52,7 +55,8 @@ const handler = async (req: any, res: any) => {
         case UserRole.TEAM_LEAD:
           tickets = await BusinessTicketModel.find({
             assignee_depart_id: new mongoose.Types.ObjectId(req.user.department_id),
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            status: { $ne: TicketStatus.COMPLETED }
           })
             .populate('business_id', 'business_name')
             .select({

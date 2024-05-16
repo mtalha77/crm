@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
@@ -75,15 +74,16 @@ const handler = async (req: any, res: any) => {
 
       if (sales_type === SaleType.NEW_SALE) if (!fronter || !fronter_id) return res.status(400).send('Network Error')
 
-      if (work_status) {
-        const ticketExists = await BusinessTicketModel.exists({
-          business_id: business_id,
-          work_status: work_status,
-          _id: { $ne: new mongoose.Types.ObjectId(ticketId) }
-        })
+      // if (work_status) {
+      //   const ticketExists = await BusinessTicketModel.exists({
+      //     business_id: business_id,
+      //     work_status: work_status,
+      //     _id: { $ne: new mongoose.Types.ObjectId(ticketId) }
+      //   })
 
-        if (ticketExists) return res.status(400).send('This Business already exists with this work status.')
-      }
+      //   if (ticketExists) return res.status(400).send('This Business already exists with this work status.')
+      // }
+
       let ticket_notes_formatted_text
 
       if (ticket_notes) {

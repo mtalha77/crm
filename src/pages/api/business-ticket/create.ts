@@ -73,8 +73,7 @@ const handler = async (req: any, res: any) => {
         ticket_notes,
         task_details
       } = req.body
-      console.log('task_details : ', task_details)
-      console.log('nots : ', notes)
+
       if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
         return res.status(400).send('Network Error')
 
@@ -94,9 +93,11 @@ const handler = async (req: any, res: any) => {
 
       const business = await BusinessModel.findOne({ business_name: business_name })
       let busines_id = business?._id
-      if (business?.work_status.includes(work_status)) {
-        return res.status(400).send('Business already exists with this work status.')
-      }
+
+      // if (business?.work_status.includes(work_status)) {
+      //   return res.status(400).send('Business already exists with this work status.')
+      // }
+
       let newBusiness
       if (!business) {
         //create new business

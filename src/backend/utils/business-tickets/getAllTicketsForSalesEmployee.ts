@@ -53,6 +53,6 @@ export const getAllTicketsForSalesEmployee = async (req: any, res: any) => {
 
   return res.send({
     message: 'tickets fetched successfully',
-    payload: { tickets: tickets[0]?.tickets }
+    payload: { tickets: tickets[0]?.tickets || [] }
   })
 }

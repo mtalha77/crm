@@ -11,7 +11,8 @@ export const guardWrapper = (handler: any) => async (req: any, res: any) => {
   try {
     // Check if the request is authenticated or has the necessary permissions
     const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    console.log(clientIP)
+    console.log('clientIP: ', clientIP)
+    // if(clientIP !== '202.166.167.98')
     if (isAuthenticated(req) === false) {
       return res.status(401).send('Unauthorized')
     }

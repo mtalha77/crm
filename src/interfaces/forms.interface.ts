@@ -33,6 +33,7 @@ export interface TicketDetails {
   remaining_payment: number
   client_reporting_date?: Date | null
   ticket_notes?: string
+  created_at: Date
 }
 
 export interface LocalSeoDetails {
@@ -155,6 +156,7 @@ export const localSeoDefaultValues: LocalSeoFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     // due_date: new Date(),
     total_payment: 0,
@@ -195,6 +197,7 @@ export const writerDefaultValues: WriterFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     total_payment: 0,
     advance_payment: 0,
@@ -233,6 +236,7 @@ export const designerDefaultValues: DesignerFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     total_payment: 0,
     advance_payment: 0,
@@ -271,6 +275,7 @@ export const wordPressDefaultValues: WordPressFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     // due_date: new Date(),
     total_payment: 0,
@@ -313,6 +318,7 @@ export const webSeoDefaultValues: WebSeoFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     // due_date: new Date(),
     total_payment: 0,
@@ -361,6 +367,7 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     // due_date: new Date(),
     total_payment: 0,
@@ -407,6 +414,7 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
   ticketDetails: {
     priority: '',
     remaining_price_date: null,
+    created_at: new Date(),
 
     // due_date: new Date(),
     total_payment: 0,

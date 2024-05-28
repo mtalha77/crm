@@ -58,6 +58,7 @@ const handler = async (req: any, res: any) => {
         ticket_notes,
         task_details,
         ticketId,
+        created_at,
         business_id
       } = req.body
       if (
@@ -93,11 +94,12 @@ const handler = async (req: any, res: any) => {
           .filter((line: any) => line !== '')
         ticket_notes_formatted_text = trimmedText.join('\n')
       }
-
+      console.log(created_at)
       const payload: any = {
         priority: priority,
         client_reporting_date: client_reporting_date,
         remaining_price_date: remaining_price_date,
+        createdAt: created_at,
 
         // due_date: due_date,
         closer: closer,
@@ -130,7 +132,11 @@ const handler = async (req: any, res: any) => {
         ticket_notes: ticket_notes_formatted_text
       }
 
-      const result = await BusinessTicketModel.findByIdAndUpdate({ _id: ticketId }, { $set: payload })
+      const result = await BusinessTicketModel.findByIdAndUpdate(
+        { _id: ticketId },
+        { $set: payload },
+        { timestamps: false }
+      )
       if (!result) throw new Error('Something went wrong')
 
       return res.send({

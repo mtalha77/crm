@@ -11,6 +11,10 @@ export const childTicketSchema = new mongoose.Schema({
 
 const businessTicketSchema = new mongoose.Schema(
   {
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
     current_session: { type: Number, required: true, default: 1 },
     child_tickets: { type: [childTicketSchema], required: false },
     status: { type: String, enum: TicketStatus, default: TicketStatus.NOT_STARTED_YET },

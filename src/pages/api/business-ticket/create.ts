@@ -71,6 +71,7 @@ const handler = async (req: any, res: any) => {
         gmb_access_email,
         client_name,
         ticket_notes,
+        created_at,
         task_details
       } = req.body
 
@@ -100,7 +101,6 @@ const handler = async (req: any, res: any) => {
 
       let newBusiness
       if (!business) {
-        //create new business
         newBusiness = await createNewBusiness(
           {
             business_name,
@@ -149,6 +149,7 @@ const handler = async (req: any, res: any) => {
         assignor_depart_name: req.user.department_name,
         client_reporting_date,
         remaining_price_date,
+        createdAt: created_at,
 
         // due_date,
         closer,
@@ -243,7 +244,6 @@ const handler = async (req: any, res: any) => {
   }
 }
 
-// Apply the guard wrapper to the original handler
 const guardedHandler = guardWrapper(handler)
 
 export default connectDb(guardedHandler)

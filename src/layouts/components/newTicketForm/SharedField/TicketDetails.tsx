@@ -238,6 +238,39 @@ const TicketDetails = (props: any) => {
           )}
         </Grid>
 
+        <Grid item xs={12} sm={6}>
+          <Controller
+            name='ticketDetails.created_at'
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { value, onChange } }) => (
+              <DatePickerWrapper>
+                <DatePicker
+                  selected={value}
+                  showYearDropdown
+                  showMonthDropdown
+                  onChange={e => onChange(e)}
+                  placeholderText='MM/DD/YYYY'
+                  customInput={
+                    <CustomInput
+                      value={value}
+                      onChange={onChange}
+                      label='Creation Date'
+                      error={Boolean(errors.ticketDetails?.created_at)}
+                      aria-describedby='validation-basic-dob'
+                    />
+                  }
+                />
+              </DatePickerWrapper>
+            )}
+          />
+          {errors.ticketDetails?.created_at && (
+            <FormHelperText sx={{ mx: 3.5, color: 'error.main' }} id='validation-basic-dob'>
+              {errors?.ticketDetails?.created_at?.message}
+            </FormHelperText>
+          )}
+        </Grid>
+
         <Grid item xs={12}>
           <FormControl fullWidth error={!!errors.ticketDetails?.ticket_notes}>
             <Controller

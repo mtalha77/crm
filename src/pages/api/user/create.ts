@@ -46,7 +46,6 @@ const handler = async (req: any, res: any) => {
   }
 }
 
-// Apply the guard wrapper to the original handler
 const guardedHandler = guardWrapper(handler)
 
 export default connectDb(guardedHandler)

@@ -26,6 +26,7 @@ export const mapResponseForWriter = (data: any): WriterFormType => {
     ticketDetails: {
       priority: data.priority,
       remaining_price_date: data.remaining_price_date ? new Date(data.remaining_price_date) : null,
+      created_at: new Date(data.createdAt),
 
       total_payment: 0,
       advance_payment: 0,

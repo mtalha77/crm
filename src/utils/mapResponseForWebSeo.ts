@@ -26,6 +26,7 @@ export const mapResponseForWebSeo = (data: any): WebSeoFormType => {
     ticketDetails: {
       priority: data.priority,
       remaining_price_date: data.remaining_price_date ? new Date(data.remaining_price_date) : null,
+      created_at: new Date(data.createdAt),
 
       // due_date: new Date(data.due_date),
       total_payment: 0,

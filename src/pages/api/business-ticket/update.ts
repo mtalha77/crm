@@ -94,7 +94,7 @@ const handler = async (req: any, res: any) => {
           .filter((line: any) => line !== '')
         ticket_notes_formatted_text = trimmedText.join('\n')
       }
-      console.log(created_at)
+
       const payload: any = {
         priority: priority,
         client_reporting_date: client_reporting_date,

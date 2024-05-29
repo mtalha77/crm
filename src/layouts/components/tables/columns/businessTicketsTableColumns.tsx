@@ -248,6 +248,19 @@ const businessTicketsColumns: any = (
     },
 
     {
+      header: 'Creation Date',
+
+      accessorFn: (originalRow: any) => dayjs(originalRow.createdAt),
+
+      filterVariant: 'date-range',
+      Cell: ({ cell }: any) => {
+        const value = cell.getValue()
+
+        return dayjs(value).format('l')
+      }
+    },
+
+    {
       header: 'Payment',
       accessorKey: 'payment_history',
       Cell: ({ cell }: any) => {

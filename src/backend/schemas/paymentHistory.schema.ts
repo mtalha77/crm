@@ -4,6 +4,10 @@ import { SaleType } from 'src/shared/enums/SaleType.enum'
 
 const paymentHistorySchema = new mongoose.Schema(
   {
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
     received_payment: { type: Number, required: true },
     payment_type: { type: String, enum: PaymentType, required: true },
     remaining_payment: { type: Number, required: true },

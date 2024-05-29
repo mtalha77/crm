@@ -203,7 +203,8 @@ const handler = async (req: any, res: any) => {
         closer_id,
         ticket_id: result._id,
         business_id: result.business_id,
-        session: 1
+        session: 1,
+        createdAt: created_at
       })
 
       const result2 = await paymentSession.save({ session })
@@ -220,7 +221,8 @@ const handler = async (req: any, res: any) => {
         session: 1,
         sales_type: sales_type,
         fronter_id: sales_type === SaleType.NEW_SALE ? fronter_id : undefined,
-        closer_id
+        closer_id,
+        createdAt: created_at
       })
       const result3 = await paymentHistory.save({ session })
       if (!result3) throw new Error('Not able to create ticket.Please try again')

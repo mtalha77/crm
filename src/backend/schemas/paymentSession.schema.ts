@@ -3,6 +3,10 @@ import { SaleType } from 'src/shared/enums/SaleType.enum'
 
 const paymentSessionSchema = new mongoose.Schema(
   {
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
     total_payment: { type: Number, required: true },
     advance_payment: { type: Number, required: true },
     remaining_payment: { type: Number, required: true },

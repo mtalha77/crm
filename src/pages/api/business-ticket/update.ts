@@ -1,6 +1,8 @@
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
+import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
@@ -135,9 +137,21 @@ const handler = async (req: any, res: any) => {
       const result = await BusinessTicketModel.findByIdAndUpdate(
         { _id: ticketId },
         { $set: payload },
-        { timestamps: false }
+        { timestamps: false, new: true }
       )
       if (!result) throw new Error('Something went wrong')
+
+      await PaymentSessionModel.findOneAndUpdate(
+        { ticket_id: result._id },
+        { $set: { createdAt: result.createdAt } },
+        { timestamps: false }
+      )
+
+      await PaymentHistoryModel.findOneAndUpdate(
+        { ticket_id: result._id },
+        { $set: { createdAt: result.createdAt } },
+        { timestamps: false }
+      )
 
       return res.send({
         message: 'Ticket Updated',

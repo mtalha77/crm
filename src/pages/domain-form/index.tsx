@@ -34,7 +34,7 @@ const DomainForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Domain Form For Websites</h1>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <Controller
                 name='domainName'
@@ -51,7 +51,7 @@ const DomainForm = () => {
               ></Controller>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <Controller
                 name='creationDate'
@@ -72,7 +72,7 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <Controller
                 name='expirationDate'
@@ -91,7 +91,7 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <Controller
                 name='renewalPrice'
@@ -109,7 +109,7 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <Controller
                 name='domainApprovedBy'
@@ -126,7 +126,7 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
               <Controller
@@ -140,8 +140,8 @@ const DomainForm = () => {
                 )}
               />
             </FormControl>
-          </Grid>{' '}
-          <Grid item xs={12} sm={6}>
+          </Grid>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
               <Controller
@@ -156,7 +156,7 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
               <Controller
@@ -171,7 +171,7 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
             <FormControl fullWidth>
               {/* <InputLabel>Notes</InputLabel> */}
               <Controller
@@ -190,8 +190,8 @@ const DomainForm = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            <Button type='submit' variant='contained' color='primary'>
+          <Grid item xs={12} style={{ marginTop: '20px' }}>
+            <Button type='submit' variant='contained' color='primary' fullWidth>
               Submit
             </Button>
           </Grid>

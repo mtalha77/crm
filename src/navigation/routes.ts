@@ -112,6 +112,17 @@ export const CommissionsRouteObj = {
     { title: 'Closers', path: '/commissions/closerCommission' }
   ]
 }
+export const DomainFormObj = {
+  title: 'Website Forms',
+  subject: 'domain',
+  icon: 'mdi:shield-outline',
+  children: [
+    { title: 'Domain Form', path: '/domain-form' },
+    { title: 'Hosting', path: '/hosting-form' }
+
+    // { title: 'Closers', path: '/commissions/closerCommission' }
+  ]
+}
 
 export const UsersRouteObj = {
   title: 'Users',

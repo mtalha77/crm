@@ -1,6 +1,7 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import {
+  DomainFormObj,
   UsersRouteObj,
   accountsRouteObj,
   analyticsRouteObj,
@@ -22,7 +23,8 @@ const adminNavigation = (): VerticalNavItemsType => {
     UsersRouteObj,
     viewBusinessesRouteObj,
     accountsRouteObj,
-    analyticsRouteObj
+    analyticsRouteObj,
+    DomainFormObj
 
     // CommissionsRouteObj
   ]

@@ -133,3 +133,11 @@ export const UsersRouteObj = {
     { title: 'View Users', path: '/users/view-users' }
   ]
 }
+export const domainFormViewsObj = {
+  title: 'Forms View',
+  subject: 'form',
+  icon: 'formkit:filedoc',
+  children: [
+    { title: 'Domain Form', path: '/forms-view/domain-form' },
+  ]
+}

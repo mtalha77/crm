@@ -1,10 +1,9 @@
 import { Grid, FormControl, TextField, InputLabel, Select, MenuItem, Button } from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { wordPressDefaultValues } from 'src/interfaces/forms.interface'
 import MuiTable from 'src/layouts/components/tables/MuiTable'
 
 type DomainFormType = {
@@ -12,45 +11,58 @@ type DomainFormType = {
   domainName: string
   expirationDate: string
   price: string
-  status: string
+  live_status: string
   list_status: string
   notes: string
+  domainApprovedBy: string
 }
+
 const DomainForm = () => {
-  const columns = [
-    {
-      header: 'Creation Date',
-      accessorKey: 'business_id.business_name'
-    },
+  const [data, setData] = useState<DomainFormType[]>([])
 
-    {
-      header: 'Domain Name',
-      accessorKey: 'domain_name'
-    },
+  const columns = useMemo(
+    () => [
+      {
+        header: 'Creation Date',
+        accessorKey: 'creation_date',
+        Cell: ({ cell }: any) => {
+          const value = cell.getValue()
 
-    {
-      header: 'Expiration Date',
-      accessorKey: 'expiration_date'
-    },
+          return value ? new Date(value).toLocaleDateString() : ''
+        }
+      },
+      {
+        header: 'Domain Name',
+        accessorKey: 'domain_name'
+      },
+      {
+        header: 'Expiration Date',
+        accessorKey: 'expiration_date',
+        Cell: ({ cell }: any) => {
+          const value = cell.getValue()
 
-    {
-      header: 'Price',
-      accessorKey: 'price'
-    },
-
-    {
-      header: 'Status',
-      accessorKey: 'status'
-    },
-    {
-      header: 'List Status',
-      accessorKey: 'list_status'
-    },
-    {
-      header: 'Actions',
-      accessorKey: 'actions'
-    }
-  ]
+          return value ? new Date(value).toLocaleDateString() : ''
+        }
+      },
+      {
+        header: 'Price',
+        accessorKey: 'price'
+      },
+      {
+        header: 'Status',
+        accessorKey: 'live_status'
+      },
+      {
+        header: 'List Status',
+        accessorKey: 'list_status'
+      },
+      {
+        header: 'Actions',
+        accessorKey: 'actions'
+      }
+    ],
+    []
+  )
 
   const methods = useForm({
     defaultValues: {
@@ -58,10 +70,10 @@ const DomainForm = () => {
       domainName: '',
       expirationDate: dayjs().format('YYYY-MM-DD'),
       price: '',
-
-      status: 'Live',
+      live_status: 'Live',
       list_status: 'Listed',
-      notes: ''
+      notes: '',
+      domainApprovedBy: ''
     }
   })
 
@@ -71,37 +83,47 @@ const DomainForm = () => {
     formState: { errors }
   } = methods
 
-  const onSubmit = async (data: {
-    creationDate: string
-    domainName: string
-    expirationDate: string
-    price: string
-    status: string
-    list_status: string
-    notes: string
-  }) => {
+  const onSubmit = async (data: DomainFormType) => {
     const apiUrl = '/api/domain-forms/create'
 
     const requestData = {
       creation_date: data.creationDate,
       domain_name: data.domainName,
-      expiry_date: data.expirationDate,
+      expiration_date: data.expirationDate,
       price: data.price,
-      status: data.status,
-      list_status: data.list_status
+      live_status: data.live_status,
+      list_status: data.list_status,
+      domainApprovedBy: data.domainApprovedBy,
+      notes: data.notes
     }
+
     await axios
       .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
       .then(() => {
-        toast.success('Ticket created successfully')
+        toast.success('Domain created successfully')
         methods.reset()
+        fetchDomainForms()
       })
       .catch(error => {
         console.error('Error:', error)
-        // toast.error(error?.response?.data || 'Something went wrong')
       })
-  
   }
+
+  const fetchDomainForms = async () => {
+    try {
+      const response = await axios.get('/api/domain-forms/get-all', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setData(response.data.payload.domainForms)
+      console.log('data', data)
+    } catch (error) {
+      console.error('Error fetching domain forms:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchDomainForms()
+  }, [])
 
   return (
     <>
@@ -114,7 +136,7 @@ const DomainForm = () => {
                 <Controller
                   name='domainName'
                   control={control}
-                  rules={{ required: 'Hosting Name is required' }}
+                  rules={{ required: 'Domain Name is required' }}
                   render={({ field }) => (
                     <TextField
                       {...field}
@@ -171,11 +193,11 @@ const DomainForm = () => {
                 <Controller
                   name='price'
                   control={control}
-                  rules={{ required: 'Renewal Price is required' }}
+                  rules={{ required: 'Price is required' }}
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label=' Price'
+                      label='Price'
                       type='number'
                       error={Boolean(errors.price)}
                       helperText={errors.price ? errors.price.message : ''}
@@ -188,12 +210,12 @@ const DomainForm = () => {
               <FormControl fullWidth>
                 <InputLabel>Status</InputLabel>
                 <Controller
-                  name='status'
+                  name='live_status'
                   control={control}
                   render={({ field }) => (
                     <Select {...field} label='Status' defaultValue='Live'>
                       <MenuItem value='Live'>Live</MenuItem>
-                      <MenuItem value='Not Live'>Not Live</MenuItem>
+                      <MenuItem value='NotLive'>Not Live</MenuItem>
                     </Select>
                   )}
                 />
@@ -206,15 +228,46 @@ const DomainForm = () => {
                   name='list_status'
                   control={control}
                   render={({ field }) => (
-                    <Select {...field} label='Status' defaultValue='Live'>
-                      <MenuItem value='listed'>listed</MenuItem>
-                      <MenuItem value='not listed'>Not Live</MenuItem>
+                    <Select {...field} label='List Status' defaultValue='Listed'>
+                      <MenuItem value='Listed'>Listed</MenuItem>
+                      <MenuItem value='NotListed'>Not Listed</MenuItem>
                     </Select>
                   )}
                 />
               </FormControl>
             </Grid>
-
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='domainApprovedBy'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label='Domain Approved By'
+                      error={Boolean(errors.domainApprovedBy)}
+                      helperText={errors.domainApprovedBy ? errors.domainApprovedBy.message : ''}
+                    />
+                  )}
+                ></Controller>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='notes'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label='Notes'
+                      error={Boolean(errors.notes)}
+                      helperText={errors.notes ? errors.notes.message : ''}
+                    />
+                  )}
+                ></Controller>
+              </FormControl>
+            </Grid>
             <Grid item xs={12} style={{ marginTop: '20px' }}>
               <Button type='submit' variant='contained' color='primary' fullWidth>
                 Submit
@@ -223,7 +276,7 @@ const DomainForm = () => {
           </Grid>
         </form>
       </FormProvider>
-      <MuiTable columns={columns} data={[]} />
+      <MuiTable columns={columns} data={data} />
     </>
   )
 }

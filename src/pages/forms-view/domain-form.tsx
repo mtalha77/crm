@@ -1,12 +1,16 @@
-import { Grid, FormControl, TextField, InputLabel, Select, MenuItem, Button } from '@mui/material'
+import { Grid, FormControl, TextField, InputLabel, Select, MenuItem, Button, Box } from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import MuiTable from 'src/layouts/components/tables/MuiTable'
+import ViewDomainFormDialog from 'src/layouts/components/dialogs/ViewDomainFormDialog'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import { Icon as MuiIcon } from '@mui/material'
 
 type DomainFormType = {
+  _id?: string
   creationDate: string
   domainName: string
   expirationDate: string
@@ -19,6 +23,8 @@ type DomainFormType = {
 
 const DomainForm = () => {
   const [data, setData] = useState<DomainFormType[]>([])
+  const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null)
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 
   const columns = useMemo(
     () => [
@@ -58,7 +64,24 @@ const DomainForm = () => {
       },
       {
         header: 'Actions',
-        accessorKey: 'actions'
+        accessorKey: 'actions',
+        Cell: ({ cell }: any) => {
+          const { _id } = cell.row.original
+
+          return (
+            <Box alignItems={'center'} display={'flex'}>
+              <MuiIcon
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setSelectedDomainId(_id)
+                  setDialogOpen(true)
+                }}
+              >
+                <VisibilityIcon />
+              </MuiIcon>
+            </Box>
+          )
+        }
       }
     ],
     []
@@ -115,7 +138,6 @@ const DomainForm = () => {
         headers: { authorization: localStorage.getItem('token') }
       })
       setData(response.data.payload.domainForms)
-      console.log('data', data)
     } catch (error) {
       console.error('Error fetching domain forms:', error)
     }
@@ -277,6 +299,9 @@ const DomainForm = () => {
         </form>
       </FormProvider>
       <MuiTable columns={columns} data={data} />
+      {selectedDomainId && (
+        <ViewDomainFormDialog _id={selectedDomainId} open={dialogOpen} onClose={() => setDialogOpen(false)} />
+      )}
     </>
   )
 }

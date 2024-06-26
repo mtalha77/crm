@@ -4,8 +4,18 @@ import { DomainFormModel } from 'src/backend/schemas/domianform.schema'
 const handle = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
-      const { domain_name, creation_date, expiration_date, price, live_status, list_status, domainApprovedBy, notes } =
-        req.body
+      const {
+        domain_name,
+        creation_date,
+        expiration_date,
+        price,
+        live_status,
+        list_status,
+        domainApprovedBy,
+        domain_holder,
+        domain_platform,
+        notes
+      } = req.body
 
       if (
         !domain_name &&
@@ -15,6 +25,8 @@ const handle = async (req: any, res: any) => {
         !live_status &&
         !list_status &&
         !notes &&
+        !domain_holder &&
+        !domain_platform &&
         !domainApprovedBy
       )
         return res.status(400).send('Fields Missing')
@@ -27,6 +39,8 @@ const handle = async (req: any, res: any) => {
         live_status: live_status,
         list_status: list_status,
         domainApprovedBy: domainApprovedBy,
+        domain_holder: domain_holder,
+        domain_platform: domain_platform,
         notes: notes
       })
       const savedDomain = await newDomain.save(newDomain)

@@ -57,6 +57,14 @@ const ExpiredDomainFormsTable = ({ data, setData, isLoading }: any) => {
         accessorKey: 'list_status'
       },
       {
+        header: 'Domain Holder',
+        accessorKey: 'domain_holder'
+      },
+      {
+        header: 'Domain Platform',
+        accessorKey: 'domain_platform'
+      },
+      {
         header: 'Actions',
         accessorKey: 'actions',
         Cell: ({ cell }: any) => {

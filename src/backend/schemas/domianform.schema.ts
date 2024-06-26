@@ -7,6 +7,8 @@ const domainFormSchema = new mongoose.Schema(
       type: Date,
       default: Date.now
     },
+    domain_holder: { type: String },
+    domain_platform: { type: String },
     domain_name: { type: String, required: true },
     expiration_date: { type: Date },
     price: { type: Number, required: true },

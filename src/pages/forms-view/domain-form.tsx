@@ -8,6 +8,7 @@ import MuiTable from 'src/layouts/components/tables/MuiTable'
 import ViewDomainFormDialog from 'src/layouts/components/dialogs/ViewDomainFormDialog'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Icon as MuiIcon } from '@mui/material'
+import UpdateDomainFormDialog from 'src/layouts/components/dialogs/UpdateDomainFormDialog'
 
 type DomainFormType = {
   _id?: string
@@ -25,6 +26,13 @@ const DomainForm = () => {
   const [data, setData] = useState<DomainFormType[]>([])
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+
+  // Define handleUpdateDomainForm
+  const handleUpdateDomainForm = (updatedDomain: DomainFormType) => {
+    setData(prevData => prevData.map(domain => (domain._id === updatedDomain._id ? updatedDomain : domain)))
+    toast.success('Domain updated successfully')
+    fetchDomainForms()
+  }
 
   const columns = useMemo(
     () => [
@@ -79,6 +87,10 @@ const DomainForm = () => {
               >
                 <VisibilityIcon />
               </MuiIcon>
+              <UpdateDomainFormDialog
+                updatedDomain={cell.row.original}
+                handleUpdateDomainForm={handleUpdateDomainForm}
+              />
             </Box>
           )
         }

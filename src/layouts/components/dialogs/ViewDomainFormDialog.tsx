@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import { FadeProps } from '@mui/material/Fade'
-import { Icon as MuiIcon, Slide, Tooltip } from '@mui/material'
+import { Slide } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import ViewFullDomainFormDetails from '../ViewFullDomainFormDetails'
 

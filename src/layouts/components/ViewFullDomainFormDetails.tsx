@@ -62,31 +62,30 @@ const ViewFullDomainFormDetails = ({ id }: any) => {
             <Grid item xs={6}>
               <BoldText>Creation Date:</BoldText> {moment(data.creation_date).format('MMMM Do YYYY')}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Domain Name:</BoldText> {data.domain_name}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Expiration Date:</BoldText> {moment(data.expiration_date).format('MMMM Do YYYY')}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Price:</BoldText> {data.price}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Live Status:</BoldText> {data.live_status}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>List Status:</BoldText> {data.list_status}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Domain Approved By:</BoldText> {data.domainApprovedBy}
+            </Grid>{' '}
+            <Grid item xs={6}>
+              <BoldText>Domain Holder:</BoldText> {data.domain_holder}
+            </Grid>{' '}
+            <Grid item xs={6}>
+              <BoldText>Domain Platform:</BoldText> {data.domain_platform}
             </Grid>
-
             <Grid item xs={12}>
               <BoldText>Notes:</BoldText> {data.notes}
             </Grid>

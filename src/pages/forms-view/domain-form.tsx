@@ -14,6 +14,8 @@ type DomainFormType = {
   _id?: string
   creationDate: string
   domainName: string
+  domainHolder: string
+  domainPlatform: string
   expirationDate: string
   price: string
   live_status: string
@@ -71,6 +73,14 @@ const DomainForm = () => {
         accessorKey: 'list_status'
       },
       {
+        header: 'Domain Holder',
+        accessorKey: 'domain_holder'
+      },
+      {
+        header: 'Domain Platform',
+        accessorKey: 'domain_platform'
+      },
+      {
         header: 'Actions',
         accessorKey: 'actions',
         Cell: ({ cell }: any) => {
@@ -103,6 +113,8 @@ const DomainForm = () => {
     defaultValues: {
       creationDate: dayjs().format('YYYY-MM-DD'),
       domainName: '',
+      domainHolder: '',
+      domainPlatform: '',
       expirationDate: dayjs().format('YYYY-MM-DD'),
       price: '',
       live_status: 'Live',
@@ -124,6 +136,8 @@ const DomainForm = () => {
     const requestData = {
       creation_date: data.creationDate,
       domain_name: data.domainName,
+      domain_holder: data.domainHolder,
+      domain_platform: data.domainPlatform,
       expiration_date: data.expirationDate,
       price: data.price,
       live_status: data.live_status,
@@ -281,6 +295,38 @@ const DomainForm = () => {
                       label='Domain Approved By'
                       error={Boolean(errors.domainApprovedBy)}
                       helperText={errors.domainApprovedBy ? errors.domainApprovedBy.message : ''}
+                    />
+                  )}
+                ></Controller>
+              </FormControl>
+            </Grid>{' '}
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='domainHolder'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label='Domain Holder'
+                      error={Boolean(errors.domainHolder)}
+                      helperText={errors.domainHolder ? errors.domainHolder.message : ''}
+                    />
+                  )}
+                ></Controller>
+              </FormControl>
+            </Grid>{' '}
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='domainPlatform'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label='Domain Platform'
+                      error={Boolean(errors.domainPlatform)}
+                      helperText={errors.domainPlatform ? errors.domainPlatform.message : ''}
                     />
                   )}
                 ></Controller>

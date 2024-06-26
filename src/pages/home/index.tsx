@@ -1,4 +1,3 @@
-// home.tsx
 import { Box } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -222,9 +221,9 @@ const Home = () => {
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
             <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
-              Expiring Soon or Expired Domain Forms
+              Expiring Soon OR Expired Domain Forms
             </Typography>
-            <ExpiredDomainFormsTable data={expiringSoonForms} isLoading={loading} />
+            <ExpiredDomainFormsTable data={expiringSoonForms} setData={setExpiringSoonForms} isLoading={loading} />
           </CardContent>
         </Card>
       )}

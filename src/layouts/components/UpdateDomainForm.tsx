@@ -76,17 +76,18 @@ const UpdateDomainForm = (props: any) => {
 
     try {
       setLoading(true)
-      await axios
-        .post(apiUrl, requestData, { headers: { authorization: localStorage.getItem('token') } })
-        .then(() => {
-          toast.success('Domain updated successfully')
-          props.handleUpdateDomainForm({ ...requestData, _id: updatedDomain._id })
-          props.setShow(false)
-        })
-        .catch(error => {
-          console.error('Error response:', error.response)
-          toast.error('Failed to update domain')
-        })
+      const response = await axios.post(apiUrl, requestData, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      if (response.status === 200) {
+        props.handleUpdateDomainForm({ ...requestData, _id: updatedDomain._id })
+        props.setShow(false)
+      } else {
+        toast.error('Failed to update domain')
+      }
+    } catch (error) {
+      console.error('Error response:', error)
+      toast.error('Failed to update domain')
     } finally {
       setLoading(false)
     }

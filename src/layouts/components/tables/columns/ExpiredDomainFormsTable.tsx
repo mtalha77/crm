@@ -5,12 +5,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Icon as MuiIcon, Box } from '@mui/material'
 import ViewDomainFormDialog from '../../dialogs/ViewDomainFormDialog'
 import UpdateDomainFormDialog from '../../dialogs/UpdateDomainFormDialog'
-import toast from 'react-hot-toast'
 
-const ExpiredDomainFormsTable = ({ data, isLoading }: any) => {
+const ExpiredDomainFormsTable = ({ data, setData, isLoading }: any) => {
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const [dataa, setData] = useState<DomainFormType[]>([])
 
   type DomainFormType = {
     _id?: string
@@ -26,8 +24,9 @@ const ExpiredDomainFormsTable = ({ data, isLoading }: any) => {
 
   // Define handleUpdateDomainForm
   const handleUpdateDomainForm = (updatedDomain: DomainFormType) => {
-    setData(prevData => prevData.map(domain => (domain._id === updatedDomain._id ? updatedDomain : domain)))
-    toast.success('Domain updated successfully')
+    setData((prevData: DomainFormType[]) =>
+      prevData.map(domain => (domain._id === updatedDomain._id ? updatedDomain : domain))
+    )
   }
 
   const columns = useMemo(

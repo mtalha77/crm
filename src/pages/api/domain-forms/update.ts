@@ -15,6 +15,8 @@ const handler = async (req: any, res: any) => {
         live_status,
         list_status,
         domainApprovedBy,
+        domain_holder,
+        domain_platform,
         notes,
         domain_id
       } = req.body
@@ -37,6 +39,8 @@ const handler = async (req: any, res: any) => {
         live_status,
         list_status,
         domainApprovedBy,
+        domain_holder,
+        domain_platform,
         notes
       }
 

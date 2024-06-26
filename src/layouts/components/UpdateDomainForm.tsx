@@ -20,6 +20,8 @@ import toast from 'react-hot-toast'
 type DomainFormType = {
   _id?: string
   creationDate: string
+  domainHolder: string
+  domainPlatform: string
   domainName: string
   expirationDate: string
   price: string
@@ -45,6 +47,8 @@ const UpdateDomainForm = (props: any) => {
     live_status: updatedDomain.live_status || 'Live',
     list_status: updatedDomain.list_status || 'Listed',
     notes: updatedDomain.notes || '',
+    domainHolder: updatedDomain.domain_holder || '',
+    domainPlatform: updatedDomain.domain_platform || '',
     domainApprovedBy: updatedDomain.domainApprovedBy || ''
   }
 
@@ -65,6 +69,8 @@ const UpdateDomainForm = (props: any) => {
     const requestData = {
       creation_date: data.creationDate,
       domain_name: data.domainName,
+      domain_holder: data.domainHolder,
+      domain_platform: data.domainPlatform,
       expiration_date: data.expirationDate,
       price: data.price,
       live_status: data.live_status,
@@ -226,6 +232,38 @@ const UpdateDomainForm = (props: any) => {
                         helperText={errors.domainApprovedBy ? (errors.domainApprovedBy.message as React.ReactNode) : ''}
                         value={field.value}
                         onChange={field.onChange}
+                      />
+                    )}
+                  ></Controller>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='domainHolder'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label='Domain Holder'
+                        error={Boolean(errors.domainHolder)}
+                        helperText={errors.domainHolder ? (errors.domainHolder.message as React.ReactNode) : ''}
+                      />
+                    )}
+                  ></Controller>
+                </FormControl>
+              </Grid>{' '}
+              <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='domainPlatform'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label='Domain Holder'
+                        error={Boolean(errors.domainPlatform)}
+                        helperText={errors.domainPlatform ? (errors.domainPlatform.message as React.ReactNode) : ''}
                       />
                     )}
                   ></Controller>

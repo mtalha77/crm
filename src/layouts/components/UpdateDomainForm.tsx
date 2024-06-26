@@ -34,12 +34,12 @@ const UpdateDomainForm = (props: any) => {
   const updatedDomain = props.updatedDomain
 
   const defaultValues = {
-    creationDate: updatedDomain.creationDate
-      ? dayjs(updatedDomain.creationDate).format('YYYY-MM-DD')
+    creationDate: updatedDomain.creation_date
+      ? dayjs(updatedDomain.creation_date).format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD'),
-    domainName: updatedDomain.domainName || '',
-    expirationDate: updatedDomain.expirationDate
-      ? dayjs(updatedDomain.expirationDate).format('YYYY-MM-DD')
+    domainName: updatedDomain.domain_name || '',
+    expirationDate: updatedDomain.expiration_date
+      ? dayjs(updatedDomain.expiration_date).format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD'),
     price: updatedDomain.price || '',
     live_status: updatedDomain.live_status || 'Live',
@@ -111,6 +111,8 @@ const UpdateDomainForm = (props: any) => {
                         label='Domain Name'
                         error={Boolean(errors.domainName)}
                         helperText={errors.domainName ? (errors.domainName.message as React.ReactNode) : ''}
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     )}
                   ></Controller>
@@ -132,6 +134,8 @@ const UpdateDomainForm = (props: any) => {
                         }}
                         error={Boolean(errors.creationDate ? errors.creationDate.message : '')}
                         helperText={errors.creationDate ? errors.creationDate.message : ''}
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     )}
                   />
@@ -151,6 +155,8 @@ const UpdateDomainForm = (props: any) => {
                         InputLabelProps={{ shrink: true }}
                         error={Boolean(errors.expirationDate)}
                         helperText={errors.expirationDate ? errors.expirationDate.message : ''}
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     )}
                   />
@@ -169,6 +175,8 @@ const UpdateDomainForm = (props: any) => {
                         type='number'
                         error={Boolean(errors.price)}
                         helperText={errors.price ? (errors.price.message as React.ReactNode) : ''}
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     )}
                   />
@@ -181,7 +189,7 @@ const UpdateDomainForm = (props: any) => {
                     name='live_status'
                     control={control}
                     render={({ field }) => (
-                      <Select {...field} label='Status' defaultValue='Live'>
+                      <Select {...field} label='Status' value={field.value} onChange={field.onChange}>
                         <MenuItem value='Live'>Live</MenuItem>
                         <MenuItem value='NotLive'>Not Live</MenuItem>
                       </Select>
@@ -196,7 +204,7 @@ const UpdateDomainForm = (props: any) => {
                     name='list_status'
                     control={control}
                     render={({ field }) => (
-                      <Select {...field} label='List Status' defaultValue='Listed'>
+                      <Select {...field} label='List Status' value={field.value} onChange={field.onChange}>
                         <MenuItem value='Listed'>Listed</MenuItem>
                         <MenuItem value='NotListed'>Not Listed</MenuItem>
                       </Select>
@@ -215,6 +223,8 @@ const UpdateDomainForm = (props: any) => {
                         label='Domain Approved By'
                         error={Boolean(errors.domainApprovedBy)}
                         helperText={errors.domainApprovedBy ? (errors.domainApprovedBy.message as React.ReactNode) : ''}
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     )}
                   ></Controller>
@@ -231,6 +241,8 @@ const UpdateDomainForm = (props: any) => {
                         label='Notes'
                         error={Boolean(errors.notes)}
                         helperText={errors.notes ? (errors.notes.message as React.ReactNode) : ''}
+                        value={field.value}
+                        onChange={field.onChange}
                       />
                     )}
                   ></Controller>

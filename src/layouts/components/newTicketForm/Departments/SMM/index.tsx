@@ -1,13 +1,27 @@
 import React from 'react'
 import FormsHeader from '../../Header'
 import SaleDepartment from '../../SharedField/SaleDepartment'
-import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Stack,
+  Typography
+} from '@mui/material'
 import SubmitButton from '../../SharedField/FormButton'
 import BusinessDetails from '../../SharedField/BusinessDetails'
 import TicketDetails from '../../SharedField/TicketDetails'
 import SocialMediaSpecificDetails from './SocialMediaSpecificDetails'
+import { Controller, useFormContext } from 'react-hook-form'
+import { CommonFormType } from 'src/interfaces/forms.interface'
 
 const SmmForm = ({ update }: any) => {
+  const { control } = useFormContext<CommonFormType>()
+
   return (
     <>
       <Card>
@@ -40,6 +54,20 @@ const SmmForm = ({ update }: any) => {
             </FormsHeader>
           </Stack>
           <Box sx={{ my: '2rem ' }} />
+          <Controller
+            name={`ticketDetails.otherSales`}
+            control={control}
+            defaultValue={false}
+            render={({ field }: any) => {
+              return (
+                <FormControlLabel
+                  style={{ marginBottom: '20px' }}
+                  control={<Checkbox {...field} checked={field.value} />}
+                  label='Other Sales'
+                />
+              )
+            }}
+          />
           <SubmitButton
             beforeText={update ? 'Update' : 'Submit'}
             afterText={update ? 'Updating' : 'Submitting'}

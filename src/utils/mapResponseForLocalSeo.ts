@@ -33,7 +33,8 @@ export const mapResponseForLocalSeo = (data: any): LocalSeoFormType => {
       advance_payment: 0,
       remaining_payment: 0,
       client_reporting_date: data.client_reporting_date ? new Date(data.client_reporting_date) : null,
-      ticket_notes: data.ticket_notes
+      ticket_notes: data.ticket_notes,
+      otherSales: data.otherSales
     },
     localSeoDetails: {
       notes: data.notes,

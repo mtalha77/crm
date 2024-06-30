@@ -79,6 +79,7 @@ const businessTicketSchema = new mongoose.Schema(
     no_of_gmb_reviews: { type: String, required: false, trim: true },
     gmb_access_email: { type: String, required: false, trim: true },
     ticket_notes: { type: String, required: false, trim: true, maxLength: 2000 },
+    client_reporting_notes: { type: String, required: false, trim: true, maxLength: 2000 },
     task_details: { type: String, required: false, trim: true }
   },
   { timestamps: true }

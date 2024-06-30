@@ -294,6 +294,29 @@ const TicketDetails = (props: any) => {
             />
           </FormControl>
         </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth error={!!errors.ticketDetails?.client_reporting_notes}>
+            <Controller
+              name='ticketDetails.client_reporting_notes'
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    rows={4}
+                    multiline
+                    label='Client Reporting Notes'
+                    {...field}
+                    error={Boolean(errors?.ticketDetails?.client_reporting_notes)}
+                    fullWidth
+                  />
+                  {errors.ticketDetails?.client_reporting_notes && (
+                    <FormHelperText>{errors.ticketDetails.client_reporting_notes.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
       </Grid>
     </>
   )

@@ -56,6 +56,7 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         ticket_notes,
+        client_reporting_notes,
         task_details,
         ticketId,
         created_at,
@@ -94,6 +95,21 @@ const handler = async (req: any, res: any) => {
           .filter((line: any) => line !== '')
         ticket_notes_formatted_text = trimmedText.join('\n')
       }
+      let client_reporting_notes_formatted_text
+
+      if (client_reporting_notes) {
+        try {
+          const trimmedText = client_reporting_notes
+            .split('\n')
+            .map((line: any) => line.trim())
+            .filter((line: any) => line !== '')
+          client_reporting_notes_formatted_text = trimmedText.join('\n')
+        } catch (error) {
+          console.error('Error formatting client reporting notes:', error)
+
+          return res.status(400).send('Invalid client reporting notes format')
+        }
+      }
 
       const payload: any = {
         priority: priority,
@@ -129,7 +145,8 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         task_details,
-        ticket_notes: ticket_notes_formatted_text
+        ticket_notes: ticket_notes_formatted_text,
+        client_reporting_notes: client_reporting_notes_formatted_text
       }
 
       const result = await BusinessTicketModel.findByIdAndUpdate(

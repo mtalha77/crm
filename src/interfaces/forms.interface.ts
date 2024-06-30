@@ -33,6 +33,7 @@ export interface TicketDetails {
   remaining_payment: number
   client_reporting_date?: Date | null
   ticket_notes?: string
+  client_reporting_notes?: string
   created_at: Date
 }
 
@@ -40,6 +41,8 @@ export interface LocalSeoDetails {
   notes?: string
   work_status: string
   gmb_access_email?: string
+  service_name?: string
+  service_area?: string
 }
 
 export interface WordPressDetails {
@@ -163,7 +166,8 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   localSeoDetails: {
     notes: '',
@@ -203,7 +207,8 @@ export const writerDefaultValues: WriterFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   writerFormTypeDetails: {
     notes: '',
@@ -242,7 +247,8 @@ export const designerDefaultValues: DesignerFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   designerFormTypeDetails: {
     notes: '',
@@ -282,7 +288,8 @@ export const wordPressDefaultValues: WordPressFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   wordPressDetails: {
     service_name: '',
@@ -325,7 +332,8 @@ export const webSeoDefaultValues: WebSeoFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   webSeoDetails: {
     service_name: '',
@@ -374,7 +382,8 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   paidMarketingDetails: {
     service_name: '',
@@ -421,7 +430,8 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
     advance_payment: 0,
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
-    ticket_notes: ''
+    ticket_notes: '',
+    client_reporting_notes: ''
   },
   socialMediaFormTypeDetails: {
     service_name: '',

@@ -72,7 +72,8 @@ const handler = async (req: any, res: any) => {
         client_name,
         ticket_notes,
         created_at,
-        task_details
+        task_details,
+        otherSales
       } = req.body
 
       if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
@@ -180,7 +181,8 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         task_details,
-        ticket_notes: ticket_notes_formatted_text
+        ticket_notes: ticket_notes_formatted_text,
+        otherSales
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

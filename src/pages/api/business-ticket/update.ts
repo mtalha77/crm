@@ -61,7 +61,8 @@ const handler = async (req: any, res: any) => {
         task_details,
         ticketId,
         created_at,
-        business_id
+        business_id,
+        otherSales
       } = req.body
       if (
         !assignee_depart_id ||
@@ -131,7 +132,8 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         task_details,
-        ticket_notes: ticket_notes_formatted_text
+        ticket_notes: ticket_notes_formatted_text,
+        otherSales
       }
 
       const result = await BusinessTicketModel.findByIdAndUpdate(

@@ -57,6 +57,7 @@ const WebSeoFormComponent = () => {
       remaining_price_date: ticketDetails.remaining_price_date,
       ticket_notes: ticketDetails.ticket_notes,
       created_at: ticketDetails.created_at,
+      otherSales: ticketDetails.otherSales,
 
       // due_date: ticketDetails.due_date,
       fronter: saleDepart.fronter,

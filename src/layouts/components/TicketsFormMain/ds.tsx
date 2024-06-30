@@ -60,6 +60,7 @@ const DesignerFormComponent = () => {
       remaining_price_date: ticketDetails.remaining_price_date,
       ticket_notes: ticketDetails.ticket_notes,
       created_at: ticketDetails.created_at,
+      otherSales: ticketDetails.otherSales,
       fronter: saleDepart.fronter,
       closer: saleDepart.closer,
       closer_id: saleDepart.closer_id,

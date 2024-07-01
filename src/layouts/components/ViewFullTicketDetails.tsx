@@ -220,7 +220,7 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
             </Grid>
 
             <Grid item xs={6}>
-              <BoldText>Other Sales:</BoldText> {data?.otherSales.toString()}
+              <BoldText>Other Sales:</BoldText> {data?.otherSales ? data.otherSales.toString() : 'N/A'}
             </Grid>
 
             <Grid item xs={12}>

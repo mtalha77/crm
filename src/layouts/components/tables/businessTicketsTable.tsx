@@ -18,10 +18,10 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
   const [businessList, setBusinessList] = useState([])
   const [employeesList, setEmployeesList] = useState([])
   const { status } = router.query
+
   const fetchData = async () => {
     try {
       setIsLoading(true)
-
       const promiseArray = [
         axios.get('/api/user/get-employees-department-wise', {
           headers: { authorization: localStorage.getItem('token') }
@@ -41,7 +41,13 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
       const { data: usersData } = usersResponse
       if (!dataFromParent) {
         const { data: ticketsData } = dataResponse
-        setData(ticketsData.payload.tickets)
+        console.log('Tickets data response:', ticketsData)
+
+        const filteredTickets =
+          user?.role === UserRole.TEAM_LEAD
+            ? ticketsData.payload.tickets.filter((ticket: any) => !ticket.otherSales)
+            : ticketsData.payload.tickets
+        setData(filteredTickets)
       } else {
         setData(dataFromParent)
       }
@@ -72,7 +78,6 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
 
   useEffect(() => {
     fetchData()
-
     fetchBusinesses()
   }, [])
 
@@ -83,8 +88,8 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
       .map((e: any) => {
         return { _id: e._id, user_name: e.user_name }
       })
-    setData((): any => {
-      return data.map((t: any) => {
+    setData((prevData: any) => {
+      return prevData.map((t: any) => {
         if (t._id === ticketId) {
           return {
             ...t,
@@ -114,8 +119,8 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
   }
 
   const updateTicketStatus = async (ticketId: string, status: string) => {
-    setData((): any => {
-      return data.map((t: any) => {
+    setData((prevData: any) => {
+      return prevData.map((t: any) => {
         if (t._id === ticketId) {
           return {
             ...t,

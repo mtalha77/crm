@@ -32,6 +32,7 @@ export const mapResponseForDesigner = (data: any): DesignerFormType => {
       remaining_payment: 0,
       client_reporting_date: data.client_reporting_date ? new Date(data.client_reporting_date) : null,
       ticket_notes: data.ticket_notes,
+      client_reporting_notes: data.client_reporting_notes,
       otherSales: data.otherSales
     },
     designerFormTypeDetails: {

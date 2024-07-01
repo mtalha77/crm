@@ -58,6 +58,7 @@ const LocalSeoFormComponent = () => {
       client_reporting_date: ticketDetails.client_reporting_date,
       remaining_price_date: ticketDetails.remaining_price_date,
       ticket_notes: ticketDetails.ticket_notes,
+      client_reporting_notes: ticketDetails.client_reporting_notes,
       created_at: ticketDetails.created_at,
       otherSales: ticketDetails.otherSales,
 
@@ -87,6 +88,8 @@ const LocalSeoFormComponent = () => {
       gmb_url: business.gmb_url,
       client_name: business.client_name,
       work_status: localSeoDetails.work_status,
+      service_name: localSeoDetails.service_name,
+      service_area: localSeoDetails.service_area,
       notes: localSeoDetails.notes,
       gmb_access_email: localSeoDetails.gmb_access_email,
       business_id: business_id,

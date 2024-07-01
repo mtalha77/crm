@@ -71,6 +71,7 @@ const handler = async (req: any, res: any) => {
         gmb_access_email,
         client_name,
         ticket_notes,
+        client_reporting_notes,
         created_at,
         task_details,
         otherSales
@@ -141,6 +142,21 @@ const handler = async (req: any, res: any) => {
         ticket_notes_formatted_text = trimmedText.join('\n')
       }
 
+      let client_reporting_notes_formatted_text
+
+      if (client_reporting_notes) {
+        try {
+          const trimmedText = client_reporting_notes
+            .split('\n')
+            .map((line: any) => line.trim())
+            .filter((line: any) => line !== '')
+          client_reporting_notes_formatted_text = trimmedText.join('\n')
+        } catch (error) {
+          console.error('Error formatting client reporting notes:', error)
+
+          return res.status(400).send('Invalid client reporting notes format')
+        }
+      }
       const payload: any = {
         priority,
         created_by: req.user._id,
@@ -182,6 +198,7 @@ const handler = async (req: any, res: any) => {
         gmb_access_email,
         task_details,
         ticket_notes: ticket_notes_formatted_text,
+        client_reporting_notes: client_reporting_notes_formatted_text,
         otherSales
       }
       if (sales_type === SaleType.NEW_SALE) {

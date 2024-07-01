@@ -69,7 +69,8 @@ export const writerYupSchema: yup.ObjectSchema<WriterFormType> = yup.object().sh
       .required('Remaining is required'),
     client_reporting_date: yup.date().nullable(),
     remaining_price_date: yup.date().nullable(),
-    ticket_notes: yup.string().max(2000, 'Ticket notes cannot exceed 2000 characters')
+    ticket_notes: yup.string().max(2000, 'Ticket notes cannot exceed 2000 characters'),
+    client_reporting_notes: yup.string().max(2000, 'Ticket notes cannot exceed 2000 characters')
   }),
   writerFormTypeDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),

@@ -59,6 +59,13 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
     )
   }
 
+  const truncateText = (text, charLimit) => {
+    if (!text) return ''
+    if (text.length <= charLimit) return text
+
+    return text.slice(0, charLimit) + '...'
+  }
+
   return (
     <>
       <Card>
@@ -164,33 +171,26 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
             <Grid item xs={6}>
               <BoldText>Priority Level:</BoldText> {data?.priority}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Status:</BoldText> {data?.status}
             </Grid>
-
             {/* <Grid item xs={6}>
               <BoldText>Due Date:</BoldText> {moment(data?.due_date).format('MMMM Do YYYY')}
             </Grid> */}
-
             <Grid item xs={6}>
               <BoldText>Client Reporting Date:</BoldText>{' '}
               {data?.client_reporting_date && moment(data?.client_reporting_date).format('MMMM Do YYYY')}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Remaining Price Date:</BoldText>{' '}
               {data?.remaining_price_date && moment(data?.remaining_price_date).format('MMMM Do YYYY')}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Assignor Department:</BoldText> {data?.assignor_depart_name}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Assignee Department:</BoldText> {data?.assignee_depart_name}
             </Grid>
-
             <Grid item xs={6}>
               <Grid container>
                 <Grid item>
@@ -210,21 +210,20 @@ const ViewFullTicketDetails = ({ ticketId, depart }: any) => {
                 </Grid>
               </Grid>
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Created By:</BoldText> {data?.created_by?.user_name}
             </Grid>
-
             <Grid item xs={6}>
               <BoldText>Date Of Creation:</BoldText> {moment(data?.createdAt).format('MMMM Do YYYY')}
             </Grid>
-
+            <Grid item xs={12}>
+              <BoldText>Ticket Notes:</BoldText> {truncateText(data?.ticket_notes, 150)}
+            </Grid>{' '}
             <Grid item xs={6}>
               <BoldText>Other Sales:</BoldText> {data?.otherSales ? data.otherSales.toString() : 'N/A'}
             </Grid>
-
             <Grid item xs={12}>
-              <BoldText>Ticket Notes:</BoldText> {data?.ticket_notes}
+              <BoldText>Client Reporting Notes:</BoldText> {truncateText(data?.client_reporting_notes, 150)}
             </Grid>
           </Grid>
         </CardContent>

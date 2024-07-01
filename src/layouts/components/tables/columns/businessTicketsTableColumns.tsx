@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
-
 import { DepartmentValues } from 'src/shared/enums/Department.enum'
 import CreateChildTicketDialog from '../../dialogs/CreateChildTicketDialog'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
@@ -21,6 +20,7 @@ const MenuProps = {
     }
   }
 }
+
 const businessTicketsColumns: any = (
   user: UserDataType,
   employees: any,
@@ -46,7 +46,6 @@ const businessTicketsColumns: any = (
       header: 'Work Status',
       accessorKey: 'work_status'
     },
-
     {
       header: 'Assignee Employees',
       accessorKey: 'assignee_employees',
@@ -152,7 +151,6 @@ const businessTicketsColumns: any = (
         )
       }
     },
-
     {
       header: 'Assignee Department',
       accessorKey: 'assignee_depart_name',
@@ -165,7 +163,6 @@ const businessTicketsColumns: any = (
       accessorKey: 'status',
       filterVariant: 'autocomplete',
       filterSelectOptions: TicketStatusValues,
-
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
         const defaultValue = cell.getValue() ? cell.getValue() : ''
@@ -246,12 +243,9 @@ const businessTicketsColumns: any = (
         return value ? dayjs(value).format('l') : ''
       }
     },
-
     {
       header: 'Creation Date',
-
       accessorFn: (originalRow: any) => dayjs(originalRow.createdAt),
-
       filterVariant: 'date-range',
       Cell: ({ cell }: any) => {
         const value = cell.getValue()
@@ -259,7 +253,17 @@ const businessTicketsColumns: any = (
         return dayjs(value).format('l')
       }
     },
+    {
+      header: 'Other Sales',
+      accessorKey: 'otherSales',
+      Cell: ({ cell }: any) => {
+        console.log(cell)
 
+        const value = cell.getValue()
+
+        return value ? value.toString() : 'false'
+      }
+    },
     {
       header: 'Payment',
       accessorKey: 'payment_history',

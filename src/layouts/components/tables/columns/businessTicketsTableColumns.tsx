@@ -1,4 +1,5 @@
 import { Autocomplete, Box, Button, Checkbox, Chip, FormControl, MenuItem, Select, TextField } from '@mui/material'
+import { CheckCircle } from '@mui/icons-material' // Import the CheckCircle icon
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
@@ -31,7 +32,7 @@ const businessTicketsColumns: any = (
   businessList: any,
   employeesList: any
 ) => {
-  return [
+  const columns = [
     {
       header: 'Business Name',
       accessorKey: 'business_id.business_name',
@@ -253,17 +254,19 @@ const businessTicketsColumns: any = (
         return dayjs(value).format('l')
       }
     },
-    {
-      header: 'Other Sales',
-      accessorKey: 'otherSales',
-      Cell: ({ cell }: any) => {
-        console.log(cell)
+    ...(user.role === UserRole.ADMIN || user.role === UserRole.SALE_MANAGER
+      ? [
+          {
+            header: 'Other Sales',
+            accessorKey: 'otherSales',
+            Cell: ({ cell }: any) => {
+              const value = cell.getValue()
 
-        const value = cell.getValue()
-
-        return value ? value.toString() : 'false'
-      }
-    },
+              return value?.toString() === 'true' ? <CheckCircle style={{ color: 'green' }} /> : ''
+            }
+          }
+        ]
+      : []),
     {
       header: 'Payment',
       accessorKey: 'payment_history',
@@ -305,6 +308,8 @@ const businessTicketsColumns: any = (
       }
     }
   ]
+
+  return columns
 }
 
 export default businessTicketsColumns

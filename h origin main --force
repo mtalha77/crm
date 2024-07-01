@@ -1,0 +1,53 @@
+[33mcommit 6e65c6e1ea3cc79663a2c52625a29ccfb77cc499[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Mon Jul 1 21:50:26 2024 +0500
+
+    mergin domain-form in main
+
+[33mcommit e5bb076a80f84d61c2daa87edcb81574ce591dc1[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Fri Jun 28 22:48:16 2024 +0500
+
+    hosting form
+
+[33mcommit d0293dade2994e46b97b98a501d7e076d1d5e394[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Wed Jun 26 22:11:34 2024 +0500
+
+    dashboard alerts domain form
+
+[33mcommit 9ee79b218c3c26021c27b77ae6401f2f5308824d[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Wed Jun 26 21:09:43 2024 +0500
+
+    updated domain
+
+[33mcommit a3f9afe1f48f148a1154207bff79707d2272dd05[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Wed Jun 26 19:55:00 2024 +0500
+
+    domain update view
+
+[33mcommit 6078ee7755225f642d20e5f22aea70cd96313343[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Wed Jun 26 19:30:18 2024 +0500
+
+    dashboard alerts domain form
+
+[33mcommit 39f4ade7354e15aa14d211dccb2fa4f7358337d5[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Fri Jun 21 03:14:32 2024 +0500
+
+    domain form view
+
+[33mcommit 331c7a14578baab09efffb9ff925fe04e024b09c[m
+Author: ShabiGardezi <shabigardezi51214@gmail.com>
+Date:   Fri Jun 21 00:09:50 2024 +0500
+
+    domain form backend
+
+[33mcommit 8b5c9c6966305e9e42cdcca1dd721f9a5dda4894[m
+Author: MAC <bilal@rulrr.com>
+Date:   Wed Jun 12 02:15:49 2024 +0500
+
+    UI compeleted for form and list creating new entry via form completed

@@ -2,7 +2,10 @@ import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextFi
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { WebSeoFormType } from 'src/interfaces/forms.interface'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { WebSeoWorkStatus, WebSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { useAuth } from 'src/hooks/useAuth'
+import { Department } from 'src/shared/enums/Department.enum'
 
 const WebSeoSpecificDetails = () => {
   const {
@@ -12,6 +15,8 @@ const WebSeoSpecificDetails = () => {
   } = useFormContext<WebSeoFormType>()
 
   const workStatus = watch('webSeoDetails.work_status')
+
+  const { user } = useAuth()
 
   return (
     <>
@@ -97,25 +102,29 @@ const WebSeoSpecificDetails = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.webSeoDetails?.login_credentials}>
-            <Controller
-              name='webSeoDetails.login_credentials'
-              control={control}
-              render={({ field }) => (
-                <>
-                  <TextField
-                    label='Login Credentials'
-                    {...field}
-                    fullWidth
-                    error={Boolean(errors.webSeoDetails?.login_credentials)}
-                  />
-                  <FormHelperText>{errors.webSeoDetails?.login_credentials?.message || ''}</FormHelperText>
-                </>
-              )}
-            />
-          </FormControl>
-        </Grid>
+        {((user?.role === UserRole.TEAM_LEAD && user?.department_name === Department.WebSeo) ||
+          user?.role === UserRole.ADMIN ||
+          user?.role === UserRole.SALE_MANAGER) && (
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth error={!!errors.webSeoDetails?.login_credentials}>
+              <Controller
+                name='webSeoDetails.login_credentials'
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      label='Login Credentials'
+                      {...field}
+                      fullWidth
+                      error={Boolean(errors.webSeoDetails?.login_credentials)}
+                    />
+                    <FormHelperText>{errors.webSeoDetails?.login_credentials?.message || ''}</FormHelperText>
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+        )}
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.webSeoDetails?.console_access}>

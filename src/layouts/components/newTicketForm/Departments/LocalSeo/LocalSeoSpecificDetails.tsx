@@ -38,7 +38,42 @@ const LocalSeoSpecificDetails = () => {
             />
           </FormControl>
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.localSeoDetails?.service_name}>
+            <Controller
+              name='localSeoDetails.service_name'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    label='Service Name'
+                    {...field}
+                    fullWidth
+                    error={Boolean(errors.localSeoDetails?.service_name)}
+                  />
+                  <FormHelperText>{errors.localSeoDetails?.service_name?.message || ''}</FormHelperText>
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
 
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.localSeoDetails?.service_area}>
+            <Controller
+              name='localSeoDetails.service_area'
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField label='Service Area' {...field} fullWidth error={!!errors.localSeoDetails?.service_area} />
+                  <FormHelperText>{errors.localSeoDetails?.service_area?.message || ''}</FormHelperText>
+                </>
+              )}
+              rules={{ required: true }}
+            />
+          </FormControl>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.localSeoDetails?.gmb_access_email}>
             <Controller

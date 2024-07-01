@@ -28,7 +28,8 @@ export const getAllTicketsTeamLead = async (req: any, res: any) => {
       assignor_depart_id: 1,
       assignor_depart_name: 1,
       work_status: 1,
-      client_name: 1
+      client_name: 1,
+      otherSales: 1
     })
 
   return res.send({

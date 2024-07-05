@@ -227,7 +227,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
-                  disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
+                  disabled={user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.SALE_MANAGER} // Disable for Team Lead or Sales Manager
                   customInput={
                     <CustomInput
                       value={value}
@@ -261,7 +261,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
-                  disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
+                  disabled={user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.SALE_MANAGER} // Disable for Team Lead or Sales Manager
                   customInput={
                     <CustomInput
                       value={value}

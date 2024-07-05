@@ -122,17 +122,21 @@ const TicketDetails = (props: any) => {
             <Controller
               name='ticketDetails.priority'
               control={control}
-              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
+              rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select {...field} label='Priority Level' error={Boolean(errors?.ticketDetails?.priority)} fullWidth>
-                    {PriorityTypeValues.map((v: any) => {
-                      return (
-                        <MenuItem key={v} value={v}>
-                          {v}
-                        </MenuItem>
-                      )
-                    })}
+                  <Select
+                    {...field}
+                    label='Priority Level'
+                    error={Boolean(errors?.ticketDetails?.priority)}
+                    fullWidth
+                    disabled={user?.role === UserRole.TEAM_LEAD}
+                  >
+                    {PriorityTypeValues.map((v: any) => (
+                      <MenuItem key={v} value={v}>
+                        {v}
+                      </MenuItem>
+                    ))}
                   </Select>
                   {errors.ticketDetails?.priority && (
                     <FormHelperText>{errors.ticketDetails.priority.message}</FormHelperText>

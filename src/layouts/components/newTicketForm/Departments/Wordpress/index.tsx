@@ -54,6 +54,8 @@ const Wordpress = ({ update }: any) => {
               <WordPressSpecificDetails />
             </FormsHeader>
           </Stack>
+          {/* {update && (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+            )} */}
           {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
             <>
               <Box sx={{ my: '2rem ' }} />

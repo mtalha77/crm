@@ -5,6 +5,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { CommonFormType } from 'src/interfaces/forms.interface'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface CustomInputProps {
   value: any
@@ -24,6 +26,7 @@ const TicketDetails = (props: any) => {
     setValue
   } = useFormContext<CommonFormType>()
 
+  const { user } = useAuth()
   const { update } = props
 
   const totalPrice = watch('ticketDetails.total_payment')
@@ -119,6 +122,7 @@ const TicketDetails = (props: any) => {
             <Controller
               name='ticketDetails.priority'
               control={control}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <Select {...field} label='Priority Level' error={Boolean(errors?.ticketDetails?.priority)} fullWidth>
@@ -185,6 +189,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
+                  disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                   customInput={
                     <CustomInput
                       value={value}
@@ -218,6 +223,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
+                  disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                   customInput={
                     <CustomInput
                       value={value}
@@ -251,6 +257,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
+                  disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                   customInput={
                     <CustomInput
                       value={value}

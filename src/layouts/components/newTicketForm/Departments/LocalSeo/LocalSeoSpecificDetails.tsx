@@ -1,9 +1,12 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import { LocalSeoFormType } from 'src/interfaces/forms.interface'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { LocalSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { useAuth } from 'src/hooks/useAuth'
 
 const LocalSeoSpecificDetails = () => {
+  const { user } = useAuth()
   const {
     formState: { errors },
     control
@@ -19,6 +22,7 @@ const LocalSeoSpecificDetails = () => {
               name='localSeoDetails.work_status'
               control={control}
               defaultValue=''
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <Select label='Work Status' {...field} fullWidth>
@@ -44,6 +48,7 @@ const LocalSeoSpecificDetails = () => {
               name='localSeoDetails.service_name'
               control={control}
               rules={{ required: true }}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField
@@ -64,6 +69,7 @@ const LocalSeoSpecificDetails = () => {
             <Controller
               name='localSeoDetails.service_area'
               control={control}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField label='Service Area' {...field} fullWidth error={!!errors.localSeoDetails?.service_area} />
@@ -79,6 +85,7 @@ const LocalSeoSpecificDetails = () => {
             <Controller
               name='localSeoDetails.gmb_access_email'
               control={control}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField

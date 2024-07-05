@@ -28,6 +28,7 @@ const WebSeoSpecificDetails = () => {
               name='webSeoDetails.work_status'
               control={control}
               defaultValue=''
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <Select label='Work Status' {...field} fullWidth>
@@ -52,6 +53,7 @@ const WebSeoSpecificDetails = () => {
             <Controller
               name='webSeoDetails.service_name'
               control={control}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField
@@ -71,6 +73,7 @@ const WebSeoSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.webSeoDetails?.service_location}>
             <Controller
               name='webSeoDetails.service_location'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               render={({ field }) => (
                 <>
@@ -91,6 +94,7 @@ const WebSeoSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.webSeoDetails?.key_words}>
             <Controller
               name='webSeoDetails.key_words'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               render={({ field }) => (
                 <>
@@ -109,6 +113,7 @@ const WebSeoSpecificDetails = () => {
             <FormControl fullWidth error={!!errors.webSeoDetails?.login_credentials}>
               <Controller
                 name='webSeoDetails.login_credentials'
+                disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                 control={control}
                 render={({ field }) => (
                   <>
@@ -130,6 +135,7 @@ const WebSeoSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.webSeoDetails?.console_access}>
             <Controller
               name='webSeoDetails.console_access'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               render={({ field }) => (
                 <>
@@ -150,6 +156,7 @@ const WebSeoSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.webSeoDetails?.analytics_access}>
             <Controller
               name='webSeoDetails.analytics_access'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               render={({ field }) => (
                 <>
@@ -187,6 +194,7 @@ const WebSeoSpecificDetails = () => {
               <Controller
                 name='webSeoDetails.no_of_backlinks'
                 control={control}
+                disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                 render={({ field }) => (
                   <>
                     <TextField
@@ -208,6 +216,7 @@ const WebSeoSpecificDetails = () => {
             <FormControl fullWidth error={!!errors.webSeoDetails?.no_of_posts}>
               <Controller
                 name='webSeoDetails.no_of_posts'
+                disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                 control={control}
                 render={({ field }) => (
                   <>
@@ -230,6 +239,7 @@ const WebSeoSpecificDetails = () => {
             <FormControl fullWidth error={!!errors.webSeoDetails?.no_of_blogs}>
               <Controller
                 name='webSeoDetails.no_of_blogs'
+                disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                 control={control}
                 render={({ field }) => (
                   <>

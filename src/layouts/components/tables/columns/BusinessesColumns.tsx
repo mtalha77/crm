@@ -3,8 +3,12 @@ import { useState } from 'react'
 import { BusinessStatustValues } from 'src/shared/enums/BusinessStatus.enum'
 import UpdateBusinessDialog from '../../dialogs/UpdateBusinessDialog'
 import ViewBusinessDialog from '../../dialogs/ViewBusinessDialog'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { useAuth } from 'src/hooks/useAuth'
 
 function BusinessesColumns(updateStatus: any) {
+  const { user } = useAuth()
+
   return [
     {
       header: 'Name',
@@ -63,7 +67,9 @@ function BusinessesColumns(updateStatus: any) {
         return (
           <>
             <ViewBusinessDialog id={_id} />
-            {<UpdateBusinessDialog id={_id} />}
+            {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+              <UpdateBusinessDialog id={_id} />
+            )}
           </>
         )
       }

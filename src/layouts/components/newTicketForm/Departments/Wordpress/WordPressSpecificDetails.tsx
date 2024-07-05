@@ -23,11 +23,11 @@ const WordPressSpecificDetails = () => {
               name='wordPressDetails.work_status'
               control={control}
               defaultValue=''
-              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
-              rules={{ required: 'Work Status is required' }}
+              rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth>
+                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                    {' '}
                     {WordPressWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>

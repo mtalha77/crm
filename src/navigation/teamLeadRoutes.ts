@@ -1,10 +1,9 @@
-// ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import { useAuth } from 'src/hooks/useAuth'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { Department } from 'src/shared/enums/Department.enum'
 
-const teamLeadNavigation = (): VerticalNavItemsType => {
+const TeamLeadNavigation = () => {
   const { user } = useAuth()
 
   const navItems: VerticalNavItemsType = [
@@ -34,12 +33,7 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
       title: 'View Tickets',
       icon: 'mdi-ticket-confirmation-outline',
       subject: 'create-business-ticket',
-      children: [
-        { title: 'Business', path: '/view-tickets' }
-
-        // comment for shabi
-        // { title: 'Departmental', path: '/view-d-tickets' }
-      ]
+      children: [{ title: 'Business', path: '/view-tickets' }]
     },
     {
       path: '/view-businesses',
@@ -82,4 +76,4 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
   return navItems
 }
 
-export default teamLeadNavigation
+export default TeamLeadNavigation

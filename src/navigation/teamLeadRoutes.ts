@@ -1,8 +1,13 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import { useAuth } from 'src/hooks/useAuth'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { Department } from 'src/shared/enums/Department.enum'
 
 const teamLeadNavigation = (): VerticalNavItemsType => {
-  return [
+  const { user } = useAuth()
+
+  const navItems: VerticalNavItemsType = [
     {
       title: 'Home',
       path: '/home',
@@ -60,6 +65,21 @@ const teamLeadNavigation = (): VerticalNavItemsType => {
       ]
     }
   ]
+
+  // Check if user is a Team Lead and belongs to Wordpress department, and add the Forms View item
+  if (user?.role === UserRole.TEAM_LEAD && user?.department_name === Department.WordPress) {
+    navItems.push({
+      title: 'Forms View',
+      subject: 'form',
+      icon: 'formkit:filedoc',
+      children: [
+        { title: 'Domain Form', path: '/forms-view/domain-form' },
+        { title: 'Hosting Form', path: '/forms-view/hosting-form' }
+      ]
+    })
+  }
+
+  return navItems
 }
 
 export default teamLeadNavigation

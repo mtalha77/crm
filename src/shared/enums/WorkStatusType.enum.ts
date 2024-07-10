@@ -18,7 +18,8 @@ export enum SocialMediaWorkStatus {
   NO_OF_GMB_REVIEWS = 'No of GMB Reviews',
   FACEBOOK_POSTING = 'Facebook Posting',
   INSTAGRAM_POSTING = 'Instagram Posting',
-  OTHERS_POSTING = 'Others Posting'
+  OTHERS_POSTING = 'Others Posting',
+  VIDEO_CREATION = 'Video Creation'
 }
 
 export enum WebSeoWorkStatus {

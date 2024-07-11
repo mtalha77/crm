@@ -39,6 +39,8 @@ const TicketDetails = (props: any) => {
     })
   }, [totalPrice, advancePrice])
 
+  const isTeamLeadOrSaleManager = user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.SALE_MANAGER
+
   return (
     <>
       <Grid container spacing={5}>
@@ -227,7 +229,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
-                  disabled={user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.SALE_MANAGER} // Disable for Team Lead or Sales Manager
+                  disabled={update && isTeamLeadOrSaleManager} // Disable for Team Lead or Sales Manager if update
                   customInput={
                     <CustomInput
                       value={value}
@@ -261,7 +263,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
-                  disabled={user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.SALE_MANAGER} // Disable for Team Lead or Sales Manager
+                  disabled={update && isTeamLeadOrSaleManager} // Disable for Team Lead or Sales Manager if update
                   customInput={
                     <CustomInput
                       value={value}

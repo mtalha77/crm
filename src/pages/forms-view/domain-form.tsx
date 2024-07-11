@@ -14,6 +14,7 @@ type DomainFormType = {
   _id?: string
   creationDate: string
   domainName: string
+  businessName: string
   domainHolder: string
   domainPlatform: string
   expirationDate: string
@@ -50,6 +51,10 @@ const DomainForm = () => {
       {
         header: 'Domain Name',
         accessorKey: 'domain_name'
+      },
+      {
+        header: 'Business Name', // Added Business Name column
+        accessorKey: 'business_name'
       },
       {
         header: 'Expiration Date',
@@ -113,6 +118,7 @@ const DomainForm = () => {
     defaultValues: {
       creationDate: dayjs().format('YYYY-MM-DD'),
       domainName: '',
+      businessName: '',
       domainHolder: '',
       domainPlatform: '',
       expirationDate: dayjs().format('YYYY-MM-DD'),
@@ -136,6 +142,7 @@ const DomainForm = () => {
     const requestData = {
       creation_date: data.creationDate,
       domain_name: data.domainName,
+      business_name: data.businessName,
       domain_holder: data.domainHolder,
       domain_platform: data.domainPlatform,
       expiration_date: data.expirationDate,
@@ -191,6 +198,23 @@ const DomainForm = () => {
                       label='Domain Name'
                       error={Boolean(errors.domainName)}
                       helperText={errors.domainName ? errors.domainName.message : ''}
+                    />
+                  )}
+                ></Controller>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='businessName'
+                  control={control}
+                  rules={{ required: 'Business Name is required' }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label='Business Name'
+                      error={Boolean(errors.businessName)}
+                      helperText={errors.businessName ? errors.businessName.message : ''}
                     />
                   )}
                 ></Controller>

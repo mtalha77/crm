@@ -67,6 +67,9 @@ const ViewFullHostingFormDetails = ({ id }: any) => {
               <BoldText>Hosting Name:</BoldText> {data.hosting_name || 'N/A'}
             </Grid>
             <Grid item xs={6}>
+              <BoldText>Business Name:</BoldText> {data.business_name || 'N/A'}
+            </Grid>
+            <Grid item xs={6}>
               <BoldText>Expiration Date:</BoldText>{' '}
               {data.expiration_date ? moment(data.expiration_date).format('MMMM Do YYYY') : 'N/A'}
             </Grid>

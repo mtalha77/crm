@@ -18,7 +18,7 @@ const WordPressSpecificDetails = () => {
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.wordPressDetails?.work_status}>
-            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
+            <InputLabel htmlFor='workStatus'>SubCategories</InputLabel>
             <Controller
               name='wordPressDetails.work_status'
               control={control}
@@ -26,7 +26,7 @@ const WordPressSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select label='SubCategories' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
                     {' '}
                     {WordPressWorkStatusValues.map(v => {
                       return (

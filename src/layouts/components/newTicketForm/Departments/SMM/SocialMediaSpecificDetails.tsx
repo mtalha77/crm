@@ -20,7 +20,7 @@ const SocialMediaSpecificDetails = () => {
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.socialMediaFormTypeDetails?.work_status}>
-            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
+            <InputLabel htmlFor='workStatus'>SubCategories</InputLabel>
             <Controller
               name='socialMediaFormTypeDetails.work_status'
               control={control}
@@ -28,7 +28,7 @@ const SocialMediaSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select label='SubCategories' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
                     {SocialMediaWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>

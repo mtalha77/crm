@@ -9,7 +9,7 @@ function LocalSeoView({ data }: any) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <BoldText>Work Status:</BoldText> {data?.work_status}
+        <BoldText>SubCategories:</BoldText> {data?.work_status}
       </Grid>
       <Grid item xs={6}>
         <BoldText>Gmb Access Email:</BoldText> {data?.gmb_access_email}

@@ -23,6 +23,7 @@ type HostingFormType = {
   hostingHolder: string
   hostingPlatform: string
   hostingName: string
+  businessName: string
   expirationDate: string
   price: string
   live_status: string
@@ -40,6 +41,7 @@ const UpdateHostingForm = (props: any) => {
       ? dayjs(updatedHosting.creation_date).format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD'),
     hostingName: updatedHosting.hosting_name || '',
+    businessName: updatedHosting.business_name || '',
     expirationDate: updatedHosting.expiration_date
       ? dayjs(updatedHosting.expiration_date).format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD'),
@@ -69,6 +71,7 @@ const UpdateHostingForm = (props: any) => {
     const requestData = {
       creation_date: data.creationDate,
       hosting_name: data.hostingName,
+      business_name: data.businessName,
       hosting_holder: data.hostingHolder,
       hosting_platform: data.hostingPlatform,
       expiration_date: data.expirationDate,
@@ -123,6 +126,25 @@ const UpdateHostingForm = (props: any) => {
                       />
                     )}
                   ></Controller>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='businessName'
+                    control={control}
+                    rules={{ required: 'Business Name is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label='Business Name'
+                        error={Boolean(errors.businessName)}
+                        helperText={errors.businessName ? (errors.businessName.message as React.ReactNode) : ''}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>

@@ -14,7 +14,10 @@ export const ChildSocialMediaYupSchema: yup.ObjectSchema<ChildSocialMediaFormTyp
     .required('Due Date is required'),
   socialMediaFormTypeDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
-    work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required'),
+    work_status: yup
+      .string()
+      .max(200, 'SubCategories cannot exceed 200 characters')
+      .required('SubCategories is required'),
     facebook_url: yup.string().max(200, 'facebook url cannot exceed 200 characters'),
     service_name: yup.string().max(200, 'service name cannot exceed 200 characters'),
     login_credentials: yup.string().max(200, 'login credentials cannot exceed 200 characters'),

@@ -23,6 +23,7 @@ type DomainFormType = {
   domainHolder: string
   domainPlatform: string
   domainName: string
+  businessName: string
   expirationDate: string
   price: string
   live_status: string
@@ -40,6 +41,7 @@ const UpdateDomainForm = (props: any) => {
       ? dayjs(updatedDomain.creation_date).format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD'),
     domainName: updatedDomain.domain_name || '',
+    businessName: updatedDomain.business_name || '',
     expirationDate: updatedDomain.expiration_date
       ? dayjs(updatedDomain.expiration_date).format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD'),
@@ -69,6 +71,7 @@ const UpdateDomainForm = (props: any) => {
     const requestData = {
       creation_date: data.creationDate,
       domain_name: data.domainName,
+      business_name: data.businessName,
       domain_holder: data.domainHolder,
       domain_platform: data.domainPlatform,
       expiration_date: data.expirationDate,
@@ -124,6 +127,25 @@ const UpdateDomainForm = (props: any) => {
                     )}
                   ></Controller>
                 </FormControl>
+                <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+                  <FormControl fullWidth>
+                    <Controller
+                      name='businessName'
+                      control={control}
+                      rules={{ required: 'Business Name is required' }} // Added validation rule
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label='Business Name'
+                          error={Boolean(errors.businessName)}
+                          helperText={errors.businessName ? (errors.businessName.message as React.ReactNode) : ''}
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      )}
+                    ></Controller>
+                  </FormControl>
+                </Grid>
               </Grid>
               <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
                 <FormControl fullWidth>

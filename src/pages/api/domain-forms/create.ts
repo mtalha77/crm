@@ -6,6 +6,7 @@ const handle = async (req: any, res: any) => {
     try {
       const {
         domain_name,
+        business_name,
         creation_date,
         expiration_date,
         price,
@@ -19,6 +20,7 @@ const handle = async (req: any, res: any) => {
 
       if (
         !domain_name &&
+        !business_name &&
         !creation_date &&
         !expiration_date &&
         !price &&
@@ -34,6 +36,7 @@ const handle = async (req: any, res: any) => {
       const newDomain = new DomainFormModel({
         creation_date: creation_date,
         domain_name: domain_name,
+        business_name: business_name,
         expiration_date: expiration_date,
         price: price,
         live_status: live_status,

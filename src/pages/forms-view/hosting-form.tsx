@@ -16,6 +16,7 @@ type HostingFormType = {
   _id?: string
   creationDate: string
   hostingName: string
+  businessName: string
   hostingHolder: string
   hostingPlatform: string
   expirationDate: string
@@ -52,6 +53,10 @@ const HostingForm = () => {
       {
         header: 'Hosting Name',
         accessorKey: 'hosting_name'
+      },
+      {
+        header: 'Business Name',
+        accessorKey: 'business_name'
       },
       {
         header: 'Expiration Date',
@@ -115,6 +120,7 @@ const HostingForm = () => {
     defaultValues: {
       creationDate: dayjs().format('YYYY-MM-DD'),
       hostingName: '',
+      businessName: '',
       hostingHolder: '',
       hostingPlatform: '',
       expirationDate: dayjs().format('YYYY-MM-DD'),
@@ -138,6 +144,7 @@ const HostingForm = () => {
     const requestData = {
       creation_date: data.creationDate,
       hosting_name: data.hostingName,
+      business_name: data.businessName,
       hosting_holder: data.hostingHolder,
       hosting_platform: data.hostingPlatform,
       expiration_date: data.expirationDate,
@@ -193,6 +200,23 @@ const HostingForm = () => {
                       label='Hosting Name'
                       error={Boolean(errors.hostingName)}
                       helperText={errors.hostingName ? errors.hostingName.message : ''}
+                    />
+                  )}
+                ></Controller>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='businessName'
+                  control={control}
+                  rules={{ required: 'Business Name is required' }} // Added validation rule
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label='Business Name' // Added business_name field
+                      error={Boolean(errors.businessName)}
+                      helperText={errors.businessName ? errors.businessName.message : ''}
                     />
                   )}
                 ></Controller>

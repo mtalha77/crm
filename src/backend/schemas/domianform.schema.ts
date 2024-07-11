@@ -10,6 +10,7 @@ const domainFormSchema = new mongoose.Schema(
     domain_holder: { type: String },
     domain_platform: { type: String },
     domain_name: { type: String, required: true },
+    business_name: { type: String, required: true },
     expiration_date: { type: Date },
     price: { type: Number, required: true },
     live_status: { type: String },

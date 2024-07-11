@@ -10,6 +10,7 @@ const hostingFormSchema = new mongoose.Schema(
     hosting_holder: { type: String },
     hosting_platform: { type: String },
     hosting_name: { type: String, required: true },
+    business_name: { type: String, required: true },
     expiration_date: { type: Date },
     price: { type: Number, required: true },
     live_status: { type: String },

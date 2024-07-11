@@ -6,6 +6,7 @@ const handle = async (req: any, res: any) => {
     try {
       const {
         hosting_name,
+        business_name,
         creation_date,
         expiration_date,
         price,
@@ -19,6 +20,7 @@ const handle = async (req: any, res: any) => {
 
       if (
         !hosting_name &&
+        !business_name &&
         !creation_date &&
         !expiration_date &&
         !price &&
@@ -34,6 +36,7 @@ const handle = async (req: any, res: any) => {
       const newHosting = new HostingFormModel({
         creation_date: creation_date,
         hosting_name: hosting_name,
+        business_name: business_name,
         expiration_date: expiration_date,
         price: price,
         live_status: live_status,

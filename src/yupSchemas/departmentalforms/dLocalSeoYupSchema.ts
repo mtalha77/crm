@@ -14,7 +14,10 @@ export const dLocalSeoYupSchema: yup.ObjectSchema<DLocalSeoFormType> = yup.objec
 
   localSeoDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
-    work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required')
+    work_status: yup
+      .string()
+      .max(200, 'SubCategories cannot exceed 200 characters')
+      .required('SubCategories is required')
   }),
   business: yup.object().shape({
     business_name: yup

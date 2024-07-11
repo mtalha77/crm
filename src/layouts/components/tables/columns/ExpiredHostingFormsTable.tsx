@@ -14,6 +14,7 @@ const ExpiredHostingFormsTable = ({ data, setData, isLoading }: any) => {
     _id?: string
     creationDate: string
     hostingName: string
+    businessName: string
     expirationDate: string
     price: string
     live_status: string
@@ -35,6 +36,8 @@ const ExpiredHostingFormsTable = ({ data, setData, isLoading }: any) => {
         header: 'Hosting Name',
         accessorKey: 'hosting_name'
       },
+      { header: 'Business Name', accessorKey: 'business_name' },
+
       {
         header: 'Expiration Date',
         accessorKey: 'expiration_date',

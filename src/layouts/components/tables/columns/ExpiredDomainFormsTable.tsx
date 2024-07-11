@@ -14,6 +14,7 @@ const ExpiredDomainFormsTable = ({ data, setData, isLoading }: any) => {
     _id?: string
     creationDate: string
     domainName: string
+    businessName: string
     expirationDate: string
     price: string
     live_status: string
@@ -34,6 +35,10 @@ const ExpiredDomainFormsTable = ({ data, setData, isLoading }: any) => {
       {
         header: 'Domain Name',
         accessorKey: 'domain_name'
+      },
+      {
+        header: 'Business Name', // Added Business Name column
+        accessorKey: 'business_name'
       },
       {
         header: 'Expiration Date',

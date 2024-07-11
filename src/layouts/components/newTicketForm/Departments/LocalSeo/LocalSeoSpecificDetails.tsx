@@ -17,7 +17,7 @@ const LocalSeoSpecificDetails = () => {
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.localSeoDetails?.work_status}>
-            <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
+            <InputLabel htmlFor='workStatus'>SubCategories</InputLabel>
             <Controller
               name='localSeoDetails.work_status'
               control={control}
@@ -25,7 +25,7 @@ const LocalSeoSpecificDetails = () => {
               defaultValue=''
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select label='SubCategories' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
                     {LocalSeoWorkStatusValues.map(v => (
                       <MenuItem key={v} value={v}>
                         {v}

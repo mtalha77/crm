@@ -16,7 +16,10 @@ export const DWordPressYupSchema: yup.ObjectSchema<DWordPressFormType> = yup.obj
     service_name: yup.string().max(200, 'service name cannot exceed 200 characters'),
     service_area: yup.string().max(200, 'service area cannot exceed 200 characters'),
     referral_website: yup.string().max(200, 'referral website cannot exceed 200 characters'),
-    work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required')
+    work_status: yup
+      .string()
+      .max(200, 'SubCategories cannot exceed 200 characters')
+      .required('SubCategories is required')
   }),
   business: yup.object().shape({
     business_name: yup

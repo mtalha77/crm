@@ -66,6 +66,9 @@ const ViewFullDomainFormDetails = ({ id }: any) => {
               <BoldText>Domain Name:</BoldText> {data.domain_name}
             </Grid>
             <Grid item xs={6}>
+              <BoldText>Business Name:</BoldText> {data.business_name}
+            </Grid>
+            <Grid item xs={6}>
               <BoldText>Expiration Date:</BoldText> {moment(data.expiration_date).format('MMMM Do YYYY')}
             </Grid>
             <Grid item xs={6}>

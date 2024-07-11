@@ -10,6 +10,7 @@ const handler = async (req: any, res: any) => {
       const {
         creation_date,
         domain_name,
+        business_name,
         expiration_date,
         price,
         live_status,
@@ -34,6 +35,7 @@ const handler = async (req: any, res: any) => {
       const temp: any = {
         creation_date,
         domain_name,
+        business_name,
         expiration_date,
         price,
         live_status,

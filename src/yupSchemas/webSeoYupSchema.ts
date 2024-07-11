@@ -85,7 +85,10 @@ export const webSeoYupSchema: yup.ObjectSchema<WebSeoFormType> = yup.object().sh
     service_name: yup.string().max(2000, 'Notes cannot exceed 2000 characters'),
     service_area: yup.string().max(2000, 'Notes cannot exceed 2000 characters'),
     referral_website: yup.string().max(200, 'Notes cannot exceed 200 characters'),
-    work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required'),
+    work_status: yup
+      .string()
+      .max(200, 'SubCategories cannot exceed 200 characters')
+      .required('SubCategories is required'),
     service_location: yup.string().max(2000, 'service location cannot exceed 2000 characters'),
     key_words: yup.string().max(2000, 'key words cannot exceed 2000 characters'),
     login_credentials: yup.string().max(200, 'login credentials cannot exceed 200 characters'),

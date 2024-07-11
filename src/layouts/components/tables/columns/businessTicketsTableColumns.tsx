@@ -44,7 +44,7 @@ const businessTicketsColumns: any = (
       accessorKey: 'business_id.client_name'
     },
     {
-      header: 'Work Status',
+      header: 'SubCategories',
       accessorKey: 'work_status'
     },
     {

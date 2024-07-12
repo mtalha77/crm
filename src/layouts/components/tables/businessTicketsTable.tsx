@@ -176,7 +176,8 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
         handleTicketEdit,
         ViewPaymentHistory,
         businessList,
-        employeesList
+        employeesList,
+        fetchData // Pass fetchData to columns
       ),
     [employees, businessList]
   )

@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import * as yup from 'yup'
+import dayjs from 'dayjs'
 
 interface PaymentHistory {
   total_payment: number
@@ -29,6 +30,7 @@ function AddNewPayment() {
   const [apiLoading, setApiLoading] = useState(false)
   const [closerPersons, setCloserPersons] = useState([])
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false)
+  const [currentClientReportingDate, setCurrentClientReportingDate] = useState<Date | null>(null)
   const defaultValues: PaymentHistory = {
     total_payment: 0,
     advance_payment: 0,
@@ -103,14 +105,40 @@ function AddNewPayment() {
     getClosers()
   }, [])
 
+  useEffect(() => {
+    const getCurrentClientReportingDate = async () => {
+      if (ticketId) {
+        try {
+          const res = await axios.get(`/api/business-ticket/${ticketId}`, {
+            headers: { authorization: localStorage.getItem('token') }
+          })
+          setCurrentClientReportingDate(new Date(res.data.payload.ticket.client_reporting_date))
+        } catch (error) {
+          console.error('Error fetching current client reporting date:', error)
+        }
+      }
+    }
+    getCurrentClientReportingDate()
+  }, [ticketId])
+
   const onSubmit = async (data: PaymentHistory) => {
+    if (!currentClientReportingDate) {
+      toast.error('Unable to fetch current client reporting date')
+
+      return
+    }
+
     const { total_payment, advance_payment, remaining_payment } = data
+    const newClientReportingDate = dayjs(currentClientReportingDate).add(1, 'month').toDate()
+
     const reqData = {
       total_payment,
       advance_payment,
       remaining_payment,
-      closer_id: data.closer_id
+      closer_id: data.closer_id,
+      client_reporting_date: newClientReportingDate // Include the new client reporting date
     }
+
     if (!ticketId) {
       toast.error('Network Error')
 

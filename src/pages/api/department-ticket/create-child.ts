@@ -3,7 +3,9 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
+import NotificationModel from 'src/backend/schemas/notification.schema'
 import { Department } from 'src/shared/enums/Department.enum'
+import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
@@ -100,6 +102,21 @@ const handler = async (req: any, res: any) => {
       })
 
       if (!parent) throw new Error('Network error')
+
+      const notificationMsg = `A new ticket has been assigned by ${req.user.department_name}`
+      const notification = new NotificationModel({
+        message: notificationMsg,
+        for_department: new mongoose.Types.ObjectId(assignee_depart_id),
+        ticket_id: result._id,
+        created_by_user_id: new mongoose.Types.ObjectId(req.user._id),
+        category: 'Business',
+        type: NotificationType.TICKET_ASSIGNED,
+        for_department_ids: [new mongoose.Types.ObjectId(assignee_depart_id)]
+      })
+
+      const result4 = await notification.save({ session })
+
+      if (!result4) throw new Error('Not able to create ticket. Please try again')
 
       await session.commitTransaction()
 

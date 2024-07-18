@@ -3,7 +3,6 @@ import connectDb from 'src/backend/DatabaseConnection'
 
 import { guardWrapper } from 'src/backend/auth.guard'
 import NotificationModel from 'src/backend/schemas/notification.schema'
-import UserModel from 'src/backend/schemas/user.schema'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {

@@ -2,7 +2,6 @@
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
 // ** Icon Imports
@@ -27,6 +26,7 @@ interface Props {
   toggleNavVisibility: () => void
   saveSettings: (values: Settings) => void
 }
+
 // const notifications: NotificationsType[] = [
 //   {
 //     meta: 'Today',
@@ -110,7 +110,7 @@ const AppBarContent = (props: Props) => {
         }
       )
       const data = res.data.payload.notifications
-      let arr: string[] = []
+      const arr: string[] = []
       const newState: NotificationsType[] = data.map((d: any) => {
         if (d.read === false) arr.push(d._id)
 
@@ -132,6 +132,7 @@ const AppBarContent = (props: Props) => {
   useEffect(() => {
     fetchNotification()
   }, [])
+
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>

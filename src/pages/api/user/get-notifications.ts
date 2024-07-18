@@ -13,6 +13,9 @@ const handler = async (req: any, res: any) => {
       let notifications: any = []
       switch (role) {
         case UserRole.ADMIN:
+          notifications = await NotificationModel.find({
+            for_department_ids: new mongoose.Types.ObjectId(department_id)
+          }).sort({ createdAt: -1 })
           break
         case UserRole.TEAM_LEAD:
           notifications = await NotificationModel.find({

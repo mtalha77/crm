@@ -92,6 +92,9 @@ const AppBarContent = (props: Props) => {
       case NotificationType.REMAINING_PRICE_DATE:
         return 'Remaining Price Date Reached'
 
+      case NotificationType.CLIENT_REPORTING_DATE_7_DAYS_PASSED:
+        return 'Client Reporting Date Passed'
+
       default:
         break
     }

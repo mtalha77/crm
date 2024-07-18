@@ -110,7 +110,7 @@ const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
 const MenuItemSubtitle = styled(Typography)<TypographyProps>({
   flex: '1 1 100%',
   overflow: 'hidden',
-  whiteSpace: 'nowrap',
+  whiteSpace: 'break-spaces',
   textOverflow: 'ellipsis'
 })
 

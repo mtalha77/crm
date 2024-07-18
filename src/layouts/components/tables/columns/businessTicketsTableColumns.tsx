@@ -7,11 +7,10 @@ import {
   FormControl,
   MenuItem,
   Select,
-  TextField
-
-  // IconButton
+  TextField,
+  IconButton
 } from '@mui/material'
-import { CheckCircle } from '@mui/icons-material' // Import the icons
+import { CheckCircle, Delete } from '@mui/icons-material' // Import the icons
 import { useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
@@ -23,8 +22,8 @@ import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
 import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
 
-// import axios from 'axios'
-// import { toast } from 'react-hot-toast'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -45,24 +44,24 @@ const businessTicketsColumns: any = (
   handleTicketEdit: any,
   ViewPaymentHistory: any,
   businessList: any,
-  employeesList: any
+  employeesList: any,
 
-  // fetchData: any // Add fetchData function to refresh data after deletion
+  fetchData: any // Add fetchData function to refresh data after deletion
 ) => {
-  // const handleDelete = async (ticketId: string) => {
-  //   try {
-  //     console.log(`Deleting ticket with ID: ${ticketId}`) // Log the ticket ID
-  //     await axios.delete(`/api/business-ticket/delete-business-ticket`, {
-  //       headers: { authorization: localStorage.getItem('token') },
-  //       data: { ticketId }
-  //     })
-  //     toast.success('Ticket and associated data deleted successfully')
-  //     fetchData() // Refresh data after deletion
-  //   } catch (error) {
-  //     console.error(error)
-  //     toast.error('Failed to delete ticket. Please try again.')
-  //   }
-  // }
+  const handleDelete = async (ticketId: string) => {
+    try {
+      console.log(`Deleting ticket with ID: ${ticketId}`) // Log the ticket ID
+      await axios.delete(`/api/business-ticket/delete-business-ticket`, {
+        headers: { authorization: localStorage.getItem('token') },
+        data: { ticketId }
+      })
+      toast.success('Ticket and associated data deleted successfully')
+      fetchData() // Refresh data after deletion
+    } catch (error) {
+      console.error(error)
+      toast.error('Failed to delete ticket. Please try again.')
+    }
+  }
 
   const columns = [
     {
@@ -335,9 +334,9 @@ const businessTicketsColumns: any = (
               <>
                 <CreateChildTicketDialog parentId={_id} businessId={business_id?._id} handleEdit={handleEdit} />
 
-                {/* <IconButton onClick={() => handleDelete(_id)}>
+                <IconButton onClick={() => handleDelete(_id)}>
                   <Delete />
-                </IconButton> */}
+                </IconButton>
               </>
             )}
           </Box>

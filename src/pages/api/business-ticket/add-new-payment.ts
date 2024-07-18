@@ -7,6 +7,7 @@ import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
+import dayjs from 'dayjs'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'PATCH') {
@@ -17,13 +18,26 @@ const handler = async (req: any, res: any) => {
 
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_MANAGER))
         return res.status(403).send('Permission denied')
-      const { ticketId, total_payment, advance_payment, remaining_payment, closer_id } = req.body
-      if (!ticketId || !total_payment || !advance_payment || remaining_payment === undefined || !closer_id)
+
+      const { ticketId, total_payment, advance_payment, remaining_payment, closer_id, client_reporting_date } = req.body
+      if (
+        !ticketId ||
+        !total_payment ||
+        !advance_payment ||
+        remaining_payment === undefined ||
+        !closer_id ||
+        !client_reporting_date
+      )
         return res.status(400).send('Fields Missing')
 
-      const ticket = await BusinessTicketModel.findByIdAndUpdate(
+      const ticket = await BusinessTicketModel.findById(ticketId).session(session)
+      if (!ticket) throw new Error('No ticket found')
+
+      const newClientReportingDate = dayjs(client_reporting_date).toDate()
+
+      const updatedTicket = await BusinessTicketModel.findByIdAndUpdate(
         ticketId,
-        { $inc: { current_session: 1 } },
+        { $inc: { current_session: 1 }, client_reporting_date: newClientReportingDate },
         { new: true, session }
       )
 
@@ -34,10 +48,10 @@ const handler = async (req: any, res: any) => {
         advance_payment: advance_payment,
         remaining_payment: total_payment - advance_payment,
         closer_id: closer_id,
-        business_id: ticket.business_id,
+        business_id: updatedTicket.business_id,
         sales_type: SaleType.RECURRING_SALE,
-        ticket_id: ticket._id,
-        session: ticket.current_session
+        ticket_id: updatedTicket._id,
+        session: updatedTicket.current_session
       })
 
       const savedPaymentSession = await newPaymentSession.save({ session })
@@ -48,10 +62,10 @@ const handler = async (req: any, res: any) => {
         received_payment: advance_payment,
         payment_type: PaymentType.Credit,
         remaining_payment: total_payment - advance_payment,
-        ticket_id: ticket._id,
+        ticket_id: updatedTicket._id,
         payment_session_id: savedPaymentSession._id,
-        business_id: ticket.business_id,
-        session: ticket.current_session,
+        business_id: updatedTicket.business_id,
+        session: updatedTicket.current_session,
         sales_type: SaleType.RECURRING_SALE,
         closer_id
       })

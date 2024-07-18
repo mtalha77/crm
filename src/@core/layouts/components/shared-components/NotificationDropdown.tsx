@@ -29,11 +29,13 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Util Import
 import { getInitials } from 'src/@core/utils/get-initials'
+import axios from 'axios'
 
 export type NotificationsType = {
   meta: string
   title: string
   subtitle: string
+  read: boolean
 } & (
   | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
   | {
@@ -54,6 +56,7 @@ export type NotificationsType = {
 interface Props {
   settings: Settings
   notifications: NotificationsType[]
+  newNotificationsIds: string[]
 }
 
 // ** Styled Menu component
@@ -121,7 +124,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 
 const NotificationDropdown = (props: Props) => {
   // ** Props
-  const { settings, notifications } = props
+  const { settings, notifications, newNotificationsIds } = props
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
@@ -132,8 +135,21 @@ const NotificationDropdown = (props: Props) => {
   // ** Vars
   const { direction } = settings
 
-  const handleDropdownOpen = (event: SyntheticEvent) => {
+  const handleDropdownOpen = async (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
+    try {
+      if (newNotificationsIds.length === 0) return
+
+      await axios.post(
+        '/api/user/notifications-mark-read',
+        { newNotificationsIds },
+        {
+          headers: { authorization: localStorage.getItem('token') }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleDropdownClose = () => {
@@ -166,7 +182,7 @@ const NotificationDropdown = (props: Props) => {
         <Badge
           color='error'
           variant='dot'
-          invisible={!notifications.length}
+          invisible={!newNotificationsIds.length}
           sx={{
             '& .MuiBadge-badge': { top: 4, right: 4, boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}` }
           }}
@@ -192,16 +208,20 @@ const NotificationDropdown = (props: Props) => {
               skin='light'
               size='small'
               color='primary'
-              label={`${notifications.length} New`}
+              label={`${newNotificationsIds.length} New`}
               sx={{ height: 20, fontSize: '0.75rem', fontWeight: 500, borderRadius: '10px' }}
             />
           </Box>
         </MenuItem>
         <ScrollWrapper hidden={hidden}>
           {notifications.map((notification: NotificationsType, index: number) => (
-            <MenuItem key={index} onClick={handleDropdownClose}>
+            <MenuItem
+              key={index}
+              onClick={handleDropdownClose}
+              sx={{ backgroundColor: notification.read ? '' : '#d9dafc' }}
+            >
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                <RenderAvatar notification={notification} />
+                {/* <RenderAvatar notification={notification} /> */}
                 <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
                   <MenuItemTitle>{notification.title}</MenuItemTitle>
                   <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
@@ -213,7 +233,8 @@ const NotificationDropdown = (props: Props) => {
             </MenuItem>
           ))}
         </ScrollWrapper>
-        <MenuItem
+
+        {/* <MenuItem
           disableRipple
           disableTouchRipple
           sx={{
@@ -228,7 +249,7 @@ const NotificationDropdown = (props: Props) => {
           <Button fullWidth variant='contained' onClick={handleDropdownClose}>
             Read All Notifications
           </Button>
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Fragment>
   )

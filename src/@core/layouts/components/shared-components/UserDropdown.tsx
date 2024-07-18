@@ -85,7 +85,7 @@ const UserDropdown = (props: Props) => {
 
   return (
     <Fragment>
-      <Icon icon='mi:notification' fontSize='28px' />
+      {/* <Icon icon='mi:notification' fontSize='28px' /> */}
       <Badge
         overlap='circular'
         onClick={handleDropdownOpen}

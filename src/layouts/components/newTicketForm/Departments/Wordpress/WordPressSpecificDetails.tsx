@@ -3,8 +3,11 @@ import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { WordPressFormType } from 'src/interfaces/forms.interface'
 import { WordPressWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { useAuth } from 'src/hooks/useAuth'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const WordPressSpecificDetails = () => {
+  const { user } = useAuth()
   const {
     formState: { errors },
     control
@@ -20,10 +23,11 @@ const WordPressSpecificDetails = () => {
               name='wordPressDetails.work_status'
               control={control}
               defaultValue=''
-              rules={{ required: 'Work Status is required' }}
+              rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth>
+                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                    {' '}
                     {WordPressWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>
@@ -44,6 +48,7 @@ const WordPressSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.wordPressDetails?.service_name}>
             <Controller
               name='wordPressDetails.service_name'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -66,6 +71,7 @@ const WordPressSpecificDetails = () => {
             <Controller
               name='wordPressDetails.service_area'
               control={control}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField
@@ -88,6 +94,7 @@ const WordPressSpecificDetails = () => {
               name='wordPressDetails.referral_website'
               control={control}
               rules={{ required: true }}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField

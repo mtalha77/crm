@@ -1,9 +1,12 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
+import { useAuth } from 'src/hooks/useAuth'
 import { PaidMarketingFormType } from 'src/interfaces/forms.interface'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { PaidMarketingWorkStatus, PaidMarketingWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const PaidMarketingSpecificDetails = () => {
+  const { user } = useAuth()
   const {
     formState: { errors },
     control,
@@ -22,9 +25,11 @@ const PaidMarketingSpecificDetails = () => {
               name='paidMarketingDetails.work_status'
               control={control}
               defaultValue=''
+              rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth>
+                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                    {' '}
                     {PaidMarketingWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>
@@ -45,6 +50,7 @@ const PaidMarketingSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.service_name}>
             <Controller
               name='paidMarketingDetails.service_name'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -68,6 +74,7 @@ const PaidMarketingSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.location}>
             <Controller
               name='paidMarketingDetails.location'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -91,6 +98,7 @@ const PaidMarketingSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.ad_account_access}>
             <Controller
               name='paidMarketingDetails.ad_account_access'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -118,6 +126,7 @@ const PaidMarketingSpecificDetails = () => {
               control={control}
               defaultValue=''
               rules={{ required: true }}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <Select label='Budget' {...field} fullWidth>
@@ -139,6 +148,7 @@ const PaidMarketingSpecificDetails = () => {
             <Controller
               name='paidMarketingDetails.budget_price'
               control={control}
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               render={({ field }) => (
                 <>
                   <TextField
@@ -161,6 +171,7 @@ const PaidMarketingSpecificDetails = () => {
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.clients_objectives}>
             <Controller
               name='paidMarketingDetails.clients_objectives'
+              disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -204,6 +215,7 @@ const PaidMarketingSpecificDetails = () => {
                 name='paidMarketingDetails.platform_name'
                 control={control}
                 rules={{ required: 'Website URL is required' }}
+                disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                 render={({ field }) => (
                   <>
                     <TextField

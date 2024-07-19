@@ -16,6 +16,7 @@ const businessSchema = new mongoose.Schema(
     website_url: { type: String, required: false },
     gmb_url: { type: String, required: false, trim: true },
 
+    //
     work_status: [
       {
         type: String,

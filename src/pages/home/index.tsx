@@ -1,4 +1,3 @@
-// ** MUI Imports
 import { Box } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -8,25 +7,26 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Avatar from 'src/@core/components/mui/avatar'
 import { useAuth } from 'src/hooks/useAuth'
-
 import DepartmentalTicketCards from 'src/layouts/components/cards/DepartmentalTicketsCards'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import BusinessTicketCards from '../../layouts/components/BusinessTicketCards/BusinessTicketCards'
 import dayjs from 'dayjs'
 import ClientReportatingDateDueTicketsTable from 'src/layouts/components/tables/ClientReportatingDateDueTicketsTable'
 import RemainingPriceDateDueTicketsTable from 'src/layouts/components/tables/RemainingPriceDueDateTicketsTable'
+import ExpiredDomainFormsTable from 'src/layouts/components/tables/columns/ExpiredDomainFormsTable'
+import { Department } from 'src/shared/enums/Department.enum'
+import ExpiredHostingFormsTable from 'src/layouts/components/tables/columns/ExpiredHostingFormsTable'
 
 const Home = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
   const [statusCounts, setStatusCounts] = useState()
-
-  // const [tickets, setTickets] = useState<any>([])
+  const [expiringSoonForms, setExpiringSoonForms] = useState<any>([])
+  const [expiringSoonHostingForms, setExpiringSoonHostingForms] = useState<any>([])
+  const [loading, setLoading] = useState(true)
 
   const [cltickets, setCltickets] = useState<any>([])
   const [rptickets, setRpTickets] = useState([])
-
-  // const [ticketsLoading, setTicketsLoading] = useState(true)
 
   const [clticketsLoading, setClTicketsLoading] = useState(true)
   const [rpticketsLoading, setRpTicketsLoading] = useState(true)
@@ -53,25 +53,45 @@ const Home = () => {
     temp()
   }, [])
 
-  // useEffect(() => {
-  //   const temp = async () => {
-  //     setTicketsLoading(true)
-  //     await axios
-  //       .get(`/api/business-ticket/get-due-date-passed?date=${dayjs().endOf('day').toISOString()}`, {
-  //         headers: {
-  //           authorization: localStorage.getItem('token')
-  //         }
-  //       })
-  //       .then(res => {
-  //         setTickets(res.data.payload.tickets)
-  //         setTicketsLoading(false)
-  //       })
-  //       .catch(err => {
-  //         console.log(err)
-  //       })
-  //   }
-  //   if (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) temp()
-  // }, [])
+  useEffect(() => {
+    const fetchExpiringSoonForms = async () => {
+      setLoading(true)
+      try {
+        const response = await axios.get('/api/domain-forms/get-expired', {
+          headers: {
+            authorization: localStorage.getItem('token')
+          }
+        })
+        setExpiringSoonForms(response.data.payload.domainForms)
+      } catch (error) {
+        console.error('Error fetching expiring soon domain forms:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchExpiringSoonForms()
+  }, [])
+
+  useEffect(() => {
+    const fetchExpiringHostingSoonForms = async () => {
+      setLoading(true)
+      try {
+        const response = await axios.get('/api/hosting-forms/get-expired', {
+          headers: {
+            authorization: localStorage.getItem('token')
+          }
+        })
+        setExpiringSoonHostingForms(response.data.payload.domainForms)
+      } catch (error) {
+        console.error('Error fetching expiring soon hosting forms:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchExpiringHostingSoonForms()
+  }, [])
 
   useEffect(() => {
     const temp = async () => {
@@ -139,7 +159,6 @@ const Home = () => {
     }
 
     // Add an excited message to the greeting
-
     const excitedMessage = 'Welcome back to your dashboard!'
 
     // Combine the greeting with the excited message
@@ -153,7 +172,6 @@ const Home = () => {
     <>
       <Grid container spacing={6}>
         <Grid item xs={6}>
-          {/* <CardHeader title={`Hi ${user?.user_name}`}></CardHeader> */}
           <Card sx={{ pt: '20px', pb: '20px', border: 0, color: 'common.white', backgroundColor: '#666CFF' }}>
             <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
               <Typography
@@ -161,7 +179,6 @@ const Home = () => {
                 sx={{ display: 'flex', mb: 2.75, alignItems: 'center', color: 'common.white', '& svg': { mr: 2.5 } }}
               >
                 <Avatar alt='Eugene Clarke' src='/images/avatars/1.png' sx={{ width: 34, height: 34, mr: 2.75 }} />
-
                 {`${user?.user_name}`}
               </Typography>
               <Typography variant='body1' sx={{ fontSize: '16px', mb: 3, color: 'common.white' }}>
@@ -188,7 +205,6 @@ const Home = () => {
       </Grid>
       <BusinessTicketCards statusCounts={statusCounts} />
       {user?.role !== UserRole.SALE_EMPLOYEE && user?.role !== UserRole.SALE_MANAGER && <DepartmentalTicketCards />}
-
       {/* {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
@@ -199,7 +215,6 @@ const Home = () => {
           </CardContent>
         </Card>
       )} */}
-
       {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER || user?.role === UserRole.TEAM_LEAD) && (
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
@@ -210,7 +225,6 @@ const Home = () => {
           </CardContent>
         </Card>
       )}
-
       {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
         <Card sx={{ mt: 10 }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
@@ -221,6 +235,34 @@ const Home = () => {
           </CardContent>
         </Card>
       )}
+      {(user?.role === UserRole.ADMIN ||
+        (user?.role === UserRole.TEAM_LEAD && user?.department_name === Department.WordPress)) &&
+        expiringSoonForms.length > 0 && (
+          <Card sx={{ mt: 10 }}>
+            <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+              <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
+                Expiring Soon OR Expired Domain Forms
+              </Typography>
+              <ExpiredDomainFormsTable data={expiringSoonForms} setData={setExpiringSoonForms} isLoading={loading} />
+            </CardContent>
+          </Card>
+        )}{' '}
+      {(user?.role === UserRole.ADMIN ||
+        (user?.role === UserRole.TEAM_LEAD && user?.department_name === Department.WordPress)) &&
+        expiringSoonHostingForms.length > 0 && (
+          <Card sx={{ mt: 10 }}>
+            <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+              <Typography variant='h4' sx={{ mb: 5, textAlign: 'center' }}>
+                Expiring Soon OR Expired Hosting Forms
+              </Typography>
+              <ExpiredHostingFormsTable
+                data={expiringSoonHostingForms}
+                setData={setExpiringSoonHostingForms}
+                isLoading={loading}
+              />
+            </CardContent>
+          </Card>
+        )}
     </>
   )
 }

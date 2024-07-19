@@ -19,7 +19,8 @@ const DueDateTicketsColumns: any = (
   return [
     {
       header: 'Business Name',
-      accessorKey: 'business_id.business_name'
+      accessorKey: 'business_id.business_name',
+      size: 20
     },
 
     {
@@ -27,13 +28,15 @@ const DueDateTicketsColumns: any = (
       accessorKey: 'assignee_depart_name',
       filterVariant: 'multi-select',
       filterSelectOptions: DepartmentValues,
-      muiFilterTextFieldProps: { placeholder: 'Filter by depart.' }
+      muiFilterTextFieldProps: { placeholder: 'Filter by depart.' },
+      size: 20
     },
     {
       header: 'Status',
       accessorKey: 'status',
       filterVariant: 'autocomplete',
       filterSelectOptions: TicketStatusValues,
+      size: 20,
 
       Cell: ({ cell }: any) => {
         return cell.getValue() ? cell.getValue() : ''
@@ -44,7 +47,7 @@ const DueDateTicketsColumns: any = (
       accessorKey: 'priority',
       filterVariant: 'autocomplete',
       filterSelectOptions: PriorityTypeValues,
-      size: 120,
+      size: 20,
       Cell: ({ cell }: any) => {
         const color: any = getPriorityColor(cell.getValue())
 
@@ -55,6 +58,7 @@ const DueDateTicketsColumns: any = (
     },
     {
       header: 'Reporting Date',
+      size: 20,
       accessorFn: (originalRow: any) =>
         originalRow.client_reporting_date ? dayjs(originalRow.client_reporting_date) : '',
       filterVariant: 'date',
@@ -71,6 +75,7 @@ const DueDateTicketsColumns: any = (
     {
       header: 'Payment',
       accessorKey: 'payment_history',
+      size: 20,
       Cell: ({ cell }: any) => {
         const { _id } = cell.row.original
 
@@ -90,6 +95,7 @@ const DueDateTicketsColumns: any = (
     },
     {
       header: 'Action',
+      size: 20,
       Cell: ({ cell }: any) => {
         const { assignee_depart_name, _id, business_id } = cell.row.original
         const handleEdit = () => {

@@ -17,10 +17,13 @@ import TicketDetails from '../../SharedField/TicketDetails'
 import PaidMarketingSpecificDetails from './PaidMarketingSpecificDetails'
 import { Controller, useFormContext } from 'react-hook-form'
 import { CommonFormType } from 'src/interfaces/forms.interface'
+import { useAuth } from 'src/hooks/useAuth'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const PaidMarketingForm = (props: any) => {
   const { update } = props
   const { control } = useFormContext<CommonFormType>()
+  const { user } = useAuth()
 
   return (
     <>
@@ -53,24 +56,28 @@ const PaidMarketingForm = (props: any) => {
               <PaidMarketingSpecificDetails />
             </FormsHeader>
           </Stack>
+          {/* {update && (user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+            )} */}
 
-          <Box sx={{ my: '2rem ' }} />
-
-          <Controller
-            name={`ticketDetails.otherSales`}
-            control={control}
-            defaultValue={false}
-            render={({ field }: any) => {
-              return (
-                <FormControlLabel
-                  style={{ marginBottom: '20px' }}
-                  control={<Checkbox {...field} checked={field.value} />}
-                  label='Other Sales'
-                />
-              )
-            }}
-          />
-
+          {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
+            <>
+              <Box sx={{ my: '2rem ' }} />
+              <Controller
+                name={`ticketDetails.otherSales`}
+                control={control}
+                defaultValue={false}
+                render={({ field }: any) => {
+                  return (
+                    <FormControlLabel
+                      style={{ marginBottom: '20px' }}
+                      control={<Checkbox {...field} checked={field.value} />}
+                      label='Other Sales'
+                    />
+                  )
+                }}
+              />
+            </>
+          )}
           <SubmitButton
             beforeText={update ? 'Update' : 'Submit'}
             afterText={update ? 'Updating' : 'Submitting'}

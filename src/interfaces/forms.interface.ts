@@ -33,6 +33,7 @@ export interface TicketDetails {
   remaining_payment: number
   client_reporting_date?: Date | null
   ticket_notes?: string
+  client_reporting_notes?: string
   created_at: Date
   otherSales: boolean
 }
@@ -41,6 +42,8 @@ export interface LocalSeoDetails {
   notes?: string
   work_status: string
   gmb_access_email?: string
+  service_name?: string
+  service_area?: string
 }
 
 export interface WordPressDetails {
@@ -165,6 +168,7 @@ export const localSeoDefaultValues: LocalSeoFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   localSeoDetails: {
@@ -206,6 +210,7 @@ export const writerDefaultValues: WriterFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   writerFormTypeDetails: {
@@ -246,6 +251,7 @@ export const designerDefaultValues: DesignerFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   designerFormTypeDetails: {
@@ -287,6 +293,7 @@ export const wordPressDefaultValues: WordPressFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   wordPressDetails: {
@@ -331,6 +338,7 @@ export const webSeoDefaultValues: WebSeoFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   webSeoDetails: {
@@ -381,6 +389,7 @@ export const paidMarketingDefaultValues: PaidMarketingFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   paidMarketingDetails: {
@@ -429,6 +438,7 @@ export const socialMediaDefaultValues: SocialMediaFormType = {
     remaining_payment: 0,
     client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
     ticket_notes: '',
+    client_reporting_notes: '',
     otherSales: false
   },
   socialMediaFormTypeDetails: {

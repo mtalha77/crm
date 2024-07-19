@@ -1,6 +1,9 @@
 export enum LocalSeoWorkStatus {
   GMB_FULL_OPTIMIZATION = 'Gmb Full Optimization',
-  GMB_OFF_PAGE = 'Gmb Off Page'
+  GMB_OFF_PAGE = 'Gmb Off Page',
+  PAID_CITATIONS = 'Paid Citations',
+  GEO_FENCING = 'Geo Fencing',
+  Google_STACKING = 'Google Stacking'
 }
 
 export enum PaidMarketingWorkStatus {
@@ -15,7 +18,8 @@ export enum SocialMediaWorkStatus {
   NO_OF_GMB_REVIEWS = 'No of GMB Reviews',
   FACEBOOK_POSTING = 'Facebook Posting',
   INSTAGRAM_POSTING = 'Instagram Posting',
-  OTHERS_POSTING = 'Others Posting'
+  OTHERS_POSTING = 'Others Posting',
+  VIDEO_CREATION = 'Video Creation'
 }
 
 export enum WebSeoWorkStatus {

@@ -1,12 +1,18 @@
 import { Grid, Typography } from '@mui/material'
 import { WebSeoWorkStatus } from 'src/shared/enums/WorkStatusType.enum'
 
+import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { useAuth } from 'src/hooks/useAuth'
+import { Department } from 'src/shared/enums/Department.enum'
+
 const BoldText = ({ children }: any) => (
   <Typography variant='subtitle1' sx={{ fontWeight: 'bold', display: 'inline' }}>
     {children}
   </Typography>
 )
 function WebSeoView({ data }: any) {
+  const { user } = useAuth()
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
@@ -23,11 +29,13 @@ function WebSeoView({ data }: any) {
       <Grid item xs={6}>
         <BoldText>Keywords:</BoldText> {data?.key_words}
       </Grid>
-
-      <Grid item xs={6}>
-        <BoldText>Login Credentials:</BoldText> {data?.login_credentials}
-      </Grid>
-
+      {((user?.role === UserRole.TEAM_LEAD && user?.department_name === Department.WebSeo) ||
+        user?.role === UserRole.ADMIN ||
+        user?.role === UserRole.SALE_MANAGER) && (
+        <Grid item xs={6}>
+          <BoldText>Login Credentials:</BoldText> {data?.login_credentials}
+        </Grid>
+      )}
       <Grid item xs={6}>
         <BoldText>Console Access:</BoldText> {data?.console_access}
       </Grid>
@@ -39,6 +47,7 @@ function WebSeoView({ data }: any) {
       <Grid item xs={6}>
         <BoldText>Notes:</BoldText> {data?.notes}
       </Grid>
+
       {(data.work_status === WebSeoWorkStatus.BACK_LINKS || data.work_status === WebSeoWorkStatus.EXTRA_LINKS) && (
         <Grid item xs={6}>
           <BoldText>No Of Backlinks:</BoldText> {data?.no_of_backlinks}

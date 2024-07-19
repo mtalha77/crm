@@ -5,6 +5,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { CommonFormType } from 'src/interfaces/forms.interface'
 import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
+import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface CustomInputProps {
   value: any
@@ -24,6 +26,7 @@ const TicketDetails = (props: any) => {
     setValue
   } = useFormContext<CommonFormType>()
 
+  const { user } = useAuth()
   const { update } = props
 
   const totalPrice = watch('ticketDetails.total_payment')
@@ -35,6 +38,8 @@ const TicketDetails = (props: any) => {
       shouldDirty: true
     })
   }, [totalPrice, advancePrice])
+
+  const isTeamLeadOrSaleManager = user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.SALE_MANAGER
 
   return (
     <>
@@ -119,16 +124,21 @@ const TicketDetails = (props: any) => {
             <Controller
               name='ticketDetails.priority'
               control={control}
+              rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select {...field} label='Priority Level' error={Boolean(errors?.ticketDetails?.priority)} fullWidth>
-                    {PriorityTypeValues.map((v: any) => {
-                      return (
-                        <MenuItem key={v} value={v}>
-                          {v}
-                        </MenuItem>
-                      )
-                    })}
+                  <Select
+                    {...field}
+                    label='Priority Level'
+                    error={Boolean(errors?.ticketDetails?.priority)}
+                    fullWidth
+                    disabled={user?.role === UserRole.TEAM_LEAD}
+                  >
+                    {PriorityTypeValues.map((v: any) => (
+                      <MenuItem key={v} value={v}>
+                        {v}
+                      </MenuItem>
+                    ))}
                   </Select>
                   {errors.ticketDetails?.priority && (
                     <FormHelperText>{errors.ticketDetails.priority.message}</FormHelperText>
@@ -185,6 +195,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
+                  disabled={user?.role === UserRole.TEAM_LEAD} // Disable for Team Lead
                   customInput={
                     <CustomInput
                       value={value}
@@ -218,6 +229,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
+                  disabled={update && isTeamLeadOrSaleManager} // Disable for Team Lead or Sales Manager if update
                   customInput={
                     <CustomInput
                       value={value}
@@ -251,6 +263,7 @@ const TicketDetails = (props: any) => {
                   showMonthDropdown
                   onChange={e => onChange(e)}
                   placeholderText='MM/DD/YYYY'
+                  disabled={update && isTeamLeadOrSaleManager} // Disable for Team Lead or Sales Manager if update
                   customInput={
                     <CustomInput
                       value={value}
@@ -288,6 +301,29 @@ const TicketDetails = (props: any) => {
                   />
                   {errors.ticketDetails?.ticket_notes && (
                     <FormHelperText>{errors.ticketDetails.ticket_notes.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth error={!!errors.ticketDetails?.client_reporting_notes}>
+            <Controller
+              name='ticketDetails.client_reporting_notes'
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    rows={4}
+                    multiline
+                    label='Client Reporting Notes'
+                    {...field}
+                    error={Boolean(errors?.ticketDetails?.client_reporting_notes)}
+                    fullWidth
+                  />
+                  {errors.ticketDetails?.client_reporting_notes && (
+                    <FormHelperText>{errors.ticketDetails.client_reporting_notes.message}</FormHelperText>
                   )}
                 </>
               )}

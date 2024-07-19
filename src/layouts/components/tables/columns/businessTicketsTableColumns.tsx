@@ -334,9 +334,9 @@ const businessTicketsColumns: any = (
               <>
                 <CreateChildTicketDialog parentId={_id} businessId={business_id?._id} handleEdit={handleEdit} />
 
-                <IconButton onClick={() => handleDelete(_id)}>
+                {/* <IconButton onClick={() => handleDelete(_id)}>
                   <Delete />
-                </IconButton>
+                </IconButton> */}
               </>
             )}
           </Box>

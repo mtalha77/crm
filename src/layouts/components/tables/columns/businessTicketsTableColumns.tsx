@@ -23,8 +23,8 @@ import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
 import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
 
-import axios from 'axios'
-import { toast } from 'react-hot-toast'
+// import axios from 'axios'
+// import { toast } from 'react-hot-toast'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8

@@ -3,6 +3,7 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import DepartmentModel from 'src/backend/schemas/department.schema'
 import NotificationModel from 'src/backend/schemas/notification.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
@@ -248,17 +249,23 @@ const handler = async (req: any, res: any) => {
       const result3 = await paymentHistory.save({ session })
       if (!result3) throw new Error('Not able to create ticket.Please try again')
 
-      const notificationMsg = otherSales
-        ? `A recurring ticket has been assigned by ${req.user.department_name}`
-        : `A new ticket has been assigned by ${req.user.department_name}`
+      const departments = await DepartmentModel.find({}, {}, { session })
+
+      if (!departments) throw new Error('No departments found')
+
+      const adminDepartment = departments.find(d => d.name === Department.Admin)
+
+      const notificationMsg = `${req.user.department_name} created a ticket for ${assignee_depart_name} for ${business.business_name} with ${work_status}`
+
+      // `A recurring ticket has been assigned by ${req.user.department_name}`
+
       const notification = new NotificationModel({
         message: notificationMsg,
-        for_department: new mongoose.Types.ObjectId(assignee_depart_id),
         ticket_id: result._id,
         created_by_user_id: new mongoose.Types.ObjectId(req.user._id),
         category: 'Business',
-        type: NotificationType.TICKET_ASSIGNED,
-        for_department_ids: [new mongoose.Types.ObjectId(assignee_depart_id)]
+        type: NotificationType.NEW_TICKET_ASSIGNED,
+        for_department_ids: [new mongoose.Types.ObjectId(assignee_depart_id), adminDepartment._id]
       })
 
       const result4 = await notification.save({ session })

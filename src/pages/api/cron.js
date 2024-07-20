@@ -12,6 +12,8 @@ dayjs.extend(timezone)
 
 export default async function handler(req, res) {
   try {
+    console.log('Cron job handler called')
+
     // Define the Pakistan Standard Time zone
     const pakistanTimeZone = 'Asia/Karachi'
 
@@ -54,7 +56,7 @@ export default async function handler(req, res) {
 
     const notifications1 = tickets1.map(t => {
       return {
-        message: `${t.business_id.business_name} due date reached`,
+        message: `Client reporting date of ${t.business_id.business_name} for ${t.work_status} has been reached.`,
         ticket_id: t._id,
         category: 'Business',
         type: NotificationType.CLIENT_REPORTING_DATE,
@@ -64,7 +66,7 @@ export default async function handler(req, res) {
 
     const notifications2 = tickets2.map(t => {
       return {
-        message: `${t.business_id.business_name} remaining price date reached`,
+        message: `${t.business_id.business_name} with ${t.work_status} is overdue payment. Please follow up.`,
         ticket_id: t._id,
         category: 'Business',
         type: NotificationType.REMAINING_PRICE_DATE,
@@ -93,15 +95,11 @@ export default async function handler(req, res) {
 
     const notifications3 = tickets3.map(t => {
       return {
-        message: `Client reporting ${t.business_id.business_name} ticket due on ${sevenDaysAgo.format(
-          'DD-MM-YYYY'
-        )} is overdue by 7 days as of ${now.format(
-          'DD-MM-YYYY'
-        )} and didn't recur. Please create new ticket for this service.`,
+        message: `Client reporting date of ${t.business_id.business_name} for ${t.work_status} is overdue by 7 days. Please create a new ticket.`,
         ticket_id: t._id,
         category: 'Business',
         type: NotificationType.CLIENT_REPORTING_DATE_7_DAYS_PASSED,
-        for_department_ids: [saleDepartment._id, adminDepartment._id]
+        for_department_ids: [saleDepartment._id, t.assignee_depart_id, adminDepartment._id]
       }
     })
 

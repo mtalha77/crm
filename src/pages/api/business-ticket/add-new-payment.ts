@@ -1,9 +1,14 @@
 import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
+import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import DepartmentModel from 'src/backend/schemas/department.schema'
+import NotificationModel from 'src/backend/schemas/notification.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
+import { Department } from 'src/shared/enums/Department.enum'
+import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
@@ -71,6 +76,31 @@ const handler = async (req: any, res: any) => {
       })
       const savedPaymentHistory = await newPaymentHistory.save({ session })
       if (!savedPaymentHistory) throw new Error('Not able to save payment history')
+
+      const business = await BusinessModel.findById({ _id: ticket.business_id })
+
+      if (!business) throw new Error('Business not found')
+
+      const departments = await DepartmentModel.find({}, {}, { session })
+
+      if (!departments) throw new Error('No departments found')
+
+      const adminDepartment = departments.find(d => d.name === Department.Admin)
+
+      const notificationMsg = `${business.business_name} with ${ticket.work_status} has been recurred for ${ticket.assignee_depart_name}`
+
+      const notification = new NotificationModel({
+        message: notificationMsg,
+        ticket_id: ticket._id,
+        created_by_user_id: new mongoose.Types.ObjectId(req.user._id),
+        category: 'Business',
+        type: NotificationType.RECURRING_TICKET,
+        for_department_ids: [ticket.assignee_depart_id, adminDepartment._id]
+      })
+
+      const result4 = await notification.save({ session })
+
+      if (!result4) throw new Error('Not able to create ticket. Please try again')
 
       await session.commitTransaction()
 

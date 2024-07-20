@@ -1,7 +1,13 @@
 import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
+import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import DepartmentModel from 'src/backend/schemas/department.schema'
+import NotificationModel from 'src/backend/schemas/notification.schema'
+import UserModel from 'src/backend/schemas/user.schema'
+import { Department } from 'src/shared/enums/Department.enum'
+import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
@@ -17,6 +23,10 @@ const handler = async (req: any, res: any) => {
       const uniqueArray = [...new Set(userIds)]
       const mapped = uniqueArray.map((u: any) => new mongoose.Types.ObjectId(u))
 
+      const ticket = await BusinessTicketModel.findById(new mongoose.Types.ObjectId(ticketId))
+
+      if (!ticket) throw new Error('Ticket not found')
+
       const result = await BusinessTicketModel.findByIdAndUpdate(
         ticketId,
         {
@@ -29,20 +39,34 @@ const handler = async (req: any, res: any) => {
 
       if (!result) return res.status(500).send('Not able to assign ticket.Please try again')
 
-      // const notificationMsg = `A new ticket has been assigned by ${req.user.user_name}`
-      // const notification = new NotificationModel({
-      //   message: notificationMsg,
-      //   ticket_id: result._id,
-      //   created_by_user_id: new mongoose.Types.ObjectId(req.user._id),
-      //   category: 'Business',
-      //   type: NotificationType.TICKET_ASSIGNED,
-      //   for_user_ids: mapped
-      // })
+      if (ticket.assignee_employees && ticket.assignee_employees.length < userIds.length) {
+        const user = await UserModel.findById(mapped[mapped.length - 1])
+        const business = await BusinessModel.findById({ _id: result.business_id })
 
-      // const result4 = await notification.save({ session })
+        if (!business) throw new Error('Business not found')
 
-      // if (!result4) throw new Error('Not able to create ticket. Please try again')
+        const departments = await DepartmentModel.find({}, {}, { session })
 
+        if (!departments) throw new Error('No departments found')
+
+        const adminDepartment = departments.find(d => d.name === Department.Admin)
+
+        const notificationMsg = `${business.business_name} with ${ticket.work_status} is assigned to ${user.user_name}.`
+
+        const notification = new NotificationModel({
+          message: notificationMsg,
+          ticket_id: result._id,
+          created_by_user_id: new mongoose.Types.ObjectId(req.user._id),
+          category: 'Business',
+          type: NotificationType.TICKET_ASSIGNED,
+          for_user_ids: [user._id],
+          for_department_ids: [adminDepartment._id]
+        })
+
+        const result4 = await notification.save({ session })
+
+        if (!result4) throw new Error('Not able to create ticket. Please try again')
+      }
       await session.commitTransaction()
 
       return res.send({

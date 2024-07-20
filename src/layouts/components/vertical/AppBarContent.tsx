@@ -83,17 +83,23 @@ const AppBarContent = (props: Props) => {
 
   const getTitle = (type: NotificationType) => {
     switch (type) {
-      case NotificationType.TICKET_ASSIGNED:
-        return 'Ticket Assignment'
+      case NotificationType.NEW_TICKET_ASSIGNED:
+        return 'New Ticket Assigned'
 
       case NotificationType.CLIENT_REPORTING_DATE:
-        return 'Client Reporting Date Reached'
+        return 'Overdue Reporting Date'
 
       case NotificationType.REMAINING_PRICE_DATE:
-        return 'Remaining Price Date Reached'
+        return 'Overdue Remaining Price'
 
       case NotificationType.CLIENT_REPORTING_DATE_7_DAYS_PASSED:
-        return 'Client Reporting Date Passed'
+        return 'Overdue Reporting Date by 7 days'
+
+      case NotificationType.RECURRING_TICKET:
+        return 'Recurring Ticket'
+
+      case NotificationType.TICKET_ASSIGNED:
+        return 'Ticket Assigned'
 
       default:
         break

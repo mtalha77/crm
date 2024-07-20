@@ -1,8 +1,10 @@
 import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
+import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import DepartTicketModel from 'src/backend/schemas/departTicket.schema'
+import DepartmentModel from 'src/backend/schemas/department.schema'
 import NotificationModel from 'src/backend/schemas/notification.schema'
 import { Department } from 'src/shared/enums/Department.enum'
 import { NotificationType } from 'src/shared/enums/NotificationType.enum'
@@ -45,6 +47,7 @@ const handler = async (req: any, res: any) => {
         business_id,
         parentId
       } = req.body
+
       if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
         return res.status(400).send('Network Error')
       if (!assignee_depart_id || !assignee_depart_name || !due_date || !business_id || !parentId)
@@ -103,15 +106,25 @@ const handler = async (req: any, res: any) => {
 
       if (!parent) throw new Error('Network error')
 
-      const notificationMsg = `A new ticket has been assigned by ${req.user.department_name}`
+      const business = await BusinessModel.findById({ _id: new mongoose.Types.ObjectId(business_id) })
+
+      if (!business) throw new Error('Business not found')
+
+      const departments = await DepartmentModel.find({}, {}, { session })
+
+      if (!departments) throw new Error('No departments found')
+
+      const adminDepartment = departments.find(d => d.name === Department.Admin)
+
+      const notificationMsg = `${req.user.department_name} created a ticket for ${assignee_depart_name} for ${business.business_name} with ${work_status}`
+
       const notification = new NotificationModel({
         message: notificationMsg,
-        for_department: new mongoose.Types.ObjectId(assignee_depart_id),
         ticket_id: result._id,
         created_by_user_id: new mongoose.Types.ObjectId(req.user._id),
         category: 'Business',
-        type: NotificationType.TICKET_ASSIGNED,
-        for_department_ids: [new mongoose.Types.ObjectId(assignee_depart_id)]
+        type: NotificationType.NEW_TICKET_ASSIGNED,
+        for_department_ids: [new mongoose.Types.ObjectId(assignee_depart_id), adminDepartment._id]
       })
 
       const result4 = await notification.save({ session })
@@ -125,7 +138,7 @@ const handler = async (req: any, res: any) => {
         payload: { _id: result._id }
       })
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       await session.abortTransaction()
       res.status(500).send('something went wrong')
     } finally {

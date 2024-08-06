@@ -8,7 +8,7 @@ const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
       let analytics = []
-      const pipeline: PipelineStage[] = [
+      const basePipeline: PipelineStage[] = [
         {
           $group: {
             _id: '$status',
@@ -32,44 +32,96 @@ const handler = async (req: any, res: any) => {
           }
         }
       ]
+
       switch (req.user.role) {
         case UserRole.ADMIN:
-          analytics = await BusinessTicketModel.aggregate(pipeline)
+          analytics = await BusinessTicketModel.aggregate(basePipeline)
           break
 
         case UserRole.TEAM_LEAD:
-          pipeline.unshift({
-            $match: {
-              assignee_depart_id: new mongoose.Types.ObjectId(req.user.department_id)
+          const teamLeadPipeline: PipelineStage[] = [
+            {
+              $match: {
+                assignee_depart_id: new mongoose.Types.ObjectId(req.user.department_id)
+              }
+            },
+            {
+              $group: {
+                _id: {
+                  status: '$status',
+                  otherSales: '$otherSales'
+                },
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                status: '$_id.status',
+                otherSales: '$_id.otherSales',
+                count: 1,
+                _id: 0
+              }
+            },
+            {
+              $group: {
+                _id: '$status',
+                count: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $eq: ['$status', 'Not Started Yet'] }, { $eq: ['$otherSales', true] }]
+                      },
+                      0,
+                      '$count'
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              $group: {
+                _id: null,
+                statusCounts: {
+                  $push: {
+                    k: '$_id',
+                    v: '$count'
+                  }
+                }
+              }
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $arrayToObject: '$statusCounts' }
+              }
             }
-          })
-          analytics = await BusinessTicketModel.aggregate(pipeline)
+          ]
+          analytics = await BusinessTicketModel.aggregate(teamLeadPipeline)
           break
 
         case UserRole.EMPLOYEE:
-          pipeline.unshift({
+          basePipeline.unshift({
             $match: {
               assignee_employees: { $elemMatch: { $eq: new mongoose.Types.ObjectId(req.user._id) } }
             }
           })
-          analytics = await BusinessTicketModel.aggregate(pipeline)
+          analytics = await BusinessTicketModel.aggregate(basePipeline)
           break
 
         case UserRole.SALE_EMPLOYEE:
-          pipeline.unshift({
+          basePipeline.unshift({
             $match: {
               created_by: new mongoose.Types.ObjectId(req.user._id)
             }
           })
-          analytics = await BusinessTicketModel.aggregate(pipeline)
+          analytics = await BusinessTicketModel.aggregate(basePipeline)
           break
 
         case UserRole.SALE_MANAGER:
-          analytics = await BusinessTicketModel.aggregate(pipeline)
+          analytics = await BusinessTicketModel.aggregate(basePipeline)
           break
 
         default:
-          break
+          return res.status(403).send('Forbidden')
       }
 
       if (!analytics) {
@@ -81,7 +133,7 @@ const handler = async (req: any, res: any) => {
         payload: { analytics }
       })
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       res.status(500).send('something went wrong')
     }
   } else {

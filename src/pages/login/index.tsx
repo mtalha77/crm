@@ -319,17 +319,17 @@ const LoginPage = () => {
                       id='auth-login-v2-password'
                       error={Boolean(errors.password)}
                       type={showPassword ? 'text' : 'password'}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onMouseDown={e => e.preventDefault()}
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                          </IconButton>
-                        </InputAdornment>
-                      }
+                      // endAdornment={
+                      //   <InputAdornment position='end'>
+                      //     <IconButton
+                      //       edge='end'
+                      //       onMouseDown={e => e.preventDefault()}
+                      //       onClick={() => setShowPassword(!showPassword)}
+                      //     >
+                      //       <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                      //     </IconButton>
+                      //   </InputAdornment>
+                      // }
                     />
                   )}
                 />

@@ -16,6 +16,7 @@ const handler = async (req: any, res: any) => {
             { $or: [{ role: UserRole.EMPLOYEE }, { role: UserRole.TEAM_LEAD }] },
             '-password'
           )
+          break
         case UserRole.TEAM_LEAD:
           users = await UserModel.find(
             {

@@ -5,6 +5,7 @@ import {
   Checkbox,
   Chip,
   FormControl,
+  IconButton,
   MenuItem,
   Select,
   TextField
@@ -22,9 +23,12 @@ import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
 import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
+import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
+import { useRouter } from 'next/navigation';
 
 // import axios from 'axios'
 // import { toast } from 'react-hot-toast'
+
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -64,6 +68,7 @@ const businessTicketsColumns: any = (
   //   }
   // }
 
+
   const columns = [
     {
       header: 'Business Name',
@@ -74,6 +79,24 @@ const businessTicketsColumns: any = (
     {
       header: 'Client Name',
       accessorKey: 'business_id.client_name'
+    },
+    {
+      header: 'Chat',
+    accessorKey: 'chat',
+    Cell: ({cell}) => {
+      const router = useRouter();
+
+      const navigateToChatPage = () => {
+        const rowData = cell.row.original; // Access the full row data here
+        router.push(`/ticket-comments/${rowData._id}`);
+      };
+
+      return (
+        <IconButton onClick={navigateToChatPage}>
+          <MessageRoundedIcon />
+        </IconButton>
+      );
+    }
     },
     {
       header: 'Work Status',

@@ -55,6 +55,7 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
         return usersData.payload.users.map((b: any) => b.user_name)
       })
       setEmployees(usersData.payload.users)
+
     } catch (error) {
       console.error(error)
       toast.error('Network error. Please refresh the page.')

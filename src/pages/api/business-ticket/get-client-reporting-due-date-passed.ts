@@ -12,13 +12,15 @@ const handler = async (req: any, res: any) => {
       const { date } = req.query
       if (!dayjs(date).isValid()) return res.status(500).send('something went wrong')
 
-      const monthStart = dayjs(date).startOf('month').toDate()
+      // const monthStart = dayjs(date).startOf('month').toDate()
       let tickets = []
 
       switch (req.user.role) {
         case UserRole.ADMIN:
           tickets = await BusinessTicketModel.find({
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            // client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            client_reporting_date: { $lte: new Date(date) },
+
             status: { $ne: TicketStatus.COMPLETED }
           })
             .populate('business_id', 'business_name')
@@ -36,7 +38,9 @@ const handler = async (req: any, res: any) => {
 
         case UserRole.SALE_MANAGER:
           tickets = await BusinessTicketModel.find({
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            // client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            client_reporting_date: { $lte: new Date(date) },
+
             status: { $ne: TicketStatus.COMPLETED }
           })
             .populate('business_id', 'business_name')
@@ -55,7 +59,10 @@ const handler = async (req: any, res: any) => {
         case UserRole.TEAM_LEAD:
           tickets = await BusinessTicketModel.find({
             assignee_depart_id: new mongoose.Types.ObjectId(req.user.department_id),
-            client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+
+            // client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+
+            client_reporting_date: { $lte: new Date(date) },
             status: { $ne: TicketStatus.COMPLETED }
           })
             .populate('business_id', 'business_name')

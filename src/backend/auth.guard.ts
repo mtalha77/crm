@@ -21,7 +21,7 @@ export const guardWrapper = (handler: any) => async (req: any, res: any) => {
     // Check if the client's IP is in the list of allowed IPs
     if (!allowedIPs.includes(clientIP)) {
       // Redirect to login page if IP is not whitelisted
-      return res.redirect('http://localhost:3000/login/')
+      return res.redirect('https://crm-git-main-rank-orbits-projects.vercel.app/login/')
     }
 
     // Check if the request is authenticated or has the necessary permissions

@@ -81,7 +81,23 @@ const businessTicketSchema = new mongoose.Schema(
     ticket_notes: { type: String, required: false, trim: true, maxLength: 2000 },
     client_reporting_notes: { type: String, required: false, trim: true, maxLength: 2000 },
     task_details: { type: String, required: false, trim: true },
-    otherSales: { type: Boolean, required: true }
+    otherSales: { type: Boolean, required: true },
+    messages: [
+      {
+        sender: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
+        },
+        content: {
+          type: String,
+          required: true
+        },
+        createdAt: {
+          type: Date,
+          required: true
+        }
+      }
+    ]
   },
   { timestamps: true }
 )

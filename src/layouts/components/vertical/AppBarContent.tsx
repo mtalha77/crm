@@ -19,6 +19,8 @@ import UserDropdown from 'src/@core/layouts/components/shared-components/UserDro
 import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 import moment from 'moment'
 import { useAuth } from 'src/hooks/useAuth'
+import ChatMsgNotificationDropdown from 'src/@core/layouts/components/shared-components/ChatMsgNotificationDropdown'
+import toast from 'react-hot-toast';
 
 interface Props {
   hidden: boolean
@@ -72,14 +74,17 @@ interface Props {
 //   }
 // ]
 
+const allowedMembersToChat = ['Admin', 'Team Lead', 'Sales Manager']
+
 const AppBarContent = (props: Props) => {
   // ** Props
   const { hidden, settings, saveSettings, toggleNavVisibility } = props
   const { user } = useAuth()
 
   const [notifications, setNotifications] = useState<NotificationsType[]>([])
-
   const [newNotificationsIds, setNewNotificationsIds] = useState<string[]>([])
+  const [unreadMessages, setUnreadMessages] = useState<any>([])
+  const [unreadMessagesIds, setUnreadMessagesIds] = useState<string[]>([])
 
   const getTitle = (type: NotificationType) => {
     switch (type) {
@@ -135,8 +140,50 @@ const AppBarContent = (props: Props) => {
       console.log(error)
     }
   }
+
+  const fetchUnreadMessages = async () => {
+    try {
+      const res = await axios.get('/api/user/get-unread-messages', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+
+      if (res.data.payload.unreadMessages) {
+        const data = res.data.payload.unreadMessages
+
+        const msgIds: string[] = []
+
+        const unreadMessages = data.map((msg: any) => {
+          // if (msg.read === false) msgIds.push(msg._id)
+
+          msgIds.push(msg._id)
+
+          return {
+            businessTicketsId: msg?.businessTicketsId,
+            business_name: msg?.business_name,
+            work_status: msg?.work_status,
+            sender: msg?.sender?.user_name,
+            content: msg.content,
+            date: moment(msg.createdAt).format('D MMM'),
+            // read: msg.read
+          }
+        })
+
+        setUnreadMessagesIds(msgIds)
+        setUnreadMessages(unreadMessages)
+      }
+
+      console.log('unread messages: ', res)
+    } catch (error) {
+      console.log(error)
+      toast.error('Error getting messages')
+    }
+  }
+
   useEffect(() => {
     fetchNotification()
+    fetchUnreadMessages()
+
+    // console.log('user data: ', user)
   }, [])
 
   return (
@@ -156,6 +203,13 @@ const AppBarContent = (props: Props) => {
           notifications={notifications}
           newNotificationsIds={newNotificationsIds}
         />
+        {allowedMembersToChat.includes(user?.role || '') && (
+          <ChatMsgNotificationDropdown
+            settings={settings}
+            unreadMessages={unreadMessages}
+            unreadMessagesIds={unreadMessagesIds}
+          />
+        )}
         <UserDropdown settings={settings} />
       </Box>
     </Box>

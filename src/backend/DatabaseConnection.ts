@@ -5,7 +5,7 @@ const connectDb = (handler: any) => async (req: any, res: any) => {
     return handler(req, res)
   }
 
-  await mongoose.connect('mongodb+srv://crmrankbpo:8PQnqzqTnGeXnSAX@crmrankorbit.gq2hhuc.mongodb.net/crm')
+  await mongoose.connect('mongodb://localhost:27017/crm-local')
 
   return handler(req, res)
 }

@@ -42,6 +42,7 @@ const Form = styled('form')(({ theme }) => ({
 const ChatHistory = styled('div')({
   overflowY: 'auto',
   padding: 8,
+  marginBottom: 80,
 
   // WebKit Browsers
   '::-webkit-scrollbar': {

@@ -1,3 +1,5 @@
+'use client'
+
 // ** React Imports
 import { useState, SyntheticEvent, Fragment, ReactNode } from 'react'
 
@@ -26,6 +28,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 export type NotificationsType = {
   meta: string
@@ -121,7 +124,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 
 const ChatMsgNotificationDropdown = (props: Props) => {
   // ** Props
-  const { settings, unreadMessages, unreadMessagesIds } = props
+  const { settings, unreadMessages, setUnreadMessages, unreadMessagesIds } = props
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
@@ -138,25 +141,35 @@ const ChatMsgNotificationDropdown = (props: Props) => {
     try {
       if (unreadMessagesIds.length === 0) return
 
-      // await axios.post(
-      //   '/api/user/notifications-mark-read',
-      //   { unreadMessagesIds },
-      //   {
-      //     headers: { authorization: localStorage.getItem('token') }
-      //   }
-      // )
     } catch (error) {
       console.log(error)
     }
   }
 
-  const openChatBox = (businessTicketsId: string) => {
+  const updateMsgReadStatus = async (messageId, businessTicketsId) => {
+    try {
+      await axios.post(
+        '/api/user/update-msg-read-status',
+        {
+          messageId,
+          businessTicketsId
+        },
+        {
+          headers: { authorization: localStorage.getItem('token') }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+      toast.error('Something went wrong')
+    }
+  }
 
-    console.log('open chat', businessTicketsId)
+  const openChatBox = async (messageId: string, businessTicketsId: string) => {
 
     if (businessTicketsId) {
       router.push(`/ticket-comments/${businessTicketsId}`)
       handleDropdownClose()
+      updateMsgReadStatus(messageId, businessTicketsId)
     }
   }
 
@@ -225,7 +238,7 @@ const ChatMsgNotificationDropdown = (props: Props) => {
           {unreadMessages.map((msg, index: number) => (
             <MenuItem
               key={index}
-              onClick={() => openChatBox(msg.businessTicketsId)}
+              onClick={() => openChatBox(msg.messageId, msg.businessTicketsId)}
 
               // sx={{ backgroundColor: notification.read ? '' : '#d9dafc' }}
             >
@@ -234,7 +247,7 @@ const ChatMsgNotificationDropdown = (props: Props) => {
                 <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
                   <MenuItemTitle>{msg.sender}</MenuItemTitle>
                   <MenuItemSubtitle variant='body2'>
-                  {msg.business_name} with {msg.work_status}
+                    {msg.business_name} with {msg.work_status} to {msg.team_lead}
                     {/* {msg.content.length > 15 ? `${msg.content.slice(0, 15)}...` : msg.content} */}
                   </MenuItemSubtitle>
                 </Box>

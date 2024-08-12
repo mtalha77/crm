@@ -247,8 +247,7 @@ const ChatMsgNotificationDropdown = (props: Props) => {
                 <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
                   <MenuItemTitle>{msg.sender}</MenuItemTitle>
                   <MenuItemSubtitle variant='body2'>
-                    {msg.business_name} with {msg.work_status} to {msg.team_lead}
-                    {/* {msg.content.length > 15 ? `${msg.content.slice(0, 15)}...` : msg.content} */}
+                    {msg.business_name} with {msg.work_status}
                   </MenuItemSubtitle>
                 </Box>
                 <Typography variant='caption' sx={{ color: 'text.disabled' }}>

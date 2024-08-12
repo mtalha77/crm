@@ -161,7 +161,6 @@ const AppBarContent = (props: Props) => {
             businessTicketsId: msg?.businessTicketsId,
             messageId: msg?._id,
             business_name: msg?.business_name,
-            team_lead: msg?.assignee_team_lead,
             work_status: msg?.work_status,
             sender: msg?.sender?.user_name,
             content: msg.content,

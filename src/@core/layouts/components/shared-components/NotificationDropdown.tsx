@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, SyntheticEvent, Fragment, ReactNode } from 'react'
+import { useState, SyntheticEvent, Fragment, ReactNode, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -25,6 +25,9 @@ import { Settings } from 'src/@core/context/settingsContext'
 import CustomChip from 'src/@core/components/mui/chip'
 
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import ViewTicketDialog from 'src/layouts/components/dialogs/ViewTicketDialog'
+import TicketnotificationDialog from 'src/layouts/components/dialogs/TicketnotificationDialog';
 
 export type NotificationsType = {
   meta: string
@@ -124,6 +127,7 @@ const NotificationDropdown = (props: Props) => {
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
+  const [selectedTicket, setSelectedTicket] = useState<{ ticketId: string; departmentName: string } | null>(null)
 
   // ** Hook
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
@@ -152,25 +156,33 @@ const NotificationDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  // const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-  //   const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
+  const showTicketDetails = async (ticketId: string, departmentId: string) => {
+    if (!ticketId || !departmentId) {
+      handleDropdownClose()
+      toast.error('Something went wrong')
 
-  //   if (avatarImg) {
-  //     return <Avatar alt={avatarAlt} src={avatarImg} />
-  //   } else if (avatarIcon) {
-  //     return (
-  //       <Avatar skin='light' color={avatarColor}>
-  //         {avatarIcon}
-  //       </Avatar>
-  //     )
-  //   } else {
-  //     return (
-  //       <Avatar skin='light' color={avatarColor}>
-  //         {getInitials(avatarText as string)}
-  //       </Avatar>
-  //     )
-  //   }
-  // }
+      return
+    }
+
+    try {
+      const res = await axios.post(
+        '/api/department/get-info',
+        { departmentId },
+        {
+          headers: { authorization: localStorage.getItem('token') }
+        }
+      )
+
+      if (res.data.payload.department) {
+        const departmentName = res.data.payload.department.name
+        setSelectedTicket({ ticketId, departmentName })
+      }
+    } catch (error) {
+      toast.error('Failed to fetch department information')
+    } finally {
+      handleDropdownClose()
+    }
+  }
 
   return (
     <Fragment>
@@ -186,6 +198,16 @@ const NotificationDropdown = (props: Props) => {
           <Icon icon='mdi:bell-outline' />
         </Badge>
       </IconButton>
+
+      {selectedTicket && (
+        
+        <ViewTicketDialog
+          ticketId={selectedTicket.ticketId}
+          depart={selectedTicket.departmentName}
+          openDirectly={true}
+        />
+      )}
+
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -213,7 +235,7 @@ const NotificationDropdown = (props: Props) => {
           {notifications.map((notification: NotificationsType, index: number) => (
             <MenuItem
               key={index}
-              onClick={handleDropdownClose}
+              onClick={() => showTicketDetails(notification.ticketId, notification.departmentId)}
               sx={{ backgroundColor: notification.read ? '' : '#d9dafc' }}
             >
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>

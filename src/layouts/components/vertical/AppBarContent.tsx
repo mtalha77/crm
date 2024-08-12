@@ -122,7 +122,7 @@ const AppBarContent = (props: Props) => {
       )
       const data = res.data.payload.notifications
       const arr: string[] = []
-      const newState: NotificationsType[] = data.map((d: any) => {
+      const newState: NotificationsType[] = data.map((d: any, index) => {
         if (d.read === false) arr.push(d._id)
 
         return {
@@ -131,7 +131,9 @@ const AppBarContent = (props: Props) => {
           title: getTitle(d.type),
           avatarImg: 'dsa',
           subtitle: d.message,
-          read: d.read
+          read: d.read,
+          ticketId: d.ticket_id,
+          departmentId: d.for_department_ids
         }
       })
       setNewNotificationsIds(arr)

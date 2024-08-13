@@ -6,12 +6,12 @@ import { useRouter } from 'next/router'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
+// import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+// import Icon from 'src/@core/components/icon'
 
 // ** Types
 import { SendMsgComponentType } from 'src/types/apps/chatTypes'
@@ -62,6 +62,7 @@ const ChatHistory = styled('div')({
   scrollbarColor: '#8866 transparent'
 })
 
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 const SendMsgForm = (props: SendMsgComponentType) => {
   // ** Props
   // const { store, dispatch, sendMsg } = props

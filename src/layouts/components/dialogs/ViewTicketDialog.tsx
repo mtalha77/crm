@@ -18,41 +18,27 @@ const Transition = forwardRef(function Transition(
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-interface ViewTicketDialogProps {
-  ticketId: string
-  depart: string
-  departmentalTicket?: boolean
-  openDirectly?: boolean // Optional prop to open the dialog directly
-}
-
-const ViewTicketDialog = ({
-  ticketId,
-  depart,
-  departmentalTicket = false,
-  openDirectly = false
-}: ViewTicketDialogProps) => {
+const ViewTicketDialog = (props: any) => {
   const [show, setShow] = useState<boolean>(false)
+  const { ticketId, depart, departmentalTicket, openDirectly, setSelectedTicket } = props
 
+  // Open the ticket details dialog on component mounting if openDirectly is true
   useEffect(() => {
     if (openDirectly) {
       setShow(true)
     }
-
-    console.log('starting: ' + show)
-
-    return () => {
-      setShow(false)
-      console.log('ending: ' + show)
-    }
-  }, [openDirectly, ticketId])
+  }, [ticketId, openDirectly])
 
   const handleClose = () => {
     setShow(false)
-    console.log('on close: ' + show)
+
+    // make the current selected ticket null so that when a new ticket is selected, then again side effects are performed
+    setSelectedTicket(null)
   }
 
   return (
     <>
+      {/* if openDirectly is true don't show the eye icon */}
       {!openDirectly && (
         <Tooltip title='View'>
           <VisibilityIcon style={{ cursor: 'pointer' }} onClick={() => setShow(true)} />

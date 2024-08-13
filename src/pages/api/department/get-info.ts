@@ -7,7 +7,7 @@ const handler = async (req: any, res: any) => {
     try {
       const { departmentId } = req.body
 
-      const department = await DepartmentModel.find({ _id: departmentId })
+      const department = await DepartmentModel.findOne({ _id: departmentId })
 
       return res.send({
         message: 'department info fetched successfully',

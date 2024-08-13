@@ -27,7 +27,6 @@ import CustomChip from 'src/@core/components/mui/chip'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import ViewTicketDialog from 'src/layouts/components/dialogs/ViewTicketDialog'
-import TicketnotificationDialog from 'src/layouts/components/dialogs/TicketnotificationDialog';
 
 export type NotificationsType = {
   meta: string
@@ -127,7 +126,10 @@ const NotificationDropdown = (props: Props) => {
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
-  const [selectedTicket, setSelectedTicket] = useState<{ ticketId: string; departmentName: string } | null>(null)
+  const [selectedTicket, setSelectedTicket] = useState<{
+    ticketId: string
+    departmentName: string
+  } | null>(null)
 
   // ** Hook
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
@@ -156,7 +158,7 @@ const NotificationDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const showTicketDetails = async (ticketId: string, departmentId: string) => {
+  const showTicketDetails = async (ticketId: string, departmentId: any) => {
     if (!ticketId || !departmentId) {
       handleDropdownClose()
       toast.error('Something went wrong')
@@ -167,7 +169,7 @@ const NotificationDropdown = (props: Props) => {
     try {
       const res = await axios.post(
         '/api/department/get-info',
-        { departmentId },
+        { departmentId: departmentId[0] },
         {
           headers: { authorization: localStorage.getItem('token') }
         }
@@ -199,12 +201,13 @@ const NotificationDropdown = (props: Props) => {
         </Badge>
       </IconButton>
 
+      {/* on clicking on a ticket notification show its details dialog */}
       {selectedTicket && (
-        
         <ViewTicketDialog
           ticketId={selectedTicket.ticketId}
           depart={selectedTicket.departmentName}
           openDirectly={true}
+          setSelectedTicket={setSelectedTicket}
         />
       )}
 

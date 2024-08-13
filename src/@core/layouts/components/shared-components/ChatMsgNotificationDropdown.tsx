@@ -124,7 +124,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 
 const ChatMsgNotificationDropdown = (props: Props) => {
   // ** Props
-  const { settings, unreadMessages, setUnreadMessages, unreadMessagesIds } = props
+  const { settings, unreadMessages, unreadMessagesIds } = props
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)

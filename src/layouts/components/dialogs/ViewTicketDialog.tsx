@@ -33,7 +33,9 @@ const ViewTicketDialog = (props: any) => {
     setShow(false)
 
     // make the current selected ticket null so that when a new ticket is selected, then again side effects are performed
-    setSelectedTicket(null)
+    if (openDirectly) {
+      setSelectedTicket(null)
+    }
   }
 
   return (

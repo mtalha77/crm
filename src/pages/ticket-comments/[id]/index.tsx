@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
+
 // import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -167,7 +168,7 @@ const SendMsgForm = (props: SendMsgComponentType) => {
   }, [handleSendMsg])
 
   return (
-    <Container sx={{ height: '85vh', display: 'flex', flexDirection: 'column', position:'relative' }}>
+    <Container sx={{ height: '85vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <ChatHistory ref={chatHistoryRef}>
         {chatHistory.map(history => (
           <>
@@ -189,7 +190,7 @@ const SendMsgForm = (props: SendMsgComponentType) => {
         ))}
       </ChatHistory>
 
-      <Form onSubmit={handleSendMsg} sx={{position:'absolute', bottom: '.5%', width:'100%'}}>
+      <Form onSubmit={handleSendMsg} sx={{ position: 'absolute', bottom: '.5%', width: '100%' }}>
         <ChatFormWrapper>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
             <TextField

@@ -18,18 +18,22 @@ const handler = async (req: any, res: any) => {
         hosting_holder,
         hosting_platform,
         notes,
-        hosting_id
+        hosting_id,
+        business
       } = req.body
 
+      console.log('Request received with body:', req.body)
+
       if (!(req.user.role === UserRole.ADMIN))
-        return res.status(500).send('You are not authorized to perform this action')
+        return res.status(403).send('You are not authorized to perform this action') // Use 403 for unauthorized access
 
-      const hostingExists = await HostingFormModel.findOne({
-        hosting_name,
-        _id: { $ne: new mongoose.Types.ObjectId(hosting_id) }
-      })
+      // Remove or adjust the uniqueness check if you want to allow duplicate names
+      // const hostingExists = await HostingFormModel.findOne({
+      //   hosting_name,
+      //   _id: { $ne: new mongoose.Types.ObjectId(hosting_id) }
+      // });
 
-      if (hostingExists) return res.status(500).send('Domain with that name already exists')
+      // if (hostingExists) return res.status(409).send('Hosting with that name already exists');
 
       const temp: any = {
         creation_date,
@@ -41,29 +45,32 @@ const handler = async (req: any, res: any) => {
         hostingApprovedBy,
         hosting_holder,
         hosting_platform,
-        notes
+        notes,
+        business
       }
 
-      const updatedDomain = await HostingFormModel.findByIdAndUpdate(
-        { _id: new mongoose.Types.ObjectId(hosting_id) },
-        {
-          $set: temp
-        },
+      console.log('Updating hosting with data:', temp)
+
+      const updatedHosting = await HostingFormModel.findByIdAndUpdate(
+        new mongoose.Types.ObjectId(hosting_id),
+        { $set: temp },
         { new: true }
       )
 
-      if (!updatedDomain) return res.status(500).send('Not able to update hosting form. Please try again')
+      if (!updatedHosting) return res.status(404).send('Not able to update hosting form. Please try again')
+
+      console.log('Hosting updated successfully:', updatedHosting)
 
       return res.send({
-        message: 'Domain Updated Successfully',
-        payload: { hosting: updatedDomain }
+        message: 'Hosting Updated Successfully',
+        payload: { hosting: updatedHosting }
       })
     } catch (error) {
-      console.log(error)
-      res.status(500).send('something went wrong')
+      console.error('Error updating hosting:', error)
+      res.status(500).send('Something went wrong')
     }
   } else {
-    res.status(500).send('this is a post request')
+    res.status(405).send('Method not allowed') // Use 405 for method not allowed
   }
 }
 

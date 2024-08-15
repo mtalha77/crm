@@ -10,7 +10,7 @@ const handler = async (req: any, res: any) => {
         return res.status(400).send('Hosting form ID is required')
       }
 
-      const hostingForm = await HostingFormModel.findById(_id)
+      const hostingForm = await HostingFormModel.findById(_id).populate('business', 'business_name')
       if (!hostingForm) {
         return res.status(404).send('Hosting form not found')
       }

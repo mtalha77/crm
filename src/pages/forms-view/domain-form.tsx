@@ -1,4 +1,18 @@
-import { Grid, FormControl, TextField, InputLabel, Select, MenuItem, Button, Box } from '@mui/material'
+import {
+  Grid,
+  FormControl,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -9,6 +23,7 @@ import ViewDomainFormDialog from 'src/layouts/components/dialogs/ViewDomainFormD
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Icon as MuiIcon } from '@mui/material'
 import UpdateDomainFormDialog from 'src/layouts/components/dialogs/UpdateDomainFormDialog'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 type DomainFormType = {
   _id?: string
@@ -22,12 +37,31 @@ type DomainFormType = {
   list_status: string
   notes: string
   domainApprovedBy: string
+  business: string // Added business field
 }
 
 const DomainForm = () => {
   const [data, setData] = useState<DomainFormType[]>([])
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const [businesses, setBusinesses] = useState<{ _id: string; business_name: string }[]>([]) // Added businesses state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false)
+
+  const handleDeleteDomain = async () => {
+    try {
+      await axios.delete(`/api/domain-forms/delete?_id=${selectedDomainId}`, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      toast.success('Domain deleted successfully')
+      fetchDomainForms()
+    } catch (error) {
+      console.error('Error deleting domain:', error)
+      toast.error('Failed to delete domain')
+    } finally {
+      setDeleteDialogOpen(false)
+      setSelectedDomainId(null)
+    }
+  }
 
   // Define handleUpdateDomainForm
   const handleUpdateDomainForm = (updatedDomain: DomainFormType) => {
@@ -101,6 +135,15 @@ const DomainForm = () => {
                 updatedDomain={cell.row.original}
                 handleUpdateDomainForm={handleUpdateDomainForm}
               />
+              <MuiIcon
+                style={{ cursor: 'pointer', marginLeft: '10px' }}
+                onClick={() => {
+                  setSelectedDomainId(_id)
+                  setDeleteDialogOpen(true)
+                }}
+              >
+                <DeleteIcon />
+              </MuiIcon>
             </Box>
           )
         }
@@ -120,7 +163,8 @@ const DomainForm = () => {
       live_status: 'Live',
       list_status: 'Listed',
       notes: '',
-      domainApprovedBy: ''
+      domainApprovedBy: '',
+      business: '' // Added business default value
     }
   })
 
@@ -143,7 +187,8 @@ const DomainForm = () => {
       live_status: data.live_status,
       list_status: data.list_status,
       domainApprovedBy: data.domainApprovedBy,
-      notes: data.notes
+      notes: data.notes,
+      business: data.business // Include selected business ID
     }
 
     await axios
@@ -169,8 +214,19 @@ const DomainForm = () => {
     }
   }
 
+  const fetchBusinesses = async () => {
+    try {
+      const response = await axios.get('/api/business/get-all-names', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setBusinesses(response.data.payload.businesses)
+    } catch (error) {
+      console.error('Error fetching businesses:', error)
+    }
+  }
   useEffect(() => {
     fetchDomainForms()
+    fetchBusinesses() // Fetch businesses on component mount
   }, [])
 
   return (
@@ -179,6 +235,24 @@ const DomainForm = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Domain Form For Websites</h1>
           <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <InputLabel>Business Name</InputLabel>
+                <Controller
+                  name='business'
+                  control={control}
+                  render={({ field }) => (
+                    <Select {...field} label='Business Name'>
+                      {businesses.map(business => (
+                        <MenuItem key={business._id} value={business._id}>
+                          {business.business_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
             <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
               <FormControl fullWidth>
                 <Controller
@@ -357,6 +431,33 @@ const DomainForm = () => {
         </form>
       </FormProvider>
       <MuiTable columns={columns} data={data} />
+      {selectedDomainId && (
+        <>
+          <ViewDomainFormDialog _id={selectedDomainId} open={dialogOpen} onClose={() => setDialogOpen(false)} />
+          <Dialog
+            open={deleteDialogOpen}
+            onClose={() => setDeleteDialogOpen(false)}
+            aria-labelledby='alert-dialog-title'
+            aria-describedby='alert-dialog-description'
+          >
+            <DialogTitle id='alert-dialog-title'>Delete Domain</DialogTitle>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>
+                Are you sure you want to delete this domain? This action cannot be undone.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setDeleteDialogOpen(false)} color='primary'>
+                Cancel
+              </Button>
+              <Button onClick={handleDeleteDomain} color='primary' autoFocus>
+                Yes, Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
+
       {selectedDomainId && (
         <ViewDomainFormDialog _id={selectedDomainId} open={dialogOpen} onClose={() => setDialogOpen(false)} />
       )}

@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FormProvider, Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -29,11 +29,20 @@ type DomainFormType = {
   list_status: string
   notes: string
   domainApprovedBy: string
+  business: string
 }
 
 const UpdateDomainForm = (props: any) => {
+  const {
+    handleUpdateDomainForm = () => {
+      /* Default function, does nothing */
+    },
+    updatedDomain,
+    setShow
+  } = props
+
   const [loading, setLoading] = useState<boolean>(false)
-  const updatedDomain = props.updatedDomain
+  const [businesses, setBusinesses] = useState<{ _id: string; business_name: string }[]>([])
 
   const defaultValues = {
     creationDate: updatedDomain.creation_date
@@ -49,7 +58,8 @@ const UpdateDomainForm = (props: any) => {
     notes: updatedDomain.notes || '',
     domainHolder: updatedDomain.domain_holder || '',
     domainPlatform: updatedDomain.domain_platform || '',
-    domainApprovedBy: updatedDomain.domainApprovedBy || ''
+    domainApprovedBy: updatedDomain.domainApprovedBy || '',
+    business: updatedDomain.business || ''
   }
 
   const methods = useForm({
@@ -69,6 +79,7 @@ const UpdateDomainForm = (props: any) => {
     const requestData = {
       creation_date: data.creationDate,
       domain_name: data.domainName,
+      business: data.business,
       domain_holder: data.domainHolder,
       domain_platform: data.domainPlatform,
       expiration_date: data.expirationDate,
@@ -86,8 +97,9 @@ const UpdateDomainForm = (props: any) => {
         headers: { authorization: localStorage.getItem('token') }
       })
       if (response.status === 200) {
-        props.handleUpdateDomainForm({ ...requestData, _id: updatedDomain._id })
-        props.setShow(false)
+        handleUpdateDomainForm({ ...requestData, _id: updatedDomain._id })
+        setShow(false)
+        toast.success('Domain Form Updated Successfully')
       } else {
         toast.error('Failed to update domain')
       }
@@ -99,6 +111,22 @@ const UpdateDomainForm = (props: any) => {
     }
   }
 
+  // Fetch businesses for the select dropdown
+  const fetchBusinesses = async () => {
+    try {
+      const response = await axios.get('/api/business/get-all-names', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setBusinesses(response.data.payload.businesses)
+    } catch (error) {
+      console.error('Error fetching businesses:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchBusinesses()
+  }, [])
+
   return (
     <Card>
       <CardHeader title='Update Domain' />
@@ -106,6 +134,24 @@ const UpdateDomainForm = (props: any) => {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel>Business Name</InputLabel>
+                  <Controller
+                    name='business'
+                    control={control}
+                    render={({ field }) => (
+                      <Select {...field} label='Business Name' value={field.value} onChange={field.onChange}>
+                        {businesses.map(business => (
+                          <MenuItem key={business._id} value={business._id}>
+                            {business.business_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
               <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
                 <FormControl fullWidth>
                   <Controller
@@ -139,7 +185,7 @@ const UpdateDomainForm = (props: any) => {
                         InputLabelProps={{
                           shrink: true
                         }}
-                        error={Boolean(errors.creationDate ? errors.creationDate.message : '')}
+                        error={Boolean(errors.creationDate)}
                         helperText={errors.creationDate ? errors.creationDate.message : ''}
                         value={field.value}
                         onChange={field.onChange}
@@ -252,7 +298,7 @@ const UpdateDomainForm = (props: any) => {
                     )}
                   ></Controller>
                 </FormControl>
-              </Grid>{' '}
+              </Grid>
               <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
                 <FormControl fullWidth>
                   <Controller
@@ -261,7 +307,7 @@ const UpdateDomainForm = (props: any) => {
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        label='Domain Holder'
+                        label='Domain Platform'
                         error={Boolean(errors.domainPlatform)}
                         helperText={errors.domainPlatform ? (errors.domainPlatform.message as React.ReactNode) : ''}
                       />

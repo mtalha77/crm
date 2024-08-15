@@ -6,6 +6,7 @@ const handle = async (req: any, res: any) => {
     try {
       const {
         domain_name,
+        business,
         creation_date,
         expiration_date,
         price,
@@ -19,6 +20,7 @@ const handle = async (req: any, res: any) => {
 
       if (
         !domain_name &&
+        !business &&
         !creation_date &&
         !expiration_date &&
         !price &&
@@ -32,6 +34,7 @@ const handle = async (req: any, res: any) => {
         return res.status(400).send('Fields Missing')
 
       const newDomain = new DomainFormModel({
+        business: business,
         creation_date: creation_date,
         domain_name: domain_name,
         expiration_date: expiration_date,

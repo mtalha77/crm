@@ -60,6 +60,9 @@ const ViewFullHostingFormDetails = ({ id }: any) => {
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={6}>
+              <BoldText>Business Name:</BoldText> {data.business?.business_name}
+            </Grid>
+            <Grid item xs={6}>
               <BoldText>Creation Date:</BoldText>{' '}
               {data.creation_date ? moment(data.creation_date).format('MMMM Do YYYY') : 'N/A'}
             </Grid>

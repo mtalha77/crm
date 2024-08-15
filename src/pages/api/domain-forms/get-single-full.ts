@@ -10,7 +10,7 @@ const handler = async (req: any, res: any) => {
         return res.status(400).send('Domain form ID is required')
       }
 
-      const domainForm = await DomainFormModel.findById(_id)
+      const domainForm = await DomainFormModel.findById(_id).populate('business', 'business_name')
       if (!domainForm) {
         return res.status(404).send('Domain form not found')
       }

@@ -1,4 +1,3 @@
-// ** React Imports
 import { MouseEvent, ReactNode, useState } from 'react'
 
 // ** Next Imports
@@ -14,7 +13,8 @@ import FormControl from '@mui/material/FormControl'
 import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
+
+// import InputAdornment from '@mui/material/InputAdornment'
 import InputLabel from '@mui/material/InputLabel'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TextField from '@mui/material/TextField'
@@ -113,7 +113,6 @@ interface FormData {
 
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(true)
-  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   // ** Hooks
   const auth = useAuth()
@@ -273,11 +272,7 @@ const LoginPage = () => {
             </Box>
             <Alert icon={false} sx={{ py: 3, mb: 6, ...bgColors.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
               <Typography variant='caption' sx={{ mb: 2, display: 'block', color: 'primary.main' }}>
-                {/* Admin: <strong>admin@materialize.com</strong> / Pass: <strong>admin</strong> */}
                 <strong>Hardwork Is Key To Success</strong> <strong>Good Luck Rankers!</strong>
-              </Typography>
-              <Typography variant='caption' sx={{ display: 'block', color: 'primary.main' }}>
-                {/* Client: <strong>client@materialize.com</strong> / Pass: <strong>client</strong> */}
               </Typography>
             </Alert>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
@@ -318,18 +313,7 @@ const LoginPage = () => {
                       onChange={onChange}
                       id='auth-login-v2-password'
                       error={Boolean(errors.password)}
-                      type={showPassword ? 'text' : 'password'}
-                      // endAdornment={
-                      //   <InputAdornment position='end'>
-                      //     <IconButton
-                      //       edge='end'
-                      //       onMouseDown={e => e.preventDefault()}
-                      //       onClick={() => setShowPassword(!showPassword)}
-                      //     >
-                      //       <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                      //     </IconButton>
-                      //   </InputAdornment>
-                      // }
+                      type='password'
                     />
                   )}
                 />

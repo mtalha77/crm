@@ -15,6 +15,7 @@ const hostingFormSchema = new mongoose.Schema(
     live_status: { type: String },
     list_status: { type: String },
     hostingApprovedBy: { type: String },
+    business: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
     notes: { type: String }
   },
   { timestamps: true }

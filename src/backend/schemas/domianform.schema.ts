@@ -15,7 +15,8 @@ const domainFormSchema = new mongoose.Schema(
     live_status: { type: String },
     list_status: { type: String },
     domainApprovedBy: { type: String },
-    notes: { type: String }
+    notes: { type: String },
+    business: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }
   },
   { timestamps: true }
 )

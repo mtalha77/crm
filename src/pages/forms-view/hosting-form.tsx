@@ -1,4 +1,18 @@
-import { Grid, FormControl, TextField, InputLabel, Select, MenuItem, Button, Box } from '@mui/material'
+import {
+  Grid,
+  FormControl,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -9,6 +23,7 @@ import ViewHostingFormDialog from 'src/layouts/components/dialogs/ViewHostingFor
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Icon as MuiIcon } from '@mui/material'
 import UpdateHostingFormDialog from 'src/layouts/components/dialogs/UpdateHostingFormDialog'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 // import UpdateDomainFormDialog from 'src/layouts/components/dialogs/UpdateDomainFormDialog'
 
@@ -24,12 +39,31 @@ type HostingFormType = {
   list_status: string
   notes: string
   hostingApprovedBy: string
+  business: string
 }
 
 const HostingForm = () => {
   const [data, setData] = useState<HostingFormType[]>([])
   const [selectedHostingId, setSelectedHostingId] = useState<string | null>(null)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const [businesses, setBusinesses] = useState<{ _id: string; business_name: string }[]>([]) // Added businesses state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false)
+
+  const handleDeleteHost = async () => {
+    try {
+      await axios.delete(`/api/hosting-forms/delete?_id=${selectedHostingId}`, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      toast.success('Host deleted successfully')
+      fetchHostingForms()
+    } catch (error) {
+      console.error('Error deleting host:', error)
+      toast.error('Failed to delete host')
+    } finally {
+      setDeleteDialogOpen(false)
+      setSelectedHostingId(null)
+    }
+  }
 
   // Define handleUpdateHostinginForm
   const handleUpdateHostingForm = (updatedHosting: HostingFormType) => {
@@ -103,6 +137,15 @@ const HostingForm = () => {
                 updatedHosting={cell.row.original}
                 handleUpdateHostingForm={handleUpdateHostingForm}
               />
+              <MuiIcon
+                style={{ cursor: 'pointer', marginLeft: '10px' }}
+                onClick={() => {
+                  setSelectedHostingId(_id)
+                  setDeleteDialogOpen(true)
+                }}
+              >
+                <DeleteIcon />
+              </MuiIcon>
             </Box>
           )
         }
@@ -122,7 +165,8 @@ const HostingForm = () => {
       live_status: 'Live',
       list_status: 'Listed',
       notes: '',
-      hostingApprovedBy: ''
+      hostingApprovedBy: '',
+      business: ''
     }
   })
 
@@ -145,7 +189,8 @@ const HostingForm = () => {
       live_status: data.live_status,
       list_status: data.list_status,
       hostingApprovedBy: data.hostingApprovedBy,
-      notes: data.notes
+      notes: data.notes,
+      business: data.business // Include selected business ID
     }
 
     await axios
@@ -171,8 +216,20 @@ const HostingForm = () => {
     }
   }
 
+  const fetchBusinesses = async () => {
+    try {
+      const response = await axios.get('/api/business/get-all-names', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setBusinesses(response.data.payload.businesses)
+    } catch (error) {
+      console.error('Error fetching businesses:', error)
+    }
+  }
+
   useEffect(() => {
     fetchHostingForms()
+    fetchBusinesses()
   }, [])
 
   return (
@@ -181,6 +238,24 @@ const HostingForm = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Hosting Form For Websites</h1>
           <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <FormControl fullWidth>
+                <InputLabel>Business Name</InputLabel>
+                <Controller
+                  name='business'
+                  control={control}
+                  render={({ field }) => (
+                    <Select {...field} label='Business Name'>
+                      {businesses.map(business => (
+                        <MenuItem key={business._id} value={business._id}>
+                          {business.business_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
             <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
               <FormControl fullWidth>
                 <Controller
@@ -359,6 +434,33 @@ const HostingForm = () => {
         </form>
       </FormProvider>
       <MuiTable columns={columns} data={data} />
+      {selectedHostingId && (
+        <>
+          <ViewHostingFormDialog _id={selectedHostingId} open={dialogOpen} onClose={() => setDialogOpen(false)} />
+          <Dialog
+            open={deleteDialogOpen}
+            onClose={() => setDeleteDialogOpen(false)}
+            aria-labelledby='alert-dialog-title'
+            aria-describedby='alert-dialog-description'
+          >
+            <DialogTitle id='alert-dialog-title'>Delete Host</DialogTitle>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>
+                Are you sure you want to delete this hosting? This action cannot be undone.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setDeleteDialogOpen(false)} color='primary'>
+                Cancel
+              </Button>
+              <Button onClick={handleDeleteHost} color='primary' autoFocus>
+                Yes, Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
+
       {selectedHostingId && (
         <ViewHostingFormDialog _id={selectedHostingId} open={dialogOpen} onClose={() => setDialogOpen(false)} />
       )}

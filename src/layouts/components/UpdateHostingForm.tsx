@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -28,12 +28,20 @@ type HostingFormType = {
   live_status: string
   list_status: string
   notes: string
+  business: string
   hostingApprovedBy: string
 }
 
 const UpdateHostingForm = (props: any) => {
+  const {
+    handleUpdateHostingForm = () => {
+      /* Default function, does nothing */
+    },
+    updatedHosting,
+    setShow
+  } = props
   const [loading, setLoading] = useState<boolean>(false)
-  const updatedHosting = props.updatedHosting
+  const [businesses, setBusinesses] = useState<{ _id: string; business_name: string }[]>([])
 
   const defaultValues = {
     creationDate: updatedHosting.creation_date
@@ -49,7 +57,19 @@ const UpdateHostingForm = (props: any) => {
     notes: updatedHosting.notes || '',
     hostingHolder: updatedHosting.hosting_holder || '',
     hostingPlatform: updatedHosting.hosting_platform || '',
-    hostingApprovedBy: updatedHosting.hostingApprovedBy || ''
+    hostingApprovedBy: updatedHosting.hostingApprovedBy || '',
+    business: updatedHosting.business || ''
+  }
+
+  const fetchBusinesses = async () => {
+    try {
+      const response = await axios.get('/api/business/get-all-names', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      setBusinesses(response.data.payload.businesses)
+    } catch (error) {
+      console.error('Error fetching businesses:', error)
+    }
   }
 
   const methods = useForm({
@@ -68,6 +88,7 @@ const UpdateHostingForm = (props: any) => {
     const apiUrl = `/api/hosting-forms/update/`
     const requestData = {
       creation_date: data.creationDate,
+      business: data.business,
       hosting_name: data.hostingName,
       hosting_holder: data.hostingHolder,
       hosting_platform: data.hostingPlatform,
@@ -86,8 +107,9 @@ const UpdateHostingForm = (props: any) => {
         headers: { authorization: localStorage.getItem('token') }
       })
       if (response.status === 200) {
-        props.handleUpdateHostingForm({ ...requestData, _id: updatedHosting._id })
-        props.setShow(false)
+        handleUpdateHostingForm({ ...requestData, _id: updatedHosting._id })
+        setShow(false)
+        toast.success('Hosting Form Updated Successfully')
       } else {
         toast.error('Failed to update hosting')
       }
@@ -99,6 +121,10 @@ const UpdateHostingForm = (props: any) => {
     }
   }
 
+  useEffect(() => {
+    fetchBusinesses()
+  }, [])
+
   return (
     <Card>
       <CardHeader title='Update Hosting' />
@@ -106,7 +132,25 @@ const UpdateHostingForm = (props: any) => {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} style={{ marginTop: '20px' }}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel>Business Name</InputLabel>
+                  <Controller
+                    name='business'
+                    control={control}
+                    render={({ field }) => (
+                      <Select {...field} label='Business Name' value={field.value} onChange={field.onChange}>
+                        {businesses.map(business => (
+                          <MenuItem key={business._id} value={business._id}>
+                            {business.business_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='hostingName'

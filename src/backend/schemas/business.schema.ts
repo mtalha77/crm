@@ -15,8 +15,6 @@ const businessSchema = new mongoose.Schema(
     social_profile: { type: String, required: false },
     website_url: { type: String, required: false },
     gmb_url: { type: String, required: false, trim: true },
-
-    //
     work_status: [
       {
         type: String,
@@ -25,7 +23,9 @@ const businessSchema = new mongoose.Schema(
       }
     ],
     status: { type: String, enum: BusinessStatus, default: BusinessStatus.ACTIVE },
-    client_name: { type: String, required: false, trim: true }
+    client_name: { type: String, required: false, trim: true },
+    domains: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DomainForm' }],
+    hostings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'HostingForm' }]
   },
   { timestamps: true }
 )

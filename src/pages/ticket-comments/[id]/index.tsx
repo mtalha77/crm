@@ -1,31 +1,19 @@
-// ** React Imports
 import { useState, SyntheticEvent, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
-
-// import IconButton from '@mui/material/IconButton'
+import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-
-// ** Types
-import { SendMsgComponentType } from 'src/types/apps/chatTypes'
 import { Container, Divider } from '@mui/material'
-
-// ** others
 import MessageBubble from 'src/layouts/components/chat/MessageBubble'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-
 import dayjs from 'dayjs'
+import FilePreview from '../FilePreview' // Import the FilePreview component
+import AttachFileIcon from '@mui/icons-material/AttachFile' // Import the icon
 
-// ** Styled Components
 const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
   borderRadius: 8,
@@ -45,7 +33,6 @@ const ChatHistory = styled('div')({
   padding: 8,
   marginBottom: 80,
 
-  // WebKit Browsers
   '::-webkit-scrollbar': {
     width: '12px'
   },
@@ -58,29 +45,36 @@ const ChatHistory = styled('div')({
     borderRadius: '84px'
   },
 
-  // Firefox
   scrollbarWidth: 'thin',
   scrollbarColor: '#8866 transparent'
 })
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-const SendMsgForm = (props: SendMsgComponentType) => {
-  // ** Props
-  // const { store, dispatch, sendMsg } = props
 
-  // ** State
+const SendMsgForm = (props: SendMsgComponentType) => {
   const [msg, setMsg] = useState<string>('')
   const [chatHistory, setChatHistory] = useState<any>([])
   const router = useRouter()
   const { id } = router.query
   const [loggedInUserId, setLoggedInUserId] = useState<any>('')
   const chatHistoryRef = useRef<HTMLElement>(null)
+  const [files, setFiles] = useState<any[]>([])
+
+  const handleFileChange = e => {
+    setFiles([...e.target.files])
+  }
+
+  // const handleThumbnailClick = fileUrl => {
+  //   window.open(fileUrl)
+  // }
+
+  const handleRemoveFile = (index: number) => {
+    setFiles(files.filter((_, i) => i !== index))
+  }
 
   const groupMessagesByDate = (chatHistory: any) => {
     const groups: any = {}
 
     chatHistory.forEach((message: any) => {
-      const date = dayjs(message.createdAt).format('DD-MM-YYYY') // Get the 'YYYY-MM-DD' part of the date
-      console.log('date: ', date)
+      const date = dayjs(message.createdAt).format('DD-MM-YYYY')
       if (!groups[date]) {
         groups[date] = []
       }
@@ -107,42 +101,35 @@ const SendMsgForm = (props: SendMsgComponentType) => {
       setLoggedInUserId(res.data.payload.loggedInUserId)
 
       if (chatHistory) {
-        console.log('chatHistory: ', chatHistory)
         const groupedChatHistory = groupMessagesByDate(chatHistory)
-        console.log('groupedChatHistory: ', groupedChatHistory)
-
-        // groupedChatHistory.sort((a, b) => dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1);
         setChatHistory(groupedChatHistory)
       }
     } catch (error) {
-      console.log(error)
       toast.error('Failed to get chat history')
     }
   }
 
   const handleSendMsg = async (e: SyntheticEvent) => {
     e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('businessTicketId', id)
+    formData.append('content', msg)
+    files.forEach(file => formData.append('files', file))
+
     try {
-      // Send message to the server
-      const res = await axios.post(
-        '/api/business-ticket/chat/send-message',
-        { businessTicketId: id, content: msg },
-        {
-          headers: { authorization: localStorage.getItem('token') }
+      const res = await axios.post('/api/business-ticket/chat/send-message', formData, {
+        headers: {
+          authorization: localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data'
         }
-      )
+      })
 
-      const newMessage = res.data.payload.newMessage
-
-      console.log('newMessage', newMessage)
-
-      // setChatHistory(prevState => [...prevState, newMessage])
-
-      getChatHistory()
+      await getChatHistory()
 
       setMsg('')
+      setFiles([])
     } catch (error) {
-      console.log(error)
       toast.error('Failed to send message')
     }
   }
@@ -160,7 +147,6 @@ const SendMsgForm = (props: SendMsgComponentType) => {
     window.scrollTo(0, document.body.scrollHeight)
     document.body.style.overflow = 'hidden'
 
-    // Restore scrollbar when component unmounts
     return () => {
       document.body.style.overflow = 'auto'
     }
@@ -177,21 +163,31 @@ const SendMsgForm = (props: SendMsgComponentType) => {
             <Divider sx={{ mb: 3 }} />
 
             {history.messages.map(msg => (
-              <MessageBubble
-                key={msg._id}
-                message={msg.content}
-                owner={msg.sender._id === loggedInUserId}
-                senderName={msg.sender.user_name}
-                timestamp={msg.createdAt}
-              />
+              <Box key={msg._id} sx={{ mb: 2 }}>
+                <MessageBubble
+                  message={msg.content}
+                  files={msg.files}
+                  owner={msg.sender._id === loggedInUserId}
+                  senderName={msg.sender.user_name}
+                  timestamp={msg.createdAt}
+                />
+              </Box>
             ))}
           </>
         ))}
       </ChatHistory>
 
-      <Form onSubmit={handleSendMsg} sx={{ position: 'absolute', bottom: '.5%', width: '100%' }}>
+      <Form
+        onSubmit={handleSendMsg}
+        encType='multipart/form-data'
+        sx={{ position: 'absolute', bottom: '.5%', width: '100%' }}
+      >
         <ChatFormWrapper>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+            {/* File previews */}
+            <FilePreview files={files} onRemove={handleRemoveFile} />
+
+            {/* Message input */}
             <TextField
               fullWidth
               value={msg}
@@ -201,14 +197,13 @@ const SendMsgForm = (props: SendMsgComponentType) => {
               sx={{ '& .MuiOutlinedInput-input': { pl: 0 }, '& fieldset': { border: '0 !important' } }}
             />
           </Box>
+
+          {/* Send button and file input */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* <IconButton size='small' sx={{ mr: 1.5, color: 'text.primary' }}>
-            <Icon icon='mdi:microphone' fontSize='1.375rem' />
-          </IconButton> */}
-            {/* <IconButton size='small' component='label' htmlFor='upload-img' sx={{ mr: 2.75, color: 'text.primary' }}>
-            <Icon icon='mdi:attachment' fontSize='1.375rem' />
-            <input hidden type='file' id='upload-img' />
-          </IconButton> */}
+            <IconButton size='small' component='label' htmlFor='upload-img' sx={{ mr: 2.75, color: 'text.primary' }}>
+              <AttachFileIcon fontSize='inherit' />
+              <input hidden type='file' id='upload-img' multiple accept=".pdf,.docx,.xlsx,.txt" onChange={handleFileChange} />
+            </IconButton>
             <Button type='submit' variant='contained'>
               Send
             </Button>

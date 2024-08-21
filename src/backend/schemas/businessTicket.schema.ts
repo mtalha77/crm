@@ -40,6 +40,22 @@ const MessageSchema = new mongoose.Schema({
         default: Date.now
       }
     }
+  ],
+  files: [
+    {
+      filename: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      },
+      uploadedAt: {
+        type: Date,
+        default: Date.now
+      }
+    }
   ]
 })
 

@@ -27,22 +27,11 @@ const Bubble = styled(Box)(({ theme, owner }) => ({
 const SenderName = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
   marginBottom: theme.spacing(0.5),
-  color: 'blue'
-}))
-
-const Timestamp = styled(Typography)(({ theme }) => ({
-  position: 'absolute',
-  bottom: theme.spacing(0.5),
-  right: theme.spacing(0.5),
-  fontSize: '0.65rem',
-  color: 'white',
-  padding: theme.spacing(1)
+  color: 'blue',
+  userSelect: 'none' // Disable text selection
 }))
 
 const MessageBubble = ({ message, files = [], owner, senderName, timestamp }) => {
-  const handleThumbnailClick = fileUrl => {
-    window.open(fileUrl)
-  }
 
   const handleDownload = (url, filename) => {
     fetch(url)
@@ -67,117 +56,76 @@ const MessageBubble = ({ message, files = [], owner, senderName, timestamp }) =>
       .catch(error => console.error('Download failed:', error))
   }
 
-  // to preview text files
-  const renderFilePreview = (file: any) => {
-    return (
-      <Box
-        key={file._id}
-        display='flex'
-        alignItems='center'
-        bgcolor='rgba(255, 255, 255, 0.1)'
-        padding={2}
-        borderRadius={2}
-        marginBottom={1}
-      >
-        <TextSnippetOutlinedIcon sx={{ color: 'white', marginRight: 1 }} />
-        <Typography variant='body1' color='white' flexGrow={1}>
-          {file.filename}
-        </Typography>
-        <IconButton onClick={() => handleDownload(file.url, file.filename)}>
-          <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
-        </IconButton>
-      </Box>
-    )
-  }
-
   // to preview text, images and videos
-  // const renderFilePreview = file => {
-  //   if (file.url.includes('image')) {
-  //     return (
-  //       <Box
-  //         key={file._id}
-  //         display='flex'
-  //         alignItems='center'
-  //         marginBottom={1.5}
-  //         bgcolor='rgba(255, 255, 255, 0.1)'
-  //         padding={1}
-  //         borderRadius={2}
-  //       >
-  //         <img
-  //           src={`${file.url}?w=150&h=150&c=thumb`}
-  //           alt='Preview'
-  //           onClick={() => handleThumbnailClick(file.url)}
-  //           style={{ cursor: 'pointer', height: '25vh', width: '20vw', borderRadius: '15px', marginRight: '1rem' }}
-  //         />
-  //         <IconButton onClick={() => handleDownload(file.url, file.filename)}>
-  //           <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
-  //         </IconButton>
-  //       </Box>
-  //     )
-  //   }
+  const renderFilePreview = file => {
+    const filePreviewBoxStyles = {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: 1.5,
+      bgcolor: 'rgba(255, 255, 255, 0.1)',
+      padding: 1,
+      borderRadius: 2
+    }
 
-  //   if (file.url.includes('mp4')) {
-  //     return (
-  //       <Box
-  //         key={file._id}
-  //         display='flex'
-  //         alignItems='center'
-  //         marginBottom={1.5}
-  //         bgcolor='rgba(255, 255, 255, 0.1)'
-  //         padding={1}
-  //         borderRadius={2}
-  //       >
-  //         <img
-  //           src={`${file.url}?time=1s&width=150&height=150&crop=fill`}
-  //           alt='Video'
-  //           onClick={() => handleThumbnailClick(file.url)}
-  //           style={{ cursor: 'pointer', height: '25vh', width: '20vw', borderRadius: '15px', marginRight: '1rem' }}
-  //         />
-  //         <IconButton onClick={() => handleDownload(file.url, file.filename)}>
-  //           <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
-  //         </IconButton>
-  //       </Box>
-  //     )
-  //   }
+    //for images
+    // if (file.url.includes('image')) {
+    //   return (
+    //     <Box key={file._id} {...filePreviewBoxStyles}>
+    //       <img
+    //         src={`${file.url}?w=150&h=150&c=thumb`}
+    //         alt='Preview'
+    //         onClick={() => handleThumbnailClick(file.url)}
+    //         style={{ cursor: 'pointer', height: '25vh', width: '20vw', borderRadius: '15px', marginRight: '1rem' }}
+    //       />
+    //       <IconButton onClick={() => handleDownload(file.url, file.filename)}>
+    //         <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
+    //       </IconButton>
+    //     </Box>
+    //   )
+    // }
 
-  //   if (file.url.includes('file')) {
-  //     return (
-  //       <Box
-  //         key={file._id}
-  //         display='flex'
-  //         alignItems='center'
-  //         bgcolor='rgba(255, 255, 255, 0.1)'
-  //         padding={2}
-  //         borderRadius={2}
-  //         marginBottom={1}
-  //       >
-  //         <TextSnippetOutlinedIcon sx={{ color: 'white', marginRight: 1 }} />
-  //         <Typography variant='body1' color='white' flexGrow={1}>
-  //           {file.filename}
-  //         </Typography>
-  //         <IconButton onClick={() => handleDownload(file.url, file.filename)}>
-  //           <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
-  //         </IconButton>
-  //       </Box>
-  //     )
-  //   }
+    //for videos
+    // if (file.url.includes('mp4')) {
+    //   return (
+    //     <Box key={file._id} {...filePreviewBoxStyles}>
+    //       <video
+    //         src={file.url}
+    //         controls
+    //         onClick={() => handleThumbnailClick(file.url)}
+    //         style={{ cursor: 'pointer', height: '25vh', width: '20vw', borderRadius: '15px', marginRight: '1rem' }}
+    //       >
+    //         Your browser does not support the video tag.
+    //       </video>
+    //       <IconButton onClick={() => handleDownload(file.url, file.filename)}>
+    //         <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
+    //       </IconButton>
+    //     </Box>
+    //   )
+    // }
 
-  //   return null
-  // }
+    if (file.url.includes('file')) {
+      return (
+        <Box key={file._id} {...filePreviewBoxStyles}>
+          <TextSnippetOutlinedIcon sx={{ color: 'white', marginRight: 1 }} />
+          <Typography variant='body1' color='white' flexGrow={1} sx={{ userSelect: 'none' }}>
+            {file.filename}
+          </Typography>
+          <IconButton onClick={() => handleDownload(file.url, file.filename)}>
+            <FileDownloadOutlinedIcon sx={{ color: 'white' }} />
+          </IconButton>
+        </Box>
+      )
+    }
+
+    return null
+  }
 
   return (
     <BubbleContainer owner={owner}>
       <Bubble owner={owner} display='flex' flexDirection='column'>
         <SenderName variant='body2'>{owner ? 'You' : senderName}</SenderName>
         {message && (
-          <Typography
-            variant='body2'
-            gutterBottom
-            color='white'
-            padding={2}
-            bgcolor='rgba(255, 255, 255, 0.1)'
-            borderRadius={2}
-          >
+          <Typography variant='body2' gutterBottom color='white' marginX={3} borderRadius={2}>
             {message}
           </Typography>
         )}
@@ -190,7 +138,8 @@ const MessageBubble = ({ message, files = [], owner, senderName, timestamp }) =>
             marginTop: 1,
             color: 'white',
             textAlign: 'end',
-            display: 'block'
+            display: 'block',
+            userSelect: 'none'
           }}
         >
           {dayjs(timestamp).format('h:mm A')}

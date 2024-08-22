@@ -8,7 +8,6 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => ({
     folder: 'chatbox_files',
     resource_type: 'auto',
-    // allowed_formats: ['pdf', 'docx', 'xlsx', 'txt'], // Allowed file extensions
     public_id: `${Date.now()}-${file.originalname}` // Unique file name
   })
 })
@@ -19,21 +18,18 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 5 MB file size limit
 }).array('files')
 
-export default function uploadFiles(req: NextApiRequest, res: NextApiResponse, next: Function) {
-  console.log('Request files:', req.files)
-
+// Middleware to handle file uploads and errors
+export default function uploadFiles(req: any, res: any, next: any) {
   upload(req, res, err => {
-    if (err instanceof multer.MulterError) {
-      console.error('Multer error:', err)
+    if (err) {
+      const statusCode = err instanceof multer.MulterError ? 400 : 500
+      console.error('File upload error:', err)
 
-      return res.status(400).json({ error: 'File upload error', details: err.message })
-    } else if (err) {
-      console.error('File error:', err)
-
-      return res.status(500).json({ error: 'Server error during file upload' })
+      return res.status(statusCode).json({
+        error: 'File upload error',
+        details: err.message
+      })
     }
-
-    // Proceed to the next middleware/handler
     next()
   })
 }

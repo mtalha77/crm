@@ -112,6 +112,10 @@ const SendMsgForm = (props: SendMsgComponentType) => {
   const handleSendMsg = async (e: SyntheticEvent) => {
     e.preventDefault()
 
+    if (!msg && files.length === 0) {
+      return
+    }
+
     const formData = new FormData()
     formData.append('businessTicketId', id)
     formData.append('content', msg)
@@ -202,7 +206,15 @@ const SendMsgForm = (props: SendMsgComponentType) => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton size='small' component='label' htmlFor='upload-img' sx={{ mr: 2.75, color: 'text.primary' }}>
               <AttachFileIcon fontSize='inherit' />
-              <input hidden type='file' id='upload-img' multiple accept=".pdf,.docx,.xlsx,.txt" onChange={handleFileChange} />
+              <input
+                hidden
+                type='file'
+                id='upload-img'
+                name='files'
+                multiple
+                accept='.pdf,.docx,.xlsx,.txt'
+                onChange={handleFileChange}
+              />
             </IconButton>
             <Button type='submit' variant='contained'>
               Send

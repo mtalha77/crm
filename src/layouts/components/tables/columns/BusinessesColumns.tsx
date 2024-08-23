@@ -28,8 +28,8 @@ function BusinessesColumns(updateStatus: any) {
       filterVariant: 'select',
       filterSelectOptions: BusinessStatustValues,
       Cell: ({ cell }: any) => {
-        const { _id } = cell.row.original
-        const defaultValue = cell.getValue() ? cell.getValue() : ''
+        const { _id, status } = cell.row.original // Extract id and status from the row data
+        const defaultValue = status || cell.getValue() || '' // Use status as default
         const [value, setValue] = useState(defaultValue)
 
         return (
@@ -62,11 +62,11 @@ function BusinessesColumns(updateStatus: any) {
     {
       header: 'Action',
       Cell: ({ cell }: any) => {
-        const { _id } = cell.row.original
+        const { _id, status } = cell.row.original
 
         return (
           <>
-            <ViewBusinessDialog id={_id} />
+            <ViewBusinessDialog id={_id} departBusinessStatus={status} />
             {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (
               <UpdateBusinessDialog id={_id} />
             )}

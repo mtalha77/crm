@@ -1,9 +1,10 @@
-import { Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import addDays from 'date-fns/addDays'
 import PickersRange from 'src/layouts/components/datePickers/RangePicker'
 import dayjs from 'dayjs'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
 
 function ViewLogs() {
   const [logs, setLogs] = useState([])
@@ -35,11 +36,33 @@ function ViewLogs() {
     if (startDate && endDate) fetchLogs()
   }, [startDate, endDate])
 
+  const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+    filename: 'Logs'
+  })
+
+  const handleExportData = () => {
+    const rowData = logs.map(d => {
+      return {
+        message: d.msg,
+        level: d.level,
+        'creation Date': dayjs(d.createdAt).format('YYYY-MM-DD HH:mm:ss')
+      }
+    })
+    const csv = generateCsv(csvConfig)(rowData)
+    download(csvConfig)(csv)
+  }
+
   return (
     <>
       <Typography variant='h4' sx={{ mb: 5 }}>
         View Logs
       </Typography>
+      <Button variant='contained' onClick={handleExportData}>
+        Download CSV
+      </Button>
 
       <PickersRange handleDateChange={handleDateChange} startDate={startDate} endDate={endDate} />
       <ul>

@@ -131,3 +131,10 @@ export const domainFormViewsObj = {
     { title: 'Hosting Form', path: '/forms-view/hosting-form' }
   ]
 }
+
+export const logsObj = {
+  title: 'Logs',
+  subject: 'logs',
+  icon: 'formkit:filedoc',
+  children: [{ title: 'Logs', path: '/view-logs' }]
+}

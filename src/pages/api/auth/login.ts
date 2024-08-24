@@ -7,6 +7,8 @@ import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import BusinessModel from 'src/backend/schemas/business.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
+import { NextApiRequest, NextApiResponse } from 'next'
+import createLog from 'src/backend/utils/createLog'
 
 const tokenSecret = process.env.JWT_SECRET as Secret
 
@@ -32,6 +34,12 @@ const handler = async (req: any, res: any) => {
       const departments = await DepartmentModel.find({})
 
       if (!departments) throw new Error('no departments')
+
+      const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged In`
+
+      createLog({ msg: logMsg })
 
       return res.send({
         message: 'login successful',

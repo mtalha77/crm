@@ -12,7 +12,7 @@ import createLog from 'src/backend/utils/createLog'
 
 const tokenSecret = process.env.JWT_SECRET as Secret
 
-const handler = async (req: any, res: any) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       const { user_name, password } = req.body
@@ -26,8 +26,21 @@ const handler = async (req: any, res: any) => {
       PaymentHistoryModel.schema
 
       const user = await UserModel.findOne({ user_name })
-      if (!user) return res.status(500).send('Invalid username')
-      if (password !== user.password) return res.status(500).send('Invalid password')
+      const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+      if (!user) {
+        createLog({ msg: `Unauthorized login attempt with invalid username: ${user_name} from IP: ${clientIP}` })
+
+        return res.status(401).send('Invalid username')
+      }
+
+      if (password !== user.password) {
+        createLog({
+          msg: `Unauthorized login attempt for user: ${user_name} with invalid password from IP: ${clientIP}`
+        })
+
+        return res.status(401).send('Invalid password')
+      }
 
       const token = jwt.sign({ user }, tokenSecret)
 
@@ -35,10 +48,7 @@ const handler = async (req: any, res: any) => {
 
       if (!departments) throw new Error('no departments')
 
-      const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-
-      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged In`
-
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged in`
       createLog({ msg: logMsg })
 
       return res.send({
@@ -46,11 +56,11 @@ const handler = async (req: any, res: any) => {
         payload: { user, token, departments }
       })
     } catch (error) {
-      // console.log(error)
-      res.status(500).send('something went wrong')
+      console.error(error)
+      res.status(500).send('Something went wrong')
     }
   } else {
-    res.status(500).send('this is a post request')
+    res.status(405).send('This is a POST request')
   }
 }
 

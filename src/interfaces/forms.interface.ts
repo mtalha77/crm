@@ -38,6 +38,12 @@ export interface TicketDetails {
   otherSales: boolean
 }
 
+export interface CustomDevDetails {
+  notes?: string
+  work_status: string
+  service_name?: string
+  service_area?: string
+}
 export interface LocalSeoDetails {
   notes?: string
   work_status: string
@@ -107,6 +113,10 @@ export interface CommonFormType {
   saleDepart: SaleDepartDetails
   ticketDetails: TicketDetails
 }
+export interface CustomDevFormType extends CommonFormType {
+  customDevDetails: CustomDevDetails
+}
+
 export interface LocalSeoFormType extends CommonFormType {
   localSeoDetails: LocalSeoDetails
 }
@@ -133,6 +143,48 @@ export interface PaidMarketingFormType extends CommonFormType {
 
 export interface SocialMediaFormType extends CommonFormType {
   socialMediaFormTypeDetails: SocialMediaDetails
+}
+
+export const customDevDefaultValues: CustomDevFormType = {
+  business: {
+    business_name: '',
+    business_email: '',
+    business_number: '',
+    business_hours: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    street: '',
+    website_url: '',
+    social_profile: '',
+    gmb_url: '',
+    client_name: ''
+  },
+  saleDepart: {
+    fronter: '',
+    fronter_id: '',
+    closer: '',
+    closer_id: '',
+    sale_type: ''
+  },
+  ticketDetails: {
+    priority: '',
+    remaining_price_date: null,
+    created_at: new Date(),
+
+    // due_date: new Date(),
+    total_payment: 0,
+    advance_payment: 0,
+    remaining_payment: 0,
+    client_reporting_date: dayjs(new Date()).add(1, 'month').toDate(),
+    ticket_notes: '',
+    client_reporting_notes: '',
+    otherSales: false
+  },
+  customDevDetails: {
+    notes: '',
+    work_status: '',
+  }
 }
 
 export const localSeoDefaultValues: LocalSeoFormType = {

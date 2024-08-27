@@ -10,12 +10,14 @@ import {
   viewBusinessesRouteObj,
   viewDepartmentalTicketsRouteObj,
   viewTicketsRouteObj,
-  domainFormViewsObj
+  domainFormViewsObj,
+  ipRouteObj
 } from './routes'
 
 const adminNavigation = (): VerticalNavItemsType => {
   return [
     homeRouteObj,
+    ipRouteObj,
     createTicketsRouteObj,
     viewTicketsRouteObj,
     createDepartmentalTicketsRouteObj,

@@ -6,6 +6,15 @@ export const homeRouteObj = {
   icon: 'mdi:home-outline'
 }
 
+export const ipRouteObj = {
+  title: 'IP',
+  path: '/ip',
+
+  // action: 'read',
+  subject: 'IP',
+  icon: 'mdi:monitor-lock'
+}
+
 export const viewTicketsRouteObj = {
   path: '/view-tickets',
   title: 'View Tickets',
@@ -122,6 +131,7 @@ export const UsersRouteObj = {
     { title: 'View Users', path: '/users/view-users' }
   ]
 }
+
 export const domainFormViewsObj = {
   title: 'Forms View',
   subject: 'form',

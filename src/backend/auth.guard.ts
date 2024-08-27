@@ -8,12 +8,25 @@ import UserModel from './schemas/user.schema'
 import { isAuthenticated } from './utils/isAuthenticated'
 import { DomainFormModel } from './schemas/domianform.schema'
 import { HostingFormModel } from './schemas/hostingform.schema'
+import IpModel from './schemas/ip.schema'
 
 // List of allowed IP addresses
-const allowedIPs = ['122.129.69.89', '202.163.76.177', '127.0.0.1', '::1'] // Replace with your allowed IPs
+// const allowedIPs = ['122.129.69.89', '202.163.76.177', '127.0.0.1', '::1'] // Replace with your allowed IPs
+
+const getIpList = async () => {
+  const ips = await IpModel.find()
+
+  return ips.map(ip => ip.ip)
+}
 
 export const guardWrapper = (handler: any) => async (req: any, res: any) => {
   try {
+    //load IP schema
+    IpModel.schema
+
+    // List of allowed IP addresses
+    const allowedIPs = await getIpList()
+
     // Retrieve the client's IP address
     const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
     console.log('clientIP: ', clientIP)

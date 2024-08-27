@@ -27,6 +27,7 @@ import axios from 'axios'
 import Icon from 'src/@core/components/icon'
 import { Department, DepartmentValues } from 'src/shared/enums/Department.enum'
 import { UserRole, UserRoleValues } from 'src/shared/enums/UserRole.enum'
+import { UserAccess, UserAccessValues } from 'src/shared/enums/UserAccess.enum'
 import * as yup from 'yup'
 
 interface State {
@@ -39,6 +40,7 @@ interface FormInputs {
   password: string
   department: string
   role: string
+  globalAccess: any
 }
 
 const validationSchema = yup.object({
@@ -67,7 +69,8 @@ const UpdateUser = (props: any) => {
     user_name: userDetails.user_name,
     password: userDetails.password,
     department: userDetails.department_name,
-    role: userDetails.role
+    role: userDetails.role,
+    globalAccess: userDetails.globalAccess || false
   }
 
   // ** Hook
@@ -97,7 +100,8 @@ const UpdateUser = (props: any) => {
           password: data.password,
           role: data.role,
           department_name: data.department,
-          user_id: userDetails._id
+          user_id: userDetails._id,
+          globalAccess: data.globalAccess === UserAccess.GLOBAL_ACCESS ? true : false
         },
         { headers: { authorization: localStorage.getItem('token') } }
       )
@@ -183,7 +187,7 @@ const UpdateUser = (props: any) => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <FormControl fullWidth>
                 <InputLabel error={Boolean(errors.department)} htmlFor='validation-basic-select'>
                   Department
@@ -223,7 +227,7 @@ const UpdateUser = (props: any) => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <FormControl fullWidth>
                 <InputLabel error={Boolean(errors.role)} htmlFor='validation-role-select'>
                   Role
@@ -263,6 +267,43 @@ const UpdateUser = (props: any) => {
                   )}
                 />
                 {errors.role && <FormHelperText sx={{ color: 'error.main' }}>{errors.role.message}</FormHelperText>}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <FormControl fullWidth>
+                <InputLabel error={Boolean(errors.globalAccess)} htmlFor='validation-role-select'>
+                  Access Level
+                </InputLabel>
+                <Controller
+                  name='globalAccess'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <Select
+                      value={
+                        value === true || value === UserAccess.GLOBAL_ACCESS
+                          ? UserAccess.GLOBAL_ACCESS
+                          : UserAccess.LOCAL_ACCESS
+                      }
+                      disabled={department ? false : true}
+                      label='Access Level'
+                      onChange={onChange}
+                      error={Boolean(errors.globalAccess)}
+                      labelId='validation-role-select'
+                      aria-describedby='validation-role-select'
+                    >
+                      {UserAccessValues.map(d => (
+                        <MenuItem key={d} value={d}>
+                          {d}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+                {errors.globalAccess && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.globalAccess.message}</FormHelperText>
+                )}
               </FormControl>
             </Grid>
 

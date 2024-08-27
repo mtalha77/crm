@@ -49,7 +49,7 @@ const Bubble = styled(Box)(({ theme }) => ({
   minWidth: '12%',
   padding: theme.spacing(2, 5),
   borderRadius: '10px',
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: 'rgba(255, 255, 255, 0.07)',
   color: theme.palette.text.primary,
   position: 'relative',
   maxWidth: '100%',
@@ -59,13 +59,15 @@ const Bubble = styled(Box)(({ theme }) => ({
   }
 }))
 
-const DeleteButton = styled(Button)(() => ({
+const DeleteButton = styled(Button)(({}) => ({
   color: '#d32f2f',
   backgroundColor: 'transparent',
   boxShadow: 'none',
+  transition: 'transform 0.3s ease',
   '&:hover': {
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    boxShadow: 'none',
+    transform: 'scale(1.1)'
   }
 }))
 
@@ -73,9 +75,11 @@ const UpdateButton = styled(Button)(() => ({
   color: '#388e3c',
   backgroundColor: 'transparent',
   boxShadow: 'none',
+  transition: 'transform 0.3s ease',
   '&:hover': {
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    boxShadow: 'none',
+    transform: 'scale(1.1)'
   }
 }))
 
@@ -145,7 +149,9 @@ function IpList() {
 
   const fetchIpList = async () => {
     try {
-      const res = await axios.get('/api/ip/get-all', { headers: { authorization: localStorage.getItem('token') } })
+      const res = await axios.get('/api/ip/get-all', {
+        headers: { authorization: localStorage.getItem('token') }
+      })
       setAllowedIPs(res?.data?.payload?.allowedIPs || [])
     } catch (error: any) {
       console.log(error)
@@ -158,46 +164,51 @@ function IpList() {
   }, [])
 
   return (
-    <Container sx={{ height: '85vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      <IpListWrapper ref={ipListRef}>
-        {allowedIPs.map(({ _id, ip }) => (
-          <div key={_id}>
-            <Bubble>
-              <Typography variant='body1'>{ip}</Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <DeleteButton variant='contained' onClick={() => deleteIpAddress(_id)}>
-                  <Icon icon={'mdi:delete-outline'} width={24} height={24} />
-                </DeleteButton>
-                <UpdateButton variant='contained' onClick={() => startEditing(_id, ip)}>
-                  <Icon icon={'mdi:edit-outline'} width={24} height={24} />
-                </UpdateButton>
-              </Box>
-            </Bubble>
-          </div>
-        ))}
-      </IpListWrapper>
+    <>
+      <Container sx={{ height: '85vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        <IpListWrapper ref={ipListRef}>
+          <Typography variant='h4' sx={{ mb: 5 }}>
+            Allowed IPs
+          </Typography>
+          {allowedIPs.map(({ _id, ip }) => (
+            <div key={_id}>
+              <Bubble>
+                <Typography variant='body1'>{ip}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <DeleteButton variant='contained' onClick={() => deleteIpAddress(_id)}>
+                    <Icon icon={'mdi:delete-outline'} width={24} height={24} />
+                  </DeleteButton>
+                  <UpdateButton variant='contained' onClick={() => startEditing(_id, ip)}>
+                    <Icon icon={'mdi:edit-outline'} width={24} height={24} />
+                  </UpdateButton>
+                </Box>
+              </Bubble>
+            </div>
+          ))}
+        </IpListWrapper>
 
-      <Form onSubmit={addNewIpAddress} sx={{ position: 'absolute', top: '.5%', width: '100%' }}>
-        <IpFormWrapper>
-          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-            <TextField
-              fullWidth
-              value={newIp}
-              size='small'
-              placeholder='Type IP Address'
-              onChange={e => setNewIp(e.target.value)}
-              sx={{ '& .MuiOutlinedInput-input': { pl: 0 }, '& fieldset': { border: '0 !important' } }}
-            />
-          </Box>
+        <Form onSubmit={addNewIpAddress} sx={{ position: 'absolute', top: '.5%', width: '100%' }}>
+          <IpFormWrapper>
+            <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+              <TextField
+                fullWidth
+                value={newIp}
+                size='small'
+                placeholder='Type IP Address'
+                onChange={e => setNewIp(e.target.value)}
+                sx={{ '& .MuiOutlinedInput-input': { pl: 0 }, '& fieldset': { border: '0 !important' } }}
+              />
+            </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button type='submit' variant='contained'>
-              {editMode.id ? 'Update' : 'Add'}
-            </Button>
-          </Box>
-        </IpFormWrapper>
-      </Form>
-    </Container>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button type='submit' variant='contained'>
+                {editMode.id ? 'Update' : 'Add'}
+              </Button>
+            </Box>
+          </IpFormWrapper>
+        </Form>
+      </Container>
+    </>
   )
 }
 

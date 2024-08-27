@@ -3,8 +3,6 @@ import mongoose from 'mongoose'
 const ipSchema = new mongoose.Schema(
   {
     ip: { type: String, required: true }
-
-    // description: { type: String }
   },
   { timestamps: true }
 )

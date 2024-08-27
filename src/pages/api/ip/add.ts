@@ -5,7 +5,7 @@ import { guardWrapper } from 'src/backend/auth.guard'
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
-      const { newIp, description } = req.body
+      const { newIp } = req.body
 
       if (!newIp) return res.status(500).send('Missing required fields')
 
@@ -13,8 +13,7 @@ const handler = async (req: any, res: any) => {
       if(isIpAlreadyAdded) return res.status(500).send('IP already exists')
 
       const newAddedIp = await IpModel.create({
-        ip: newIp,
-        description
+        ip: newIp
       })
       if (!newAddedIp) return res.status(500).send('Not able to add new IP')
 

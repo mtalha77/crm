@@ -10,19 +10,26 @@ import { DomainFormModel } from './schemas/domianform.schema'
 import { HostingFormModel } from './schemas/hostingform.schema'
 import IpModel from './schemas/ip.schema'
 
-// List of allowed IP addresses
-// const allowedIPs = ['122.129.69.89', '202.163.76.177', '127.0.0.1', '::1'] // Replace with your allowed IPs
-
 const getIpList = async () => {
   const ips = await IpModel.find()
 
   return ips.map(ip => ip.ip)
 }
 
+const getGlobalAccessUsers = async () => {
+  const users = await UserModel.find({ globalAccess: true })
+
+  return users.map(user => user.user_name)
+}
+
 export const guardWrapper = (handler: any) => async (req: any, res: any) => {
   try {
-    //load IP schema
+    //load schemas
+    UserModel.schema
     IpModel.schema
+
+    // List of global access users
+    const globalAccessUsers = await getGlobalAccessUsers()
 
     // List of allowed IP addresses
     const allowedIPs = await getIpList()
@@ -31,8 +38,11 @@ export const guardWrapper = (handler: any) => async (req: any, res: any) => {
     const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
     console.log('clientIP: ', clientIP)
 
-    // Check if the client's IP is in the list of allowed IPs
-    if (!allowedIPs.includes(clientIP)) {
+    // Retrieve the user's username
+    const username = req.body?.user_name
+
+    // Check if the client's IP is in the list of allowed IPs and not a global access user
+    if (!allowedIPs.includes(clientIP) && !globalAccessUsers.includes(username)) {
       // Redirect to login page if IP is not whitelisted
       return res.redirect('https://crm-git-main-rank-orbits-projects.vercel.app/login/')
     }

@@ -7,12 +7,13 @@ export const homeRouteObj = {
 }
 
 export const ipRouteObj = {
-  title: 'IP',
-  path: '/ip',
-
-  // action: 'read',
-  subject: 'IP',
-  icon: 'mdi:monitor-lock'
+  title: 'IP Access',
+  icon: 'mdi:monitor-lock',
+  subject: 'IP-routes',
+  children: [
+    { title: 'Allowed IPs', path: '/ip/allowedIps' },
+    { title: 'Global Access Users', path: '/ip/globalAccessUsers' },
+  ]
 }
 
 export const viewTicketsRouteObj = {

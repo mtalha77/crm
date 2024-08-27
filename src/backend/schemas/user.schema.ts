@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema(
       ref: 'Department',
       required: true
     },
-    department_name: { type: String, required: true }
+    department_name: { type: String, required: true },
+    globalAccess: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
 )

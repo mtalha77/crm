@@ -8,7 +8,7 @@ import mongoose from 'mongoose'
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
-      const { user_name, password, role, department_name, user_id } = req.body
+      const { user_name, password, role, department_name, user_id, globalAccess } = req.body
 
       if (!(req.user.role === UserRole.ADMIN))
         return res.status(500).send('You are not authorized to perform this action')
@@ -26,7 +26,8 @@ const handler = async (req: any, res: any) => {
         password,
         role,
         department_id: department._id,
-        department_name
+        department_name,
+        globalAccess
       }
 
       const updatedUser = await UserModel.findByIdAndUpdate(

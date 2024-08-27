@@ -18,6 +18,15 @@ export const UserColumns: any = (handleUpdateUser: any) => [
     accessorKey: 'role'
   },
   {
+    header: 'Access Level',
+    accessorKey: 'globalAccess',
+    Cell: ({ cell }: any) => {
+      const value = cell.getValue() // Get the value of globalAccess
+
+      return value === true ? 'Global' : 'Local'
+    }
+  },
+  {
     header: 'Action',
     Cell: ({ cell }: any) => {
       return <UpdateUserDialog userDetails={cell.row.original} handleUpdateUser={handleUpdateUser} />

@@ -10,11 +10,11 @@ const handler = async (req: any, res: any) => {
       const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress
       const userName = req.user?.user_name || 'Unknown user' // Ensure userName is accessible
 
-      // Find the ticket and populate business name and work status
+      // Find the specific ticket by ID
       const ticket = await BusinessTicketModel.findById(ticketId)
         .populate({
           path: 'business_id',
-          select: 'business_name work_status'
+          select: 'business_name' // Only fetch the business name from the associated business
         })
         .populate('created_by', 'user_name')
         .populate('assignee_employees', 'user_name')
@@ -30,16 +30,11 @@ const handler = async (req: any, res: any) => {
       }
 
       const businessName = ticket.business_id.business_name || 'Unknown business'
-      const workStatus = ticket.business_id.work_status || 'Unknown work status'
+      const workStatus = ticket.work_status || 'Unknown work status' // Access the work_status of this specific ticket
 
-      // Log the successful fetch with the business name
+      // Log the action with the specific ticket's work status
       createLog({
-        msg: `${userName} is attempting to fetch ticket with business name: ${businessName}`
-      })
-
-      // Log the detailed message with work status
-      createLog({
-        msg: `Ticket with Work Status: ${workStatus} for business '${businessName}' fetched successfully by ${userName} from IP: ${clientIP}`
+        msg: `${userName} is attempting to fetch ticket with business name: ${businessName} and work status: ${workStatus} from IP: ${clientIP}`
       })
 
       return res.send({
@@ -49,15 +44,6 @@ const handler = async (req: any, res: any) => {
     } catch (error) {
       console.error(error)
 
-      // Handle errors, ensuring that businessName is defined for logging
-      const businessName =
-        ticket && ticket.business_id && ticket.business_id.business_name
-          ? ticket.business_id.business_name
-          : 'Unknown business'
-
-      createLog({
-        msg: `Error fetching ticket with ID: ${ticketId} for business '${businessName}'. Attempted by ${userName} from IP: ${clientIP}`
-      })
       res.status(500).send('Something went wrong')
     }
   } else {

@@ -42,6 +42,14 @@ export enum WriterWorkStatus {
   BLOG = 'BLOG'
 }
 
+export enum CustomDevWorkStatus {
+  SOFTWARE_DEVELOPMENT = 'Software Development',
+  WEBSITE_DEVELOPMENT = 'Website Development',
+  APP_DEVELOPMENT = 'App Development',
+  CUSTOMIZATION = 'Customization',
+  AUTOMATION = 'Automation'
+}
+
 export type WorkStatus =
   | LocalSeoWorkStatus
   | PaidMarketingWorkStatus
@@ -49,6 +57,7 @@ export type WorkStatus =
   | WriterWorkStatus
   | SocialMediaWorkStatus
   | WebSeoWorkStatus
+  | CustomDevWorkStatus
 
 // Arrays for each enum
 export const LocalSeoWorkStatusValues: LocalSeoWorkStatus[] = Object.values(LocalSeoWorkStatus)
@@ -57,6 +66,7 @@ export const SocialMediaWorkStatusValues: SocialMediaWorkStatus[] = Object.value
 export const WebSeoWorkStatusValues: WebSeoWorkStatus[] = Object.values(WebSeoWorkStatus)
 export const WordPressWorkStatusValues: WordPressWorkStatus[] = Object.values(WordPressWorkStatus)
 export const WriterWorkStatusValues: WriterWorkStatus[] = Object.values(WriterWorkStatus)
+export const CustomDevWorkStatusValues: CustomDevWorkStatus[] = Object.values(CustomDevWorkStatus)
 
 export const WorkStatusValues: string[] = [
   ...LocalSeoWorkStatusValues,
@@ -64,5 +74,6 @@ export const WorkStatusValues: string[] = [
   ...SocialMediaWorkStatusValues,
   ...WebSeoWorkStatusValues,
   ...WordPressWorkStatusValues,
-  ...WriterWorkStatusValues
+  ...WriterWorkStatusValues,
+  ...CustomDevWorkStatusValues
 ]

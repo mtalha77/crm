@@ -7,7 +7,8 @@ export enum Department {
   WordPress = 'WordPress',
   Writer = 'Writer',
   Sales = 'Sales',
-  Designer = 'Designer'
+  Designer = 'Designer',
+  CustomDevelopment = 'Custom Development'
 }
 
 export const DepartmentValues: Department[] = Object.values(Department)

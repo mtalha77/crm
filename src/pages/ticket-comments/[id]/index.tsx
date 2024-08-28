@@ -49,8 +49,8 @@ const ChatHistory = styled('div')({
   scrollbarColor: '#8866 transparent'
 })
 
+
 const SendMsgForm = () => {
-  // Removed props parameter
   const [msg, setMsg] = useState<string>('')
   const [chatHistory, setChatHistory] = useState<any>([])
   const router = useRouter()

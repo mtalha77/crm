@@ -42,13 +42,14 @@ export const createTicketsRouteObj = {
   icon: 'mdi-ticket-confirmation-outline',
   subject: 'create-business-ticket',
   children: [
+    { title: 'Custom Development', path: '/ticket-create/customDevelopment' },
     { title: 'Local SEO / GMB Optimization', path: '/ticket-create/localSeo' },
     { title: 'Website Development', path: '/ticket-create/wordPress' },
     { title: 'Website SEO', path: '/ticket-create/webSeo' },
     { title: 'Paid Marketing', path: '/ticket-create/paidMarketing' },
     { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' },
     { title: 'Writer', path: '/ticket-create/writer' },
-    { title: 'Designer', path: '/ticket-create/designer' }
+    { title: 'Designer', path: '/ticket-create/designer' },
   ]
 }
 

@@ -11,7 +11,8 @@ import {
   viewDepartmentalTicketsRouteObj,
   viewTicketsRouteObj,
   domainFormViewsObj,
-  ipRouteObj
+  ipRouteObj,
+  logsObj
 } from './routes'
 
 const adminNavigation = (): VerticalNavItemsType => {
@@ -26,7 +27,8 @@ const adminNavigation = (): VerticalNavItemsType => {
     viewBusinessesRouteObj,
     accountsRouteObj,
     analyticsRouteObj,
-    domainFormViewsObj
+    domainFormViewsObj,
+    logsObj
 
     // CommissionsRouteObj
   ]

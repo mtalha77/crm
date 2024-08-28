@@ -1,3 +1,5 @@
+'use client'
+
 // ** React Imports
 import { useState, SyntheticEvent, Fragment, ReactNode } from 'react'
 
@@ -25,8 +27,8 @@ import { Settings } from 'src/@core/context/settingsContext'
 import CustomChip from 'src/@core/components/mui/chip'
 
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import ViewTicketDialog from 'src/layouts/components/dialogs/ViewTicketDialog'
 
 export type NotificationsType = {
   meta: string
@@ -52,8 +54,8 @@ export type NotificationsType = {
 )
 interface Props {
   settings: Settings
-  notifications: NotificationsType[]
-  newNotificationsIds: string[]
+  unreadMessages: any
+  unreadMessagesIds: string[]
 }
 
 // ** Styled Menu component
@@ -120,19 +122,16 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
   }
 }
 
-const NotificationDropdown = (props: Props) => {
+const ChatMsgNotificationDropdown = (props: Props) => {
   // ** Props
-  const { settings, notifications, newNotificationsIds } = props
+  const { settings, unreadMessages, unreadMessagesIds } = props
 
   // ** States
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
-  const [selectedTicket, setSelectedTicket] = useState<{
-    ticketId: string
-    departmentName: string
-  } | null>(null)
 
   // ** Hook
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
+  const router = useRouter()
 
   // ** Vars
   const { direction } = settings
@@ -140,17 +139,37 @@ const NotificationDropdown = (props: Props) => {
   const handleDropdownOpen = async (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
     try {
-      if (newNotificationsIds.length === 0) return
+      if (unreadMessagesIds.length === 0) return
 
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateMsgReadStatus = async (messageId, businessTicketsId) => {
+    try {
       await axios.post(
-        '/api/user/notifications-mark-read',
-        { newNotificationsIds },
+        '/api/user/update-msg-read-status',
+        {
+          messageId,
+          businessTicketsId
+        },
         {
           headers: { authorization: localStorage.getItem('token') }
         }
       )
     } catch (error) {
       console.log(error)
+      toast.error('Something went wrong')
+    }
+  }
+
+  const openChatBox = async (messageId: string, businessTicketsId: string) => {
+
+    if (businessTicketsId) {
+      router.push(`/ticket-comments/${businessTicketsId}`)
+      handleDropdownClose()
+      updateMsgReadStatus(messageId, businessTicketsId)
     }
   }
 
@@ -158,33 +177,25 @@ const NotificationDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const showTicketDetails = async (ticketId: string, departmentId: any) => {
-    if (!ticketId || !departmentId) {
-      handleDropdownClose()
-      toast.error('Something went wrong')
+  // const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
+  //   const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
 
-      return
-    }
-
-    try {
-      const res = await axios.post(
-        '/api/department/get-info',
-        { departmentId: departmentId[0] },
-        {
-          headers: { authorization: localStorage.getItem('token') }
-        }
-      )
-
-      if (res.data.payload.department) {
-        const departmentName = res.data.payload.department.name
-        setSelectedTicket({ ticketId, departmentName })
-      }
-    } catch (error) {
-      toast.error('Failed to fetch department information')
-    } finally {
-      handleDropdownClose()
-    }
-  }
+  //   if (avatarImg) {
+  //     return <Avatar alt={avatarAlt} src={avatarImg} />
+  //   } else if (avatarIcon) {
+  //     return (
+  //       <Avatar skin='light' color={avatarColor}>
+  //         {avatarIcon}
+  //       </Avatar>
+  //     )
+  //   } else {
+  //     return (
+  //       <Avatar skin='light' color={avatarColor}>
+  //         {getInitials(avatarText as string)}
+  //       </Avatar>
+  //     )
+  //   }
+  // }
 
   return (
     <Fragment>
@@ -192,25 +203,14 @@ const NotificationDropdown = (props: Props) => {
         <Badge
           color='error'
           variant='dot'
-          invisible={!newNotificationsIds.length}
+          invisible={!unreadMessagesIds.length}
           sx={{
             '& .MuiBadge-badge': { top: 4, right: 4, boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}` }
           }}
         >
-          <Icon icon='mdi:bell-outline' />
+          <Icon icon='hugeicons:message-notification-01' />
         </Badge>
       </IconButton>
-
-      {/* on clicking on a ticket notification show its details dialog */}
-      {selectedTicket && (
-        <ViewTicketDialog
-          ticketId={selectedTicket.ticketId}
-          depart={selectedTicket.departmentName}
-          openDirectly={true}
-          setSelectedTicket={setSelectedTicket}
-        />
-      )}
-
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -224,31 +224,34 @@ const NotificationDropdown = (props: Props) => {
           sx={{ cursor: 'default', userSelect: 'auto', backgroundColor: 'transparent !important' }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <Typography sx={{ cursor: 'text', fontWeight: 600 }}>Notifications</Typography>
+            <Typography sx={{ cursor: 'text', fontWeight: 600 }}>Messages</Typography>
             <CustomChip
               skin='light'
               size='small'
               color='primary'
-              label={`${newNotificationsIds.length} New`}
+              label={`${unreadMessagesIds.length} New`}
               sx={{ height: 20, fontSize: '0.75rem', fontWeight: 500, borderRadius: '10px' }}
             />
           </Box>
         </MenuItem>
         <ScrollWrapper hidden={hidden}>
-          {notifications.map((notification: NotificationsType, index: number) => (
+          {unreadMessages.map((msg, index: number) => (
             <MenuItem
               key={index}
-              onClick={() => showTicketDetails(notification.ticketId, notification.departmentId)}
-              sx={{ backgroundColor: notification.read ? '' : '#d9dafc' }}
+              onClick={() => openChatBox(msg.messageId, msg.businessTicketsId)}
+
+              // sx={{ backgroundColor: notification.read ? '' : '#d9dafc' }}
             >
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                 {/* <RenderAvatar notification={notification} /> */}
                 <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
-                  <MenuItemTitle>{notification.title}</MenuItemTitle>
-                  <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
+                  <MenuItemTitle>{msg.sender}</MenuItemTitle>
+                  <MenuItemSubtitle variant='body2'>
+                    {msg.business_name} with {msg.work_status}
+                  </MenuItemSubtitle>
                 </Box>
                 <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                  {notification.meta}
+                  {msg.date}
                 </Typography>
               </Box>
             </MenuItem>
@@ -276,4 +279,4 @@ const NotificationDropdown = (props: Props) => {
   )
 }
 
-export default NotificationDropdown
+export default ChatMsgNotificationDropdown

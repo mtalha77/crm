@@ -1,5 +1,15 @@
-'use client'
-import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  Typography
+} from '@mui/material'
 import { styled } from '@mui/material/styles'
 import axios from 'axios'
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react'
@@ -87,6 +97,8 @@ function IpList() {
   const [newIp, setNewIp] = useState<string>('')
   const [allowedIPs, setAllowedIPs] = useState<any[]>([])
   const [editMode, setEditMode] = useState<{ id: string | null; ip: string | null }>({ id: null, ip: null })
+  const [openDialog, setOpenDialog] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
   const ipListRef = useRef<HTMLElement>(null)
 
   function isValidIP(address: string): boolean {
@@ -136,10 +148,21 @@ function IpList() {
       await axios.post(`/api/ip/delete`, { id }, { headers: { authorization: localStorage.getItem('token') } })
       toast.success('IP deleted successfully')
       fetchIpList() // Refresh IP list
+      handleCloseDialog()
     } catch (error: any) {
       console.log(error)
       toast.error(error.response.data)
     }
+  }
+
+  const handleOpenDialog = (id: string) => {
+    setDeleteId(id)
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = () => {
+    setDeleteId(null)
+    setOpenDialog(false)
   }
 
   const startEditing = (id: string, ip: string) => {
@@ -175,7 +198,7 @@ function IpList() {
               <Bubble>
                 <Typography variant='body1'>{ip}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <DeleteButton variant='contained' onClick={() => deleteIpAddress(_id)}>
+                  <DeleteButton variant='contained' onClick={() => handleOpenDialog(_id)}>
                     <Icon icon={'mdi:delete-outline'} width={24} height={24} />
                   </DeleteButton>
                   <UpdateButton variant='contained' onClick={() => startEditing(_id, ip)}>
@@ -208,6 +231,27 @@ function IpList() {
           </IpFormWrapper>
         </Form>
       </Container>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>{'Are you sure you want to delete this IP?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>This action cannot be undone.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={() => deleteIpAddress(deleteId!)} color='secondary' autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }

@@ -3,12 +3,17 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import BusinessModel from 'src/backend/schemas/business.schema'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
+import createLog from 'src/backend/utils/createLog';
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     let businesses = []
     try {
+
+      const user = req.user
+      const clientIP = req.clientIP
+
       switch (req.user?.role) {
         case UserRole.ADMIN:
           businesses = await BusinessModel.find({})
@@ -73,6 +78,10 @@ const handler = async (req: any, res: any) => {
         default:
           break
       }
+
+      //create logs
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} is attempting to fetch all businesses detail`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: 'businesses fetched successfully',

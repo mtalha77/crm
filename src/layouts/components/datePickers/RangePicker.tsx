@@ -11,6 +11,7 @@ import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
 
 // ** Types
+// eslint-disable-next-line
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 

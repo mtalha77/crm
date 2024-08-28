@@ -66,8 +66,8 @@ function ViewLogs() {
 
       <PickersRange handleDateChange={handleDateChange} startDate={startDate} endDate={endDate} />
       <ul>
-        {logs.map(log => {
-          return <li>{log.msg}</li>
+        {logs.map((log, index) => {
+          return <li key={index}>{log.msg}</li>
         })}
       </ul>
     </>

@@ -49,7 +49,8 @@ const ChatHistory = styled('div')({
   scrollbarColor: '#8866 transparent'
 })
 
-const SendMsgForm = (props: SendMsgComponentType) => {
+
+const SendMsgForm = () => {
   const [msg, setMsg] = useState<string>('')
   const [chatHistory, setChatHistory] = useState<any>([])
   const router = useRouter()
@@ -122,7 +123,7 @@ const SendMsgForm = (props: SendMsgComponentType) => {
     files.forEach(file => formData.append('files', file))
 
     try {
-      const res = await axios.post('/api/business-ticket/chat/send-message', formData, {
+      await axios.post('/api/business-ticket/chat/send-message', formData, {
         headers: {
           authorization: localStorage.getItem('token'),
           'Content-Type': 'multipart/form-data'

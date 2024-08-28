@@ -1,11 +1,16 @@
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import BusinessModel from 'src/backend/schemas/business.schema'
+import createLog from 'src/backend/utils/createLog';
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
+
+      const user = req.user
+      const clientIP = req.clientIP
+
       if (
         !(
           req.user.role === UserRole.ADMIN ||
@@ -24,6 +29,10 @@ const handler = async (req: any, res: any) => {
       })
 
       if (!result) return res.status(500).send('Not able to update ticket.Please try again')
+
+      //create logs
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} is attempting to update business status of ${result.business_name}`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: `Business Status Changes to ${status}`,

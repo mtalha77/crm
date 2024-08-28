@@ -5,6 +5,8 @@ import { guardWrapper } from 'src/backend/auth.guard'
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
+
+      
       const { newIp } = req.body
 
       if (!newIp) return res.status(500).send('Missing required fields')

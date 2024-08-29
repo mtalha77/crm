@@ -6,10 +6,17 @@ import { getAllTicketsForSalesEmployee } from 'src/backend/utils/business-ticket
 import { getAllTicketsTeamLead } from 'src/backend/utils/business-tickets/getAllTicketsForTeamLead'
 import { getAllTicketsForAdmin } from 'src/backend/utils/business-tickets/getAllTicketsForAdmin'
 import { getAllTicketsForSalesManager } from 'src/backend/utils/business-tickets/getAllTicketsForSalesManager'
+import createLog from 'src/backend/utils/createLog';
+import BusinessModel from 'src/backend/schemas/business.schema';
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'GET') {
     try {
+
+      const user = req.user
+      const clientIP = req.clientIP
+      const businessId = req.query.businessId
+
       switch (req.user.role) {
         case UserRole.EMPLOYEE:
           return getAllTicketsForEmployee(req, res)
@@ -27,6 +34,13 @@ const handler = async (req: any, res: any) => {
           return getAllTicketsForSalesManager(req, res)
 
         default:
+
+          const business = await BusinessModel.findById(businessId)
+
+          //create logs
+          const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} fetched all business tickets of business: ${business.business_name}`
+          createLog({ msg: logMsg })
+
           break
       }
     } catch (error) {

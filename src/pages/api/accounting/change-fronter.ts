@@ -3,12 +3,16 @@ import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
+import createLog from 'src/backend/utils/createLog'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'PATCH') {
     const session = await mongoose.startSession()
     try {
+      const user = req.user
+      const clientIP = req.clientIP
+
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.SALE_MANAGER))
         return res.status(403).send('Permission denied.Only Admin and Sales can update ticket')
 
@@ -37,6 +41,10 @@ const handler = async (req: any, res: any) => {
       if (!updatedSession) throw new Error('Not able to update fronter')
 
       await session.commitTransaction()
+
+      //create logs
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} changed fronter information`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: ``,

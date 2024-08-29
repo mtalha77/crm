@@ -8,6 +8,7 @@ import NotificationModel from 'src/backend/schemas/notification.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { createNewBusiness } from 'src/backend/utils/business/createNewBusiness'
+import createLog from 'src/backend/utils/createLog';
 import { Department } from 'src/shared/enums/Department.enum'
 import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
@@ -16,6 +17,9 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
+    const user = req.user
+    const clientIP = req.clientIP
+
     const { role } = req.user
 
     if (!(role === UserRole.ADMIN || role === UserRole.SALE_EMPLOYEE || req.user.role === UserRole.SALE_MANAGER))
@@ -275,6 +279,10 @@ const handler = async (req: any, res: any) => {
       if (!result4) throw new Error('Not able to create ticket. Please try again')
 
       await session.commitTransaction()
+
+      //create logs
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} created new business ticket for business: ${business_name} with work_status: ${work_status}`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: 'Ticket Created',

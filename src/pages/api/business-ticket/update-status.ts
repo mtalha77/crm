@@ -3,8 +3,9 @@ import { guardWrapper } from 'src/backend/auth.guard'
 import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next/types'
 import BusinessModel from 'src/backend/schemas/business.schema'
+import createLog from 'src/backend/utils/createLog'
 
 interface UpdateStatusRequest extends NextApiRequest {
   body: {
@@ -16,13 +17,16 @@ interface UpdateStatusRequest extends NextApiRequest {
   }
 }
 
-const handler = async (req: UpdateStatusRequest, res: NextApiResponse) => {
+const handler = async (req: UpdateStatusRequest | any, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     return res.status(405).send('Only POST requests are allowed')
   }
 
   const { role } = req.user
   const { ticketId, status } = req.body
+
+  const user = req.user
+  const clientIP = req.clientIP
 
   if (![UserRole.ADMIN, UserRole.TEAM_LEAD].includes(role)) {
     return res.status(403).send('Permission denied. Only Admin and TeamLead can update the ticket')
@@ -51,6 +55,13 @@ const handler = async (req: UpdateStatusRequest, res: NextApiResponse) => {
         $set: { status: 'Inactive' }
       })
     }
+
+    //log detail
+    const business = await BusinessModel.findById(businessId)
+
+    //create logs
+    const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} updated business ticket status to ${status} of business: ${business.business_name} with work_status: ${updatedTicket.work_status}`
+    createLog({ msg: logMsg })
 
     return res.send({
       message: `Ticket status changed to ${status}`,

@@ -93,6 +93,7 @@ const handler = async (req: any, res: any) => {
 
         business = businesses[0]
       }
+
       //create logs
       const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} is attempting to fetch business details of ${business.business_name}`
       createLog({ msg: logMsg })

@@ -15,6 +15,9 @@ export const isAuthenticated = (req: any) => {
     const decoded = jwt.verify(token, tokenSecret, { ignoreExpiration: false }) as DecodedToken
     req.user = decoded.user
 
+    const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    req.clientIP = clientIP
+
     return true
   } catch (error) {
     // console.log(error)

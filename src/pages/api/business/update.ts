@@ -2,11 +2,15 @@ import mongoose from 'mongoose'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import BusinessModel from 'src/backend/schemas/business.schema'
+import createLog from 'src/backend/utils/createLog';
 
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
 const handler = async (req: any, res: any) => {
   if (req.method === 'PUT') {
+    const user = req.user
+    const clientIP = req.clientIP
+
     const { role } = req.user
 
     if (!(role === UserRole.ADMIN || role === UserRole.TEAM_LEAD || req.user.role === UserRole.SALE_MANAGER))
@@ -54,6 +58,10 @@ const handler = async (req: any, res: any) => {
       })
 
       if (!updated) return res.status(400).send('Network Error')
+
+      //create logs
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} is attempting to update business details of ${updated.business_name}`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: 'Business Updated',

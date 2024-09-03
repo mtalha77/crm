@@ -6,6 +6,7 @@ import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 import DepartmentModel from 'src/backend/schemas/department.schema'
 import NotificationModel from 'src/backend/schemas/notification.schema'
 import UserModel from 'src/backend/schemas/user.schema'
+import createLog from 'src/backend/utils/createLog'
 import { Department } from 'src/shared/enums/Department.enum'
 import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 
@@ -16,6 +17,10 @@ const handler = async (req: any, res: any) => {
     const session = await mongoose.startSession()
     session.startTransaction()
     try {
+      const user = req.user
+      const clientIP = req.clientIP
+      let ticketDetail = ''
+
       if (!(req.user.role === UserRole.ADMIN || req.user.role === UserRole.TEAM_LEAD))
         return res.status(403).send('Permission denied.Only Admin and TeamLead can update ticket')
       const { ticketId, userIds } = req.body
@@ -53,6 +58,8 @@ const handler = async (req: any, res: any) => {
 
         const notificationMsg = `${business.business_name} with ${ticket.work_status} is assigned to ${user.user_name}.`
 
+        ticketDetail = notificationMsg
+
         const notification = new NotificationModel({
           message: notificationMsg,
           ticket_id: result._id,
@@ -68,6 +75,10 @@ const handler = async (req: any, res: any) => {
         if (!result4) throw new Error('Not able to create ticket. Please try again')
       }
       await session.commitTransaction()
+
+      //create logs
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} assigned business ticket of business: ${ticketDetail}`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: 'success',

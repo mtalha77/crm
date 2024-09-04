@@ -20,6 +20,7 @@ import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import WeeklySalesChart from './WeeklySales'
 import utc from 'dayjs/plugin/utc'
+import PickersRange from '../datePickers/RangePicker'
 
 const DailySalesChart = ({ username }: any) => {
   // ** Hook
@@ -169,6 +170,23 @@ const DailySalesChart = ({ username }: any) => {
     }
   }
 
+  const [startDate, setStartDate] = useState<Date | null>(dayjs().subtract(31, 'day').toDate())
+  const [endDate, setEndDate] = useState<Date | null>(new Date())
+
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+
+    // Validate the date range
+    if (start && end) {
+      const diff = dayjs(end).diff(dayjs(start), 'day')
+      if (diff > 31) {
+        toast.error('The difference between dates should be 31 days or less.')
+      }
+    }
+  }
+
   return (
     <Card>
       <CardHeader
@@ -188,7 +206,21 @@ const DailySalesChart = ({ username }: any) => {
         }
       />
       <CardContent>
-        <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
+        {/* <Box display='flex' alignItems='center' gap={2} paddingLeft={'16px'}>
+
+          <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
+          <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
+        </Box> */}
+
+        <Box display='flex' alignItems='center' gap={2} paddingLeft={'16px'}>
+          <PickersRange
+            popperPlacement='auto-start'
+            handleDateChange={handleDateChange}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        </Box>
+
         <ApexChartWrapper>
           <ReactApexcharts type='bar' options={options} series={series} />
           <WeeklySalesChart

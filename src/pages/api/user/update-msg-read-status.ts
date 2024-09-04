@@ -5,11 +5,11 @@ import { BusinessTicketModel } from 'src/backend/schemas/businessTicket.schema'
 const handler = async (req: any, res: any) => {
   if (req.method === 'POST') {
     try {
-      const { businessTicketsId, messageId } = req.body // Assuming businessTicketsId and messageId are sent in the request body
+      const { businessTicketsId } = req.body // Assuming businessTicketsId and messageId are sent in the request body
       const user = req.user
 
       // Validate inputs
-      if (!businessTicketsId || !messageId) {
+      if (!businessTicketsId) {
         return res.status(400).send({ message: 'businessTicketsId and messageId are required' })
       }
 
@@ -37,12 +37,9 @@ const handler = async (req: any, res: any) => {
         return res.status(404).send({ message: 'Updated Business Ticket not found' })
       }
 
-      // Find the specific message that was clicked
-      const updatedMessage = updatedTicket.messages.find((msg: any) => msg._id.toString() === messageId)
-
       return res.status(200).send({
         message: 'Messages marked as read successfully',
-        payload: { updatedMessage }
+        payload: {}
       })
     } catch (error) {
       console.error('Error updating message status:', error)

@@ -23,7 +23,7 @@ const handler = async (req: any, res: any) => {
           .populate('messages.sender')
           .exec()
       } else {
-        return res.status(200).send({ 
+        return res.status(200).send({
           message: 'No message available',
           payload: {}
         })
@@ -44,7 +44,9 @@ const handler = async (req: any, res: any) => {
       const messagesPromises = businessTickets.flatMap(ticket =>
         ticket.messages
           .filter(
-            message => !message.readBy.some(read => read.userId.equals(user._id)) && user._id !== message.sender._id
+            message =>
+              !message.readBy.some(read => read.userId.toString() === user._id) && // Convert to string for comparison
+              message.sender._id.toString() !== user._id // Convert to string for comparison
           ) // Filter out messages already read by the user
           .map(message => {
             const plainMessage = message.toObject()

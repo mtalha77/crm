@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Badge,
   Box,
   Button,
   Checkbox,
@@ -13,7 +14,7 @@ import {
   // IconButton
 } from '@mui/material'
 import { CheckCircle } from '@mui/icons-material' // Import the icons
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UserDataType } from 'src/context/types'
 import { TicketStatusValues } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
@@ -23,12 +24,14 @@ import { PriorityTypeValues } from 'src/shared/enums/PriorityType.enum'
 import ViewTicketDialog from '../../dialogs/ViewTicketDialog'
 import dayjs from 'dayjs'
 import { getPriorityColor } from 'src/utils/helpers/getPriorityColor'
-import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
+
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
+import axios from 'axios';
 
 // import axios from 'axios'
 // import { toast } from 'react-hot-toast'
-
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -68,7 +71,6 @@ const businessTicketsColumns: any = (
   //   }
   // }
 
-
   const columns = [
     {
       header: 'Business Name',
@@ -82,21 +84,64 @@ const businessTicketsColumns: any = (
     },
     {
       header: 'Chat',
-    accessorKey: 'chat',
-    Cell: ({cell}) => {
-      const router = useRouter();
+      accessorKey: 'chat',
+      Cell: ({ cell }) => {
+        const router = useRouter()
+        const [isBadgeVisible, setBadgeVisible] = useState(0)
 
-      const navigateToChatPage = () => {
-        const rowData = cell.row.original; // Access the full row data here
-        router.push(`/ticket-comments/${rowData._id}`);
-      };
+        const navigateToChatPage = () => {
+          const rowData = cell.row.original // Access the full row data here
+          router.push(`/ticket-comments/${rowData._id}`)
+        }
 
-      return (
-        <IconButton onClick={navigateToChatPage}>
-          <MessageRoundedIcon />
-        </IconButton>
-      );
-    }
+        const fetchBusinessTicketNotifications = async (ticketId) => {
+          try {
+            const res = await axios.post('/api/user/get-ticket-unread-messages', {ticketId}, {
+              headers: { authorization: localStorage.getItem('token') }
+            })
+
+            return res.data?.payload?.unreadMessages.length || 0
+          } catch (error) {
+            console.error(error)
+          }
+        }
+
+        useEffect(() => {
+          // Method to check for unseen messages or notifications
+          const checkForNotifications = async () => {
+            // Replace with your logic to determine badge visibility
+            const hasNotifications = await fetchBusinessTicketNotifications(cell.row.original._id)
+            setBadgeVisible(hasNotifications)
+
+            console.log('badgeVisible', hasNotifications)
+          }
+
+          checkForNotifications()
+        }, [cell.row.original._id])
+
+        return (
+
+          // <IconButton onClick={navigateToChatPage}>
+          //   <MessageRoundedIcon />
+          // </IconButton>
+          <IconButton color='inherit' aria-haspopup='true' onClick={navigateToChatPage} aria-controls='customized-menu'>
+            <Badge
+              color='error'
+              variant='dot'
+              invisible={!isBadgeVisible}
+              sx={{
+                '& .MuiBadge-badge': {
+                  top: 4,
+                  right: 4,
+                  boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}`
+                }
+              }}
+            >
+              <Icon icon='hugeicons:message-notification-01' />
+            </Badge>
+          </IconButton>
+        )
+      }
     },
     {
       header: 'Work Status',

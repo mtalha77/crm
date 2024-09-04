@@ -140,18 +140,16 @@ const ChatMsgNotificationDropdown = (props: Props) => {
     setAnchorEl(event.currentTarget)
     try {
       if (unreadMessagesIds.length === 0) return
-
     } catch (error) {
       console.log(error)
     }
   }
 
-  const updateMsgReadStatus = async (messageId, businessTicketsId) => {
+  const updateMsgReadStatus = async businessTicketsId => {
     try {
       await axios.post(
         '/api/user/update-msg-read-status',
         {
-          messageId,
           businessTicketsId
         },
         {
@@ -164,12 +162,11 @@ const ChatMsgNotificationDropdown = (props: Props) => {
     }
   }
 
-  const openChatBox = async (messageId: string, businessTicketsId: string) => {
-
+  const openChatBox = async (businessTicketsId: string) => {
     if (businessTicketsId) {
       router.push(`/ticket-comments/${businessTicketsId}`)
       handleDropdownClose()
-      updateMsgReadStatus(messageId, businessTicketsId)
+      updateMsgReadStatus(businessTicketsId)
     }
   }
 
@@ -238,7 +235,7 @@ const ChatMsgNotificationDropdown = (props: Props) => {
           {unreadMessages.map((msg, index: number) => (
             <MenuItem
               key={index}
-              onClick={() => openChatBox(msg.messageId, msg.businessTicketsId)}
+              onClick={() => openChatBox(msg.businessTicketsId)}
 
               // sx={{ backgroundColor: notification.read ? '' : '#d9dafc' }}
             >

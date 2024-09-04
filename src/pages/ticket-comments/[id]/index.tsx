@@ -139,8 +139,27 @@ const SendMsgForm = () => {
     }
   }
 
+  const updateMsgsReadStatus = async () => {
+    try {
+      await axios.post(
+        '/api/user/update-msg-read-status',
+        {
+          // messageId,
+          businessTicketsId: id
+        },
+        {
+          headers: { authorization: localStorage.getItem('token') }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+      toast.error('Something went wrong')
+    }
+  }
+
   useEffect(() => {
     getChatHistory()
+    updateMsgsReadStatus()
   }, [])
 
   useEffect(() => {

@@ -53,10 +53,10 @@ function RemainingSheetTable() {
   const handleExportRows = (rows: any[]) => {
     const rowData = rows.map(d => {
       return {
-        date: dayjs(d.original.createdAt).format('l'),
-        'business name': d.original.business_id.business_name,
-        'work type': d.original.ticket_id.work_status,
-        'remaining balance': d.original.remaining_payment
+        date: dayjs(d?.original?.createdAt).format('l'),
+        'business name': d?.original?.business_id?.business_name,
+        'work type': d?.original?.ticket_id?.work_status,
+        'remaining balance': d?.original?.remaining_payment
       }
     })
 

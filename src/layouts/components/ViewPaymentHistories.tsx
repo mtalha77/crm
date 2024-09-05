@@ -14,7 +14,15 @@ import {
   CircularProgress,
   FormControl,
   Select,
-  MenuItem
+  MenuItem,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  Box
 } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
@@ -28,6 +36,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { useConfirm } from 'material-ui-confirm'
 import { useAuth } from 'src/hooks/useAuth'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { Icon } from '@iconify/react'
+import { styled } from '@mui/material/styles'
+import CustomDatePicker from './datePickers/CustomDatePicker'
 
 const CloserComponent = ({ defaultValue, closers, id }: any) => {
   const [value, setValue] = useState(defaultValue)
@@ -132,6 +143,7 @@ const FronterComponent = ({ defaultValue, closers, sessionId }: any) => {
     </>
   )
 }
+
 function ViewPaymentHistories() {
   const [paymentHistories, setPaymentHistories] = useState<any>([])
   const [paymentSessions, setPaymentSessions] = useState<any>([])
@@ -141,6 +153,9 @@ function ViewPaymentHistories() {
   const router = useRouter()
   const { ticketId } = router.query
   const { user } = useAuth()
+  const [openDialog, setOpenDialog] = useState(false)
+  const [updateId, setUpdateId] = useState<string | null>(null)
+  const [updateDate, setUpdateDate] = useState<string | null>(null)
   useEffect(() => {
     const getPaymentHistories = async () => {
       try {
@@ -302,6 +317,46 @@ function ViewPaymentHistories() {
     getBusiness()
   }, [])
 
+  const handleOpenDialog = (id: string) => {
+    setUpdateId(id)
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = () => {
+    setUpdateId(null)
+    setOpenDialog(false)
+  }
+
+  const updatePaymentDate = async (id: string) => {
+    try {
+      const date = new Date(updateDate!)
+      await axios.post(
+        `/api/accounting/update-payment-date`,
+        { id, clientDate: date },
+        { headers: { authorization: localStorage.getItem('token') } }
+      )
+      toast.success('Date updated successfully')
+
+      handleCloseDialog()
+    } catch (error: any) {
+      console.log(error)
+      toast.error(error.response.data)
+    }
+  }
+
+  const UpdateButton = styled(Button)(() => ({
+    color: '#388e3c',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    marginLeft: '10px',
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      boxShadow: 'none',
+      transform: 'scale(1.1)'
+    }
+  }))
+
   return (
     <>
       {paymentSessions.map((session: any) => {
@@ -385,7 +440,44 @@ function ViewPaymentHistories() {
 
                       return (
                         <TableRow key={history._id}>
-                          <TableCell>{moment(history?.createdAt).format('D MMMM YYYY')}</TableCell>
+                          <TableCell>
+                            {moment(history?.createdAt).format('D MMMM YYYY')}
+                            <UpdateButton variant='contained' onClick={() => handleOpenDialog(history._id)}>
+                              <Icon icon={'mdi:edit-outline'} width={24} height={24} />
+                            </UpdateButton>
+                            {/* Delete Confirmation Dialog */}
+                            <Dialog
+                              open={openDialog}
+                              onClose={handleCloseDialog}
+                              aria-labelledby='alert-dialog-title'
+                              aria-describedby='alert-dialog-description'
+                            >
+                              {/* <DialogTitle id='alert-dialog-title'>
+                                {'Are you sure you want to delete this IP?'}
+                              </DialogTitle> */}
+                              <DialogContent>
+                                <DialogContentText id='alert-dialog-description' height={'60vh'}>
+                                  Select the New Date
+                                  <Box height={8}></Box>
+                                  <CustomDatePicker
+                                    value={updateDate}
+                                    onChange={date => {
+                                      console.log('date: ', date) // Log the selected date
+                                      setUpdateDate(date) // Set the state with the date object directly
+                                    }}
+                                  />
+                                </DialogContentText>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={handleCloseDialog} color='error'>
+                                  Cancel
+                                </Button>
+                                <Button onClick={() => updatePaymentDate(history._id)} color='success' autoFocus>
+                                  Update
+                                </Button>
+                              </DialogActions>
+                            </Dialog>
+                          </TableCell>
                           <TableCell>
                             <CloserComponent
                               defaultValue={history.closer_id?.user_name}

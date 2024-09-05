@@ -1,9 +1,10 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import DailySalesChart from 'src/layouts/components/analytics/DailySales'
-import MonthlySalesChart from 'src/layouts/components/analytics/MonthlySales'
+
+// import MonthlySalesChart from 'src/layouts/components/analytics/MonthlySales'
 
 function OverallSales() {
   const [value, setValue] = useState<string>('All')
@@ -51,8 +52,8 @@ function OverallSales() {
           })}
         </Select>
       </FormControl>
-      <MonthlySalesChart username={value} />
-      <Box sx={{ mt: 12 }}></Box>
+      {/* <MonthlySalesChart username={value} />
+      <Box sx={{ mt: 12 }}></Box> */}
       <DailySalesChart username={value} />
     </>
   )

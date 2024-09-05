@@ -12,7 +12,6 @@ import DatePicker from 'react-datepicker'
 
 // ** Types
 // eslint-disable-next-line
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 interface PickerProps {
@@ -30,11 +29,6 @@ const CustomInput = forwardRef((props: PickerProps, ref) => {
 })
 
 const PickersRange = ({ popperPlacement, handleDateChange, startDate, endDate }: any) => {
-  // ** States
-
-  // const [startDate, setStartDate] = useState<DateType>(new Date())
-  // const [endDate, setEndDate] = useState<DateType>(addDays(new Date(), 15))
-
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap' }} className='demo-space-x'>
       <div>

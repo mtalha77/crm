@@ -14,8 +14,6 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import WeeklySalesChart from './WeeklySales'
@@ -33,11 +31,14 @@ const DailySalesChart = ({ username }: any) => {
       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     }
   ])
-  const [month, setMonth] = useState<DateType>(new Date())
+
   const [total, setTotal] = useState(0)
   const [weekNumbers, setWeekNumbers] = useState<any>([])
   const [totalWeekSales, setTotalWeekSales] = useState<any>([])
   const [oTotalWeekSales, setOTotalWeekSales] = useState<any>([0, 0, 0, 0, 0])
+
+  const [startDate, setStartDate] = useState<Date | null>(dayjs().subtract(31, 'day').toDate())
+  const [endDate, setEndDate] = useState<Date | null>(new Date())
 
   function groupSalesByWeek(data: any) {
     const groups: any = {}
@@ -60,16 +61,21 @@ const DailySalesChart = ({ username }: any) => {
     return groups
   }
 
-  const fetchMonthlySales = async () => {
-    const startDate = dayjs(month).startOf('month').toISOString()
-    const endDate = dayjs(month).endOf('month').toISOString()
+  const fetchDailySales = async (newStartDate = startDate, newEndDate = endDate) => {
+
+    // Check if both dates are valid
+    if (!newStartDate || !newEndDate) {
+      console.log('Invalid dates selected for fetching daily sales')
+
+      return
+    }
 
     try {
       let user_name
       if (username !== 'All') user_name = username
 
       const res = await axios.get(
-        `/api/stats/get-daily-sales?startDate=${startDate}&user_name=${user_name}&endDate=${endDate}`,
+        `/api/stats/get-daily-sales?startDate=${newStartDate}&user_name=${user_name}&endDate=${newEndDate}`,
         {
           headers: { authorization: localStorage.getItem('token') }
         }
@@ -103,15 +109,31 @@ const DailySalesChart = ({ username }: any) => {
       setOTotalWeekSales(oTotalSales)
     } catch (error) {
       console.log(error)
-      toast.error('Network error')
+      toast.error(`Network error ${error}`)
+    }
+  }
+
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates
+
+    setStartDate(start)
+    setEndDate(end)
+
+    // Validate the date range
+    if (start && end) {
+      const diff = dayjs(end).diff(dayjs(start), 'day')
+      if (diff > 31) {
+        toast.error('You can see at most 31 days daily sales report at once')
+      } else {
+        // Call fetchDailySales when both dates are selected and valid
+        fetchDailySales(start, end)
+      }
     }
   }
 
   useEffect(() => {
-    if (month) {
-      fetchMonthlySales()
-    }
-  }, [month, username])
+    fetchDailySales()
+  }, [username])
 
   const options: ApexOptions = {
     chart: {
@@ -170,23 +192,6 @@ const DailySalesChart = ({ username }: any) => {
     }
   }
 
-  const [startDate, setStartDate] = useState<Date | null>(dayjs().subtract(31, 'day').toDate())
-  const [endDate, setEndDate] = useState<Date | null>(new Date())
-
-  const handleDateChange = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates
-    setStartDate(start)
-    setEndDate(end)
-
-    // Validate the date range
-    if (start && end) {
-      const diff = dayjs(end).diff(dayjs(start), 'day')
-      if (diff > 31) {
-        toast.error('The difference between dates should be 31 days or less.')
-      }
-    }
-  }
-
   return (
     <Card>
       <CardHeader
@@ -206,12 +211,6 @@ const DailySalesChart = ({ username }: any) => {
         }
       />
       <CardContent>
-        {/* <Box display='flex' alignItems='center' gap={2} paddingLeft={'16px'}>
-
-          <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
-          <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
-        </Box> */}
-
         <Box display='flex' alignItems='center' gap={2} paddingLeft={'16px'}>
           <PickersRange
             popperPlacement='auto-start'

@@ -55,11 +55,11 @@ function FronterSheetTable() {
   const handleExportRows = (rows: any[]) => {
     const rowData = rows.map(d => {
       return {
-        date: dayjs(d.original.createdAt).format('l'),
-        'business name': d.original.business_id.business_name,
-        fronter: d.original.fronter_id.user_name,
-        'work type': d.original.ticket_id.work_status,
-        payment: d.original.received_payment
+        date: dayjs(d?.original?.createdAt).format('l'),
+        'business name': d?.original?.business_id?.business_name,
+        fronter: d?.original?.fronter_id?.user_name,
+        'work type': d?.original?.ticket_id?.work_status,
+        payment: d?.original?.received_payment
       }
     })
 

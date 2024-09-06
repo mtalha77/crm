@@ -12,12 +12,11 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
 import utc from 'dayjs/plugin/utc'
 import dayjs from 'dayjs'
 import { Box } from '@mui/material'
 import TopClosersTable from '../tables/TopClosersTable'
+import PickersRange from '../datePickers/RangePicker'
 
 dayjs.extend(utc)
 
@@ -29,14 +28,20 @@ const CloserSalesChart = () => {
       data: []
     }
   ])
-  const [month, setMonth] = useState<DateType>(new Date())
   const [categories, setCategories] = useState([])
   const [data, setData] = useState<any>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchMonthlySales = async () => {
-    const startDate = dayjs(month).startOf('month').toISOString()
-    const endDate = dayjs(month).endOf('month').toISOString()
+  const [startDate, setStartDate] = useState<Date | null>(dayjs().subtract(31, 'day').toDate())
+  const [endDate, setEndDate] = useState<Date | null>(new Date())
+
+  const fetchMonthlySales = async (newStartDate = startDate, newEndDate = endDate) => {
+    // Check if both dates are valid
+    if (!newStartDate || !newEndDate) {
+      console.log('Invalid dates selected for fetching daily sales')
+
+      return
+    }
 
     try {
       setIsLoading(true)
@@ -73,10 +78,26 @@ const CloserSalesChart = () => {
   }
 
   useEffect(() => {
-    if (month) {
       fetchMonthlySales()
+  }, [])
+
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates
+
+    setStartDate(start)
+    setEndDate(end)
+
+    // Validate the date range
+    if (start && end) {
+      const diff = dayjs(end).diff(dayjs(start), 'day')
+      if (diff > 31) {
+        toast.error('You can select at most 31 days at once')
+      } else {
+        // Call fetchDailySales when both dates are selected and valid
+        fetchMonthlySales(start, end)
+      }
     }
-  }, [month])
+  }
 
   const options: ApexOptions = {
     chart: {
@@ -85,7 +106,11 @@ const CloserSalesChart = () => {
       toolbar: { show: false },
       height: 100
     },
-
+    plotOptions: {
+      bar: {
+        horizontal: true
+      }
+    },
     colors: ['#ff9f43'],
     stroke: { curve: 'straight' },
     dataLabels: {
@@ -149,13 +174,20 @@ const CloserSalesChart = () => {
         }}
       />
       <CardContent>
-        <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
+        <Box display='flex' alignItems='center' gap={2} paddingLeft={'16px'}>
+          <PickersRange
+            popperPlacement='auto-start'
+            handleDateChange={handleDateChange}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        </Box>
         <ApexChartWrapper>
           <ReactApexcharts type='bar' height={400} options={options} series={series} />
         </ApexChartWrapper>
         <Box sx={{ mt: 10 }}></Box>
         <Box>
-          <TopClosersTable data={data} isLoading={isLoading} month={dayjs(month).format('MMMM YYYY')} />
+          <TopClosersTable data={data} isLoading={isLoading} month={dayjs(endDate).format('MMMM YYYY')} />
         </Box>
       </CardContent>
     </Card>

@@ -123,7 +123,7 @@ const DailySalesChart = ({ username }: any) => {
     if (start && end) {
       const diff = dayjs(end).diff(dayjs(start), 'day')
       if (diff > 31) {
-        toast.error('You can see at most 31 days daily sales report at once')
+        toast.error('You can select at most 31 days at once')
       } else {
         // Call fetchDailySales when both dates are selected and valid
         fetchDailySales(start, end)

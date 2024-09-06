@@ -21,7 +21,7 @@ const handler = async (req: any, res: any) => {
             // client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
             client_reporting_date: { $lte: new Date(date) },
 
-            status: { $ne: TicketStatus.COMPLETED }
+            status: { $ne: TicketStatus.COMPLETED },
           })
             .populate('business_id', 'business_name')
             .select({
@@ -63,7 +63,8 @@ const handler = async (req: any, res: any) => {
             // client_reporting_date: { $gte: new Date(monthStart), $lte: new Date(date) },
 
             client_reporting_date: { $lte: new Date(date) },
-            status: { $ne: TicketStatus.COMPLETED }
+            status: { $ne: TicketStatus.COMPLETED },
+            otherSales: false
           })
             .populate('business_id', 'business_name')
             .select({

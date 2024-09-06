@@ -52,7 +52,8 @@ const handler = async (req: any, res: any) => {
         case UserRole.TEAM_LEAD:
           tickets = await BusinessTicketModel.find({
             assignee_depart_id: new mongoose.Types.ObjectId(req.user.department_id),
-            remaining_price_date: { $gte: new Date(monthStart), $lte: new Date(date) }
+            remaining_price_date: { $gte: new Date(monthStart), $lte: new Date(date) },
+            otherSales: false
           })
             .populate('business_id', 'business_name')
             .select({

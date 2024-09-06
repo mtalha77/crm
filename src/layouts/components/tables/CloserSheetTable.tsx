@@ -53,12 +53,12 @@ function CloserSheetTable() {
   const handleExportRows = (rows: any[]) => {
     const rowData = rows.map(d => {
       return {
-        date: dayjs(d.original.createdAt).format('l'),
-        'business name': d.original.business_id.business_name,
-        closer: d.original.closer_id?.user_name,
-        'work type': d.original.ticket_id.work_status,
-        'sale type': d.original.sales_type,
-        payment: d.original.received_payment
+        date: dayjs(d?.original?.createdAt).format('l'),
+        'business name': d?.original?.business_id?.business_name,
+        closer: d?.original?.closer_id?.user_name,
+        'work type': d?.original?.ticket_id?.work_status,
+        'sale type': d?.original?.sales_type,
+        payment: d?.original?.received_payment
       }
     })
 

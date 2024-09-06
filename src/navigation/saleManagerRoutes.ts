@@ -16,6 +16,7 @@ const saleManagerNavigation = (): VerticalNavItemsType => {
       icon: 'mdi-ticket-confirmation-outline',
       subject: 'create-business-ticket',
       children: [
+        { title: 'Custom Development', path: '/ticket-create/customDevelopment' },
         { title: 'Local SEO / GMB Optimization', path: '/ticket-create/localSeo' },
         { title: 'Website Development', path: '/ticket-create/wordPress' },
         { title: 'Website SEO', path: '/ticket-create/webSeo' },

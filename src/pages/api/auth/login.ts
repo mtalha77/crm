@@ -9,9 +9,8 @@ import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { NextApiRequest, NextApiResponse } from 'next/types'
 
-
 // List of allowed IP addresses
-const allowedIPs = ['122.129.69.89', '202.163.76.177', '127.0.0.1', '::1'] // Replace with your allowed IPs
+// const allowedIPs = ['122.129.69.89', '202.163.76.177', '127.0.0.1', '::1'] // Replace with your allowed IPs
 
 import createLog from 'src/backend/utils/createLog'
 
@@ -23,9 +22,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
     console.log('clientIP: ', clientIP)
 
-    if (!allowedIPs.includes(clientIP as string)) {
-      return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' })
-    }
+    // if (!allowedIPs.includes(clientIP as string)) {
+    //   return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' })
+    // }
 
     try {
       const { user_name, password } = req.body

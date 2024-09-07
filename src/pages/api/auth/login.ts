@@ -19,8 +19,9 @@ const tokenSecret = process.env.JWT_SECRET as Secret
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Check IP address
-    const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    console.log('clientIP: ', clientIP)
+    // const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+    // console.log('clientIP: ', clientIP)
 
     // if (!allowedIPs.includes(clientIP as string)) {
     //   return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' })

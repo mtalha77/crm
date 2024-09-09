@@ -8,28 +8,18 @@ import BusinessModel from 'src/backend/schemas/business.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { NextApiRequest, NextApiResponse } from 'next/types'
-
-// List of allowed IP addresses
-// const allowedIPs = ['122.129.69.89', '202.163.76.177', '127.0.0.1', '::1'] // Replace with your allowed IPs
-
+import { verifyIp } from 'src/backend/services/ipService'
 import createLog from 'src/backend/utils/createLog'
+import IpModel from 'src/backend/schemas/ip.schema'
 
 const tokenSecret = process.env.JWT_SECRET as Secret
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // Check IP address
-    // const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-
-    // console.log('clientIP: ', clientIP)
-
-    // if (!allowedIPs.includes(clientIP as string)) {
-    //   return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' })
-    // }
-
     try {
       const { user_name, password } = req.body
 
+      IpModel.schema
       UserModel.schema
       DepartmentModel.schema
       BusinessModel.schema
@@ -37,6 +27,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       DepartTicketModel.schema
       PaymentSessionModel.schema
       PaymentHistoryModel.schema
+
+      const isValidIp = await verifyIp(req)
+
+      if (!isValidIp) {
+        return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' })
+      }
 
       const user = await UserModel.findOne({ user_name })
       const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
@@ -61,8 +57,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!departments) throw new Error('no departments')
 
-      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged in`
-      createLog({ msg: logMsg })
+      // const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged in`
+      // createLog({ msg: logMsg })
 
       return res.send({
         message: 'login successful',

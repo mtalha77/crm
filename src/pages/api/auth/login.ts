@@ -57,8 +57,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!departments) throw new Error('no departments')
 
-      // const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged in`
-      // createLog({ msg: logMsg })
+      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} has logged in`
+      createLog({ msg: logMsg })
 
       return res.send({
         message: 'login successful',

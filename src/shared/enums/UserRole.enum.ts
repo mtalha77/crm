@@ -3,7 +3,8 @@ export enum UserRole {
   TEAM_LEAD = 'Team Lead',
   SALE_MANAGER = 'Sales Manager',
   SALE_EMPLOYEE = 'Sales Employee',
-  EMPLOYEE = 'Employee'
+  EMPLOYEE = 'Employee',
+  IT_PERSON = 'It Person',
 }
 
 export const UserRoleValues: UserRole[] = Object.values(UserRole)

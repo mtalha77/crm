@@ -9,18 +9,7 @@ import { isAuthenticated } from './utils/isAuthenticated'
 import { DomainFormModel } from './schemas/domianform.schema'
 import { HostingFormModel } from './schemas/hostingform.schema'
 import IpModel from './schemas/ip.schema'
-
-const getIpList = async () => {
-  const ips = await IpModel.find()
-
-  return ips.map(ip => ip.ip)
-}
-
-const getGlobalAccessUsers = async () => {
-  const users = await UserModel.find({ globalAccess: true })
-
-  return users.map(user => user.user_name)
-}
+import { verifyIp } from './services/ipService'
 
 export const guardWrapper = (handler: any) => async (req: any, res: any) => {
   try {
@@ -28,23 +17,19 @@ export const guardWrapper = (handler: any) => async (req: any, res: any) => {
     UserModel.schema
     IpModel.schema
 
-    // List of global access users
-    const globalAccessUsers = await getGlobalAccessUsers()
+    const isValidIp = await verifyIp(req)
 
-    // List of allowed IP addresses
-    const allowedIPs = await getIpList()
-
-    // Retrieve the client's IP address
-    const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    console.log('clientIP: ', clientIP)
-
-    // Retrieve the user's username
-    const username = req.body?.user_name
+    if (!isValidIp) {
+      return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' })
+    }
 
     // Check if the client's IP is in the list of allowed IPs and not a global access user
-    if (!allowedIPs.includes(clientIP) && !globalAccessUsers.includes(username)) {
+    if (!isValidIp) {
       // Redirect to login page if IP is not whitelisted
-      return res.redirect('https://crm-git-main-rank-orbits-projects.vercel.app/login/')
+      // return res.redirect('https://www.rankorbit.tech/login/')
+      return res.status(403).json({ message: 'Forbidden: Your IP is not allowed.' });
+
+      // return res.redirect('https://crm-git-main-rank-orbits-projects.vercel.app/login/')
     }
 
     // Check if the request is authenticated or has the necessary permissions

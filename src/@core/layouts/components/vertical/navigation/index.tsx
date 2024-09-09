@@ -25,6 +25,8 @@ import themeOptions from 'src/@core/theme/ThemeOptions'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { useAuth } from 'src/hooks/useAuth'
+import { UserRole } from 'src/shared/enums/UserRole.enum';
 
 interface Props {
   navWidth: number
@@ -76,6 +78,7 @@ const Navigation = (props: Props) => {
   const [navHover, setNavHover] = useState<boolean>(false)
   const [groupActive, setGroupActive] = useState<string[]>([])
   const [currentActiveGroup, setCurrentActiveGroup] = useState<string[]>([])
+  const { user } = useAuth()
 
   // ** Ref
   const shadowRef = useRef(null)
@@ -133,6 +136,10 @@ const Navigation = (props: Props) => {
   }
 
   const ScrollWrapper = hidden ? Box : PerfectScrollbar
+
+  if (user?.role === UserRole.IT_PERSON) {
+    return
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>

@@ -16,6 +16,7 @@ import RemainingPriceDateDueTicketsTable from 'src/layouts/components/tables/Rem
 import ExpiredDomainFormsTable from 'src/layouts/components/tables/columns/ExpiredDomainFormsTable'
 import { Department } from 'src/shared/enums/Department.enum'
 import ExpiredHostingFormsTable from 'src/layouts/components/tables/columns/ExpiredHostingFormsTable'
+import ViewLogs from '../view-logs'
 
 const Home = () => {
   const { user } = useAuth()
@@ -50,7 +51,7 @@ const Home = () => {
           console.log(err)
         })
     }
-    temp()
+    if (user?.role !== UserRole.IT_PERSON) temp()
   }, [])
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const Home = () => {
       }
     }
 
-    fetchExpiringSoonForms()
+    if (user?.role !== UserRole.IT_PERSON) fetchExpiringSoonForms()
   }, [])
 
   useEffect(() => {
@@ -90,7 +91,7 @@ const Home = () => {
       }
     }
 
-    fetchExpiringHostingSoonForms()
+    if (user?.role !== UserRole.IT_PERSON) fetchExpiringHostingSoonForms()
   }, [])
 
   useEffect(() => {
@@ -168,6 +169,14 @@ const Home = () => {
     setGreeting(greetingMessage)
   }, []) // Run only once when component mounts
 
+  if (user?.role === UserRole.IT_PERSON) {
+    return (
+      <Box sx={{padding:'2%'}}>
+        <ViewLogs />
+      </Box>
+    )
+  }
+
   return (
     <>
       <Grid container spacing={6}>
@@ -203,6 +212,7 @@ const Home = () => {
           </Card>
         </Grid>
       </Grid>
+
       <BusinessTicketCards statusCounts={statusCounts} />
       {user?.role !== UserRole.SALE_EMPLOYEE && user?.role !== UserRole.SALE_MANAGER && <DepartmentalTicketCards />}
       {/* {(user?.role === UserRole.ADMIN || user?.role === UserRole.SALE_MANAGER) && (

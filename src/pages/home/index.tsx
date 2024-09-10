@@ -169,7 +169,7 @@ const Home = () => {
     setGreeting(greetingMessage)
   }, []) // Run only once when component mounts
 
-  if (user?.role === UserRole.IT_PERSON) {
+  if (user?.department_name === Department.IT) {
     return (
       <Box sx={{padding:'2%'}}>
         <ViewLogs />

@@ -26,7 +26,7 @@ import themeOptions from 'src/@core/theme/ThemeOptions'
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 import { useAuth } from 'src/hooks/useAuth'
-import { UserRole } from 'src/shared/enums/UserRole.enum';
+import { Department } from 'src/shared/enums/Department.enum';
 
 interface Props {
   navWidth: number
@@ -137,7 +137,7 @@ const Navigation = (props: Props) => {
 
   const ScrollWrapper = hidden ? Box : PerfectScrollbar
 
-  if (user?.role === UserRole.IT_PERSON) {
+  if (user?.department_name === Department.IT) {
     return
   }
 

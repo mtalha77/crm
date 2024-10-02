@@ -20,7 +20,8 @@ export enum SocialMediaWorkStatus {
   FACEBOOK_POSTING = 'Facebook Posting',
   INSTAGRAM_POSTING = 'Instagram Posting',
   OTHERS_POSTING = 'Others Posting',
-  VIDEO_CREATION = 'Video Creation'
+  VIDEO_CREATION = 'Video Creation',
+  SMO_PACKAGE = 'SMO Package'
 }
 
 export enum WebSeoWorkStatus {

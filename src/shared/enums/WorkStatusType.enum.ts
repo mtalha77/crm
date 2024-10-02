@@ -14,7 +14,8 @@ export enum PaidMarketingWorkStatus {
 }
 
 export enum SocialMediaWorkStatus {
-  NO_OF_REVIEWS = 'No of Reviews',
+  NO_OF_GOOGLE_REVIEWS = 'No of Google Reviews',
+  NO_OF_FACEBOOK_REVIEWS = 'No of Facebook Reviews',
   LIKES_FOLLOWERS = 'Likes/Followers',
   NO_OF_GMB_REVIEWS = 'No of GMB Reviews',
   FACEBOOK_POSTING = 'Facebook Posting',

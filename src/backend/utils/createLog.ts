@@ -5,8 +5,9 @@ export default async function createLog(obj: { msg: string; level?: Log }) {
   try {
     const newLog = new LogModel(obj)
 
-    const h = await newLog.save()
-    console.log(h)
+    await newLog.save()
+
+    // console.log(h)
   } catch (error) {
     console.log(error)
   }

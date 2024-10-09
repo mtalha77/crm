@@ -54,7 +54,7 @@ const TicketDetails = (props: any) => {
                   render={({ field }) => (
                     <>
                       <TextField
-                        // type='number'
+                        type='number'
                         {...field}
                         label='Price'
                         error={Boolean(errors?.ticketDetails?.total_payment)}

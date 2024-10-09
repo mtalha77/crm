@@ -13,8 +13,7 @@ const handler = async (req: any, res: any) => {
       // Find the specific ticket by ID
       const ticket = await BusinessTicketModel.findById(ticketId)
         .populate({
-          path: 'business_id',
-          select: 'business_name' // Only fetch the business name from the associated business
+          path: 'business_id'
         })
         .populate('created_by', 'user_name')
         .populate('assignee_employees', 'user_name')

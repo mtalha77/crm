@@ -37,7 +37,9 @@ export enum WordPressWorkStatus {
   ECOMMERCE = 'E-Commerce',
   REDESIGN_WEBSITE = 'Redesign Website',
   ON_PAGE_WEBSITE = 'One Page Website',
-  FULL = 'Full Website'
+  FULL = 'Full Website',
+  BUY_DOMAIN_HOSTING = 'Buy Domain/Hosting',
+  LOGO_CREATION = 'Logo Creation'
 }
 
 export enum WriterWorkStatus {

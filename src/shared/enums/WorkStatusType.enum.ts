@@ -4,7 +4,8 @@ export enum LocalSeoWorkStatus {
   PAID_CITATIONS = 'Paid Citations',
   GEO_FENCING = 'Geo Fencing',
   Google_STACKING = 'Google Stacking',
-  Google_GUARANTEE = 'Google Guarantee'
+  Google_GUARANTEE = 'Google Guarantee',
+  Press_Release_Submission = 'Press Release Submission'
 }
 
 export enum PaidMarketingWorkStatus {

@@ -24,25 +24,30 @@ function DepartmentalTicketsTable() {
       setIsLoading(true)
 
       // Make both API requests concurrently
-      const [usersResponse, dataResponse] = await Promise.all([
+      // const [usersResponse, dataResponse] = await Promise.all([
+
+      const [usersResponse] = await Promise.all([
         axios.get('/api/user/get-employees-department-wise', {
           headers: { authorization: localStorage.getItem('token') }
-        }),
-        axios.get('/api/department-ticket/get-all', {
-          headers: { authorization: localStorage.getItem('token') }
         })
+
+        // axios.get('/api/department-ticket/get-all', {
+        //   headers: { authorization: localStorage.getItem('token') }
+        // })
       ])
 
       // Destructure the responses
       const { data: usersData } = usersResponse
-      const { data: ticketsData } = dataResponse
+
+      // const { data: ticketsData } = dataResponse
 
       // Set the state for users and data
       setEmployeesList(() => {
         return usersData.payload.users.map((b: any) => b.user_name)
       })
       setEmployees(usersData.payload.users)
-      setData(ticketsData.payload.tickets)
+
+      // setData(ticketsData.payload.tickets)
     } catch (error) {
       console.error(error)
       toast.error('Network error. Please refresh the page.')
@@ -66,6 +71,7 @@ function DepartmentalTicketsTable() {
 
   useEffect(() => {
     fetchData()
+
     fetchBusinesses()
   }, [])
 

@@ -104,6 +104,7 @@ export interface WriterDetails {
 }
 
 export interface DesignerDetails {
+  work_status: string
   notes?: string
   task_details?: string
 }
@@ -183,7 +184,7 @@ export const customDevDefaultValues: CustomDevFormType = {
   },
   customDevDetails: {
     notes: '',
-    work_status: '',
+    work_status: ''
   }
 }
 
@@ -307,6 +308,7 @@ export const designerDefaultValues: DesignerFormType = {
     otherSales: false
   },
   designerFormTypeDetails: {
+    work_status: '',
     notes: '',
     task_details: ''
   }

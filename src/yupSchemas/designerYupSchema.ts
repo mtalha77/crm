@@ -74,6 +74,7 @@ export const designerYupSchema: yup.ObjectSchema<DesignerFormType> = yup.object(
   }),
   designerFormTypeDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
+    work_status: yup.string().max(200, 'Work Status cannot exceed 200 characters').required('Work Status is required'),
     task_details: yup.string().max(20000, 'Notes cannot exceed 20000 characters')
   })
 })

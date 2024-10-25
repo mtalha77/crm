@@ -57,6 +57,21 @@ export enum CustomDevWorkStatus {
   AUTOMATION = 'Automation'
 }
 
+export enum DesignerWorkStatus {
+  POST_CREATION = 'Post Creation',
+  BANNER_CREATION = 'Banner Creation',
+  LOGO_DESIGN = 'Logo Design',
+  PROFILE_PICTURE_CREATION = 'Profile Picture Creation',
+  DOCS_EDITING = 'Docs Editing',
+  BLOG_IMAGES_DESIGN = 'Blog Images Design',
+  CREATIVE_DESIGN = 'Creative Design',
+  IMAGES_EDITING = 'Images Editing',
+  IMAGES_RESIZING = 'Images Resizing',
+  BUSINESS_VIDEO_CREATION = 'Business Video Creation',
+  REELS_CREATION = 'Reels Creation',
+  OTHERS = 'Others'
+}
+
 export type WorkStatus =
   | LocalSeoWorkStatus
   | PaidMarketingWorkStatus
@@ -65,6 +80,7 @@ export type WorkStatus =
   | SocialMediaWorkStatus
   | WebSeoWorkStatus
   | CustomDevWorkStatus
+  | DesignerWorkStatus
 
 // Arrays for each enum
 export const LocalSeoWorkStatusValues: LocalSeoWorkStatus[] = Object.values(LocalSeoWorkStatus)
@@ -74,6 +90,7 @@ export const WebSeoWorkStatusValues: WebSeoWorkStatus[] = Object.values(WebSeoWo
 export const WordPressWorkStatusValues: WordPressWorkStatus[] = Object.values(WordPressWorkStatus)
 export const WriterWorkStatusValues: WriterWorkStatus[] = Object.values(WriterWorkStatus)
 export const CustomDevWorkStatusValues: CustomDevWorkStatus[] = Object.values(CustomDevWorkStatus)
+export const DesignerWorkStatusValues: DesignerWorkStatus[] = Object.values(DesignerWorkStatus)
 
 export const WorkStatusValues: string[] = [
   ...LocalSeoWorkStatusValues,
@@ -82,5 +99,6 @@ export const WorkStatusValues: string[] = [
   ...WebSeoWorkStatusValues,
   ...WordPressWorkStatusValues,
   ...WriterWorkStatusValues,
-  ...CustomDevWorkStatusValues
+  ...CustomDevWorkStatusValues,
+  ...DesignerWorkStatusValues
 ]

@@ -211,6 +211,7 @@ export const dDesignerDefaultValues: DDesignerFormType = {
   priority: '',
   due_date: new Date(),
   designerFormTypeDetails: {
+    work_status: '',
     notes: '',
     task_details: ''
   },

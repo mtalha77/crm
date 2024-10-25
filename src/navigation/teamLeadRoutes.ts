@@ -33,7 +33,10 @@ const TeamLeadNavigation = () => {
       title: 'View Tickets',
       icon: 'mdi-ticket-confirmation-outline',
       subject: 'create-business-ticket',
-      children: [{ title: 'Business', path: '/view-tickets' }]
+      children: [
+        { title: 'Business', path: '/view-tickets' },
+        { title: 'Department', path: '/view-d-tickets' }
+      ]
     },
     {
       path: '/view-businesses',

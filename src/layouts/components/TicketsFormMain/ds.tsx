@@ -88,6 +88,7 @@ const DesignerFormComponent = () => {
       client_name: business.client_name,
       notes: designerFormTypeDetails.notes,
       task_details: designerFormTypeDetails.task_details,
+      work_status: designerFormTypeDetails.work_status,
       business_id: business_id,
       ticketId: ticketId
     }

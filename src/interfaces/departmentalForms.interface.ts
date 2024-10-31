@@ -190,7 +190,12 @@ export const dWriterDefaultValues: DWriterFormType = {
   due_date: new Date(),
   writerFormTypeDetails: {
     notes: '',
-    task_details: ''
+    task_details: '',
+    total_number_for_writers_depart: 0,
+    work_status: '',
+    platform_name: '',
+    total_number_of_words_writers_depart: 0,
+    keywords_for_writers_depart: ''
   },
   business: {
     business_name: '',

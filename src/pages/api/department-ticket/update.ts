@@ -41,6 +41,9 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         task_details,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         ticketId
       } = req.body
       if (assignee_depart_name !== Department.Writer && assignee_depart_name !== Department.Designer && !work_status)
@@ -79,7 +82,10 @@ const handler = async (req: any, res: any) => {
             no_of_likes,
             no_of_gmb_reviews,
             gmb_access_email,
-            task_details
+            task_details,
+            total_number_for_writers_depart,
+            total_number_of_words_writers_depart,
+            keywords_for_writers_depart
           }
         }
       )

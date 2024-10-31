@@ -47,7 +47,10 @@ const departTicketSchema = new mongoose.Schema(
     no_of_likes: { type: String, required: false, trim: true },
     no_of_gmb_reviews: { type: String, required: false, trim: true },
     gmb_access_email: { type: String, required: false, trim: true },
-    task_details: { type: String, required: false, trim: true }
+    task_details: { type: String, required: false, trim: true },
+    total_number_for_writers_depart: { type: Number, required: false }, // New field
+    total_number_of_words_writers_depart: { type: Number, required: false }, // New field
+    keywords_for_writers_depart: { type: String, required: false, trim: true } // New field
   },
   { timestamps: true }
 )

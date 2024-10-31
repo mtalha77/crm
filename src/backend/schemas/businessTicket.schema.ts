@@ -132,6 +132,9 @@ const businessTicketSchema = new mongoose.Schema(
     client_reporting_notes: { type: String, required: false, trim: true, maxLength: 2000 },
     task_details: { type: String, required: false, trim: true },
     otherSales: { type: Boolean, required: true },
+    total_number_for_writers_depart: { type: Number, required: false }, // New field
+    total_number_of_words_writers_depart: { type: Number, required: false }, // New field
+    keywords_for_writers_depart: { type: String, required: false, trim: true }, // New field
     messages: [MessageSchema]
   },
   { timestamps: true }

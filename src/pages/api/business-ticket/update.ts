@@ -63,6 +63,9 @@ const handler = async (req: any, res: any) => {
         ticketId,
         created_at,
         business_id,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         otherSales
       } = req.body
       if (
@@ -147,6 +150,9 @@ const handler = async (req: any, res: any) => {
         no_of_likes,
         no_of_gmb_reviews,
         gmb_access_email,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         task_details,
         ticket_notes: ticket_notes_formatted_text,
         client_reporting_notes: client_reporting_notes_formatted_text,

@@ -38,7 +38,12 @@ export const mapResponseForWriter = (data: any): WriterFormType => {
     },
     writerFormTypeDetails: {
       notes: data.notes,
-      task_details: data.task_details
+      task_details: data.task_details,
+      total_number_for_writers_depart: data.total_number_for_writers_depart, // New field
+      work_status: data.work_status, // New field
+      platform_name: data.platform_name, // New field
+      total_number_of_words_writers_depart: data.total_number_of_words_writers_depart, // New field
+      keywords_for_writers_depart: data.keywords_for_writers_depart // New field
     }
   }
 }

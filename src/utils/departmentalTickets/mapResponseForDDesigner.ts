@@ -5,6 +5,7 @@ export const mapResponseForDDesigner = (data: any): DDesignerFormType => {
     priority: data.priority,
     due_date: new Date(data.due_date),
     designerFormTypeDetails: {
+      work_status: data?.work_status,
       notes: data?.notes,
       task_details: data?.task_details
     },

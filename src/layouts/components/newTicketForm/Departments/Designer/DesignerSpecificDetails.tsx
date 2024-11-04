@@ -1,7 +1,8 @@
-import { FormControl, FormHelperText, Grid, TextField } from '@mui/material'
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { DDesignerFormType } from 'src/interfaces/departmentalForms.interface'
+import { DesignerWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
 const DesignerSpecificDetails = () => {
   const {
@@ -12,6 +13,34 @@ const DesignerSpecificDetails = () => {
   return (
     <>
       <Grid container spacing={5}>
+        {/* Work Status Dropdown */}
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth error={!!errors.designerFormTypeDetails?.work_status}>
+            <InputLabel htmlFor='designerWorkStatus'>Work Status</InputLabel>
+            <Controller
+              name='designerFormTypeDetails.work_status'
+              control={control}
+              rules={{ required: true }} // Validation: Required
+              defaultValue=''
+              render={({ field }) => (
+                <>
+                  <Select label='Work Status' {...field} fullWidth>
+                    {DesignerWorkStatusValues.map(status => (
+                      <MenuItem key={status} value={status}>
+                        {status}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.designerFormTypeDetails?.work_status && (
+                    <FormHelperText>{errors.designerFormTypeDetails.work_status.message}</FormHelperText>
+                  )}
+                </>
+              )}
+            />
+          </FormControl>
+        </Grid>
+
+        {/* Notes Field */}
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.designerFormTypeDetails?.notes}>
             <Controller
@@ -34,6 +63,7 @@ const DesignerSpecificDetails = () => {
           </FormControl>
         </Grid>
 
+        {/* Task Details Field */}
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.designerFormTypeDetails?.task_details}>
             <Controller

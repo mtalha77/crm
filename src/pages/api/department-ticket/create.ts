@@ -34,6 +34,9 @@ const handler = async (req: any, res: any) => {
         platform_name,
         no_of_likes,
         no_of_gmb_reviews,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         gmb_access_email,
         task_details,
         business_id
@@ -81,7 +84,10 @@ const handler = async (req: any, res: any) => {
         no_of_gmb_reviews,
         gmb_access_email,
         task_details,
-        business_id
+        business_id,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart
       }
 
       const newTicket = new DepartTicketModel(payload)

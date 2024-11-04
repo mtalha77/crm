@@ -13,7 +13,22 @@ export const DWriterYupSchema: yup.ObjectSchema<DWriterFormType> = yup.object().
     .required('Due Date is required'),
   writerFormTypeDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
-    task_details: yup.string().max(1000, 'task details cannot exceed 1000 characters')
+    task_details: yup.string().max(20000, 'Task details cannot exceed 20000 characters'),
+    total_number_for_writers_depart: yup
+      .number()
+      .transform(value => (Number.isNaN(value) ? null : value))
+      .nullable()
+      .max(1000, 'Total number cannot exceed 1000')
+      .required('Total number is required'), // Validation for new field
+    total_number_of_words_writers_depart: yup
+      .number()
+      .transform(value => (Number.isNaN(value) ? null : value))
+      .nullable()
+      .max(1000, 'Total number cannot exceed 1000')
+      .required('Total number is required'), // Validation for new field
+    keywords_for_writers_depart: yup.string().max(1000, 'Keywords cannot exceed 1000 characters'), // Validation for new field
+    platform_name: yup.string().max(1000, 'Keywords cannot exceed 1000 characters'), // Validation for new field
+    work_status: yup.string().max(1000, 'Keywords cannot exceed 1000 characters') // Validation for new field
   }),
   business: yup.object().shape({
     business_name: yup

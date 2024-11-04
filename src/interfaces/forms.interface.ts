@@ -101,9 +101,15 @@ export interface SocialMediaDetails {
 export interface WriterDetails {
   notes?: string
   task_details?: string
+  work_status?: string
+  platform_name?: string
+  total_number_for_writers_depart?: number // New field
+  total_number_of_words_writers_depart?: number // New field
+  keywords_for_writers_depart?: string // New field
 }
 
 export interface DesignerDetails {
+  work_status: string
   notes?: string
   task_details?: string
 }
@@ -183,7 +189,7 @@ export const customDevDefaultValues: CustomDevFormType = {
   },
   customDevDetails: {
     notes: '',
-    work_status: '',
+    work_status: ''
   }
 }
 
@@ -267,7 +273,12 @@ export const writerDefaultValues: WriterFormType = {
   },
   writerFormTypeDetails: {
     notes: '',
-    task_details: ''
+    task_details: '',
+    work_status: '',
+    platform_name: '',
+    total_number_for_writers_depart: 0, // Default value for new field
+    total_number_of_words_writers_depart: 0, // Default value for new field
+    keywords_for_writers_depart: '' // Default value for new field
   }
 }
 
@@ -307,6 +318,7 @@ export const designerDefaultValues: DesignerFormType = {
     otherSales: false
   },
   designerFormTypeDetails: {
+    work_status: '',
     notes: '',
     task_details: ''
   }

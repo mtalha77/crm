@@ -45,6 +45,9 @@ const handler = async (req: any, res: any) => {
         gmb_access_email,
         task_details,
         business_id,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         parentId
       } = req.body
 
@@ -90,6 +93,9 @@ const handler = async (req: any, res: any) => {
         gmb_access_email,
         task_details,
         business_id,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         parent_id: new mongoose.Types.ObjectId(parentId)
       }
 

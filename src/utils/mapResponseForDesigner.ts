@@ -37,6 +37,7 @@ export const mapResponseForDesigner = (data: any): DesignerFormType => {
     },
     designerFormTypeDetails: {
       notes: data.notes,
+      work_status: data.work_status,
       task_details: data.task_details
     }
   }

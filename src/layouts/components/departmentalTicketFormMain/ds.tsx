@@ -74,6 +74,7 @@ const DDesignerFormComponent = () => {
       notes: designerFormTypeDetails.notes,
       task_details: designerFormTypeDetails.task_details,
       ticketId: ticketId,
+      work_status: designerFormTypeDetails.work_status,
       business_id
     }
     if (update) {
@@ -117,7 +118,7 @@ const DDesignerFormComponent = () => {
                 <CardHeader
                   title={
                     <Typography variant='h5' color={'primary'}>
-                      {update ? 'Update Ticket' : ' Generate New Ticket For Writer'}
+                      {update ? 'Update Ticket' : ' Generate New Ticket For Designers'}
                     </Typography>
                   }
                 />

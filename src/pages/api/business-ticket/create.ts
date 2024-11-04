@@ -8,7 +8,7 @@ import NotificationModel from 'src/backend/schemas/notification.schema'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
 import PaymentSessionModel from 'src/backend/schemas/paymentSession.schema'
 import { createNewBusiness } from 'src/backend/utils/business/createNewBusiness'
-import createLog from 'src/backend/utils/createLog';
+import createLog from 'src/backend/utils/createLog'
 import { Department } from 'src/shared/enums/Department.enum'
 import { NotificationType } from 'src/shared/enums/NotificationType.enum'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
@@ -72,7 +72,7 @@ const handler = async (req: any, res: any) => {
         no_of_backlinks,
         no_of_posts,
         no_of_blogs,
-        platform_name,
+
         no_of_likes,
         no_of_gmb_reviews,
         gmb_access_email,
@@ -81,6 +81,10 @@ const handler = async (req: any, res: any) => {
         client_reporting_notes,
         created_at,
         task_details,
+        total_number_for_writers_depart,
+        platform_name,
+        total_number_of_words_writers_depart,
+        keywords_for_writers_depart,
         otherSales
       } = req.body
 
@@ -206,7 +210,10 @@ const handler = async (req: any, res: any) => {
         task_details,
         ticket_notes: ticket_notes_formatted_text,
         client_reporting_notes: client_reporting_notes_formatted_text,
-        otherSales
+        otherSales,
+        keywords_for_writers_depart,
+        total_number_for_writers_depart,
+        total_number_of_words_writers_depart
       }
       if (sales_type === SaleType.NEW_SALE) {
         payload.fronter = fronter

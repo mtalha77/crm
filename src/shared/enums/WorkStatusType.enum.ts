@@ -46,7 +46,15 @@ export enum WordPressWorkStatus {
 
 export enum WriterWorkStatus {
   ON_PAGE = 'ON PAGE',
-  BLOG = 'BLOG'
+  BLOG = 'BLOG',
+  GMB_POST = 'Gmb Post',
+  PRESS_RELEASE_SUBMISSION = 'Press Release Submission',
+  WEB_COPY = 'Web Copy',
+  GUEST_POST = 'Guest Post',
+  WEBSITE_CONTENT = 'Website Content',
+  TAGLINE = 'Tagline',
+  REVIEWS = 'Reviews',
+  OTHERS = 'Others'
 }
 
 export enum CustomDevWorkStatus {

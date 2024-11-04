@@ -5,6 +5,7 @@ import { SaleType } from 'src/shared/enums/SaleType.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { number } from 'yup'
 
 export const childTicketSchema = new mongoose.Schema({
   child_id: { type: mongoose.Schema.Types.ObjectId, ref: 'DepartTicket', required: true }
@@ -132,6 +133,8 @@ const businessTicketSchema = new mongoose.Schema(
     client_reporting_notes: { type: String, required: false, trim: true, maxLength: 2000 },
     task_details: { type: String, required: false, trim: true },
     otherSales: { type: Boolean, required: true },
+    total_number_of_words_writer_: { type: number, required: false, trim: true },
+    total_number_for_writer_ticket: { type: number, required: false, trim: true },
     messages: [MessageSchema]
   },
   { timestamps: true }

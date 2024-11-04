@@ -3,6 +3,7 @@ import { Department } from 'src/shared/enums/Department.enum'
 import { PriorityType } from 'src/shared/enums/PriorityType.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
 import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+import { number } from 'yup'
 
 const departTicketSchema = new mongoose.Schema(
   {
@@ -47,7 +48,9 @@ const departTicketSchema = new mongoose.Schema(
     no_of_likes: { type: String, required: false, trim: true },
     no_of_gmb_reviews: { type: String, required: false, trim: true },
     gmb_access_email: { type: String, required: false, trim: true },
-    task_details: { type: String, required: false, trim: true }
+    task_details: { type: String, required: false, trim: true },
+    total_number_of_words_writer_: { type: number, required: false, trim: true },
+    total_number_for_writer_ticket: { type: number, required: false, trim: true }
   },
   { timestamps: true }
 )

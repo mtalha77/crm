@@ -74,6 +74,10 @@ export const writerYupSchema: yup.ObjectSchema<WriterFormType> = yup.object().sh
   }),
   writerFormTypeDetails: yup.object().shape({
     notes: yup.string().max(200, 'Notes cannot exceed 200 characters'),
-    task_details: yup.string().max(20000, 'Notes cannot exceed 20000 characters')
+    task_details: yup.string().max(1000, 'task details cannot exceed 1000 characters'),
+    platform_name: yup.string().max(100, 'task details cannot exceed 100 characters'),
+    key_words: yup.string().max(10000, 'task details cannot exceed 10000 characters'),
+    total_number_of_words_writer_: yup.number().max(10000, 'task details cannot exceed 10000 characters'),
+    total_number_for_writer_ticket: yup.number().max(10000, 'task details cannot exceed 10000 characters')
   })
 })

@@ -5,15 +5,30 @@ const BoldText = ({ children }: any) => (
     {children}
   </Typography>
 )
+
 function WriterView({ data }: any) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <BoldText>Task Details:</BoldText> {data?.task_details}
       </Grid>
-
       <Grid item xs={6}>
         <BoldText>Notes:</BoldText> {data?.notes}
+      </Grid>
+      <Grid item xs={6}>
+        <BoldText>Work Status:</BoldText> {data?.work_status || 'None'}
+      </Grid>
+      <Grid item xs={6}>
+        <BoldText>Total Number for Writer Ticket:</BoldText> {data?.total_number_for_writer_ticket}
+      </Grid>
+      <Grid item xs={6}>
+        <BoldText>Total Number of Words:</BoldText> {data?.total_number_of_words_writer_}
+      </Grid>
+      <Grid item xs={6}>
+        <BoldText>Keywords:</BoldText> {data?.key_words}
+      </Grid>
+      <Grid item xs={6}>
+        <BoldText>Platform Name:</BoldText> {data?.platform_name}
       </Grid>
     </Grid>
   )

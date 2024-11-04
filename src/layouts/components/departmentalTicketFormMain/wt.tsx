@@ -73,6 +73,10 @@ const DWritersFormComponent = () => {
       due_date: due_date,
       notes: writerFormTypeDetails.notes,
       task_details: writerFormTypeDetails.task_details,
+      total_number_of_words_writer_: writerFormTypeDetails.total_number_of_words_writer_,
+      key_words: writerFormTypeDetails.key_words,
+      platform_name: writerFormTypeDetails.platform_name,
+      total_number_for_writer_ticket: writerFormTypeDetails.total_number_for_writer_ticket,
       ticketId: ticketId,
       business_id
     }

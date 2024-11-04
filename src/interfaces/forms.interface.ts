@@ -101,6 +101,11 @@ export interface SocialMediaDetails {
 export interface WriterDetails {
   notes?: string
   task_details?: string
+  work_status?: string
+  total_number_for_writer_ticket?: number
+  total_number_of_words_writer_?: number
+  key_words: ''
+  platform_name: ''
 }
 
 export interface DesignerDetails {
@@ -183,7 +188,7 @@ export const customDevDefaultValues: CustomDevFormType = {
   },
   customDevDetails: {
     notes: '',
-    work_status: '',
+    work_status: ''
   }
 }
 
@@ -267,7 +272,12 @@ export const writerDefaultValues: WriterFormType = {
   },
   writerFormTypeDetails: {
     notes: '',
-    task_details: ''
+    task_details: '',
+    work_status: '',
+    total_number_for_writer_ticket: 0,
+    total_number_of_words_writer_: 0,
+    key_words: '',
+    platform_name: ''
   }
 }
 

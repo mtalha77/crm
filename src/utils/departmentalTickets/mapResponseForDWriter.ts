@@ -5,8 +5,13 @@ export const mapResponseForDWriter = (data: any): DWriterFormType => {
     priority: data.priority,
     due_date: new Date(data.due_date),
     writerFormTypeDetails: {
-      notes: data?.notes,
-      task_details: data?.task_details
+      notes: data.notes,
+      task_details: data.task_details,
+      total_number_for_writers_depart: data.total_number_for_writers_depart, // New field
+      total_number_of_words_writers_depart: data.total_number_of_words_writers_depart, // New field
+      keywords_for_writers_depart: data.keywords_for_writers_depart, // New field
+      work_status: data.work_status, // New field
+      platform_name: data.platform_name // New field
     },
     business: {
       business_name: data.business_id.business_name,

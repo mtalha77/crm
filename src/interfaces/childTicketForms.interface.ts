@@ -51,7 +51,12 @@ export const ChildWriterDefaultValues: ChildWriterFormType = {
   due_date: new Date(),
   writerFormTypeDetails: {
     notes: '',
-    task_details: ''
+    task_details: '',
+    total_number_for_writers_depart: 0,
+    total_number_of_words_writers_depart: 0,
+    keywords_for_writers_depart: '',
+    work_status: '',
+    platform_name: ''
   }
 }
 
@@ -60,7 +65,8 @@ export const ChildDesignerDefaultValues: ChildDesignerFormType = {
   due_date: new Date(),
   designerFormTypeDetails: {
     notes: '',
-    task_details: ''
+    task_details: '',
+    work_status: ''
   }
 }
 

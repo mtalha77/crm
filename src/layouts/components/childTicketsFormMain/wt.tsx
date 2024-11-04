@@ -71,6 +71,11 @@ const ChildWriterFormComponent = () => {
       due_date: due_date,
       notes: writerFormTypeDetails.notes,
       task_details: writerFormTypeDetails.task_details,
+      total_number_for_writers_depart: writerFormTypeDetails.total_number_for_writers_depart, // New field
+      work_status: writerFormTypeDetails.work_status, // New field
+      platform_name: writerFormTypeDetails.platform_name, // New field
+      total_number_of_words_writers_depart: writerFormTypeDetails.total_number_of_words_writers_depart, // New field
+      keywords_for_writers_depart: writerFormTypeDetails.keywords_for_writers_depart, // New field
       ticketId: ticketId,
       business_id: businessId,
       parentId

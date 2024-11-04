@@ -49,7 +49,6 @@ const ChatHistory = styled('div')({
   scrollbarColor: '#8866 transparent'
 })
 
-
 const SendMsgForm = () => {
   const [msg, setMsg] = useState<string>('')
   const [chatHistory, setChatHistory] = useState<any>([])
@@ -59,7 +58,6 @@ const SendMsgForm = () => {
   const chatHistoryRef = useRef<HTMLElement>(null)
   const [files, setFiles] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-
 
   const handleFileChange = (e: any) => {
     setFiles([...e.target.files])
@@ -93,8 +91,8 @@ const SendMsgForm = () => {
   const getChatHistory = async () => {
     try {
       const res = await axios.post(
-        `/api/business-ticket/chat/get-chat-history`,
-        { businessTicketId: id },
+        `/api/department-ticket/chat/get-chat-history`,
+        { departmentTicketId: id },
         {
           headers: { authorization: localStorage.getItem('token') }
         }
@@ -113,6 +111,8 @@ const SendMsgForm = () => {
   }
 
   const handleSendMsg = async (e: SyntheticEvent) => {
+
+
     e.preventDefault()
 
     setLoading(true);
@@ -122,12 +122,12 @@ const SendMsgForm = () => {
     }
 
     const formData = new FormData()
-    formData.append('businessTicketId', id)
+    formData.append('departmentTicketId', id)
     formData.append('content', msg)
     files.forEach(file => formData.append('files', file))
 
     try {
-      await axios.post('/api/business-ticket/chat/send-message', formData, {
+      await axios.post('/api/department-ticket/chat/send-message', formData, {
         headers: {
           authorization: localStorage.getItem('token'),
           'Content-Type': 'multipart/form-data'
@@ -143,16 +143,15 @@ const SendMsgForm = () => {
     }
 
     setLoading(false);
-
   }
 
   const updateMsgsReadStatus = async () => {
     try {
       await axios.post(
-        '/api/user/update-msg-read-status',
+        '/api/user/update-department-ticket-msg-read-status',
         {
           // messageId,
-          businessTicketsId: id
+          departmentTicketId: id
         },
         {
           headers: { authorization: localStorage.getItem('token') }
@@ -243,6 +242,10 @@ const SendMsgForm = () => {
                 onChange={handleFileChange}
               />
             </IconButton>
+            {/* <Button type='submit' variant='contained'>
+              Send
+            </Button> */}
+
             <Button
               type='submit'
               variant='contained'

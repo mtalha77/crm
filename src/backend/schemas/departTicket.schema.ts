@@ -2,7 +2,57 @@ import mongoose from 'mongoose'
 import { Department } from 'src/shared/enums/Department.enum'
 import { PriorityType } from 'src/shared/enums/PriorityType.enum'
 import { TicketStatus } from 'src/shared/enums/TicketStatus.enum'
+import { UserRole } from 'src/shared/enums/UserRole.enum';
 import { WorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
+
+const MessageSchema = new mongoose.Schema({
+  sender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  readBy: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      role: {
+        type: String,
+        enum: [UserRole.TEAM_LEAD, UserRole.SALE_MANAGER, UserRole.ADMIN, UserRole.EMPLOYEE]
+      },
+      readAt: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
+  files: [
+    {
+      filename: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      },
+      uploadedAt: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ]
+})
 
 const departTicketSchema = new mongoose.Schema(
   {
@@ -50,7 +100,8 @@ const departTicketSchema = new mongoose.Schema(
     task_details: { type: String, required: false, trim: true },
     total_number_for_writers_depart: { type: Number, required: false }, // New field
     total_number_of_words_writers_depart: { type: Number, required: false }, // New field
-    keywords_for_writers_depart: { type: String, required: false, trim: true } // New field
+    keywords_for_writers_depart: { type: String, required: false, trim: true }, // New field
+    messages: [MessageSchema]
   },
   { timestamps: true }
 )

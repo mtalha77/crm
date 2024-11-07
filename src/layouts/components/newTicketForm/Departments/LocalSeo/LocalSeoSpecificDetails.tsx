@@ -15,7 +15,7 @@ const LocalSeoSpecificDetails = () => {
   return (
     <>
       <Grid container spacing={5}>
-        
+
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.localSeoDetails?.work_status}>
             <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
@@ -24,9 +24,9 @@ const LocalSeoSpecificDetails = () => {
               control={control}
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               defaultValue=''
-              render={({ field }) => (
+              render={({ field }  ) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select label='Work Status' {...field} fullWidth>
                     {LocalSeoWorkStatusValues.map(v => (
                       <MenuItem key={v} value={v}>
                         {v}

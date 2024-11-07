@@ -31,7 +31,7 @@ const WebSeoSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select label='Work Status' {...field} fullWidth>
                     {WebSeoWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>

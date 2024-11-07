@@ -28,7 +28,7 @@ const PaidMarketingSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select label='Work Status' {...field} fullWidth >
                     {' '}
                     {PaidMarketingWorkStatusValues.map(v => {
                       return (

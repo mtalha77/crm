@@ -16,18 +16,18 @@ const TeamLeadNavigation = () => {
     },
 
     // comment for shabi
-    // {
-    //   title: 'Create Ticket',
-    //   subject: 'create-departmental-ticket',
-    //   icon: 'mdi-ticket-confirmation-outline',
-    //   children: [
-    //     { title: 'Local SEO / GMB Optimization', path: '/D-ticket-create/dLocalSeo' },
-    //     { title: 'Wordpress Development', path: '/D-ticket-create/dWordPress' },
-    //     { title: 'Website SEO', path: '/D-ticket-create/dWebSeo' },
-    //     { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
-    //     { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
-    //   ]
-    // },
+    {
+      title: 'Create Ticket',
+      subject: 'create-departmental-ticket',
+      icon: 'mdi-ticket-confirmation-outline',
+      children: [
+        { title: 'Local SEO / GMB Optimization', path: '/D-ticket-create/dLocalSeo' },
+        { title: 'Wordpress Development', path: '/D-ticket-create/dWordPress' },
+        { title: 'Website SEO', path: '/D-ticket-create/dWebSeo' },
+        { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
+        { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
+      ]
+    },
 
     {
       title: 'View Tickets',

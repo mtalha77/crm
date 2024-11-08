@@ -25,7 +25,10 @@ const TeamLeadNavigation = () => {
         { title: 'Wordpress Development', path: '/D-ticket-create/dWordPress' },
         { title: 'Website SEO', path: '/D-ticket-create/dWebSeo' },
         { title: 'Paid Marketing', path: '/D-ticket-create/dPaidMarketing' },
-        { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' }
+        { title: 'Social Media / Customer Reviews Management', path: '/D-ticket-create/dSocialMedia' },
+
+        { title: 'Designer', path: '/D-ticket-create/dDesigner' },
+        { title: 'Writer', path: '/D-ticket-create/dWriter' }
       ]
     },
 

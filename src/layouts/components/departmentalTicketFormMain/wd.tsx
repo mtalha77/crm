@@ -13,11 +13,11 @@ import Spinner from 'src/@core/components/spinner'
 import { DWordPressFormType, dWordPressDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import { mapResponseForDWordPress } from 'src/utils/departmentalTickets/mapResponseForDWordPress'
 import { DWordPressYupSchema } from 'src/yupSchemas/departmentalforms/dWordpressYupSchema'
-import WordPressSpecificDetails from '../newTicketForm/Departments/Wordpress/WordPressSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DWordPressSpecificDetails from '../newTicketForm/Departments/Wordpress/DWordPressSpecificDetails';
 
 const schema = DWordPressYupSchema
 
@@ -130,7 +130,7 @@ const DWordPressFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <WordPressSpecificDetails />
+                    <DWordPressSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

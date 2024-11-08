@@ -13,11 +13,11 @@ import Spinner from 'src/@core/components/spinner'
 import { DSocialMediaFormType, dSocialMediaDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import { mapResponseForDSocialMedia } from 'src/utils/departmentalTickets/mapResponseForDSocialMedia'
 import { DSocialMediaYupSchema } from 'src/yupSchemas/departmentalforms/dSocialMediaYupSchema'
-import SocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/SocialMediaSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DSocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/DSocialMediaSpecificDetails'
 
 const schema = DSocialMediaYupSchema
 
@@ -134,7 +134,7 @@ const DSocialMediaFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <SocialMediaSpecificDetails />
+                    <DSocialMediaSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

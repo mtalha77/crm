@@ -17,7 +17,7 @@ import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import { mapResponseForDWriter } from 'src/utils/departmentalTickets/mapResponseForDWriter'
 import { DWriterYupSchema } from 'src/yupSchemas/departmentalforms/dWriterYupSchema'
-import WriterSpecificDetails from '../newTicketForm/Departments/Writer/WriterSpecificDetails'
+import DWriterSpecificDetails from '../newTicketForm/Departments/Writer/DWriterSpecificDetails';
 
 const schema = DWriterYupSchema
 
@@ -133,7 +133,7 @@ const DWritersFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <WriterSpecificDetails />
+                    <DWriterSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

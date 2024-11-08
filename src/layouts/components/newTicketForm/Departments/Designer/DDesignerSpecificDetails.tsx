@@ -1,10 +1,15 @@
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { useAuth } from 'src/hooks/useAuth';
 import { DDesignerFormType } from 'src/interfaces/departmentalForms.interface'
+import { UserRole } from 'src/shared/enums/UserRole.enum';
 import { DesignerWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
-const DesignerSpecificDetails = () => {
+const DDesignerSpecificDetails = () => {
+
+  const { user } = useAuth()
+
   const {
     formState: { errors },
     control
@@ -24,7 +29,12 @@ const DesignerSpecificDetails = () => {
               defaultValue=''
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select
+                    label='Work Status'
+                    {...field}
+                    fullWidth
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
+                  >
                     {DesignerWorkStatusValues.map(status => (
                       <MenuItem key={status} value={status}>
                         {status}
@@ -90,4 +100,4 @@ const DesignerSpecificDetails = () => {
   )
 }
 
-export default DesignerSpecificDetails
+export default DDesignerSpecificDetails

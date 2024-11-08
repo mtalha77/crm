@@ -6,7 +6,7 @@ import { WordPressWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 import { useAuth } from 'src/hooks/useAuth'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
-const WordPressSpecificDetails = () => {
+const DWordPressSpecificDetails = () => {
   const { user } = useAuth()
   const {
     formState: { errors },
@@ -26,7 +26,12 @@ const WordPressSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select
+                    label='Work Status'
+                    {...field}
+                    fullWidth
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
+                  >
                     {' '}
                     {WordPressWorkStatusValues.map(v => {
                       return (
@@ -131,4 +136,4 @@ const WordPressSpecificDetails = () => {
   )
 }
 
-export default WordPressSpecificDetails
+export default DWordPressSpecificDetails

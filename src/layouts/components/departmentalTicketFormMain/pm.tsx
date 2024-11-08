@@ -13,11 +13,11 @@ import Spinner from 'src/@core/components/spinner'
 import { DPaidMarketingFormType, dPaidMarketingDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import { mapResponseForDPaidMarketing } from 'src/utils/departmentalTickets/mapResponseForDPaidMarketing'
 import { dPaidMarketingYupSchema } from 'src/yupSchemas/departmentalforms/dPaidMarketingYupSchema'
-import PaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/PaidMarketingSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DPaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/DPaidMarketingSpecificDetails';
 
 const schema = dPaidMarketingYupSchema
 
@@ -138,8 +138,9 @@ const DPaidMarketingFormComponent = () => {
                   <FormsHeader title='Business Details'>
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
+
                   <FormsHeader title='Ticket Details'>
-                    <PaidMarketingSpecificDetails />
+                    <DPaidMarketingSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

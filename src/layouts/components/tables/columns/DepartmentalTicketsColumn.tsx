@@ -6,6 +6,7 @@ import {
   Checkbox,
   Chip,
   FormControl,
+  Icon as MIcon,
   IconButton,
   MenuItem,
   Select,
@@ -98,7 +99,7 @@ const DepartmentalTicketsColumns: any = (
         }, [cell.row.original._id])
 
         return (
-          
+
           // <IconButton onClick={navigateToChatPage}>
           //   <MessageRoundedIcon />
           // </IconButton>
@@ -313,14 +314,14 @@ const DepartmentalTicketsColumns: any = (
         return (
           <>
             <ViewTicketDialog ticketId={_id} depart={assignee_depart_name} departmentalTicket={true} />
-            {user?.role !== UserRole.EMPLOYEE && (
+            {user?.role === UserRole.ADMIN && (
               <Tooltip title='Edit'>
-                <Icon
+                <MIcon
                   style={{ marginLeft: 15, cursor: 'pointer' }}
                   onClick={() => handleTicketEdit(assignee_depart_name, _id)}
                 >
                   <EditIcon />
-                </Icon>
+                </MIcon>
               </Tooltip>
             )}
           </>

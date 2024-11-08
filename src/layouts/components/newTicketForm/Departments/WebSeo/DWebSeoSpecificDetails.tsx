@@ -7,7 +7,7 @@ import { WebSeoWorkStatus, WebSeoWorkStatusValues } from 'src/shared/enums/WorkS
 import { useAuth } from 'src/hooks/useAuth'
 import { Department } from 'src/shared/enums/Department.enum'
 
-const WebSeoSpecificDetails = () => {
+const DWebSeoSpecificDetails = () => {
   const {
     formState: { errors },
     control,
@@ -31,7 +31,12 @@ const WebSeoSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select
+                    label='Work Status'
+                    {...field}
+                    fullWidth
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
+                  >
                     {WebSeoWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>
@@ -263,4 +268,4 @@ const WebSeoSpecificDetails = () => {
   )
 }
 
-export default WebSeoSpecificDetails
+export default DWebSeoSpecificDetails

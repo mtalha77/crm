@@ -5,7 +5,7 @@ import { SocialMediaWorkStatus, SocialMediaWorkStatusValues } from 'src/shared/e
 import { useAuth } from 'src/hooks/useAuth'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 
-const SocialMediaSpecificDetails = () => {
+const DSocialMediaSpecificDetails = () => {
   const { user } = useAuth()
   const {
     formState: { errors },
@@ -28,7 +28,12 @@ const SocialMediaSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select
+                    label='Work Status'
+                    {...field}
+                    fullWidth
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
+                  >
                     {SocialMediaWorkStatusValues.map(v => {
                       return (
                         <MenuItem key={v} value={v}>
@@ -244,4 +249,4 @@ const SocialMediaSpecificDetails = () => {
   )
 }
 
-export default SocialMediaSpecificDetails
+export default DSocialMediaSpecificDetails

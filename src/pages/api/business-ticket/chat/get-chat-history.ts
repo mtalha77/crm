@@ -10,10 +10,9 @@ const handler = async (req: any, res: any) => {
       const { businessTicketId } = req.body
 
       //check if business ticket exists
-      const businessTicket = await BusinessTicketModel.findById(businessTicketId).populate(
-        'messages.sender',
-        '-password'
-      )
+      const businessTicket = await BusinessTicketModel.findById(businessTicketId)
+        .populate('messages.sender', '-password')
+        .populate('business_id')
       if (!businessTicket) return res.status(404).send('business ticket not found')
 
       //get the latest message from the updated business ticket to send back in the response
@@ -25,7 +24,9 @@ const handler = async (req: any, res: any) => {
       //send chat history to client side
       return res.send({
         message: 'message send successfully',
-        payload: { chatHistory, loggedInUserId: req.user._id }
+
+        // payload: { chatHistory, loggedInUserId: req.user._id }
+        payload: { businessTicket, loggedInUserId: req.user._id }
       })
     } catch (error) {
       console.log(error)

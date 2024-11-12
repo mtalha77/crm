@@ -13,6 +13,7 @@ import toast from 'react-hot-toast'
 import dayjs from 'dayjs'
 import FilePreview from '../FilePreview' // Import the FilePreview component
 import AttachFileIcon from '@mui/icons-material/AttachFile' // Import the icon
+import ChatTopBanner from 'src/components/ChatTopBanner'
 
 const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
@@ -25,7 +26,7 @@ const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const Form = styled('form')(({ theme }) => ({
-  padding: theme.spacing(0, 5, 5)
+  padding: theme.spacing(0, 5, 0, 0)
 }))
 
 const ChatHistory = styled('div')({
@@ -49,7 +50,6 @@ const ChatHistory = styled('div')({
   scrollbarColor: '#8866 transparent'
 })
 
-
 const SendMsgForm = () => {
   const [msg, setMsg] = useState<string>('')
   const [chatHistory, setChatHistory] = useState<any>([])
@@ -59,7 +59,8 @@ const SendMsgForm = () => {
   const chatHistoryRef = useRef<HTMLElement>(null)
   const [files, setFiles] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-
+  const [businessTicket, setBusinessTicket] = useState<any>()
+  const [chatName, setChatName] = useState<any>()
 
   const handleFileChange = (e: any) => {
     setFiles([...e.target.files])
@@ -100,7 +101,10 @@ const SendMsgForm = () => {
         }
       )
 
-      const chatHistory = res.data.payload.chatHistory
+      const businessTicket = res.data.payload?.businessTicket
+      setBusinessTicket(businessTicket)
+      setChatName(businessTicket?.business_id?.business_name)
+      const chatHistory = businessTicket.messages
       setLoggedInUserId(res.data.payload.loggedInUserId)
 
       if (chatHistory) {
@@ -115,7 +119,7 @@ const SendMsgForm = () => {
   const handleSendMsg = async (e: SyntheticEvent) => {
     e.preventDefault()
 
-    setLoading(true);
+    setLoading(true)
 
     if (!msg && files.length === 0) {
       return
@@ -142,8 +146,7 @@ const SendMsgForm = () => {
       toast.error('Failed to send message')
     }
 
-    setLoading(false);
-
+    setLoading(false)
   }
 
   const updateMsgsReadStatus = async () => {
@@ -185,6 +188,8 @@ const SendMsgForm = () => {
 
   return (
     <Container sx={{ height: '85vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <ChatTopBanner chatName={chatName} chatImage='' ticketId={businessTicket?._id} assigneeDepartmentName={businessTicket?.assignee_depart_name} />
+
       <ChatHistory ref={chatHistoryRef}>
         {chatHistory.map(history => (
           <>
@@ -250,11 +255,11 @@ const SendMsgForm = () => {
               startIcon={loading ? <CircularProgress size={20} color='inherit' /> : null}
               sx={{
                 backgroundColor: loading ? 'primary.main' : undefined, // Keeps background color when loading
-                color: loading ? 'white' : undefined,                  // Keeps text color when loading
+                color: loading ? 'white' : undefined, // Keeps text color when loading
                 '&.Mui-disabled': {
                   backgroundColor: 'primary.main', // Keeps background color when disabled
-                  color: 'white',                  // Keeps text color when disabled
-                },
+                  color: 'white' // Keeps text color when disabled
+                }
               }}
             >
               {loading ? 'Sending...' : 'Send'}

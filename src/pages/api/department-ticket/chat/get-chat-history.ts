@@ -10,10 +10,9 @@ const handler = async (req: any, res: any) => {
       const { departmentTicketId } = req.body
 
       //check if department ticket exists
-      const departmentTicket = await DepartTicketModel.findById(departmentTicketId).populate(
-        'messages.sender',
-        '-password'
-      )
+      const departmentTicket = await DepartTicketModel.findById(departmentTicketId)
+        .populate('messages.sender', '-password')
+        .populate('business_id')
       if (!departmentTicket) return res.status(404).send('department ticket not found')
 
       //get the latest message from the updated department ticket to send back in the response
@@ -25,7 +24,7 @@ const handler = async (req: any, res: any) => {
       //send chat history to client side
       return res.send({
         message: 'message send successfully',
-        payload: { chatHistory, loggedInUserId: req.user._id }
+        payload: { departmentTicket, loggedInUserId: req.user._id }
       })
     } catch (error) {
       console.log(error)

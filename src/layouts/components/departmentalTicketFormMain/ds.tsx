@@ -17,7 +17,7 @@ import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import { DDesignerYupSchema } from 'src/yupSchemas/departmentalforms/dDesignerYupSchema'
 import { mapResponseForDDesigner } from 'src/utils/departmentalTickets/mapResponseForDDesigner'
-import DesignerSpecificDetails from '../newTicketForm/Departments/Designer/DesignerSpecificDetails'
+import DDesignerSpecificDetails from '../newTicketForm/Departments/Designer/DDesignerSpecificDetails';
 
 const schema = DDesignerYupSchema
 
@@ -128,7 +128,7 @@ const DDesignerFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <DesignerSpecificDetails />
+                    <DDesignerSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

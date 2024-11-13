@@ -5,7 +5,7 @@ import { PaidMarketingFormType } from 'src/interfaces/forms.interface'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { PaidMarketingWorkStatus, PaidMarketingWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 
-const PaidMarketingSpecificDetails = () => {
+const DPaidMarketingSpecificDetails = () => {
   const { user } = useAuth()
   const {
     formState: { errors },
@@ -28,7 +28,12 @@ const PaidMarketingSpecificDetails = () => {
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select
+                    label='Work Status'
+                    {...field}
+                    fullWidth
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
+                  >
                     {' '}
                     {PaidMarketingWorkStatusValues.map(v => {
                       return (
@@ -143,7 +148,7 @@ const PaidMarketingSpecificDetails = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.budget_price}>
             <Controller
               name='paidMarketingDetails.budget_price'
@@ -165,7 +170,7 @@ const PaidMarketingSpecificDetails = () => {
               )}
             />
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.paidMarketingDetails?.clients_objectives}>
@@ -238,4 +243,4 @@ const PaidMarketingSpecificDetails = () => {
   )
 }
 
-export default PaidMarketingSpecificDetails
+export default DPaidMarketingSpecificDetails

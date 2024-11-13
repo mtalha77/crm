@@ -29,7 +29,7 @@ const getDynamicLabel = (workStatus: WriterWorkStatus | undefined) => {
   }
 }
 
-const WriterSpecificDetails = () => {
+const DWriterSpecificDetails = () => {
   const { user } = useAuth()
   const {
     formState: { errors },
@@ -56,7 +56,7 @@ const WriterSpecificDetails = () => {
                     {...field}
                     error={Boolean(errors?.writerFormTypeDetails?.work_status)}
                     fullWidth
-                    disabled={user?.role === UserRole.TEAM_LEAD}
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
                   >
                     {WriterWorkStatusValues.map(status => (
                       <MenuItem key={status} value={status}>
@@ -205,4 +205,4 @@ const WriterSpecificDetails = () => {
   )
 }
 
-export default WriterSpecificDetails
+export default DWriterSpecificDetails

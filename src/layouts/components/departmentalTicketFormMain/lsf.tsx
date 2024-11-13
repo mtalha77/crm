@@ -13,11 +13,11 @@ import Spinner from 'src/@core/components/spinner'
 import { DLocalSeoFormType, dLocalSeoDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import { mapResponseForDLocalSeo } from 'src/utils/departmentalTickets/mapResponseForDLocalSeo'
 import { dLocalSeoYupSchema } from 'src/yupSchemas/departmentalforms/dLocalSeoYupSchema'
-import LocalSeoSpecificDetails from '../newTicketForm/Departments/LocalSeo/LocalSeoSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DLocalSeoSpecificDetails from '../newTicketForm/Departments/LocalSeo/DLocalSeoSpecificDetails';
 
 const schema = dLocalSeoYupSchema
 
@@ -127,7 +127,7 @@ const DLocalSeoFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <LocalSeoSpecificDetails />
+                    <DLocalSeoSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

@@ -13,11 +13,11 @@ import Spinner from 'src/@core/components/spinner'
 import { DWebSeoFormType, dWebSeoDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import { mapResponseForDWebSeo } from 'src/utils/departmentalTickets/mapResponseForDWebSeo'
 import { DWebSeoYupSchema } from 'src/yupSchemas/departmentalforms/dWebSeoYupSchema'
-import WebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/WebSeoSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import DBusinessDetails from '../newTicketForm/SharedField/DBusinessDetails'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DWebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/DWebSeoSpecificDetails';
 
 const schema = DWebSeoYupSchema
 
@@ -136,7 +136,7 @@ const DWebSeoFormComponent = () => {
                     <DBusinessDetails update={true} setBusiness_id={setBusiness_id} />
                   </FormsHeader>
                   <FormsHeader title='Ticket Details'>
-                    <WebSeoSpecificDetails />
+                    <DWebSeoSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

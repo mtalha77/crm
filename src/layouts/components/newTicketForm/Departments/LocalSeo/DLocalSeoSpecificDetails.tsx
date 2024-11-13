@@ -5,7 +5,7 @@ import { UserRole } from 'src/shared/enums/UserRole.enum'
 import { LocalSeoWorkStatusValues } from 'src/shared/enums/WorkStatusType.enum'
 import { useAuth } from 'src/hooks/useAuth'
 
-const LocalSeoSpecificDetails = () => {
+const DLocalSeoSpecificDetails = () => {
   const { user } = useAuth()
   const {
     formState: { errors },
@@ -15,7 +15,6 @@ const LocalSeoSpecificDetails = () => {
   return (
     <>
       <Grid container spacing={5}>
-
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth error={!!errors.localSeoDetails?.work_status}>
             <InputLabel htmlFor='workStatus'>Work Status</InputLabel>
@@ -24,9 +23,14 @@ const LocalSeoSpecificDetails = () => {
               control={control}
               rules={{ required: user?.role !== UserRole.TEAM_LEAD }} // Conditional validation
               defaultValue=''
-              render={({ field }  ) => (
+              render={({ field }) => (
                 <>
-                  <Select label='Work Status' {...field} fullWidth disabled={user?.role === UserRole.TEAM_LEAD}>
+                  <Select
+                    label='Work Status'
+                    {...field}
+                    fullWidth
+                    disabled={!(user?.role === UserRole.TEAM_LEAD || user?.role === UserRole.ADMIN)}
+                  >
                     {LocalSeoWorkStatusValues.map(v => (
                       <MenuItem key={v} value={v}>
                         {v}
@@ -122,10 +126,9 @@ const LocalSeoSpecificDetails = () => {
             />
           </FormControl>
         </Grid>
-
       </Grid>
     </>
   )
 }
 
-export default LocalSeoSpecificDetails
+export default DLocalSeoSpecificDetails

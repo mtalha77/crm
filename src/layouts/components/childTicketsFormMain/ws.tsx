@@ -13,10 +13,10 @@ import Spinner from 'src/@core/components/spinner'
 import { ChildWebSeoDefaultValues, ChildWebSeoFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildWebSeo } from 'src/utils/childTickets/mapResponseForChildWebSeo'
 import { ChildWebSeoYupSchema } from 'src/yupSchemas/childTickets/childWebSeoYupSchema'
-import WebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/WebSeoSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DWebSeoSpecificDetails from '../newTicketForm/Departments/WebSeo/DWebSeoSpecificDetails';
 
 const schema = ChildWebSeoYupSchema
 
@@ -132,7 +132,7 @@ const ChildWebSeoFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <WebSeoSpecificDetails />
+                    <DWebSeoSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

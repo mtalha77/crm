@@ -16,7 +16,7 @@ import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
 import { ChildDesignerYupSchema } from 'src/yupSchemas/childTickets/childDesignerYupSchema'
 import { mapResponseForChildDesigner } from 'src/utils/childTickets/mapResponseForChildDesigner'
-import DesignerSpecificDetails from '../newTicketForm/Departments/Designer/DesignerSpecificDetails'
+import DDesignerSpecificDetails from '../newTicketForm/Departments/Designer/DDesignerSpecificDetails';
 
 const schema = ChildDesignerYupSchema
 
@@ -74,6 +74,7 @@ const ChildDesignerFormComponent = () => {
       assignee_depart_name: depart.name,
       due_date: due_date,
       notes: designerFormTypeDetails.notes,
+      work_status: designerFormTypeDetails.work_status,
       task_details: designerFormTypeDetails.task_details,
       ticketId: ticketId,
       business_id: businessId,
@@ -127,7 +128,7 @@ const ChildDesignerFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <DesignerSpecificDetails />
+                    <DDesignerSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

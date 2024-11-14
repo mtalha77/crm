@@ -14,10 +14,10 @@ import { ChildWordPressDefaultValues, ChildWordPressFormType } from 'src/interfa
 import { dWordPressDefaultValues } from 'src/interfaces/departmentalForms.interface'
 import { mapResponseForChildWordPress } from 'src/utils/childTickets/mapResponseForChildWordPress'
 import { ChildWordPressYupSchema } from 'src/yupSchemas/childTickets/childWordpressYupSchema'
-import WordPressSpecificDetails from '../newTicketForm/Departments/Wordpress/WordPressSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DWordPressSpecificDetails from '../newTicketForm/Departments/Wordpress/DWordPressSpecificDetails';
 
 const schema = ChildWordPressYupSchema
 
@@ -131,7 +131,7 @@ const ChildWordPressFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <WordPressSpecificDetails />
+                    <DWordPressSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

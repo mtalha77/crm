@@ -13,10 +13,10 @@ import Spinner from 'src/@core/components/spinner'
 import { ChildPaidMarketingDefaultValues, ChildPaidMarketingFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildPaidMarketing } from 'src/utils/childTickets/mapResponseForChildPaidMarketing'
 import { ChildPaidMarketingYupSchema } from 'src/yupSchemas/childTickets/childPaidMarketingYupSchema'
-import PaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/PaidMarketingSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DPaidMarketingSpecificDetails from '../newTicketForm/Departments/Marketing/DPaidMarketingSpecificDetails';
 
 const schema = ChildPaidMarketingYupSchema
 
@@ -135,7 +135,7 @@ const ChildPaidMarketingFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <PaidMarketingSpecificDetails />
+                    <DPaidMarketingSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

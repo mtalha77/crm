@@ -13,10 +13,10 @@ import Spinner from 'src/@core/components/spinner'
 import { ChildLocalSeoDefaultValues, ChildLocalSeoFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildLocalSeo } from 'src/utils/childTickets/mapResponseForChildLocalSeo'
 import { ChildLocalSeoYupSchema } from 'src/yupSchemas/childTickets/childLocalSeoYupSchema'
-import LocalSeoSpecificDetails from '../newTicketForm/Departments/LocalSeo/LocalSeoSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DLocalSeoSpecificDetails from '../newTicketForm/Departments/LocalSeo/DLocalSeoSpecificDetails';
 
 const schema = ChildLocalSeoYupSchema
 
@@ -118,7 +118,7 @@ const ChildLocalSeoFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <LocalSeoSpecificDetails />
+                    <DLocalSeoSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

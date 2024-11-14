@@ -14,9 +14,9 @@ import { ChildWriterDefaultValues, ChildWriterFormType } from 'src/interfaces/ch
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
-import WriterSpecificDetails from '../newTicketForm/Departments/Writer/WriterSpecificDetails'
 import { ChildWriterYupSchema } from 'src/yupSchemas/childTickets/childWriterYupSchema'
 import { mapResponseForChildWriter } from 'src/utils/childTickets/mapResponseForChildWriter'
+import DWriterSpecificDetails from '../newTicketForm/Departments/Writer/DWriterSpecificDetails';
 
 const schema = ChildWriterYupSchema
 
@@ -128,7 +128,7 @@ const ChildWriterFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <WriterSpecificDetails />
+                    <DWriterSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

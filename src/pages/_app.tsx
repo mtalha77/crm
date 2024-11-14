@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 // ** Next Imports
 import type { NextPage } from 'next'
@@ -109,6 +109,25 @@ const App = (props: ExtendedAppProps) => {
   const guestGuard = Component.guestGuard ?? false
 
   const aclAbilities = Component.acl ?? defaultACLObj
+
+  useEffect(() => {
+    const handleWheel = () => {
+      const activeElement = document.activeElement;
+
+      // Check if the active element is a number input
+      if (activeElement instanceof HTMLInputElement && activeElement.type === 'number') {
+        activeElement.blur(); // Remove focus from the input to prevent scroll increment/decrement
+      }
+    };
+
+    // Add event listener on mount
+    window.addEventListener('wheel', handleWheel, { passive: true });
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <CacheProvider value={emotionCache}>

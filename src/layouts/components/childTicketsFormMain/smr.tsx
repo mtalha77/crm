@@ -13,10 +13,10 @@ import Spinner from 'src/@core/components/spinner'
 import { ChildSocialMediaDefaultValues, ChildSocialMediaFormType } from 'src/interfaces/childTicketForms.interface'
 import { mapResponseForChildSocialMedia } from 'src/utils/childTickets/mapResponseForChildSocialMedia'
 import { ChildSocialMediaYupSchema } from 'src/yupSchemas/childTickets/childSocialMediaYupSchema'
-import SocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/SocialMediaSpecificDetails'
 import FormsHeader from '../newTicketForm/Header'
 import SubmitButton from '../newTicketForm/SharedField/FormButton'
 import Common from './Common'
+import DSocialMediaSpecificDetails from '../newTicketForm/Departments/SMM/DSocialMediaSpecificDetails';
 
 const schema = ChildSocialMediaYupSchema
 
@@ -134,7 +134,7 @@ const ChildSocialMediaFormComponent = () => {
                 <Divider sx={{ m: '0 !important' }} />
                 <CardContent>
                   <FormsHeader title='Ticket Details'>
-                    <SocialMediaSpecificDetails />
+                    <DSocialMediaSpecificDetails />
                   </FormsHeader>
                   <Box mt={6}></Box>
                   <Common />

@@ -1,39 +1,42 @@
 import connectDb from 'src/backend/DatabaseConnection'
-
 import { guardWrapper } from 'src/backend/auth.guard'
 import UserModel from 'src/backend/schemas/user.schema'
 import createLog from 'src/backend/utils/createLog'
 import { UserRole } from 'src/shared/enums/UserRole.enum'
+import { Department } from 'src/shared/enums/Department.enum'
 
 const handler = async (req: any, res: any) => {
-  if (req.method === 'GET') {
-    try {
-      const user = req.user
-      const clientIP = req.clientIP
+  if (req.method !== 'GET') {
+    return res.status(405).send({ message: 'Method Not Allowed. Only GET is supported.' })
+  }
 
-      const users = await UserModel.find(
-        { department_name: req.user.department_name, role: UserRole.EMPLOYEE },
-        '-password'
-      )
+  try {
+    const { user, clientIP } = req
+    const { department_name, user_name } = user
 
-      //create logs
-      const logMsg = `${clientIP} : ${user.user_name} from department ${user.department_name} fetched users detail of its department`
-      createLog({ msg: logMsg })
-
-      return res.send({
-        message: 'users fetched successfully',
-        payload: { users }
-      })
-    } catch (error) {
-      console.log(error)
-      res.status(500).send('something went wrong')
+    const filter: any = { department_name }
+    if (department_name !== Department.Writer && department_name !== Department.Designer) {
+      filter['role'] = UserRole.EMPLOYEE
     }
-  } else {
-    res.status(500).send('this is a get request')
+
+    const users = await UserModel.find(filter, '-password')
+
+    // Log message creation
+    const logMsg = `${clientIP} : ${user_name} from department ${department_name} fetched users detail of its department.`
+    createLog({ msg: logMsg })
+
+    return res.status(200).send({
+      message: 'Users fetched successfully',
+      payload: { users }
+    })
+  } catch (error) {
+    console.error('Error fetching users:', error)
+
+    return res.status(500).send({ message: 'Internal Server Error' })
   }
 }
 
-// Apply the guard wrapper to the original handler
+// Apply the guard wrapper to the handler
 const guardedHandler = guardWrapper(handler)
 
 export default connectDb(guardedHandler)

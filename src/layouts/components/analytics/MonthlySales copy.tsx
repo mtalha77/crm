@@ -37,8 +37,11 @@ const MonthlySalesChart = ({ username }: any) => {
       let user_name
       if (username !== 'All') user_name = username
 
+      const startDate = dayjs(year).startOf('year').toISOString()
+      const endDate = dayjs(year).endOf('year').toISOString()
+
       const res = await axios.get(
-        `/api/stats/get-monthly-sales?year=${dayjs(year).year()}&user_name=${user_name}`,
+        `/api/stats/get-monthly-sales?startDate=${startDate}&user_name=${user_name}&endDate=${endDate}`,
         {
           headers: { authorization: localStorage.getItem('token') }
         }
@@ -163,7 +166,7 @@ const MonthlySalesChart = ({ username }: any) => {
   return (
     <Card>
       <CardHeader
-        title='Yearly Sales Report'
+        title='Monthly Sales Report'
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],

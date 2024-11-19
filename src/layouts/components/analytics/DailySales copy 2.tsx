@@ -9,115 +9,115 @@ import CardContent from '@mui/material/CardContent'
 // ** Third Party Imports
 import { ApexOptions } from 'apexcharts'
 
-// ** Custom Components Imports
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
-import YearPicker from 'src/layouts/components/datePickers/YearPicker'
+import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import PickersMonthYear from 'src/layouts/components/datePickers/MonthPicker'
 import dayjs from 'dayjs'
+import weekOfYear from 'dayjs/plugin/weekOfYear'
+import WeeklySalesChart from './WeeklySales'
 import utc from 'dayjs/plugin/utc'
 
-dayjs.extend(utc)
+const DailySalesChart = ({ username }: any) => {
+  // ** Hook
+  dayjs.extend(weekOfYear)
+  dayjs.extend(utc)
 
-const MonthlySalesChart = ({ username }: any) => {
   const theme = useTheme()
   const [series, setSeries] = useState<any>([
     {
       data: []
     }
   ])
-
-  const [year, setYear] = useState(new Date())
+  const [month, setMonth] = useState<DateType>(new Date())
   const [total, setTotal] = useState(0)
+  const [weekNumbers, setWeekNumbers] = useState<any>([])
+  const [totalWeekSales, setTotalWeekSales] = useState<any>([])
+  const [oTotalWeekSales, setOTotalWeekSales] = useState<any>([0, 0, 0, 0, 0])
 
-  const fetchMonthlySales = async (data: any[]) => {
+  const groupSalesByWeek = (data: any) => {
+    const groups: any = {}
+
+    data.forEach((item: any) => {
+      const currentDate = dayjs(item.full_date)
+      const weekNumber = Math.ceil(currentDate.date() / 7)
+
+      if (!groups[weekNumber]) {
+        groups[weekNumber] = 0
+      }
+
+      groups[weekNumber] += item.total_sales
+    })
+
+    return groups
+  }
+
+  const fetchDailySales = async () => {
+    const year = dayjs(month).year()
+
+    // Adjust monthNumber to 1-based indexing for the API
+    const monthNumber = dayjs(month).month() + 1
+
     try {
       let user_name
       if (username !== 'All') user_name = username
 
       const res = await axios.get(
-        `/api/stats/get-monthly-sales?year=${dayjs(year).year()}&user_name=${user_name}`,
+        `/api/stats/get-daily-sales?year=${year}&month=${monthNumber}&user_name=${user_name}`,
         {
           headers: { authorization: localStorage.getItem('token') }
         }
       )
 
-      const temp = [...data]
+      const temp = new Array(31).fill(0)
       let totalAmount = 0
       res.data.payload.stats.forEach((s: any) => {
-        temp[s.month - 1] = s.total_sales
+        temp[s.date - 1] = s.total_sales
         totalAmount += s.total_sales
       })
-      setSeries([
-        {
-          data: temp
-        }
-      ])
       setTotal(totalAmount)
+      setSeries([{ data: temp }])
+
+      const salesByWeek = groupSalesByWeek(res.data.payload.stats)
+      const oTotalSales = new Array(5).fill(0)
+      for (const key in salesByWeek) {
+        if (Object.prototype.hasOwnProperty.call(salesByWeek, key)) {
+          const numericKey = parseInt(key, 10)
+          oTotalSales[numericKey - 1] = salesByWeek[key]
+        }
+      }
+      const weekNumbers = Object.keys(salesByWeek).map(Number)
+      const totalSales = Object.values(salesByWeek)
+      setTotalWeekSales(totalSales)
+      setWeekNumbers(weekNumbers)
+      setOTotalWeekSales(oTotalSales)
     } catch (error) {
       console.log(error)
       toast.error('Network error')
     }
   }
 
+
   useEffect(() => {
-    if (year) {
-      // const months = getMonthNamesInRange(startDate, endDate)
-
-      const series = new Array(12).fill(0)
-
-      // setMonths(months)
-
-      setSeries([
-        {
-          data: series
-        }
-      ])
-      fetchMonthlySales(series)
+    if (month) {
+      fetchDailySales()
     }
-  }, [year, username])
-
-  // function getMonthNamesInRange(startDate: Date, endDate: Date): string[] {
-  //   const startMonth = dayjs(startDate).month()
-  //   const endMonth = dayjs(endDate).month()
-
-  //   const monthNames: string[] = []
-
-  //   for (let i = startMonth; i <= endMonth; i++) {
-  //     monthNames.push(dayjs().month(i).format('MMM'))
-  //   }
-
-  //   return monthNames
-  // }
-
-  // const hunfa = (data: any) => {
-  //   if (data.dataPointIndex === 0) return 0
-  //   if (data.series[data.seriesIndex][data.dataPointIndex - 1] === 0) return 100
-
-  //   const change =
-  //     ((data.series[data.seriesIndex][data.dataPointIndex] - data.series[data.seriesIndex][data.dataPointIndex - 1]) /
-  //       data.series[data.seriesIndex][data.dataPointIndex - 1]) *
-  //     100
-
-  //   if (change > 0) {
-  //     console.log(`Month ${data.dataPointIndex + 1}: Profit of ${change.toFixed(2)}%`)
-  //     return change.toFixed(2)
-  //   } else if (change < 0) {
-  //     console.log(`Month ${data.dataPointIndex + 1}: Loss of ${Math.abs(change).toFixed(2)}%`)
-  //     return change.toFixed(2)
-  //   } else {
-  //     console.log(`Month ${data.dataPointIndex + 1}: No change in sales`)
-  //     return 0
-  //   }
-  // }
+  }, [month, username])
 
   const options: ApexOptions = {
     chart: {
       parentHeightOffset: 0,
       zoom: { enabled: false },
-      toolbar: { show: false }
+      toolbar: { show: false },
+      height: 100
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true
+      }
     },
     colors: ['#ff9f43'],
     stroke: { curve: 'straight' },
@@ -156,14 +156,14 @@ const MonthlySalesChart = ({ username }: any) => {
       labels: {
         style: { colors: theme.palette.text.disabled }
       },
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      categories: Array.from({ length: 31 }, (_, i) => i + 1) // 1 to 31
     }
   }
 
   return (
     <Card>
       <CardHeader
-        title='Yearly Sales Report'
+        title='Monthly Sales Report'
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],
@@ -179,13 +179,19 @@ const MonthlySalesChart = ({ username }: any) => {
         }
       />
       <CardContent>
-        <YearPicker popperPlacement='auto' year={year} setYear={setYear} />
+        <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
         <ApexChartWrapper>
-          <ReactApexcharts type='line' height={400} options={options} series={series} />
+          <ReactApexcharts type='bar' options={options} series={series} />
+          <WeeklySalesChart
+            weekNumbers={weekNumbers}
+            totalWeekSales={totalWeekSales}
+            oTotalWeekSales={oTotalWeekSales}
+          />
         </ApexChartWrapper>
       </CardContent>
     </Card>
   )
 }
 
-export default MonthlySalesChart
+export default DailySalesChart
+

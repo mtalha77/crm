@@ -37,7 +37,6 @@ interface ApiResponse {
 }
 
 const DailySalesChart = ({ username }: { username: string }) => {
-  // ... other hooks and states remain same
   // ** Hooks & Plugins
   dayjs.extend(weekOfYear)
   dayjs.extend(utc)
@@ -71,7 +70,7 @@ const DailySalesChart = ({ username }: { username: string }) => {
   const groupSalesByWeek = (data: SaleData[]) => {
     const groups: { [key: number]: number } = {}
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const currentDate = dayjs(item.full_date)
       const weekNumber = Math.ceil(currentDate.date() / 7)
 
@@ -83,35 +82,6 @@ const DailySalesChart = ({ username }: { username: string }) => {
     })
 
     return groups
-  }
-
-  const processSalesData = (stats: SaleData[], startDay: string, endDay: string, year: number) => {
-    // Create start and end date objects
-    const startDate = dayjs(`${year}-${startDay}`)
-    const endDate = dayjs(`${year}-${endDay}`)
-
-    // Calculate total days in the custom month period
-    const totalDays = endDate.diff(startDate, 'day') + 1
-
-    // Initialize arrays for data
-    const salesData = new Array(totalDays).fill(0)
-    const labels = new Array(totalDays).fill('').map((_, index) => {
-      // Generate date for each day in the period
-      const currentDate = startDate.add(index, 'day')
-
-      return currentDate.format('MM/DD')
-    })
-
-    // Map sales data to the correct day index
-    stats.forEach(sale => {
-      const saleDate = dayjs(sale.full_date)
-      const dayIndex = saleDate.diff(startDate, 'day')
-      if (dayIndex >= 0 && dayIndex < totalDays) {
-        salesData[dayIndex] = sale.total_sales
-      }
-    })
-
-    return { salesData, labels }
   }
 
   const fetchDailySales = async () => {
@@ -129,52 +99,50 @@ const DailySalesChart = ({ username }: { username: string }) => {
         }
       )
 
-      const { startDay, endDay, stats } = res.data.payload
-      const { salesData, labels } = processSalesData(stats, startDay, endDay, year)
+      // Generate date labels based on custom calendar
+      const startDate = `${year}-${res.data.payload.startDay}`
+      const endDate = `${year}-${res.data.payload.endDay}`
+      const dates = generateDateArray(startDate, endDate)
+      setDateLabels(dates)
 
-      setDateLabels(labels)
+      // Initialize sales data array
+      const salesData = new Array(dates.length).fill(0)
+
+      // Map sales data to correct dates
+      res.data.payload.stats.forEach((sale) => {
+        const saleDate = dayjs(sale.full_date)
+        const dayIndex = dates.findIndex(
+          date => dayjs(date, 'MM/DD').format('MM/DD') === saleDate.format('MM/DD')
+        )
+        if (dayIndex !== -1) {
+          salesData[dayIndex] = sale.total_sales
+        }
+      })
+
+      // Update states
       setTotal(salesData.reduce((acc, curr) => acc + curr, 0))
       setSeries([{ data: salesData }])
 
       // Process weekly data
-      const weeksData = processWeeklyData(stats, startDay, endDay, year)
-      setWeekNumbers(weeksData.weekNumbers)
-      setTotalWeekSales(weeksData.totalSales)
-      setOTotalWeekSales(weeksData.organizedSales)
+      const salesByWeek = groupSalesByWeek(res.data.payload.stats)
+      const oTotalSales = new Array(5).fill(0)
+
+      Object.entries(salesByWeek).forEach(([key, value]) => {
+        const weekIndex = parseInt(key, 10) - 1
+        if (weekIndex >= 0 && weekIndex < 5) {
+          oTotalSales[weekIndex] = value
+        }
+      })
+
+      setWeekNumbers(Object.keys(salesByWeek).map(Number))
+      setTotalWeekSales(Object.values(salesByWeek))
+      setOTotalWeekSales(oTotalSales)
+
     } catch (error) {
       console.error(error)
       toast.error('Failed to fetch sales data')
     } finally {
       setLoading(false)
-    }
-  }
-
-  const processWeeklyData = (stats: SaleData[], startDay: string, endDay: string, year: number) => {
-    const startDate = dayjs(`${year}-${startDay}`)
-    const weeks: { [key: number]: number } = {}
-
-    stats.forEach(sale => {
-      const saleDate = dayjs(sale.full_date)
-      const weekNumber = Math.floor(saleDate.diff(startDate, 'day') / 7) + 1
-
-      if (!weeks[weekNumber]) {
-        weeks[weekNumber] = 0
-      }
-      weeks[weekNumber] += sale.total_sales
-    })
-
-    const organizedSales = new Array(5).fill(0)
-    Object.entries(weeks).forEach(([week, amount]) => {
-      const weekIndex = parseInt(week) - 1
-      if (weekIndex >= 0 && weekIndex < 5) {
-        organizedSales[weekIndex] = amount
-      }
-    })
-
-    return {
-      weekNumbers: Object.keys(weeks).map(Number),
-      totalSales: Object.values(weeks),
-      organizedSales
     }
   }
 
@@ -238,7 +206,6 @@ const DailySalesChart = ({ username }: { username: string }) => {
     }
   }
 
-
   return (
     <Card>
       <CardHeader
@@ -290,3 +257,11 @@ const DailySalesChart = ({ username }: { username: string }) => {
 }
 
 export default DailySalesChart
+
+
+
+
+
+
+
+

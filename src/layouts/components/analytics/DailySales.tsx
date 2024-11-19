@@ -1,6 +1,3 @@
-// ** Frontend Implementation **
-// DailySalesChart.tsx
-
 import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -37,13 +34,10 @@ interface ApiResponse {
 }
 
 const DailySalesChart = ({ username }: { username: string }) => {
-  // ... other hooks and states remain same
-  // ** Hooks & Plugins
   dayjs.extend(weekOfYear)
   dayjs.extend(utc)
   const theme = useTheme()
 
-  // ** States
   const [series, setSeries] = useState<{ data: number[] }[]>([{ data: [] }])
   const [month, setMonth] = useState<DateType>(new Date())
   const [total, setTotal] = useState(0)
@@ -52,67 +46,6 @@ const DailySalesChart = ({ username }: { username: string }) => {
   const [weekNumbers, setWeekNumbers] = useState<number[]>([])
   const [totalWeekSales, setTotalWeekSales] = useState<number[]>([])
   const [oTotalWeekSales, setOTotalWeekSales] = useState<number[]>([0, 0, 0, 0, 0])
-
-  // ** Helper Functions
-  const generateDateArray = (startDate: string, endDate: string): string[] => {
-    const start = dayjs(startDate)
-    const end = dayjs(endDate)
-    const dates: string[] = []
-    let current = start
-
-    while (current.isBefore(end) || current.isSame(end, 'day')) {
-      dates.push(current.format('MM/DD'))
-      current = current.add(1, 'day')
-    }
-
-    return dates
-  }
-
-  const groupSalesByWeek = (data: SaleData[]) => {
-    const groups: { [key: number]: number } = {}
-
-    data.forEach(item => {
-      const currentDate = dayjs(item.full_date)
-      const weekNumber = Math.ceil(currentDate.date() / 7)
-
-      if (!groups[weekNumber]) {
-        groups[weekNumber] = 0
-      }
-
-      groups[weekNumber] += item.total_sales
-    })
-
-    return groups
-  }
-
-  const processSalesData = (stats: SaleData[], startDay: string, endDay: string, year: number) => {
-    // Create start and end date objects
-    const startDate = dayjs(`${year}-${startDay}`)
-    const endDate = dayjs(`${year}-${endDay}`)
-
-    // Calculate total days in the custom month period
-    const totalDays = endDate.diff(startDate, 'day') + 1
-
-    // Initialize arrays for data
-    const salesData = new Array(totalDays).fill(0)
-    const labels = new Array(totalDays).fill('').map((_, index) => {
-      // Generate date for each day in the period
-      const currentDate = startDate.add(index, 'day')
-
-      return currentDate.format('MM/DD')
-    })
-
-    // Map sales data to the correct day index
-    stats.forEach(sale => {
-      const saleDate = dayjs(sale.full_date)
-      const dayIndex = saleDate.diff(startDate, 'day')
-      if (dayIndex >= 0 && dayIndex < totalDays) {
-        salesData[dayIndex] = sale.total_sales
-      }
-    })
-
-    return { salesData, labels }
-  }
 
   const fetchDailySales = async () => {
     setLoading(true)
@@ -136,7 +69,6 @@ const DailySalesChart = ({ username }: { username: string }) => {
       setTotal(salesData.reduce((acc, curr) => acc + curr, 0))
       setSeries([{ data: salesData }])
 
-      // Process weekly data
       const weeksData = processWeeklyData(stats, startDay, endDay, year)
       setWeekNumbers(weeksData.weekNumbers)
       setTotalWeekSales(weeksData.totalSales)
@@ -147,6 +79,28 @@ const DailySalesChart = ({ username }: { username: string }) => {
     } finally {
       setLoading(false)
     }
+  }
+
+  const processSalesData = (stats: SaleData[], startDay: string, endDay: string, year: number) => {
+    const startDate = dayjs(`${year}-${startDay}`)
+    const endDate = dayjs(`${year}-${endDay}`)
+    const totalDays = endDate.diff(startDate, 'day') + 1
+    const salesData = new Array(totalDays).fill(0)
+    const labels = new Array(totalDays).fill('').map((_, index) => {
+      const currentDate = startDate.add(index, 'day')
+
+      return currentDate.format('MM/DD')
+    })
+
+    stats.forEach(sale => {
+      const saleDate = dayjs(sale.full_date)
+      const dayIndex = saleDate.diff(startDate, 'day')
+      if (dayIndex >= 0 && dayIndex < totalDays) {
+        salesData[dayIndex] = sale.total_sales
+      }
+    })
+
+    return { salesData, labels }
   }
 
   const processWeeklyData = (stats: SaleData[], startDay: string, endDay: string, year: number) => {
@@ -178,12 +132,6 @@ const DailySalesChart = ({ username }: { username: string }) => {
     }
   }
 
-  useEffect(() => {
-    if (month) {
-      fetchDailySales()
-    }
-  }, [month, username])
-
   const options: ApexOptions = {
     chart: {
       parentHeightOffset: 0,
@@ -193,16 +141,17 @@ const DailySalesChart = ({ username }: { username: string }) => {
     },
     plotOptions: {
       bar: {
-        horizontal: true,
-        borderRadius: 4,
-        barHeight: '80%'
+        horizontal: true
       }
     },
     colors: ['#ff9f43'],
-    stroke: { curve: 'straight', width: 2 },
-    dataLabels: {
-      enabled: true,
-      formatter: (val: number) => `$${val.toFixed(2)}`
+    stroke: { curve: 'straight' },
+    dataLabels: { enabled: true },
+    markers: {
+      strokeWidth: 7,
+      strokeOpacity: 1,
+      colors: ['#ff9f43'],
+      strokeColors: ['#fff']
     },
     grid: {
       padding: { top: -10 },
@@ -213,15 +162,19 @@ const DailySalesChart = ({ username }: { username: string }) => {
     },
     tooltip: {
       custom({ series, seriesIndex, dataPointIndex }: any) {
+        const date = dateLabels[dataPointIndex]
+        const value = series[seriesIndex][dataPointIndex]
+
         return `
-          <div class='bar-chart'>
-            <span>${dateLabels[dataPointIndex]}: $${series[seriesIndex][dataPointIndex]}</span>
+        <div class='bar-chart'>
+        <span>Day ${dataPointIndex + 1} (${date}): $${value.toFixed(2)}</span>
           </div>`
       }
     },
     yaxis: {
       labels: {
-        style: { colors: theme.palette.text.disabled }
+        style: { colors: theme.palette.text.disabled },
+        align: 'center' // Ensure y-axis labels are vertically centered
       }
     },
     xaxis: {
@@ -230,14 +183,22 @@ const DailySalesChart = ({ username }: { username: string }) => {
       crosshairs: {
         stroke: { color: theme.palette.divider }
       },
+
       labels: {
-        style: { colors: theme.palette.text.disabled },
-        rotate: -45
+        style: { colors: theme.palette.text.disabled }
       },
-      categories: dateLabels
+      categories: [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+        31
+      ]
     }
   }
 
+  useEffect(() => {
+    if (month) {
+      fetchDailySales()
+    }
+  }, [month, username])
 
   return (
     <Card>
@@ -259,11 +220,7 @@ const DailySalesChart = ({ username }: { username: string }) => {
       />
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
-          <PickersMonthYear
-            popperPlacement='auto-start'
-            month={month}
-            setMonth={setMonth}
-          />
+          <PickersMonthYear popperPlacement='auto-start' month={month} setMonth={setMonth} />
         </Box>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}>
@@ -271,12 +228,7 @@ const DailySalesChart = ({ username }: { username: string }) => {
           </Box>
         ) : (
           <ApexChartWrapper>
-            <ReactApexcharts
-              type='bar'
-              height={350}
-              options={options}
-              series={series}
-            />
+            <ReactApexcharts type='bar' options={options} series={series} />
             <WeeklySalesChart
               weekNumbers={weekNumbers}
               totalWeekSales={totalWeekSales}

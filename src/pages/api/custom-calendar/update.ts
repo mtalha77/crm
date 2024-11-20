@@ -1,67 +1,40 @@
+import { guardWrapper } from 'src/backend/auth.guard'
 import connectDb from 'src/backend/DatabaseConnection'
 import CustomCalendarModel from 'src/backend/schemas/customCalendar.schema'
-import { guardWrapper } from 'src/backend/auth.guard'
 
-const handler = async (req: any, res: any) => {
+const handler = async (req, res) => {
   if (req.method === 'POST') {
+    const { year, month_number, start_day, end_day } = req.body
+
     try {
-      const { id, ...updateData } = req.body
+      const calendar = await CustomCalendarModel.findOne({ year })
 
-      // Validate date range overlap
-      const existingCalendars = await CustomCalendarModel.find({
-        _id: { $ne: id },
-        $or: [
-          {
-            start_day: {
-              $lte: updateData.end_day,
-              $gte: updateData.start_day
-            }
-          },
-          {
-            end_day: {
-              $lte: updateData.end_day,
-              $gte: updateData.start_day
-            }
-          }
-        ]
-      })
-
-      if (existingCalendars.length > 0) {
-        const conflictDetails = existingCalendars
-          .map(cal => `${cal.month_name} (${cal.start_day} to ${cal.end_day})`)
-          .join(', ')
-
-        return res.status(400).json({
-          success: false,
-          message: `Date range conflicts with existing months: ${conflictDetails}`
-        })
+      if (!calendar) {
+        return res.status(404).json({ message: 'Calendar not found for the specified year' })
       }
 
-      // Perform the update
-      const updatedCalendar = await CustomCalendarModel.findByIdAndUpdate(id, updateData, {
-        new: true, // Return updated document
-        runValidators: true // Run mongoose validation
-      })
+      const month = calendar.months.find(m => m.month_number === month_number)
 
-      if (!updatedCalendar) {
-        return res.status(404).json({
-          success: false,
-          message: 'Calendar entry not found'
-        })
+      if (!month) {
+        return res.status(404).json({ message: `Month ${month_number} not found in the calendar` })
       }
 
-      return res.send({
-        message: 'Custom calendar updated successfully',
-        payload: {
-          updatedCalendar
-        }
+      // Update start and end dates
+      month.start_day = start_day
+      month.end_day = end_day
+
+      await calendar.save()
+
+      return res.status(200).json({
+        message: 'Month updated successfully',
+        payload: { calendar }
       })
     } catch (error) {
-      console.log(error)
-      res.status(500).send('something went wrong')
+      console.error(error)
+      res.status(500).send('Something went wrong')
     }
   } else {
-    res.status(500).send('this is a POST request')
+    res.status(405).send('This is a POST request')
   }
 }
 

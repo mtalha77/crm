@@ -16,7 +16,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow
 } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -25,8 +25,9 @@ import { format, parse } from 'date-fns'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { SectionLoader } from 'src/components/Loader'
+import YearPicker from 'src/layouts/components/datePickers/YearPicker'
+import dayjs from 'dayjs'
 
-// TypeScript interface for CustomCalendar
 interface CustomCalendar {
   _id?: string
   month_number: number
@@ -36,39 +37,35 @@ interface CustomCalendar {
 }
 
 const CustomCalendarManager = () => {
-  const [calendars, setCalendars] = useState<CustomCalendar[]>([])
+  const [calendar, setCalendar] = useState<CustomCalendar[]>([])
   const [open, setOpen] = useState(false)
   const [editingCalendar, setEditingCalendar] = useState<CustomCalendar | null>(null)
-  const [formData, setFormData] = useState<{
-    start_day_date: Date | null
-    end_day_date: Date | null
-  }>({
+  const [formData, setFormData] = useState({
     start_day_date: null,
     end_day_date: null
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedYear, setSelectedYear] = useState<any>(new Date())
 
-  // Fetch calendars
-  const fetchCalendars = async () => {
+  const fetchCalendar = async (year: number) => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/custom-calendar/get', {
+      const response = await axios.get(`/api/custom-calendar/get?year=${year}`, {
         headers: { authorization: localStorage.getItem('token') }
       })
-      setCalendars(response.data.payload.calendar)
+      setCalendar(response.data.payload.calendar?.months)
       setLoading(false)
     } catch (err) {
-      setError('Failed to fetch calendars')
-      toast.error('Failed to fetch calendars')
-
+      setError('Failed to fetch calendar')
+      toast.error('Failed to fetch calendar')
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchCalendars()
-  }, [])
+    fetchCalendar(dayjs(selectedYear).year())
+  }, [selectedYear])
 
   const handleOpenDialog = (calendar?: CustomCalendar) => {
     if (calendar) {
@@ -98,6 +95,7 @@ const CustomCalendarManager = () => {
     try {
       const updateData = {
         id: editingCalendar?._id,
+        year: dayjs(selectedYear).year(),
         month_number: editingCalendar?.month_number,
         month_name: editingCalendar?.month_name,
         start_day: format(formData.start_day_date!, 'MM-dd'),
@@ -110,9 +108,7 @@ const CustomCalendarManager = () => {
 
       if (response.status === 200) {
         toast.success('Calendar updated successfully')
-
-        // Refresh calendars
-        await fetchCalendars()
+        await fetchCalendar(dayjs(selectedYear).year())
         handleCloseDialog()
       }
     } catch (err: any) {
@@ -133,7 +129,10 @@ const CustomCalendarManager = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Card sx={{ maxWidth: 1200, margin: 'auto', mt: 2 }}>
-        <CardHeader title='Calendar Manager' />
+        <CardHeader
+          title='Custom Calendar Manager'
+          action={<YearPicker popperPlacement='auto' year={selectedYear} setYear={setSelectedYear} />}
+        />
         <SectionLoader loading={loading}>
           <CardContent>
             <TableContainer component={Paper}>
@@ -148,15 +147,15 @@ const CustomCalendarManager = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {calendars.map(calendar => (
-                    <TableRow key={calendar._id}>
-                      <TableCell>{calendar.month_number}</TableCell>
-                      <TableCell>{calendar.month_name}</TableCell>
-                      <TableCell>{formatDateDisplay(calendar.start_day)}</TableCell>
-                      <TableCell>{formatDateDisplay(calendar.end_day)}</TableCell>
+                  {calendar?.map(month => (
+                    <TableRow key={month._id}>
+                      <TableCell>{month.month_number}</TableCell>
+                      <TableCell>{month.month_name}</TableCell>
+                      <TableCell>{formatDateDisplay(month.start_day)}</TableCell>
+                      <TableCell>{formatDateDisplay(month.end_day)}</TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                          <IconButton color='primary' onClick={() => handleOpenDialog(calendar)}>
+                          <IconButton color='primary' onClick={() => handleOpenDialog(month)}>
                             <EditIcon />
                           </IconButton>
                         </Box>

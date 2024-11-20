@@ -1,7 +1,7 @@
-import BaseCalendarModel from '../schemas/baseCalendar.schema'
+import CustomCalendarModel from '../schemas/customCalendar.schema'
 
-export const seedBaseCalendar = async () => {
-  const baseCalendar = [
+export const seedCustomCalendar = async () => {
+  const customCalendar = [
     { month_number: 1, month_name: 'Jan', start_day: '01-01', end_day: '02-18' },
     { month_number: 2, month_name: 'Feb', start_day: '02-21', end_day: '03-10' },
     { month_number: 3, month_name: 'Mar', start_day: '03-11', end_day: '04-15' },
@@ -17,12 +17,11 @@ export const seedBaseCalendar = async () => {
   ]
 
   // Insert data if not already seeded
-  const existingCalendar = await BaseCalendarModel.find({})
+  const existingCalendar = await CustomCalendarModel.find({})
   if (existingCalendar.length === 0) {
-    await BaseCalendarModel.insertMany(baseCalendar)
-    console.log('BaseCalendar seeded successfully!')
+    await CustomCalendarModel.insertMany(customCalendar)
+    console.log('customCalendar seeded successfully!')
   } else {
-    console.log('BaseCalendar already exists!')
+    console.log('customCalendar already exists!')
   }
-
 }

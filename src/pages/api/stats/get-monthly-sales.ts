@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
-import BaseCalendarModel from 'src/backend/schemas/baseCalendar.schema'
+import CustomCalendarModel from 'src/backend/schemas/customCalendar.schema'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import utc from 'dayjs/plugin/utc'
 import mongoose from 'mongoose'
@@ -19,14 +19,14 @@ const handler = async (req: any, res: any) => {
       }
 
       // Fetch custom calendar from the database
-      const baseCalendar = await BaseCalendarModel.find({}).sort({ month_number: 1 })
+      const customCalendar = await CustomCalendarModel.find({}).sort({ month_number: 1 })
 
-      if (!baseCalendar || baseCalendar.length === 0) {
+      if (!customCalendar || customCalendar.length === 0) {
         return res.status(404).send('Custom calendar not found')
       }
 
       // Generate dynamic calendar with year
-      const customCalendar = baseCalendar.map(month => ({
+      const customCalendarWithYear = customCalendar.map(month => ({
         ...month.toObject(),
         start_date: `${year}-${month.start_day}`,
         end_date: `${year}-${month.end_day}`
@@ -34,7 +34,7 @@ const handler = async (req: any, res: any) => {
 
       // Aggregate sales by custom calendar months
       const stats = await Promise.all(
-        customCalendar.map(async month => {
+        customCalendarWithYear.map(async month => {
           const totalSales = await PaymentHistoryModel.aggregate([
             {
               $match: {

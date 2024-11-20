@@ -1,15 +1,11 @@
-// ** Backend Implementation **
-// pages/api/stats/get-daily-sales.ts
-
-import { NextApiRequest, NextApiResponse } from 'next'
 import connectDb from 'src/backend/DatabaseConnection'
 import { guardWrapper } from 'src/backend/auth.guard'
 import PaymentHistoryModel from 'src/backend/schemas/paymentHistory.schema'
-import BaseCalendarModel from 'src/backend/schemas/baseCalendar.schema'
+import CustomCalendarModel from 'src/backend/schemas/customCalendar.schema'
 import { PaymentType } from 'src/shared/enums/PaymentType.enum'
 import mongoose from 'mongoose'
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: any, res: any) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' })
   }
@@ -22,16 +18,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Fetch custom calendar period
-    const baseCalendar = await BaseCalendarModel.findOne({
+    const customCalendar = await CustomCalendarModel.findOne({
       month_number: parseInt(month as string)
     })
 
-    if (!baseCalendar) {
+    if (!customCalendar) {
       return res.status(404).json({ message: 'Custom calendar month not found' })
     }
 
-    const start_date = `${year}-${baseCalendar.start_day}`
-    const end_date = `${year}-${baseCalendar.end_day}`
+    const start_date = `${year}-${customCalendar.start_day}`
+    const end_date = `${year}-${customCalendar.end_day}`
 
     // Build match conditions
     const matchConditions: any[] = [
@@ -101,8 +97,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       message: 'Daily payment history fetched successfully',
       payload: {
         stats,
-        startDay: baseCalendar.start_day,
-        endDay: baseCalendar.end_day
+        startDay: customCalendar.start_day,
+        endDay: customCalendar.end_day
       }
     })
   } catch (error) {

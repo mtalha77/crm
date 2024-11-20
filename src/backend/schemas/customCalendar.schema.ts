@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const BaseCalendarSchema = new mongoose.Schema(
+const CustomCalendarSchema = new mongoose.Schema(
   {
     month_number: { type: Number, required: true, unique: true },
     month_name: { type: String, required: true },
@@ -10,5 +10,5 @@ const BaseCalendarSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const BaseCalendarModel = mongoose.models.BaseCalendar || mongoose.model('BaseCalendar', BaseCalendarSchema)
-export default BaseCalendarModel
+const CustomCalendarModel = mongoose.models.CustomCalendar || mongoose.model('CustomCalendar', CustomCalendarSchema)
+export default CustomCalendarModel

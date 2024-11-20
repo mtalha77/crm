@@ -12,7 +12,7 @@ export const ipRouteObj = {
   subject: 'IP-routes',
   children: [
     { title: 'Allowed IPs', path: '/ip/allowedIps' },
-    { title: 'Global Access Users', path: '/ip/globalAccessUsers' },
+    { title: 'Global Access Users', path: '/ip/globalAccessUsers' }
   ]
 }
 
@@ -49,7 +49,7 @@ export const createTicketsRouteObj = {
     { title: 'Paid Marketing', path: '/ticket-create/paidMarketing' },
     { title: 'Social Media / Customer Reviews Management', path: '/ticket-create/socialMedia' },
     { title: 'Writer', path: '/ticket-create/writer' },
-    { title: 'Designer', path: '/ticket-create/designer' },
+    { title: 'Designer', path: '/ticket-create/designer' }
   ]
 }
 
@@ -149,4 +149,16 @@ export const logsObj = {
   subject: 'logs',
   icon: 'formkit:filedoc',
   children: [{ title: 'Logs', path: '/view-logs' }]
+}
+
+export const customCalendarRoutesObj = {
+  title: 'Custom Calendar',
+  subject: 'Custom Calendar',
+  icon: 'mdi:calendar-month-outline',
+  children: [
+    {
+      path: '/custom-calendar',
+      title: 'Calendar Manager'
+    }
+  ]
 }

@@ -28,6 +28,7 @@ import { SectionLoader } from 'src/components/Loader'
 import YearPicker from 'src/layouts/components/datePickers/YearPicker'
 import dayjs from 'dayjs'
 
+// Interface for custom calendar data structure
 interface CustomCalendar {
   _id?: string
   month_number: number
@@ -37,17 +38,15 @@ interface CustomCalendar {
 }
 
 const CustomCalendarManager = () => {
+  // States
   const [calendar, setCalendar] = useState<CustomCalendar[]>([])
   const [open, setOpen] = useState(false)
   const [editingCalendar, setEditingCalendar] = useState<CustomCalendar | null>(null)
-  const [formData, setFormData] = useState({
-    start_day_date: null,
-    end_day_date: null
-  })
+  const [formData, setFormData] = useState({ start_day_date: null, end_day_date: null })
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [selectedYear, setSelectedYear] = useState<any>(new Date())
+  const [selectedYear, setSelectedYear] = useState<Date | null>(new Date())
 
+  // Fetches calendar data for the selected year
   const fetchCalendar = async (year: number) => {
     try {
       setLoading(true)
@@ -55,18 +54,21 @@ const CustomCalendarManager = () => {
         headers: { authorization: localStorage.getItem('token') }
       })
       setCalendar(response.data.payload.calendar?.months)
-      setLoading(false)
     } catch (err) {
-      setError('Failed to fetch calendar')
       toast.error('Failed to fetch calendar')
+    } finally {
       setLoading(false)
     }
   }
 
+  // Load calendar data when the year changes
   useEffect(() => {
-    fetchCalendar(dayjs(selectedYear).year())
+    if (selectedYear) {
+      fetchCalendar(dayjs(selectedYear).year())
+    }
   }, [selectedYear])
 
+  // Opens dialog for adding or editing a calendar entry
   const handleOpenDialog = (calendar?: CustomCalendar) => {
     if (calendar) {
       setEditingCalendar(calendar)
@@ -76,22 +78,20 @@ const CustomCalendarManager = () => {
       })
     } else {
       setEditingCalendar(null)
-      setFormData({
-        start_day_date: null,
-        end_day_date: null
-      })
+      setFormData({ start_day_date: null, end_day_date: null })
     }
     setOpen(true)
   }
 
+  // Closes the dialog
   const handleCloseDialog = () => {
     setOpen(false)
     setEditingCalendar(null)
   }
 
+  // Submits form to update a calendar entry
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     try {
       const updateData = {
         id: editingCalendar?._id,
@@ -116,16 +116,14 @@ const CustomCalendarManager = () => {
     }
   }
 
+  // Formats a date string for display (e.g., "Jan 01")
   const formatDateDisplay = (dateStr: string) => {
     const date = parse(dateStr, 'MM-dd', new Date())
 
     return format(date, 'MMM dd')
   }
 
-  if (error) {
-    return toast.error('Failed to fetch calendar')
-  }
-
+  // Render the component
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Card sx={{ maxWidth: 1200, margin: 'auto', mt: 2 }}>
@@ -147,7 +145,7 @@ const CustomCalendarManager = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {calendar?.map(month => (
+                  {calendar.map(month => (
                     <TableRow key={month._id}>
                       <TableCell>{month.month_number}</TableCell>
                       <TableCell>{month.month_name}</TableCell>
@@ -168,6 +166,7 @@ const CustomCalendarManager = () => {
           </CardContent>
         </SectionLoader>
 
+        {/* Dialog for editing calendar entry */}
         <Dialog open={open} onClose={handleCloseDialog} maxWidth='sm' fullWidth>
           <DialogTitle>Edit Calendar Entry</DialogTitle>
           <form onSubmit={handleSubmit}>

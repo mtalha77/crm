@@ -31,7 +31,8 @@ export enum WebSeoWorkStatus {
   BACK_LINKS = 'Backlinks',
   EXTRA_LINKS = 'Extra Backlinks',
   PAID_GUEST_POSTING = 'Paid Guest Posting',
-  MONTHLY_SEO = 'Monthly SEO'
+  MONTHLY_SEO = 'Monthly SEO',
+  WEBSITE_KEYWORDS = 'Website keywords'
 }
 
 export enum WordPressWorkStatus {

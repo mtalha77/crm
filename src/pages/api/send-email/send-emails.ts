@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next/types'
 import sgMail from '@sendgrid/mail'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import templateMap from 'src/pages/templates/templateMap'
+import templateMap from 'src/layouts/templateMap'
 
 // Load the SendGrid API Key
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '')

@@ -6,6 +6,8 @@ import BusinessesColumns from './columns/BusinessesColumns'
 import { download, generateCsv, mkConfig } from 'export-to-csv'
 import { Box, Button, MenuItem, Select } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import { useAuth } from 'src/hooks/useAuth' // Auth hook
+import { UserRole } from 'src/shared/enums/UserRole.enum' // User roles
 
 // import fs from 'fs' // Add this for local fetching
 
@@ -13,6 +15,8 @@ function BusinessesTable() {
   const [data, setData] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState('') // State for template selection
   const [availableTemplates, setAvailableTemplates] = useState<string[]>([])
+  const { user } = useAuth() // Get user data
+  const isAdmin = user?.role === UserRole?.ADMIN // Check if user is admin
 
   const [isLoading] = useState(false)
   const fetchBusinesses = async () => {
@@ -111,7 +115,7 @@ function BusinessesTable() {
           state: {
             isLoading: isLoading
           },
-          enableRowSelection: true, // Enable row selection
+          enableRowSelection: isAdmin, // Enable row selection
           initialState: {
             density: 'compact'
           },
@@ -127,35 +131,39 @@ function BusinessesTable() {
                 Export CSV
               </Button>
 
-              {/* Send Emails Button */}
-              <Button
-                disabled={table.getSelectedRowModel().rows.length === 0 || !selectedTemplate}
-                onClick={() => handleSendSelectedEmails(table.getSelectedRowModel().rows)}
-                variant='contained'
-                color='secondary'
-              >
-                Send Emails
-              </Button>
+              {/* Send Emails and Template Selection - Shown only to Admin */}
+              {isAdmin && (
+                <>
+                  {/* Send Emails Button */}
+                  <Button
+                    disabled={table.getSelectedRowModel().rows.length === 0 || !selectedTemplate}
+                    onClick={() => handleSendSelectedEmails(table.getSelectedRowModel().rows)}
+                    variant='contained'
+                    color='secondary'
+                  >
+                    Send Emails
+                  </Button>
 
-              {/* Template Selection Dropdown */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                {/* <Typography>Select Template:</Typography> */}
-                <Select
-                  value={selectedTemplate}
-                  onChange={e => setSelectedTemplate(e.target.value)}
-                  displayEmpty
-                  sx={{ width: 200 }}
-                >
-                  <MenuItem value='' disabled>
-                    Select Template
-                  </MenuItem>
-                  {availableTemplates.map(template => (
-                    <MenuItem key={template} value={template}>
-                      {template.charAt(0).toUpperCase() + template.slice(1)} {/* Capitalize */}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
+                  {/* Template Selection Dropdown */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Select
+                      value={selectedTemplate}
+                      onChange={e => setSelectedTemplate(e.target.value)}
+                      displayEmpty
+                      sx={{ width: 200 }}
+                    >
+                      <MenuItem value='' disabled>
+                        Select Template
+                      </MenuItem>
+                      {availableTemplates.map(template => (
+                        <MenuItem key={template} value={template}>
+                          {template.charAt(0).toUpperCase() + template.slice(1)} {/* Capitalize */}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+                </>
+              )}
             </Box>
           )
         }}

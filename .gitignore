@@ -19,14 +19,15 @@
 .DS_Store
 *.pem
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
 .env
+.env.*  # Exclude all .env variants like .env.local, .env.production, etc.
+.env*.local
 
 # vercel
 .vercel

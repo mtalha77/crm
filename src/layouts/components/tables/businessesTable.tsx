@@ -115,7 +115,9 @@ function BusinessesTable() {
           state: {
             isLoading: isLoading
           },
-          enableRowSelection: isAdmin, // Enable row selection
+
+          // enableRowSelection: isAdmin, // Enable row selection
+          enableRowSelection: false, // Enable row selection
           initialState: {
             density: 'compact'
           },

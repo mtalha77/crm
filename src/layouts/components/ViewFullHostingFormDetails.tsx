@@ -23,7 +23,6 @@ const ViewFullHostingFormDetails = ({ id }: any) => {
       })
       .then(res => {
         setData(res.data.payload.hostingForm)
-        console.log(res.data.payload.hostingForm)
       })
       .catch((error: any) => {
         console.log(error)

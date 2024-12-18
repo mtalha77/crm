@@ -45,7 +45,6 @@ export default async function handler(req, res) {
       }
     }).populate('business_id', 'business_name')
 
-    // console.log(tickets)
 
     const departments = await DepartmentModel.find({})
 

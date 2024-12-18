@@ -41,7 +41,6 @@ function BusinessTicketsTable({ businessIdProps, dataFromParent }: any) {
       const { data: usersData } = usersResponse
       if (!dataFromParent) {
         const { data: ticketsData } = dataResponse
-        console.log('Tickets data response:', ticketsData)
 
         const filteredTickets =
           user?.role === UserRole.TEAM_LEAD

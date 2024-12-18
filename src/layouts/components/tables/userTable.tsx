@@ -56,7 +56,6 @@ function UserTable() {
       role: d.role,
       'creation Date': dayjs(d.createdAt).format('YYYY-MM-DD HH:mm:ss')
     }))
-    console.log('data', data)
 
     const csv = generateCsv(csvConfig)(rowData)
     download(csvConfig)(csv)

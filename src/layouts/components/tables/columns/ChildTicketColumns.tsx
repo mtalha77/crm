@@ -65,7 +65,6 @@ const ChildTicketsColumns: any = () =>
               const hasNotifications = await fetchDepartmentTicketNotifications(cell.row.original.child_id._id)
               setBadgeVisible(hasNotifications)
 
-              console.log('badgeVisible', hasNotifications)
             }
 
             checkForNotifications()

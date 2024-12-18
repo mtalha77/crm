@@ -7,7 +7,6 @@ export default async function createLog(obj: { msg: string; level?: Log }) {
 
     await newLog.save()
 
-    // console.log(h)
   } catch (error) {
     console.log(error)
   }

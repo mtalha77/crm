@@ -305,7 +305,6 @@ function ViewPaymentHistories() {
   return (
     <>
       {paymentSessions.map((session: any) => {
-        // console.log(session.session)
         return (
           <Card sx={{ mt: 10 }} key={session._id}>
             <CardContent>

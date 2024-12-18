@@ -58,7 +58,6 @@ const businessTicketsColumns: any = (
 ) => {
   // const handleDelete = async (ticketId: string) => {
   //   try {
-  //     console.log(`Deleting ticket with ID: ${ticketId}`) // Log the ticket ID
   //     await axios.delete(`/api/business-ticket/delete-business-ticket`, {
   //       headers: { authorization: localStorage.getItem('token') },
   //       data: { ticketId }
@@ -113,7 +112,6 @@ const businessTicketsColumns: any = (
             const hasNotifications = await fetchBusinessTicketNotifications(cell.row.original._id)
             setBadgeVisible(hasNotifications)
 
-            console.log('badgeVisible', hasNotifications)
           }
 
           checkForNotifications()

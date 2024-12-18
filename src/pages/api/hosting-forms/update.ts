@@ -22,7 +22,6 @@ const handler = async (req: any, res: any) => {
         business
       } = req.body
 
-      console.log('Request received with body:', req.body)
 
       if (!(req.user.role === UserRole.ADMIN))
         return res.status(403).send('You are not authorized to perform this action') // Use 403 for unauthorized access
@@ -49,7 +48,6 @@ const handler = async (req: any, res: any) => {
         business
       }
 
-      console.log('Updating hosting with data:', temp)
 
       const updatedHosting = await HostingFormModel.findByIdAndUpdate(
         new mongoose.Types.ObjectId(hosting_id),
@@ -59,7 +57,6 @@ const handler = async (req: any, res: any) => {
 
       if (!updatedHosting) return res.status(404).send('Not able to update hosting form. Please try again')
 
-      console.log('Hosting updated successfully:', updatedHosting)
 
       return res.send({
         message: 'Hosting Updated Successfully',

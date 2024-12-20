@@ -156,8 +156,7 @@ export const templatesRouteObj = {
   subject: 'templates',
   icon: 'mdi:file-document-outline',
   children: [
-    { title: 'Newsletter Template', path: '/templates/newsletter' },
-    { title: 'Promotional Template', path: '/templates/promotional' },
-    { title: 'Post-Christmas Template', path: '/templates/postChristmas' }
+    { title: 'NewYear', path: '/templates/newYear' },
+    { title: 'Christmas', path: '/templates/christmas' }
   ]
 }

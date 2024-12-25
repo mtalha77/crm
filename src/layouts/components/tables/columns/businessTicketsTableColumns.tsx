@@ -28,7 +28,7 @@ import { useRouter } from 'next/navigation'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-import axios from 'axios';
+import axios from 'axios'
 
 // import axios from 'axios'
 // import { toast } from 'react-hot-toast'
@@ -93,11 +93,15 @@ const businessTicketsColumns: any = (
           router.push(`/ticket-comments/${rowData._id}`)
         }
 
-        const fetchBusinessTicketNotifications = async (ticketId) => {
+        const fetchBusinessTicketNotifications = async ticketId => {
           try {
-            const res = await axios.post('/api/user/get-ticket-unread-messages', {ticketId}, {
-              headers: { authorization: localStorage.getItem('token') }
-            })
+            const res = await axios.post(
+              '/api/user/get-ticket-unread-messages',
+              { ticketId },
+              {
+                headers: { authorization: localStorage.getItem('token') }
+              }
+            )
 
             return res.data?.payload?.unreadMessages.length || 0
           } catch (error) {
@@ -111,14 +115,12 @@ const businessTicketsColumns: any = (
             // Replace with your logic to determine badge visibility
             const hasNotifications = await fetchBusinessTicketNotifications(cell.row.original._id)
             setBadgeVisible(hasNotifications)
-
           }
 
           checkForNotifications()
         }, [cell.row.original._id])
 
         return (
-
           // <IconButton onClick={navigateToChatPage}>
           //   <MessageRoundedIcon />
           // </IconButton>

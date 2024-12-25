@@ -151,6 +151,13 @@ export const logsObj = {
   children: [{ title: 'Logs', path: '/view-logs' }]
 }
 
+export const emailObj = {
+  title: 'Email Logs',
+  subject: 'emails',
+  icon: 'formkit:filedoc',
+  children: [{ title: 'Email Logs', path: '/view-email-logs' }]
+}
+
 export const templatesRouteObj = {
   title: 'Templates',
   subject: 'templates',

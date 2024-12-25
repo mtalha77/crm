@@ -120,10 +120,12 @@ const businessTicketsColumns: any = (
           checkForNotifications()
         }, [cell.row.original._id])
 
+        // <IconButton onClick={navigateToChatPage}>
+
+        //   <MessageRoundedIcon />
+        // </IconButton>
+
         return (
-          // <IconButton onClick={navigateToChatPage}>
-          //   <MessageRoundedIcon />
-          // </IconButton>
           <IconButton color='inherit' aria-haspopup='true' onClick={navigateToChatPage} aria-controls='customized-menu'>
             <Badge
               color='error'

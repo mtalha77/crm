@@ -4,18 +4,17 @@ import toast from 'react-hot-toast'
 import MuiTable from './MuiTable'
 import BusinessesColumns from './columns/BusinessesColumns'
 import { download, generateCsv, mkConfig } from 'export-to-csv'
-import { Box, Button, MenuItem, Select, TextField } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import { useAuth } from 'src/hooks/useAuth' // Auth hook
-import { UserRole } from 'src/shared/enums/UserRole.enum' // User roles
+
+// import { useAuth } from 'src/hooks/useAuth' // Auth hook
+// import { UserRole } from 'src/shared/enums/UserRole.enum' // User roles
 
 function BusinessesTable() {
   const [data, setData] = useState([])
-  const [selectedTemplate, setSelectedTemplate] = useState('') // State for template selection
-  const [availableTemplates, setAvailableTemplates] = useState<string[]>([])
-  const { user } = useAuth() // Get user data
-  const isAdmin = user?.role === UserRole?.ADMIN // Check if user is admin
-  const [externalEmails, setExternalEmails] = useState<string>('') // External emails input
+
+  // const { user } = useAuth() // Get user data
+  // const isAdmin = user?.role === UserRole?.ADMIN // Check if user is admin
 
   const [isLoading] = useState(false)
 
@@ -27,46 +26,6 @@ function BusinessesTable() {
       setData(res.data.payload.businesses)
     } catch (error) {
       console.error(error)
-    }
-  }
-
-  const handleSendSelectedEmails = async (
-    selectedRows: { original: { business_name?: string; business_email: string } }[]
-  ) => {
-    if (!selectedTemplate) {
-      toast.error('Please select a template!')
-
-      return
-    }
-
-    try {
-      // Extract selected business emails
-      const recipients = selectedRows.map(row => ({
-        business_name: row.original.business_name || null, // Keep null if no business_name
-        business_email: row.original.business_email
-      }))
-
-      // Add external emails
-      if (externalEmails.trim()) {
-        const externalRecipients = externalEmails.split(',').map(email => ({
-          business_name: null, // Explicitly set to null for external emails
-          business_email: email.trim()
-        }))
-        recipients.push(...externalRecipients)
-      }
-
-      const response = await axios.post('/api/send-email/send-emails', {
-        recipients,
-        template: selectedTemplate
-      })
-
-      if (response.status === 200) {
-        toast.success('Emails sent successfully!')
-        setExternalEmails('') // Clear the input after successful sending
-      }
-    } catch (error) {
-      console.error('Error sending emails:', error)
-      toast.error('Failed to send emails.')
     }
   }
 
@@ -91,14 +50,6 @@ function BusinessesTable() {
 
   useEffect(() => {
     fetchBusinesses()
-  }, [])
-
-  useEffect(() => {
-    const fetchTemplates = () => {
-      const templates = ['newYear', 'christmas'] // Add template names dynamically
-      setAvailableTemplates(templates)
-    }
-    fetchTemplates()
   }, [])
 
   const csvConfig = mkConfig({
@@ -130,7 +81,8 @@ function BusinessesTable() {
             isLoading: isLoading
           },
 
-          enableRowSelection: isAdmin, // Enable row selection
+          // enableRowSelection: isAdmin, // Enable row selection
+
           initialState: {
             density: 'compact'
           },
@@ -145,49 +97,6 @@ function BusinessesTable() {
               >
                 Export CSV
               </Button>
-
-              {/* Send Emails and Template Selection - Shown only to Admin */}
-              {isAdmin && (
-                <>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    {/* Template Selection Dropdown */}
-                    <Select
-                      value={selectedTemplate}
-                      onChange={e => setSelectedTemplate(e.target.value)}
-                      displayEmpty
-                      sx={{ width: 200 }}
-                    >
-                      <MenuItem value='' disabled>
-                        Select Template
-                      </MenuItem>
-                      {availableTemplates.map(template => (
-                        <MenuItem key={template} value={template}>
-                          {template.charAt(0).toUpperCase() + template.slice(1)} {/* Capitalize */}
-                        </MenuItem>
-                      ))}
-                    </Select>
-
-                    {/* Send Emails Button */}
-                    <Button
-                      disabled={table.getSelectedRowModel().rows.length === 0 && !externalEmails.trim()}
-                      onClick={() => handleSendSelectedEmails(table.getSelectedRowModel().rows)}
-                      variant='contained'
-                      color='secondary'
-                    >
-                      Send Emails
-                    </Button>
-                  </Box>
-
-                  {/* External Emails Input */}
-                  <TextField
-                    label='External Emails (comma-separated)'
-                    value={externalEmails}
-                    onChange={e => setExternalEmails(e.target.value)}
-                    fullWidth
-                    placeholder='Enter external email addresses'
-                  />
-                </>
-              )}
             </Box>
           )
         }}

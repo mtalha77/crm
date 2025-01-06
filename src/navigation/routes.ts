@@ -152,18 +152,12 @@ export const logsObj = {
 }
 
 export const emailObj = {
-  title: 'Email Logs',
+  title: 'Email Campaign',
   subject: 'emails',
   icon: 'formkit:filedoc',
-  children: [{ title: 'Email Logs', path: '/view-email-logs' }]
-}
-
-export const templatesRouteObj = {
-  title: 'Templates',
-  subject: 'templates',
-  icon: 'mdi:file-document-outline',
   children: [
-    { title: 'NewYear', path: '/templates/newYear' },
-    { title: 'Christmas', path: '/templates/christmas' }
+    { title: 'Email Logs', path: '/view-email-logs/EmailLogsTable' },
+    { title: 'Templates', path: '/view-email-logs/templates' }, // Add templates as a child
+    { title: 'Businesses', path: '/view-email-logs/view-business-table' } // Add templates as a child
   ]
 }

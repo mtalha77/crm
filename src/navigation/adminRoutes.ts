@@ -13,7 +13,6 @@ import {
   domainFormViewsObj,
   ipRouteObj,
   logsObj,
-  templatesRouteObj,
   emailObj
 } from './routes'
 
@@ -27,7 +26,6 @@ const adminNavigation = (): VerticalNavItemsType => {
     viewDepartmentalTicketsRouteObj,
     UsersRouteObj,
     viewBusinessesRouteObj,
-    templatesRouteObj,
     accountsRouteObj,
     analyticsRouteObj,
     domainFormViewsObj,

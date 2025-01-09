@@ -16,7 +16,7 @@ function MuiTable(props: any) {
     enableSorting: false,
     enableDensityToggle: false,
     enableFullScreenToggle: false,
-    enableHiding: false,
+    enableHiding: true,
     ...options,
     initialState: {
       density: 'compact',

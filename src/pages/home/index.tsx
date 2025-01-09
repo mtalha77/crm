@@ -16,7 +16,7 @@ import RemainingPriceDateDueTicketsTable from 'src/layouts/components/tables/Rem
 import ExpiredDomainFormsTable from 'src/layouts/components/tables/columns/ExpiredDomainFormsTable'
 import { Department } from 'src/shared/enums/Department.enum'
 import ExpiredHostingFormsTable from 'src/layouts/components/tables/columns/ExpiredHostingFormsTable'
-import ViewLogs from '../view-logs'
+import CrmLogs from '../view-logs'
 
 const Home = () => {
   const { user } = useAuth()
@@ -172,7 +172,7 @@ const Home = () => {
   if (user?.department_name === Department.IT) {
     return (
       <Box sx={{padding:'2%'}}>
-        <ViewLogs />
+        <CrmLogs />
       </Box>
     )
   }
